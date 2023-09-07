@@ -1,0 +1,41 @@
+{
+  "header": {
+    "howItWork": "Giải pháp của chúng tôi",
+    "hoisting": "Chia sẻ xe",
+    "partners": "Cộng tác",
+    "newrooms": "Tòa soạn",
+    "aboutUs": "Về chúng tôi",
+    "bookACar": "Đặt xe",
+    "shareACar": "Chia sẻ xe",
+    "login": "Đăng nhập",
+    "logout": "Đăng xuất"
+  },
+  "solution": {
+    "insurance": "Bảo hiểm",
+    "trust&safe": "An toàn và tin cậy",
+    "technology": "Công nghệ",
+    "term": "Điều khoản và điều kiện"
+  },
+  "shareCar": {
+    "shareaCar": "Chia sẻ xe",
+    "term": "Điều khoản và điều kiện",
+    "benefit": "Ưu đãi cho xe chia sẻ",
+    "refer": "Giới thiệu tham gia"
+  },
+  "partners": {
+    "partnerWithUs": "Cộng tác với chúng tôi",
+    "partnerWithOur": "Đối tác của chúng tôi",
+    "driveWithUber": "Lái xe với grab/be"
+  },
+  "newsroom": {
+    "news": "Tin tức mới",
+    "blogs": "Blogs",
+    "policy": "Quy định và nghị định",
+    "eligibilities": "Yêu cầu đáp ứng chung"
+  },
+  "about us": {
+    "unlockTeam": "Đội ngũ Unlock",
+    "contact": "Kết nối với chúng tôi",
+    "movetoLive": "Tầm nhìn tương lai"
+  }
+}

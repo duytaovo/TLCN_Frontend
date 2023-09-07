@@ -1,0 +1,25 @@
+const path = {
+  home: "/",
+  login: "/login",
+  logout: "/logout",
+  register: "/register",
+  phone: "/phone",
+  laptop: "/laptop",
+  tablet: "/tablet",
+  smartwatch: "/smartwatch",
+  maycu: "/maycu",
+  accessory: "/accessory",
+  cart: "/cart",
+  samsung: "/samsung",
+  history: "/history",
+  dienthoaiDetail: "dienthoai/:productSlug",
+  laptopDetail: "laptop/:productSlug",
+  tabletDetail: "tablet/:productSlug",
+  watchDetail: "watch/:productSlug",
+  monitor: "man-hinh-may-tinh/:productSlug",
+  maytinhdeban: "may-tinh-de-ban/:productSlug",
+  phukienDetail: "phukien/:productSlug",
+  smartwatchDetail: "smartwatch/:productSlug",
+} as const;
+
+export default path;
