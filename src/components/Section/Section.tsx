@@ -1,7 +1,6 @@
 import { ReactNode, forwardRef } from "react";
 import clsx from "clsx";
 import css from "./section.module.scss";
-import { X } from "react-bootstrap-icons";
 interface Props {
   title?: string;
   styles?: string;
@@ -12,7 +11,7 @@ interface Props {
 function Section(
   {
     title,
-    styles = "bg-transparent",
+    styles = "bg-transparent text-white/70",
     children,
     rightOption,
     styleTitle,

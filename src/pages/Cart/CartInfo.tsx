@@ -268,7 +268,7 @@ function CartInfo() {
           </div>
           <button
             type="submit"
-            className="h-20 my-8 bg-yellow-300 rounded-lg w-full text-black/70 font-bold"
+            className="h-20 my-8  rounded-lg w-full text-black/70 font-bold"
           >
             ĐẶT HÀNG
           </button>

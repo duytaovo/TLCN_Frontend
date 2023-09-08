@@ -664,3 +664,301 @@ export const MENU_ITEMS = [
     },
   },
 ];
+
+export const dataCard = [
+  {
+    id: 1,
+    name: "ĐIỆN THOẠI CŨ GIÁ SỐC",
+    cards: [
+      {
+        id: "1",
+        name: "A",
+      },
+      {
+        id: "1",
+        name: "A",
+      },
+
+      {
+        id: "1",
+        name: "A",
+      },
+
+      {
+        id: "1",
+        name: "A",
+      },
+
+      {
+        id: "1",
+        name: "A",
+      },
+
+      {
+        id: "1",
+        name: "A",
+      },
+
+      {
+        id: "1",
+        name: "A",
+      },
+
+      {
+        id: "1",
+        name: "A",
+      },
+
+      {
+        id: "1",
+        name: "A",
+      },
+
+      {
+        id: "1",
+        name: "A",
+      },
+
+      {
+        id: "1",
+        name: "A",
+      },
+    ],
+  },
+  {
+    id: 2,
+    name: "MÁY TÍNH BẢNG CŨ GIÁ SỐC",
+    cards: [
+      {
+        id: "1",
+        name: "A",
+      },
+      {
+        id: "1",
+        name: "A",
+      },
+
+      {
+        id: "1",
+        name: "A",
+      },
+
+      {
+        id: "1",
+        name: "A",
+      },
+
+      {
+        id: "1",
+        name: "A",
+      },
+
+      {
+        id: "1",
+        name: "A",
+      },
+
+      {
+        id: "1",
+        name: "A",
+      },
+
+      {
+        id: "1",
+        name: "A",
+      },
+
+      {
+        id: "1",
+        name: "A",
+      },
+
+      {
+        id: "1",
+        name: "A",
+      },
+
+      {
+        id: "1",
+        name: "A",
+      },
+    ],
+  },
+  {
+    id: 3,
+    name: "LAPTOP CŨ GIÁ SỐC",
+    cards: [
+      {
+        id: "1",
+        name: "A",
+      },
+      {
+        id: "1",
+        name: "A",
+      },
+
+      {
+        id: "1",
+        name: "A",
+      },
+
+      {
+        id: "1",
+        name: "A",
+      },
+
+      {
+        id: "1",
+        name: "A",
+      },
+
+      {
+        id: "1",
+        name: "A",
+      },
+
+      {
+        id: "1",
+        name: "A",
+      },
+
+      {
+        id: "1",
+        name: "A",
+      },
+
+      {
+        id: "1",
+        name: "A",
+      },
+
+      {
+        id: "1",
+        name: "A",
+      },
+
+      {
+        id: "1",
+        name: "A",
+      },
+    ],
+  },
+  {
+    id: 5,
+    name: "ĐỒNG HỒ THÔNG MINH CŨ GIÁ SỐC",
+    cards: [
+      {
+        id: "1",
+        name: "A",
+      },
+      {
+        id: "1",
+        name: "A",
+      },
+
+      {
+        id: "1",
+        name: "A",
+      },
+
+      {
+        id: "1",
+        name: "A",
+      },
+
+      {
+        id: "1",
+        name: "A",
+      },
+
+      {
+        id: "1",
+        name: "A",
+      },
+
+      {
+        id: "1",
+        name: "A",
+      },
+
+      {
+        id: "1",
+        name: "A",
+      },
+
+      {
+        id: "1",
+        name: "A",
+      },
+
+      {
+        id: "1",
+        name: "A",
+      },
+
+      {
+        id: "1",
+        name: "A",
+      },
+    ],
+  },
+  {
+    id: 6,
+    name: "PHỤ KIỆN CŨ GIÁ RẺ",
+    cards: [
+      {
+        id: "1",
+        name: "A",
+      },
+      {
+        id: "1",
+        name: "A",
+      },
+
+      {
+        id: "1",
+        name: "A",
+      },
+
+      {
+        id: "1",
+        name: "A",
+      },
+
+      {
+        id: "1",
+        name: "A",
+      },
+
+      {
+        id: "1",
+        name: "A",
+      },
+
+      {
+        id: "1",
+        name: "A",
+      },
+
+      {
+        id: "1",
+        name: "A",
+      },
+
+      {
+        id: "1",
+        name: "A",
+      },
+
+      {
+        id: "1",
+        name: "A",
+      },
+
+      {
+        id: "1",
+        name: "A",
+      },
+    ],
+  },
+];

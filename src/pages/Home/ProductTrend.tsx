@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
-import Section from "./Section";
 import css from "./home.module.scss";
+import Section from "src/components/Section/Section";
 interface Product {
   name: string;
   content: string;

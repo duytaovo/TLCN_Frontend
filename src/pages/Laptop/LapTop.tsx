@@ -10,10 +10,15 @@ import ThinLaptop from "./ThinLaptop";
 import LuxuryLaptop from "./LuxuryLaptop";
 import Office from "./Office";
 import Trademark from "./Trademark";
+import { Helmet } from "react-helmet-async";
 
 const LapTop = () => {
   return (
     <div>
+      <Helmet>
+        <title>Laptop </title>
+        <meta name="description" content="Trang laptop" />
+      </Helmet>
       <BigBannerLapTop />
       <LapTopQuickLink />
       <MenuTopLapTop />

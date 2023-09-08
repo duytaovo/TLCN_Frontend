@@ -10,9 +10,14 @@ import LoudSpeaker from "./LoudSpeaker";
 import SmartHome from "./SmartHome";
 import Gaming from "./Gaming";
 import MenuTopAccessory from "./MenuTopAccessory";
+import { Helmet } from "react-helmet-async";
 const Accessory = () => {
   return (
     <>
+      <Helmet>
+        <title>Trang phụ kiện </title>
+        <meta name="description" content="Trang phụ kiện" />
+      </Helmet>
       <BigBannerAccessory />
       <GroupCategory />
       <QuickLinkAccessory />

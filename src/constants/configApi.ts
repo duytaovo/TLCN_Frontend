@@ -1,6 +1,7 @@
+const apiProduction = "https://jsonserv.glitch.me";
+const apiDev = "https://jsonserv.glitch.me";
 const config = {
-  baseUrl: "https://landing.ult.unlockcar.co/api/v1",
+  baseUrl: import.meta.env.MODE === "production" ? apiProduction : apiDev,
   maxSizeUploadImage: 2048576, // bytes
 };
-
 export default config;

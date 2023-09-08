@@ -1,32 +1,33 @@
 import { useState, useEffect } from "react";
 import Slider from "react-slick";
-import Section from "./Section";
 import NextArrow from "src/components/Slick/NextArrow";
 import PrevArrow from "src/components/Slick/PrevArrow";
 import ProductCard from "src/components/ProductCard/ProductCard";
+import { productService, promoService } from "src/services";
+import Section from "src/components/Section/Section";
 function PromoSecond() {
   const [images, setImages] = useState<any[]>([]);
   const [title, setTitle] = useState<string>("");
   const [theme, setTheme] = useState<string>("");
-  const [products, setProducts] = useState<any[]>([]);
+  const [products, setProducts] = useState<[]>([]);
   useEffect(() => {
     async function getPromoProduct() {
-      // const promo = await promoService.getPromo();
-      // const { secondpromo } = promo;
-      // setImages(secondpromo.slider);
-      // setTitle(secondpromo.title);
-      // setTheme(secondpromo.theme);
-      // const res = await productService.queryProduct([
-      //   secondpromo.query,
-      //   secondpromo.value,
-      // ]);
-      // setProducts(res);
+      const promo = await promoService.getPromo();
+      const { secondpromo } = promo.data;
+      setImages(secondpromo.slider);
+      setTitle(secondpromo.title);
+      setTheme(secondpromo.theme);
+      const res = await productService.queryProduct([
+        secondpromo.query,
+        secondpromo.value,
+      ]);
+      setProducts(res.data);
     }
     getPromoProduct();
   }, []);
 
   return (
-    <Section styles={theme}>
+    <Section styles={""}>
       <>
         <p className="uppercase text-7xl py-10 font-bold text-white text-center w-full">
           {title}
@@ -75,7 +76,7 @@ function PromoSecond() {
             ))}
           </Slider>
         </div>
-        <button className="outline-none text-2xl my-10 border bg-white px-20 py-4 rounded-lg">
+        <button className="outline-none text-2xl my-10 border bg-white/40 px-20 py-4 rounded-lg">
           Xem tất cả sản phẩm
         </button>
       </>

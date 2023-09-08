@@ -66,7 +66,7 @@ function DiscountBox() {
           </Modal.Body>
           <Modal.Footer>
             <div className="w-full">
-              <button className="bg-yellow-300  w-full mb-4 block p-6 rounded-lg text-white font-bold">
+              <button className=" w-full mb-4 block p-6 rounded-lg text-white font-bold">
                 THÊM VÀO GIỎ HÀNG
               </button>
               <Link

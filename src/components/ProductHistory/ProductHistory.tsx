@@ -7,8 +7,8 @@ import PrevArrow from "../Slick/PrevArrow";
 import Slider from "react-slick";
 import { productHistory } from "src/helpers/localStorage";
 
-function ProductHistory({ styleTitle }: any) {
-  const section = useRef<any>();
+function ProductHistory({ styleTitle }: { styleTitle: string }) {
+  const section: any = useRef<HTMLDivElement>();
   const [products, setProducts] = useState([]);
   const handleClick = () => {
     section.current.remove();
@@ -20,7 +20,7 @@ function ProductHistory({ styleTitle }: any) {
     <Section
       title="Sản phẩm bạn đã xem"
       styleTitle={styleTitle}
-      styles="bg-white"
+      styles=""
       rightOption={
         <span onClick={handleClick} className="cursor-pointer">
           <span>{styleTitle ? "XÓA LỊCH SỬ" : "Xóa lịch sử"}</span>

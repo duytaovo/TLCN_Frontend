@@ -14,8 +14,9 @@ import DiscountOnline from "./DiscountOnline";
 import ProductSuggest from "./ProductSuggest";
 import ProductCategory from "./ProductCategory";
 import ProductHistory from "src/components/ProductHistory";
+import { Helmet } from "react-helmet-async";
 
-function Home({ title }: { title: string }) {
+const Home = ({ title }: { title: string }) => {
   const [displayTicket, setDisplayTicket] = useState<boolean>(false);
   useEffect(() => {
     const handleScroll = (event: Event) => {
@@ -31,8 +32,12 @@ function Home({ title }: { title: string }) {
   }, []);
   return (
     <div>
-      <BigBanner />
+      <Helmet>
+        <title>Trang chủ </title>
+        <meta name="description" content="Trang chủ " />
+      </Helmet>
       <main className={styles.main}>
+        <BigBanner />
         <Ticket show={displayTicket} />
         <Promo />
         <PromoFirst />
@@ -42,12 +47,11 @@ function Home({ title }: { title: string }) {
         <ProductCategory />
         <DiscountOnline />
         <CovenientService />
-        <ProductHistory styleTitle="uppercase" />
-        {/* <News /> */}
+        <ProductHistory styleTitle="uppercase text-white/70" />
         <ProductBrand />
         <ProductDeal />
       </main>
     </div>
   );
-}
+};
 export default Home;

@@ -1,4 +1,4 @@
-import Section from "./Section";
+import Section from "src/components/Section/Section";
 import css from "./home.module.scss";
 const images: string[] = [
   "https://cdn.tgdd.vn/2022/06/banner/khaitruong-new-760-400-760x400.png",

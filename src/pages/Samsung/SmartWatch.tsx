@@ -4,6 +4,7 @@ import Section from "src/components/Section";
 import Slider from "react-slick";
 import NextArrow from "src/components/Slick/NextArrow";
 import PrevArrow from "src/components/Slick/PrevArrow";
+import { Helmet } from "react-helmet-async";
 
 const SmartWatch = () => {
   const [products, setProducts] = useState([]);
@@ -19,6 +20,10 @@ const SmartWatch = () => {
   };
   return (
     <div>
+      <Helmet>
+        <title>Trang đồng hồ thông minh</title>
+        <meta name="description" content="Trang đồng hồ thông minh" />
+      </Helmet>
       <Section styles="bg-white">
         <div className="w-full">
           <Slider

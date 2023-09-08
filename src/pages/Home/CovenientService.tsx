@@ -1,8 +1,8 @@
 import { Link } from "react-router-dom";
 import { ChevronRight } from "react-bootstrap-icons";
 import clsx from "clsx";
-import Section from "./Section";
 import { ReactNode } from "react";
+import Section from "src/components/Section/Section";
 interface Props {
   styles?: string;
   icon?: ReactNode;

@@ -1,6 +1,10 @@
 import { AngleRight } from "../Icons";
-function NextArrow(props) {
-  const { className, style, onClick } = props;
+interface Props {
+  className?: string;
+  onClick?: () => void;
+}
+function NextArrow(props: Props) {
+  const { className, onClick } = props;
   return (
     <button
       className={className}
@@ -16,7 +20,7 @@ function NextArrow(props) {
         color: "white",
       }}
     >
-      <span className="shadow-md absolute  items-center justify-center m-auto bg-mainColor rounded-full inline-block w-full h-full">
+      <span className="shadow-md absolute flex items-center justify-center top-0 right-0 bg-white rounded-full  w-full h-full">
         <AngleRight className="text-blue-800" />
       </span>
     </button>

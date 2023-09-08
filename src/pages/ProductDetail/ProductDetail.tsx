@@ -11,6 +11,7 @@ import { Parameter, DiscountBox, PayInfo, Tag } from "./RightBlock";
 import { Article, Policy, SlickBlock } from "./LeftBlock";
 import { useDispatch, useSelector } from "react-redux";
 import ProductRating from "src/components/Rating";
+import { Helmet } from "react-helmet-async";
 function ProductDetail() {
   const { productSlug } = useParams();
   const dispatch = useDispatch();
@@ -18,6 +19,10 @@ function ProductDetail() {
 
   return (
     <div className={clsx("bg-white", styles.main)}>
+      <Helmet>
+        <title>Trang chi tiết sản phẩm </title>
+        <meta name="description" content="Trang chi tiết sản phẩm" />
+      </Helmet>
       <div className="max-w-8xl m-auto">
         <Head />
         <div className="flex gap-8">

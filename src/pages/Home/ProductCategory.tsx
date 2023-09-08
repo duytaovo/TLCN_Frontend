@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
-import Section from "./Section";
 import styles from "./productcategory.module.scss";
+import Section from "src/components/Section/Section";
 
 function ProductCategory() {
   const [categories, setCategories] = useState([]);

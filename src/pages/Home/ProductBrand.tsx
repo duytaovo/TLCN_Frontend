@@ -1,4 +1,4 @@
-import Section from "./Section";
+import Section from "src/components/Section/Section";
 import css from "./home.module.scss";
 import { Link } from "react-router-dom";
 interface Image {
@@ -22,7 +22,7 @@ const images: Image[] = [
 ];
 function ProductBrand() {
   return (
-    <Section title="CHUỖI MỚI DEAL KHỦNG">
+    <Section title="CHUỖI MỚI DEAL KHỦNG" styles="text-white/70">
       <>
         {images.map((item: Image, index: number) => {
           return (

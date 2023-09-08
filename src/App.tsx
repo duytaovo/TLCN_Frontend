@@ -19,11 +19,10 @@ function App() {
 
   return (
     <ThemeProvider theme={theme}>
-      {/* <HelmetProvider> */}
-      <ErrorBoundary>{routeElements}</ErrorBoundary>
-      <ToastContainer />
-      {/* </HelmetProvider> */}
-      //{" "}
+      <HelmetProvider>
+        <ErrorBoundary>{routeElements}</ErrorBoundary>
+        <ToastContainer />
+      </HelmetProvider>
     </ThemeProvider>
   );
 }

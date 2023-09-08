@@ -8,8 +8,8 @@ function CommonLayout({ children }: any) {
     <div className="bg pt-[110px] w-[100vw]">
       {/* <TopSlider /> */}
       <Header />
-      <main role="main" className="wrapper">
-        <div className="content bg">
+      <main role="main" className="wrapper h-full">
+        <div className="content bg ">
           <Outlet />
         </div>
       </main>

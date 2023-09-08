@@ -1,5 +1,5 @@
 import Slider from "react-slick";
-import Section from "./Section";
+import Section from "src/components/Section/Section";
 import NextArrow from "src/components/Slick/NextArrow";
 import PrevArrow from "src/components/Slick/PrevArrow";
 
@@ -23,8 +23,8 @@ function DiscountOnline() {
             autoplay={true}
             autoplaySpeed={2000}
             slidesToScroll={3}
-            // nextArrow={<NextArrow />}
-            // prevArrow={<PrevArrow />}
+            nextArrow={<NextArrow />}
+            prevArrow={<PrevArrow />}
           >
             {images.map((src: string, index: number) => (
               <div className="w-full" key={index}>

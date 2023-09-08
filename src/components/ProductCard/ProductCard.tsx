@@ -43,7 +43,7 @@ function ProductCard(props: any) {
             )}
           </div>
           {props.tag && <p className={styles.tag}>{props.tag}</p>}
-          <p className={styles.title}>{props.title}</p>
+          <p className={styles.title + " truncate"}>{props.title}</p>
           {props.category === "phone" || props.category === "tablet" ? (
             <div className={styles.cardCompare}>
               <p>

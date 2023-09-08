@@ -15,6 +15,8 @@ const ProductDetail = lazy(
 const Samsung = lazy(() => import("src/pages/Samsung/Samsung"));
 const SmartWatch = lazy(() => import("src/pages/Smartwatch/SmartWatch"));
 const Tablet = lazy(() => import("src/pages/Tablet/Tablet"));
+const Lenovo = lazy(() => import("src/pages/Lenovo/Lenovo"));
+const Pc = lazy(() => import("src/pages/Pc/Pc"));
 
 export const routeMain = [
   {
@@ -56,6 +58,14 @@ export const routeMain = [
   {
     path: path.history,
     Component: History,
+  },
+  {
+    path: path.lenovo,
+    Component: Lenovo,
+  },
+  {
+    path: path.pc,
+    Component: Pc,
   },
   {
     path: "*",

@@ -135,7 +135,7 @@ function PayInfo() {
       </div>
       <div>
         <button
-          className="bg-yellow-300  w-full mb-4 block p-6 rounded-lg text-white font-bold"
+          className="w-full mb-4 block p-6 rounded-lg text-white font-bold"
           onClick={() => setModalShow(true)}
         >
           MUA NGAY
@@ -177,7 +177,7 @@ function PayInfo() {
           <Modal.Footer>
             <div className="w-full">
               <button
-                className="bg-yellow-300  w-full mb-4 block p-6 rounded-lg text-white font-bold"
+                className=" w-full mb-4 block p-6 rounded-lg text-white font-bold"
                 // onClick={handleClickPay}
               >
                 THÊM VÀO GIỎ HÀNG
