@@ -1,8 +1,6 @@
 const config = {
-  baseUrl: 'https://landing.ult.unlockcar.co/api/v1',
-  host: 'https://landing.ult.unlockcar.co/',
+  baseUrl: "https://landing.ult.unlockcar.co/api/v1",
+  maxSizeUploadImage: 2048576, // bytes
+};
 
-  maxSizeUploadImage: 2048576 // bytes
-}
-
-export default config
+export default config;

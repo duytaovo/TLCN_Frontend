@@ -12,7 +12,7 @@ const path = {
   cart: "/cart",
   samsung: "/samsung",
   history: "/history",
-  dienthoaiDetail: "dienthoai/:productSlug",
+  dienthoaiDetail: "phone/:productSlug",
   laptopDetail: "laptop/:productSlug",
   tabletDetail: "tablet/:productSlug",
   watchDetail: "watch/:productSlug",

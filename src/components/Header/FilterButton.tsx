@@ -4,7 +4,6 @@ import { ChevronLeft } from "react-bootstrap-icons";
 import { useDispatch } from "react-redux";
 import useLocationForm from "../../components/LocationForm/useLocationForm";
 import { MENU_ITEMS } from "src/items";
-import TransitionsModal from "./Modal";
 import Search from "../Search";
 function FilterButton() {
   const [hide, setHide] = useState<boolean>(false);

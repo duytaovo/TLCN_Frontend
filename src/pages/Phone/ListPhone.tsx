@@ -55,10 +55,10 @@ interface Props {
   isOpen: boolean;
 }
 const ListPhone = ({ choose, isOpen }: Props) => {
-  const [data, setData] = useState<[]>([]);
+  const [data, setData] = useState([]);
   const [selected, setSelected] = useState<boolean>(false);
   const [_choose, _setChoose] = useState<number>(0);
-  const [checked, setChecked] = useState<[]>([]);
+  const [checked, setChecked] = useState([]);
   useEffect(() => {
     // getAllProductByCategory(dispatch, "dienthoai");
   }, []);
@@ -93,8 +93,6 @@ const ListPhone = ({ choose, isOpen }: Props) => {
     };
     getProduct();
   }, [choose, checked]);
-
-  console.log(typeFilter);
 
   useEffect(() => {
     fetch(`https://json.msang.repl.co/products?category=dienthoai`)

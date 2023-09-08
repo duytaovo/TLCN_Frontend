@@ -32,7 +32,7 @@ function Header() {
     <header
       className={`${
         styles.heading
-      } fixed top-0 z-[10000000000] box-border text-white/70  w-full items-center justify-between ${
+      } fixed top-0 z-[100] box-border text-white/70  w-full items-center justify-between ${
         isScrolled ? "bg-mainColor " : ""
       }`}
     >

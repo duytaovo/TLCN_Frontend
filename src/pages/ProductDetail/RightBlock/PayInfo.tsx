@@ -113,7 +113,7 @@ function PayInfo() {
             {pays.map((item) => {
               return (
                 <div
-                  className="rounded-lg text-xl border rounded border-gray-300 p-4 w-96"
+                  className=" text-xl border rounded border-gray-300 p-4 w-96"
                   key={item.bank}
                 >
                   <input type="radio" name="pay" />

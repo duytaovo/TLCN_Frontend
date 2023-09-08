@@ -2,39 +2,43 @@ import { useState, useEffect } from "react";
 import Welcome from "./Welcome";
 
 const Profile = () => {
-  //   const user = JSON.parse(localStorage.getItem("customerInfo"));
-  //   const { address } = user;
-  //   const phoneNumber = user.phone.toString();
-  //   const [checkGender, setCheckGender] = useState(-1);
-  //   const [edit, setEdit] = useState(false);
-  //   const stringAddress = `${address.homeAdd}, ${address.ward}, ${address.district}, ${address.city}`;
+  const user = localStorage.getItem("customerInfo");
+  let customer;
+  if (user) {
+    customer = JSON.parse(user);
+  }
+  const address = customer?.address;
+  const phoneNumber = customer?.phone.toString();
+  const [checkGender, setCheckGender] = useState<number>(-1);
+  const [edit, setEdit] = useState<boolean>(false);
+  const stringAddress = `${address?.homeAdd}, ${address?.ward}, ${address?.district}, ${address?.city}`;
 
-  //   const [userName, setUserName] = useState(user.username);
-  //   const dataPost = {
-  //     id: user.id,
-  //     username: userName,
-  //   };
+  const [userName, setUserName] = useState(customer?.username);
+  const dataPost = {
+    id: customer?.id,
+    username: userName,
+  };
 
-  //   const choiceGender = [
-  //     {
-  //       id: 1,
-  //       content: "Anh",
-  //     },
-  //     {
-  //       id: 2,
-  //       content: "Chị",
-  //     },
-  //   ];
+  const choiceGender = [
+    {
+      id: 1,
+      content: "Anh",
+    },
+    {
+      id: 2,
+      content: "Chị",
+    },
+  ];
 
-  const handleClickGender = (id: string) => {
-    // setCheckGender(id);
+  const handleClickGender = (id: number) => {
+    setCheckGender(id);
   };
   const handleSubmitInfo = (e: any) => {
     e.preventDefault();
   };
   return (
     <div className="text-gray-800">
-      {/* <div className="flex justify-between items-center">
+      <div className="flex justify-between items-center">
         <h3 className="font-semibold text-4xl">Thông tin cá nhân</h3>
         <button
           className="text-yellow-300"
@@ -46,15 +50,15 @@ const Profile = () => {
 
       <form onSubmit={(e) => handleSubmitInfo(e)}>
         <div className="w-full flex gap-3 items-center">
-          {choiceGender.map((item, index) => (
+          {choiceGender?.map((item, index) => (
             <div key={index}>
               <input
                 className="p-2"
-                checked={checkGender === item.id}
+                checked={checkGender === item?.id}
                 type="radio"
-                onClick={() => handleClickGender(item.id)}
+                onClick={() => handleClickGender(item?.id)}
               ></input>
-              <label className="ml-2">{item.content}</label>
+              <label className="ml-2">{item?.content}</label>
             </div>
           ))}
         </div>
@@ -100,7 +104,7 @@ const Profile = () => {
             CẬP NHẬT
           </button>
         )}
-      </form> */}
+      </form>
     </div>
   );
 };

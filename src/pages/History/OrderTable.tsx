@@ -47,7 +47,7 @@ const OrderTable = ({ data }: { data: any[] }) => {
     }
   };
   return (
-    <Table hoverable={true} className="">
+    <Table hoverable={true} className="text-black">
       <caption className="text-left p-4 font-semibold text-2xl">
         Đơn hàng đã mua gần đây
       </caption>
@@ -70,7 +70,7 @@ const OrderTable = ({ data }: { data: any[] }) => {
           const styleDisable = "bg-gray-100";
           return (
             <Fragment key={index}>
-              <Table.Row className="bg-white dark:border-gray-700 dark:bg-gray-800 overflow-hidden">
+              <Table.Row className=" bg-white dark:border-gray-700 dark:bg-gray-800 overflow-hidden">
                 <Table.Cell className="text-blue-400">#{order.id}</Table.Cell>
                 <Table.Cell className="text-blue-400 hover:text-blue-700 select-none">
                   <button

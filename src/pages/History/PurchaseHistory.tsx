@@ -1,10 +1,7 @@
 import { useState } from "react";
-import OrderTable from "./OrderTable";
-import Welcome from "./Welcome";
 import { Link } from "react-router-dom";
-import { useSelector } from "react-redux";
-import clsx from "clsx";
 import { useAppSelector } from "src/hooks/useRedux";
+import OrderTable from "./OrderTable";
 
 const EmptyOrder = () => {
   return (

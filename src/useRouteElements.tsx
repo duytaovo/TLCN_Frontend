@@ -1,7 +1,7 @@
 import path from "src/constants/path";
 import { lazy, Suspense, useEffect, useMemo, useState } from "react";
 import { Route, Routes, useLocation } from "react-router-dom";
-import { productDetailRoutes, routeDetail, routeMain } from "./routes";
+import { productDetailRoutes, routeMain } from "./routes";
 import CommonLayout from "./layouts/CommonLayout";
 
 export default function useRouteElements() {
@@ -12,9 +12,9 @@ export default function useRouteElements() {
           key={index}
           path={path}
           element={
-            // <Suspense>
-            <Component title="" />
-            // </Suspense>
+            <Suspense>
+              <Component title="" />
+            </Suspense>
           }
         />
       );
@@ -28,9 +28,9 @@ export default function useRouteElements() {
           key={index}
           path={path}
           element={
-            // <Suspense>
-            <Component />
-            // </Suspense>
+            <Suspense>
+              <Component />
+            </Suspense>
           }
         />
       );

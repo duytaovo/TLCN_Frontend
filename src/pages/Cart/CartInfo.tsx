@@ -5,7 +5,6 @@ import {
   ChevronDown,
   TicketPerforated,
 } from "react-bootstrap-icons";
-import ProductItem from "./ProductItem";
 import Input from "./Input";
 import { LocationForm } from "src/components/LocationForm";
 import moment from "moment";
@@ -15,54 +14,54 @@ import useCart from "src/hooks/useCart";
 import numberWithCommas from "src/utils/numberWithCommas";
 
 function CartInfo() {
-  //   const cartData = useCart();
-  //   const [addressOption, setAddresOption] = useState();
-  //   //   const { cartItems, totalPrice, totalQuantity } = cartData;
-  //   const dispatch = useDispatch();
-  //   const navigate = useNavigate();
+  const cartData = useCart();
+  const [addressOption, setAddresOption] = useState();
+  //   const { cartItems, totalPrice, totalQuantity } = cartData;
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
 
-  //   const handleSubmit = async (e) => {
-  //     e.preventDefault();
-  //     const name = document.getElementById("fullname").value;
-  //     const phone = document.getElementById("phone").value;
-  //     const homeAdd = document.getElementById("homeAddress").value;
-  //     const sex = document.getElementsByName("sex");
-  //     let sexValue;
-  //     for (let i = 0, length = sex.length; i < length; i++) {
-  //       if (sex[i].checked) {
-  //         sexValue = sex[i].value;
-  //       }
-  //     }
-  //     const customer = {
-  //       id: Math.floor(Math.random() * 100000000),
-  //       username: name,
-  //       address: { homeAdd, ...addressOption },
-  //       sex: sexValue,
-  //       phone: phone,
-  //     };
-  //     const dataPostOrder = {
-  //       id: Date.now(),
-  //       totalPrice: totalPrice,
-  //       totalQuantity: totalQuantity,
-  //       status: "Đặt hàng",
-  //       payment: {
-  //         name: "not",
-  //         paid: false,
-  //       },
-  //       customer: customer,
-  //       order_items: {
-  //         data: cartItems,
-  //       },
-  //       createdAt: moment().format("MM/DD/YYYY"),
-  //     };
-  //     const res = await customerService.getCustomerByPhone(phone);
-  //     if (res.length === 0) {
-  //       const resCustomer = await customerService.postCustomer(customer);
-  //     }
-  //     postOrders(dispatch, dataPostOrder);
-  //     dispatch(clearCart());
-  //     navigate("/order");
-  //   };
+  const handleSubmit = async (e: any) => {
+    e.preventDefault();
+    // const name = document.getElementById("fullname").value;
+    // const phone = document.getElementById("phone").value;
+    // const homeAdd = document.getElementById("homeAddress").value;
+    // const sex = document.getElementsByName("sex");
+    // let sexValue;
+    // for (let i = 0, length = sex.length; i < length; i++) {
+    //   if (sex[i].checked) {
+    //     sexValue = sex[i].value;
+    //   }
+    // }
+    // const customer = {
+    //   id: Math.floor(Math.random() * 100000000),
+    //   username: name,
+    //   address: { homeAdd, ...addressOption },
+    //   sex: sexValue,
+    //   phone: phone,
+    // };
+    // const dataPostOrder = {
+    //   id: Date.now(),
+    //   totalPrice: totalPrice,
+    //   totalQuantity: totalQuantity,
+    //   status: "Đặt hàng",
+    //   payment: {
+    //     name: "not",
+    //     paid: false,
+    //   },
+    //   customer: customer,
+    //   order_items: {
+    //     data: cartItems,
+    //   },
+    //   createdAt: moment().format("MM/DD/YYYY"),
+    // };
+    // const res = await customerService.getCustomerByPhone(phone);
+    // if (res.length === 0) {
+    //   const resCustomer = await customerService.postCustomer(customer);
+    // }
+    // postOrders(dispatch, dataPostOrder);
+    // dispatch(clearCart());
+    // navigate("/order");
+  };
   //   useEffect(() => {
   //     const setCustomerInfo = () => {
   //       let customerInfo = localStorage.getItem("customerInfo");
@@ -79,7 +78,7 @@ function CartInfo() {
   //     setCustomerInfo();
   //   }, []);
   return (
-    <div className="w-1/2 m-auto">
+    <div className="w-1/2 m-auto text-white">
       <div className="flex justify-between py-4">
         <Link to="/" className="text-blue-500">
           <i>
@@ -92,7 +91,7 @@ function CartInfo() {
 
       <form
         className="bg-mainBackGroundColor rounded-xl px-14 py-8 shadow-sm"
-        // onSubmit={handleSubmit}
+        onSubmit={handleSubmit}
       >
         {/* {cartItems.map((product, index) => (
           <ProductItem key={index} {...product} />
@@ -150,7 +149,7 @@ function CartInfo() {
           </div>
           <div>
             <div className="border border-blue-400  p-4 rounded-xl">
-              <p>
+              <p className="mb-5">
                 Chọn địa chỉ để biết thời gian nhận hàng và phí vận chuyển (nếu
                 có)
               </p>
@@ -163,7 +162,7 @@ function CartInfo() {
               />
               <LocationForm
                 onChange={(e: any) => {
-                  //   setAddresOption(e);
+                  setAddresOption(e);
                 }}
               />
               <div>
@@ -175,7 +174,7 @@ function CartInfo() {
                   <span>Chọn ngày giờ khác</span>
                 </div>
                 <div className="flex flex-col my-30 border-b py-4 gap-4 p-10 border-1 border-gray-400 rounded">
-                  {/* {cartItems.map((product, index) => (
+                  {/* {cartItems.map((product: any, index: number) => (
                     <div className="border-b " key={index}>
                       <div className="h-16">
                         <img
@@ -239,12 +238,12 @@ function CartInfo() {
 
         <div>
           <div className="py-8 border-b ">
-            <button className="p-4 border rounded-lg">
+            <button className="p-4 border rounded-lg mb-5">
               <i>
                 <TicketPerforated />
               </i>
               &nbsp;
-              <span>Sử dụng mã giảm giá</span>&nbsp;
+              <span className="mb-5">Sử dụng mã giảm giá</span>&nbsp;
               <i>
                 <ChevronDown />
               </i>

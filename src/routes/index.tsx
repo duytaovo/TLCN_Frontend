@@ -1,17 +1,20 @@
 import { lazy } from "react";
-import { Laptop } from "src/components/Icons";
 import path from "src/constants/path";
-import Accessory from "src/pages/Accessory/Accessory";
-import Cart from "src/pages/Cart/Cart";
-import History from "src/pages/History/History";
-import Home from "src/pages/Home/Home";
-import LapTop from "src/pages/Laptop/LapTop";
-import Maycu from "src/pages/Maycu/Maycu";
-import Phone from "src/pages/Phone/Phone";
-import ProductDetail from "src/pages/ProductDetail/ProductDetail";
-import Samsung from "src/pages/Samsung/Samsung";
-import SmartWatch from "src/pages/Smartwatch/SmartWatch";
-import Tablet from "src/pages/Tablet/Tablet";
+
+const Home = lazy(() => import("src/pages/Home/Home"));
+const Accessory = lazy(() => import("src/pages/Accessory/Accessory"));
+const Cart = lazy(() => import("src/pages/Cart/Cart"));
+const History = lazy(() => import("src/pages/History/History"));
+const LapTop = lazy(() => import("src/pages/Laptop/LapTop"));
+const Maycu = lazy(() => import("src/pages/Maycu/Maycu"));
+const NotFound = lazy(() => import("src/pages/NotFound "));
+const Phone = lazy(() => import("src/pages/Phone/Phone"));
+const ProductDetail = lazy(
+  () => import("src/pages/ProductDetail/ProductDetail")
+);
+const Samsung = lazy(() => import("src/pages/Samsung/Samsung"));
+const SmartWatch = lazy(() => import("src/pages/Smartwatch/SmartWatch"));
+const Tablet = lazy(() => import("src/pages/Tablet/Tablet"));
 
 export const routeMain = [
   {
@@ -54,10 +57,14 @@ export const routeMain = [
     path: path.history,
     Component: History,
   },
+  {
+    path: "*",
+    Component: NotFound,
+  },
 ];
 
 const urls = [
-  "dienthoai/:productSlug",
+  "phone/:productSlug",
   "laptop/:productSlug",
   "tablet/:productSlug",
   "watch/:productSlug",
@@ -65,16 +72,10 @@ const urls = [
   "muc-in/:productSlug",
   "man-hinh-may-tinh/:productSlug",
   "may-tinh-de-ban/:productSlug",
-  "phukien/:productSlug",
+  "accessory/:productSlug",
   "smartwatch/:productSlug",
 ];
 export const productDetailRoutes = urls.map((url) => ({
   path: url,
   Component: ProductDetail,
 }));
-export const routeDetail = [
-  {
-    path: path.dienthoaiDetail,
-    Component: ProductDetail,
-  },
-];

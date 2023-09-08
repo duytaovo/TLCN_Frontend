@@ -3,22 +3,6 @@ import "./laptop.scss";
 import { useEffect, useState } from "react";
 import DealMain from "src/components/DealMain/DealMain";
 import ListProduct from "src/components/ListProduct/ListProduct";
-// const products = [
-//   ProductCard,
-//   ProductCard,
-//   ProductCard,
-//   ProductCard,
-//   ProductCard,
-//   ProductCard,
-//   ProductCard,
-//   ProductCard,
-//   ProductCard,
-//   ProductCard,
-//   ProductCard,
-//   ProductCard,
-//   ProductCard,
-//   ProductCard,
-// ];
 const LapTopDeal = () => {
   const [data, setData] = useState([]);
   useEffect(() => {

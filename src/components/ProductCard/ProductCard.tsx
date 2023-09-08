@@ -44,7 +44,7 @@ function ProductCard(props: any) {
           </div>
           {props.tag && <p className={styles.tag}>{props.tag}</p>}
           <p className={styles.title}>{props.title}</p>
-          {props.category === "dienthoai" || props.category === "tablet" ? (
+          {props.category === "phone" || props.category === "tablet" ? (
             <div className={styles.cardCompare}>
               <p>
                 {/*props.parameter[0].SCREEN && <span>{props.parameter[0].SCREEN}</span>*/}
