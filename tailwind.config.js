@@ -36,6 +36,7 @@ module.exports = {
         textCustomBgWhite: "#727171",
         mainL1: "#1f4160",
         header: "#44c5e5",
+        textWhiteMain: "rgb(255 255 255 / 0.7)",
       },
       backgroundColor: {
         mainBackGroundColor: "#1c2635",

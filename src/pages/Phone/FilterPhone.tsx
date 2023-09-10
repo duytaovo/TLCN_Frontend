@@ -67,13 +67,13 @@ const data: Data[] = [
 ];
 
 interface Props {
-  handle: any;
+  handle: (boolean: boolean) => void;
 }
 const FilterPhone = ({ handle }: Props) => {
   return (
     <div
       style={{ maxWidth: "1200px", margin: "auto" }}
-      className="text-white/70"
+      className="text-textWhiteMain"
     >
       <Filter handle={handle} data={data} />
     </div>

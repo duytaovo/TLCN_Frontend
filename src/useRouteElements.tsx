@@ -13,7 +13,7 @@ export default function useRouteElements() {
           path={path}
           element={
             <Suspense>
-              <Component title="" />
+              <Component name="" title="" slug={{ slug: "" }} />
             </Suspense>
           }
         />

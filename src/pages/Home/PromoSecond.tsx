@@ -29,7 +29,7 @@ function PromoSecond() {
   return (
     <Section styles={""}>
       <>
-        <p className="uppercase text-7xl py-10 font-bold text-white text-center w-full">
+        <p className="uppercase text-5xl py-10 font-bold text-textWhiteMain text-center w-full">
           {title}
         </p>
         <div className="w-full">

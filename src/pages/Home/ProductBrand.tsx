@@ -22,7 +22,7 @@ const images: Image[] = [
 ];
 function ProductBrand() {
   return (
-    <Section title="CHUỖI MỚI DEAL KHỦNG" styles="text-white/70">
+    <Section title="CHUỖI MỚI DEAL KHỦNG" styles="text-textWhiteMain">
       <>
         {images.map((item: Image, index: number) => {
           return (

@@ -7,7 +7,7 @@ const images: string[] = [
 ];
 function ProductDeal() {
   return (
-    <Section title="CHUỖI MỚI DEAL KHỦNG">
+    <Section title="CHUỖI MỚI DEAL KHỦNG" styleTitle="text-textWhiteMain">
       <>
         {images.map((src: string, index: number) => {
           return (

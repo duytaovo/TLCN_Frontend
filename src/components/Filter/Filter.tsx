@@ -5,14 +5,14 @@ import FilterItemTotal from "./FilterItemTotal";
 import { useDispatch } from "react-redux";
 
 interface FilterItem {
-  handle: Dispatch<SetStateAction<boolean>>;
+  handle: (boolean: boolean) => void;
   data: any;
 }
 function Filter({ handle, data }: FilterItem) {
   const contain: any = useRef();
   const dispatch = useDispatch();
   const scroll = () => {
-    // contain.current?.scrollIntoView({ behavior: "smooth" });
+    contain.current?.scrollIntoView({ behavior: "smooth" });
   };
   useEffect(() => {
     // HandleFilter(dispatch, []);

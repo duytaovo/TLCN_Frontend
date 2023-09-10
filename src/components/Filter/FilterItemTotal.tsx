@@ -16,7 +16,7 @@ import ButtonFilterTotal from "../Button/ButtonFilterTotal";
 import { useAppDispatch, useAppSelector } from "src/hooks/useRedux";
 
 interface FilterItem {
-  handle: Dispatch<SetStateAction<boolean>>;
+  handle: (value: boolean) => void;
   scroll: () => void;
   data: any;
 }

@@ -2,7 +2,6 @@ import useRouteElements from "./useRouteElements";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { HelmetProvider } from "react-helmet-async";
-import { useContext, useEffect } from "react";
 import "./App.css";
 import "normalize.css";
 import "src/assets/styles/global.scss";

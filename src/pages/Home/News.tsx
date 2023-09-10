@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 import { ChevronRight } from "react-bootstrap-icons";
-import Section from "./Section";
+import Section from "src/components/Section/Section";
 interface News {
   thumb: string;
   title: string;

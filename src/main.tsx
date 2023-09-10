@@ -12,15 +12,15 @@ import { theme } from "./constants/antdConfig";
 import GlobalStyles from "./components/GlobalStyles";
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
-  <React.StrictMode>
-    <BrowserRouter>
-      <ConfigProvider theme={theme}>
-        <Provider store={store}>
-          <GlobalStyles>
-            <App />
-          </GlobalStyles>
-        </Provider>
-      </ConfigProvider>
-    </BrowserRouter>
-  </React.StrictMode>
+  // <React.StrictMode>
+  <BrowserRouter>
+    <ConfigProvider theme={theme}>
+      <Provider store={store}>
+        <GlobalStyles>
+          <App />
+        </GlobalStyles>
+      </Provider>
+    </ConfigProvider>
+  </BrowserRouter>
+  // </React.StrictMode>
 );

@@ -1,9 +1,10 @@
 import BigBannerPhone from "./BigBannerPhone";
 import QuickLinkPhone from "./QuickLinkPhone";
 import ListPhone from "./ListPhone";
-import { useState } from "react";
+import { Dispatch, SetStateAction, useState } from "react";
 import FilterPhone from "./FilterPhone";
 import { Helmet } from "react-helmet-async";
+
 const Phone = () => {
   const [choose, setChoose] = useState<string>("");
   const [isOpen, setisOpen] = useState<boolean>(false);
@@ -14,7 +15,7 @@ const Phone = () => {
     setChoose(text);
   };
   return (
-    <div className="text-white/70">
+    <div className="text-textWhiteMain">
       <Helmet>
         <title>Trang điện thoại </title>
         <meta name="description" content="Trang điện thoại" />

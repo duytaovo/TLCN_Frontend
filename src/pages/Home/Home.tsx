@@ -47,7 +47,7 @@ const Home = ({ title }: { title: string }) => {
         <ProductCategory />
         <DiscountOnline />
         <CovenientService />
-        <ProductHistory styleTitle="uppercase text-white/70" />
+        <ProductHistory styleTitle="uppercase text-textWhiteMain" />
         <ProductBrand />
         <ProductDeal />
       </main>

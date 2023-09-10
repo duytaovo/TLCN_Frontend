@@ -11,7 +11,7 @@ interface Props {
 function Section(
   {
     title,
-    styles = "bg-transparent text-white/70",
+    styles = "bg-transparent ",
     children,
     rightOption,
     styleTitle,
