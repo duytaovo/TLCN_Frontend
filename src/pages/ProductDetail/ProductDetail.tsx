@@ -45,7 +45,7 @@ function ProductDetail() {
         </div>
         <OtherProduct />
         <RelatedProduct />
-        <ProductHistory />
+        <ProductHistory styleTitle="" />
         <Comment />
       </div>
     </div>

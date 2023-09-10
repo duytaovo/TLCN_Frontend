@@ -22,8 +22,8 @@ const Phone = () => {
       </Helmet>
       <BigBannerPhone />
       <FilterPhone handle={handle} />
-      <QuickLinkPhone handleSetChoose={handleSetChoose}></QuickLinkPhone>
-      <ListPhone choose={choose} isOpen={isOpen}></ListPhone>
+      {/* <QuickLinkPhone handleSetChoose={handleSetChoose} />
+      <ListPhone choose={choose} isOpen={isOpen} /> */}
     </div>
   );
 };

@@ -33,6 +33,7 @@ const QuickLinkSmartWatch = () => {
         <div>
           {data.map((item) => (
             <QuickLink
+              isImg={true}
               type=""
               handleSetChoose={() => {}}
               link={item.link}
