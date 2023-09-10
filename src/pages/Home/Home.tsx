@@ -2,7 +2,6 @@ import { useState, useEffect } from "react";
 import styles from "./home.module.scss";
 import Promo from "./Promo";
 import Ticket from "./Ticket";
-import News from "./News";
 import BigBanner from "./BigBanner";
 import PromoFirst from "./PromoFirst";
 import PromoSecond from "./PromoSecond";

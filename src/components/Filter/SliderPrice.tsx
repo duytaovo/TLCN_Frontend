@@ -2,8 +2,8 @@ import styles from "./sliderPrice.module.scss";
 
 import { useState, useRef, useEffect } from "react";
 import ReactDOM from "react-dom";
-import { useSelector, useDispatch } from "react-redux";
-// import { HandleFilter } from '../../redux/product/productsApi';
+import { useAppDispatch, useAppSelector } from "src/hooks/useRedux";
+import { HandleFilter } from "src/store/product/productsApi";
 
 function SliderPrice({ Apper }: any) {
   //css
@@ -16,19 +16,20 @@ function SliderPrice({ Apper }: any) {
   const minVal: any = useRef();
   const maxVal: any = useRef();
   //redux + logic
-  const filter = useSelector((state: any) => state?.products?.filter?.data); // Lấy tất cả
+  const filter = useAppSelector((state) => state.products.filter.data); // Lấy tất cả
 
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
 
   const handleInputMin = (e: any) => {
     const value = e.target.value;
 
     if (!value.includes(".")) {
       setMin(value);
-      let commas = value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+      var commas = value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
       setCommaMin(commas);
     } else {
-      let commas = value.toString().replace(".", "");
+      var commas = value.toString().replace(".", "");
+
       setCommaMin(commas);
       setMin(commas);
     }
@@ -44,10 +45,10 @@ function SliderPrice({ Apper }: any) {
 
     if (!value.includes(".")) {
       setMax(value);
-      let commas = value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+      var commas = value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
       setCommaMax(commas);
     } else {
-      let commas = value.toString().replace(".", "");
+      var commas = value.toString().replace(".", "");
 
       setCommaMax(commas);
       setMax(commas);
@@ -75,7 +76,7 @@ function SliderPrice({ Apper }: any) {
       };
 
       // kiểm tra có tồn tại chưa trong filter chưa
-      const checkInFilter = filter.some((element: any) => {
+      const checkInFilter = filter.some((element) => {
         let key = Object.keys(element);
 
         if (key[0] == "price") return true;
@@ -91,10 +92,10 @@ function SliderPrice({ Apper }: any) {
           return obj;
         });
 
-        // HandleFilter(dispatch, temp);
+        HandleFilter(dispatch, temp);
       } else {
         const temp = [...filter, newKeyword];
-        // HandleFilter(dispatch, temp);
+        HandleFilter(dispatch, temp);
       }
     }
 

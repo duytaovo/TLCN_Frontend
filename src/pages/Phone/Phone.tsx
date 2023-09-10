@@ -1,9 +1,7 @@
 import BigBannerPhone from "./BigBannerPhone";
-import QuickLinkPhone from "./QuickLinkPhone";
-import ListPhone from "./ListPhone";
-import { Dispatch, SetStateAction, useState } from "react";
-import FilterPhone from "./FilterPhone";
+import { useState } from "react";
 import { Helmet } from "react-helmet-async";
+import FilterPhone from "./FilterPhone";
 
 const Phone = () => {
   const [choose, setChoose] = useState<string>("");

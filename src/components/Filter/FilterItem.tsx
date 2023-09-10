@@ -2,12 +2,18 @@ import styles from "./filteritem.module.scss";
 
 import { useState, useRef, useEffect, useCallback } from "react";
 import ReactDOM from "react-dom";
-import { useSelector, useDispatch } from "react-redux";
-import { useNavigate } from "react-router-dom";
 import SliderPrice from "./SliderPrice";
-import ButtonItem from "../Button/ButtonItem";
-import ButtonFilter from "../Button/ButtonFilter";
-function FilterItem({ data, handle, scroll }: any) {
+import { useAppDispatch, useAppSelector } from "src/hooks/useRedux";
+import { HandleFilter } from "src/store/product/productsApi";
+import ButtonFilter from "src/components/Button/ButtonFilter";
+import ButtonItem from "src/components/Button/ButtonItem";
+
+interface Props {
+  data: any;
+  handle: (boolean: boolean) => void;
+  scroll: () => void;
+}
+function FilterItem({ data, handle, scroll }: Props) {
   //css
   const [isOpen, setisOpen] = useState("false");
   const [isApper, setIsApper] = useState(false);
@@ -17,9 +23,9 @@ function FilterItem({ data, handle, scroll }: any) {
   const itemHiden: any = useRef();
   const ad: any = useRef();
   //redux + logic
-  const filter = useSelector((state: any) => state?.products?.filter?.data); // Lấy tất cả
+  const filter = useAppSelector((state) => state.products.filter.data); // Lấy tất cả
   const [arrayTemp, setArrayTemp] = useState([]); // Lấy giá trị trong một khung
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   //const navigate = useNavigate();
   // Tạo thẻ để css thêm
   // const styleElem = document.head.appendChild(document.createElement("style"));
@@ -31,7 +37,7 @@ function FilterItem({ data, handle, scroll }: any) {
       setisOpen("true");
       button.current.style.borderColor = "#498fef";
       let div: any = ReactDOM.findDOMNode(button.current.firstElementChild);
-      let span = div.firstElementChild;
+      let span: any = div.firstElementChild;
       //Đổi chiều mũi tên
       span.style =
         "border-color:  transparent transparent black  transparent;bottom: 6px;";
@@ -58,7 +64,7 @@ function FilterItem({ data, handle, scroll }: any) {
 
     //Đổi chiều mũi tên
     let div: any = ReactDOM.findDOMNode(button.current.firstElementChild);
-    let span = div.firstElementChild;
+    let span: any = div.firstElementChild;
     span.style =
       "border-color:black transparent transparent   transparent;bottom: 2px;";
     ad.current.style = "display:none";
@@ -120,7 +126,7 @@ function FilterItem({ data, handle, scroll }: any) {
 
     //------------------------------------
     // kiểm tra có tồn tại chưa trong filter chưa
-    const checkInFilter: any = filter.some((element: any) => {
+    const checkInFilter = filter.some((element) => {
       let value = Object.values(element);
       let key = Object.keys(element);
       if (value[0] === e.target.id && key[0] === data.title) return true;
@@ -132,7 +138,7 @@ function FilterItem({ data, handle, scroll }: any) {
         if (curent.id === e.target.id)
           curent.style = "border-color: #e1e1e1; color:#333";
       });
-      const temp = filter.filter((element: any) => {
+      const temp = filter.filter((element) => {
         let value = Object.values(element);
         let key = Object.keys(element);
 
@@ -141,7 +147,7 @@ function FilterItem({ data, handle, scroll }: any) {
           return element;
         }
       });
-      //   HandleFilter(dispatch, temp);
+      HandleFilter(dispatch, temp);
     }
     // Nếu chưa thì thêm vào filter
     else {
@@ -150,7 +156,7 @@ function FilterItem({ data, handle, scroll }: any) {
           curent.style = "border-color: #498fef;color: #498fef;";
       });
       const temp = [...filter, newKeyword];
-      //   HandleFilter(dispatch, temp);
+      HandleFilter(dispatch, temp);
     }
     // Hiện nút filter
     itemHiden.current.style.display = "block";
@@ -162,8 +168,8 @@ function FilterItem({ data, handle, scroll }: any) {
     setFalse();
   };
 
-  const Apper = (bolen: any) => {
-    setIsApper(bolen);
+  const Apper = (boolean: boolean) => {
+    setIsApper(boolean);
   };
   if (isApper) {
     itemHiden.current.style.display = "block";
@@ -171,20 +177,20 @@ function FilterItem({ data, handle, scroll }: any) {
 
   const checkTurnOn = useCallback(
     () =>
-      filter?.some((element: any) => {
+      filter.some((element) => {
         let key = Object.keys(element);
         if (key[0] === data.title) return true;
       }),
     []
   );
   const checkTurnOn1 = () =>
-    filter?.some((element: any) => {
+    filter.some((element) => {
       let key = Object.keys(element);
       if (key[0] === data.title) return true;
     });
   useEffect(() => {
-    if (filter?.length === 0) setArrayTemp([]);
-    if (arrayTemp?.length > 0 || (filter?.length > 0 && checkTurnOn())) {
+    if (filter.length === 0) setArrayTemp([]);
+    if (arrayTemp.length > 0 || (filter.length > 0 && checkTurnOn())) {
       button.current.style.borderColor = "#498fef";
       const number = Array.from(document.getElementsByName("number"));
       number[0].style.display = "inline";
@@ -193,12 +199,12 @@ function FilterItem({ data, handle, scroll }: any) {
     }
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [checkTurnOn]);
+  }, [filter.length, checkTurnOn]);
   useEffect(() => {
     if (checkTurnOn1()) {
       button.current.style.borderColor = "#498fef";
       const number = Array.from(document.getElementsByName("number"));
-      number[0].style.display = "inline";
+      // number[0].style.display = "inline";
     }
   }, [checkTurnOn1]);
 

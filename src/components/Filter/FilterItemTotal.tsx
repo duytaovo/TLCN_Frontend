@@ -1,35 +1,28 @@
 import styles from "./filteritemtotal.module.scss";
 
-import ButtonItem from "../Button/ButtonItem";
-
-import {
-  useState,
-  useRef,
-  useEffect,
-  Dispatch,
-  SetStateAction,
-  RefObject,
-} from "react";
+import { useState, useRef, useEffect } from "react";
 import ReactDOM from "react-dom";
-import { useSelector, useDispatch } from "react-redux";
-import ButtonFilterTotal from "../Button/ButtonFilterTotal";
+import ButtonFilterTotal from "src/components/Button/ButtonFilterTotal";
+import ButtonItem from "src/components/Button/ButtonItem";
 import { useAppDispatch, useAppSelector } from "src/hooks/useRedux";
+import { HandleFilter } from "src/store/product/productsApi";
 
-interface FilterItem {
-  handle: (value: boolean) => void;
-  scroll: () => void;
+interface Props {
   data: any;
+  handle: (boolean: boolean) => void;
+  scroll: () => void;
 }
-function FilterItemTotal({ data, handle, scroll }: FilterItem) {
+const FilterItemTotal = ({ data, handle, scroll }: Props) => {
   //css
-  const [isOpen, setisOpen] = useState<string>("false");
+  const [isOpen, setisOpen] = useState("false");
   const item: any = useRef<HTMLDivElement>(null);
   const bound: any = useRef<HTMLDivElement>(null);
   const button: any = useRef<HTMLDivElement>(null);
   const itemHiden: any = useRef<HTMLDivElement>(null);
   const before: any = useRef<HTMLDivElement>(null);
   //redux + logic
-  const filter = useAppSelector((state: any) => state?.products?.filter); // Lấy tất cả
+  //redux + logic
+  const filter = useAppSelector((state) => state.products.filter.data); // Lấy tất cả
 
   const dispatch = useAppDispatch();
   //const navigate = useNavigate();
@@ -63,7 +56,7 @@ function FilterItemTotal({ data, handle, scroll }: FilterItem) {
 
     //Đổi chiều mũi tên
     let div: any = ReactDOM.findDOMNode(button.current.firstElementChild);
-    let span: any = div.firstElementChild;
+    let span = div.firstElementChild;
     span.style =
       "border-color:black transparent transparent   transparent;bottom: 2px;";
 
@@ -104,7 +97,7 @@ function FilterItemTotal({ data, handle, scroll }: FilterItem) {
     const element = Array.from(document.getElementsByName(title));
 
     // // kiểm tra có tồn tại chưa trong filter chưa
-    const checkInFilter = filter.some((element: any) => {
+    const checkInFilter = filter.some((element) => {
       let value = Object.values(element);
       let key = Object.keys(element);
       if (value[0] === id && key[0] === title) return true;
@@ -116,7 +109,7 @@ function FilterItemTotal({ data, handle, scroll }: FilterItem) {
         if (curent.id === id)
           curent.style = "border-color: #e1e1e1; color:#333";
       });
-      const temp = filter.filter((element: any) => {
+      const temp = filter.filter((element) => {
         let value = Object.values(element);
         let key = Object.keys(element);
         if (key[0] === title && value[0] === id) {
@@ -124,7 +117,7 @@ function FilterItemTotal({ data, handle, scroll }: FilterItem) {
           return element;
         }
       });
-      //   HandleFilter(dispatch, temp);
+      HandleFilter(dispatch, temp);
     }
     // Nếu chưa thì thêm vào filter
     else {
@@ -133,22 +126,22 @@ function FilterItemTotal({ data, handle, scroll }: FilterItem) {
           curent.style = "border-color: #498fef;color: #498fef;";
       });
       const temp = [...filter, newKeyword];
-      //   HandleFilter(dispatch, temp);
+      HandleFilter(dispatch, temp);
     }
     // Hiện nút filter
     itemHiden.current.style.display = "block";
   };
 
-  const handleFilter = (e: any) => {
+  const handleFilter = () => {
     handle(true);
     setFalse();
   };
 
   useEffect(() => {
-    if (filter?.length > 0) {
+    if (filter.length > 0) {
       button.current.style.borderColor = "#498fef";
       const number = Array.from(document.getElementsByName("number"));
-      number[0].style.display = "inline";
+      // number[0].style.display = "inline";
     } else {
       button.current.style.borderColor = "#e1e1e1";
     }
@@ -162,16 +155,16 @@ function FilterItemTotal({ data, handle, scroll }: FilterItem) {
       <div className={styles.temp} onClick={handleOpen}>
         <ButtonFilterTotal ref={button} />
       </div>
-      <span className="" ref={before}></span>
+      <span className={styles.before} ref={before}></span>
       <div className={styles.item} ref={item}>
         {/* Các nút con */}
         <div className={styles.wrap}>
-          {data.map((src: any, index: number) => {
+          {data.map((src: any, index: any) => {
             return (
               <div className={styles.show} key={index}>
                 <p className={styles.text}>{src.title}</p>
                 <span className={styles.click}>
-                  {src.detail.map((btn: any, index: number) => {
+                  {src.detail.map((btn: any, index: any) => {
                     return (
                       <div className="div" onClick={handleAppear} key={index}>
                         {src.title === "Hãng" ? (
@@ -204,6 +197,6 @@ function FilterItemTotal({ data, handle, scroll }: FilterItem) {
       </div>
     </div>
   );
-}
+};
 
 export default FilterItemTotal;

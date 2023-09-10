@@ -2,7 +2,7 @@ import { useState } from "react";
 import { ChevronDown } from "react-bootstrap-icons";
 
 interface Props {
-  colors: string[];
+  colors?: string[];
   onChange: (value: string) => void;
 }
 function SelectColor({ colors = [], onChange }: Props) {

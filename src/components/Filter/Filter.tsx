@@ -1,8 +1,9 @@
 import styles from "./filter.module.scss";
 import FilterItem from "./FilterItem";
-import { useRef, useEffect, Dispatch, SetStateAction } from "react";
+import { useRef, useEffect } from "react";
 import FilterItemTotal from "./FilterItemTotal";
 import { useDispatch } from "react-redux";
+import { HandleFilter } from "src/store/product/productsApi";
 
 interface FilterItem {
   handle: (boolean: boolean) => void;
@@ -15,7 +16,7 @@ function Filter({ handle, data }: FilterItem) {
     contain.current?.scrollIntoView({ behavior: "smooth" });
   };
   useEffect(() => {
-    // HandleFilter(dispatch, []);
+    HandleFilter(dispatch, []);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
   return (
