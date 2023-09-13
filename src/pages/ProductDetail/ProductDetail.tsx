@@ -12,10 +12,11 @@ import { Article, Policy, SlickBlock } from "./LeftBlock";
 import { useDispatch, useSelector } from "react-redux";
 import ProductRating from "src/components/Rating";
 import { Helmet } from "react-helmet-async";
+import { getProductDetailApi } from "src/store/product/productsApi";
 function ProductDetail() {
   const { productSlug } = useParams();
   const dispatch = useDispatch();
-  //   getProductDetailApi(dispatch, productSlug);
+  getProductDetailApi(dispatch, productSlug);
 
   return (
     <div className={clsx("bg-white", styles.main)}>

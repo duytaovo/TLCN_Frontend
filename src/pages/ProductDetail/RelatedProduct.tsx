@@ -7,25 +7,27 @@ import NextArrow from "src/components/Slick/NextArrow";
 import PrevArrow from "src/components/Slick/PrevArrow";
 import Slider from "react-slick";
 import { useSelector } from "react-redux";
+import { useAppSelector } from "src/hooks/useRedux";
+import { productService } from "src/services";
 
 function RelatedProduct() {
-  //   const initProductDetail = useSelector(
-  //     (state) => state.products.productDetail.data
-  //   );
-  //   const { brand } = initProductDetail;
-  //   const [products, setProducts] = useState([]);
-  //   useEffect(() => {
-  //     async function getProducts() {
-  //       const res = await productService.queryProduct(
-  //         ["brand", brand],
-  //         ["category", "phukien"],
-  //         ["_start", "0"],
-  //         ["_limit", "10"]
-  //       );
-  //       setProducts(res);
-  //     }
-  //     getProducts();
-  //   }, [brand]);
+  const initProductDetail: any = useAppSelector(
+    (state) => state.products.productDetail.data
+  );
+  const { brand } = initProductDetail;
+  const [products, setProducts] = useState([]);
+  useEffect(() => {
+    async function getProducts() {
+      const res: any = await productService.queryProduct(
+        ["brand", brand]
+        // ["category", "phukien"],
+        // ["_start", "0"],
+        // ["_limit", "10"]
+      );
+      setProducts(res);
+    }
+    getProducts();
+  }, [brand]);
 
   return (
     <Section
@@ -40,13 +42,13 @@ function RelatedProduct() {
           nextArrow={<NextArrow />}
           prevArrow={<PrevArrow />}
         >
-          {/* {products.map((product) => (
+          {products?.map((product: any) => (
             <div className="w-full" key={product.title}>
               <div className="mx-4">
                 <ProductCard key={product.title} {...product} />
               </div>
             </div>
-          ))} */}
+          ))}
         </Slider>
       </div>
     </Section>

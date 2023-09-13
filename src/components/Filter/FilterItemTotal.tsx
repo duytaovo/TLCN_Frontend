@@ -140,7 +140,9 @@ const FilterItemTotal = ({ data, handle, scroll }: Props) => {
   useEffect(() => {
     if (filter.length > 0) {
       button.current.style.borderColor = "#498fef";
-      const number = Array.from(document.getElementsByName("number"));
+      const getElement: any = document.getElementById("number");
+      const number: any = Array.from(getElement);
+      console.log(number);
       // number[0].style.display = "inline";
     } else {
       button.current.style.borderColor = "#e1e1e1";

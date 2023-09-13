@@ -3,14 +3,14 @@ import { discountBoxContent } from "./DiscountContent";
 import { Link } from "react-router-dom";
 import { CounterQuantity, SelectColor } from "src/components/Selector";
 import { Modal, Button } from "flowbite-react";
-import { useSelector } from "react-redux";
 import numberWithCommas from "src/utils/numberWithCommas";
+import { useAppSelector } from "src/hooks/useRedux";
 
 function DiscountBox() {
-  //   const initProductDetail = useSelector(
-  //     (state) => state.products.productDetail.data
-  //   );
-  //   const { price, discount } = initProductDetail;
+  const initProductDetail: any = useAppSelector(
+    (state) => state.products.productDetail.data
+  );
+  const { price, discount } = initProductDetail;
   const [modalShow, setModalShow] = useState(false);
   const onClick = () => {
     setModalShow(!modalShow);
@@ -29,8 +29,8 @@ function DiscountBox() {
           <strong className="text-yellow-400">
             {/* {numberWithCommas(price * (1 - discount))}₫ */}
           </strong>
-          {/* <em className="line-through">{numberWithCommas(price)}₫</em> */}
-          {/* <i>(-{discount * 100}%)</i> */}
+          <em className="line-through">{numberWithCommas(price)}₫</em>
+          <i>(-{discount * 100}%)</i>
           <p className="text-lg">Kết thúc 31/07</p>
         </div>
       </div>
@@ -46,7 +46,7 @@ function DiscountBox() {
           className="bg-red-600  w-full mb-4 block p-6 rounded-lg text-white font-bold"
           onClick={() => setModalShow(true)}
         >
-          {/* MUA NGAY GIÁ {numberWithCommas(price * (1 - discount))}₫ */}
+          MUA NGAY GIÁ {numberWithCommas(price * (1 - discount))}₫
         </button>
         <Modal show={modalShow} onClose={() => setModalShow(false)} size="4xl">
           <Modal.Header>

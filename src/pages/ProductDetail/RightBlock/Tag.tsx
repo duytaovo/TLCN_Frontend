@@ -1,19 +1,19 @@
 import { useState } from "react";
 import clsx from "clsx";
-import { useSelector } from "react-redux";
+import { useAppSelector } from "src/hooks/useRedux";
 
 function Tag() {
-  //   const initProductDetail = useSelector(
-  //     (state) => state.products.productDetail.data
-  //   );
-  //   const { colors, RAM } = initProductDetail;
-  //   const [tagRam, setTagRam] = useState(RAM ? RAM[0] : []);
-  //   const [tagColor, setTagColor] = useState(colors ? colors[0] : []);
+  const initProductDetail: any = useAppSelector(
+    (state) => state.products.productDetail.data
+  );
+  const { colors, RAM } = initProductDetail;
+  const [tagRam, setTagRam] = useState(RAM ? RAM[0] : []);
+  const [tagColor, setTagColor] = useState(colors ? colors[0] : []);
 
   return (
     <div className="mb-4">
       <div className="flex flex-wrap gap-4 mb-4">
-        {/* {RAM?.map((tag, index) => {
+        {RAM?.map((tag: any, index: number) => {
           const active = tag === tagRam;
           const className = clsx(
             "border border-gray-400 px-10 py-4 text-xl rounded",
@@ -28,10 +28,10 @@ function Tag() {
               {tag}
             </button>
           );
-        })} */}
+        })}
       </div>
       <div className="flex flex-wrap gap-4">
-        {/* {colors?.map((tag, index) => {
+        {colors?.map((tag: any, index: number) => {
           const active = tag === tagColor;
           const className = clsx(
             "border border-gray-400 px-10 py-4 text-xl rounded",
@@ -46,7 +46,7 @@ function Tag() {
               {tag}
             </button>
           );
-        })} */}
+        })}
       </div>
     </div>
   );

@@ -1,35 +1,34 @@
 import { Link as LinkIcon } from "react-bootstrap-icons";
 import clsx from "clsx";
 import ModalBox from "../LeftBlock/ModalBox";
-import { useSelector } from "react-redux";
+import { useAppSelector } from "src/hooks/useRedux";
 function Parameter() {
-  //   const initProductDetail = useSelector(
-  //     (state) => state.products.productDetail.data
-  //   );
-  //   const { parameter, title } = initProductDetail;
+  const initProductDetail: any = useAppSelector(
+    (state) => state.products.productDetail.data
+  );
+  const { parameter, title } = initProductDetail;
   return (
     <div className="my-8">
-      {/* <p className="font-bold text-3xl text-gray-800 mb-4">Cấu hình {title}</p> */}
+      <p className="font-bold text-3xl text-gray-800 mb-4">Cấu hình {title}</p>
       <table className="w-full">
         <tbody>
-          {/* {parameter ? (
-            Object.entries(parameter).map((param, index) => {
+          {parameter ? (
+            Object.entries(parameter).map((param: any, index: number) => {
               if (index != 0) {
                 return (
                   <tr
                     className={clsx(index % 2 === 0 && "bg-gray-100")}
                     key={index}
                   >
-                    <td colSpan="4">{param[0]}</td>
-                    <td colSpan="6">{param[1]}</td>
+                    <td colSpan={4}>{param[0]}</td>
+                    <td colSpan={6}>{param[1]}</td>
                   </tr>
                 );
               }
-            }
-            )
+            })
           ) : (
             <tr></tr>
-          )} */}
+          )}
         </tbody>
       </table>
       <div className="my-4">

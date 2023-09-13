@@ -6,6 +6,8 @@ import { CounterQuantity, SelectColor } from "src/components/Selector";
 import { discountInfo, discountMore } from "./DiscountContent";
 import { useDispatch, useSelector } from "react-redux";
 import numberWithCommas from "src/utils/numberWithCommas";
+import { useAppDispatch, useAppSelector } from "src/hooks/useRedux";
+import { addItem } from "src/store/shopping-cart/cartItemsSlide";
 
 function AlertMess({ type, mess }: { type?: string; mess?: string }) {
   return (
@@ -24,11 +26,11 @@ function AlertMess({ type, mess }: { type?: string; mess?: string }) {
   );
 }
 function PayInfo() {
-  //   const initProductDetail = useSelector(
-  //     (state) => state.products.productDetail.data
-  //   );
-  //   const { price, discount, title, slug, img, colors, brand, category } =
-  //     initProductDetail;
+  const initProductDetail: any = useAppSelector(
+    (state) => state.products.productDetail.data
+  );
+  const { price, discount, title, slug, img, colors, brand, category } =
+    initProductDetail;
 
   const pays = [{ bank: "vnpay" }, { bank: "tpbank" }, { bank: "eximbank" }];
   const [modalShow, setModalShow] = useState(false);
@@ -39,42 +41,42 @@ function PayInfo() {
     setModalShow(!modalShow);
   };
 
-  const dispatch = useDispatch();
-  //   const addToCart = (data) => {
-  //     if (dispatch(addItem(data))) {
-  //       setAlertMess({ type: "success", mess: "Thêm thành công" });
-  //     } else {
-  //       setAlertMess({
-  //         type: "failure",
-  //         mess: "Change a few things up and try submitting again.",
-  //       });
-  //     }
-  //     setTimeout(() => setAlertMess({}), 1500);
-  //   };
+  const dispatch = useAppDispatch();
+  const addToCart = (data: any) => {
+    if (dispatch(addItem(data))) {
+      setAlertMess({ type: "success", mess: "Thêm thành công" });
+    } else {
+      setAlertMess({
+        type: "failure",
+        mess: "Change a few things up and try submitting again.",
+      });
+    }
+    setTimeout(() => setAlertMess({}), 1500);
+  };
 
-  //   const color = colors ? colors[0] : "";
-  //   let productForCart = {
-  //     price,
-  //     discount,
-  //     title,
-  //     slug,
-  //     img,
-  //     quantity: 1,
-  //     color,
-  //     brand,
-  //     category,
-  //   };
-  //   const handleClickPay = () => {
-  //     addToCart(productForCart);
-  //   };
+  const color = colors ? colors[0] : "";
+  let productForCart = {
+    price,
+    discount,
+    title,
+    slug,
+    img,
+    quantity: 1,
+    color,
+    brand,
+    category,
+  };
+  const handleClickPay = () => {
+    addToCart(productForCart);
+  };
   return (
     <div className="">
       <div>
         <p>Giá tại </p>
         <div>
-          {/* <strong>{numberWithCommas(price * (1 - discount))}₫ *</strong>
+          <strong>{numberWithCommas(price * (1 - discount))}₫ *</strong>
           <span className="line-through">{numberWithCommas(price)}₫</span>
-          <span>(-{discount * 100}%)</span> */}
+          <span>(-{discount * 100}%)</span>
           <span>Trả góp 0%</span>
         </div>
       </div>
@@ -143,14 +145,14 @@ function PayInfo() {
         <Modal show={modalShow} onClose={() => setModalShow(false)} size="4xl">
           <Modal.Header>
             <div className="p-4 text-2xl">
-              {/* <p className="">{title}</p>
+              <p className="">{title}</p>
               <strong className="text-red-400">
                 {numberWithCommas(price * (1 - discount))}₫
               </strong>
               <span className="line-through">{numberWithCommas(price)}₫</span>
               <div className="flex-1 w-60 mt-2">
                 <img src={img} alt="" />
-              </div> */}
+              </div>
             </div>
           </Modal.Header>
           <Modal.Body>
@@ -158,19 +160,19 @@ function PayInfo() {
             <div className="space-y-6">
               <p>Chọn màu:</p>
               <SelectColor
-                // colors={colors}
-                // onChange={(color) => {
-                //   productForCart = { ...productForCart, color: color };
-                // }}
-                onChange={() => {}}
+                colors={colors}
+                onChange={(color) => {
+                  productForCart = { ...productForCart, color: color };
+                }}
+                // onChange={() => {}}
               />
               <p>Chọn số lượng:</p>
               <CounterQuantity
                 value={1}
-                // onChange={(quantity) => {
-                //   productForCart = { ...productForCart, quantity: quantity };
-                // }}
-                onChange={() => {}}
+                onChange={(quantity) => {
+                  productForCart = { ...productForCart, quantity: quantity };
+                }}
+                // onChange={() => {}}
               />
             </div>
           </Modal.Body>
@@ -178,7 +180,7 @@ function PayInfo() {
             <div className="w-full">
               <button
                 className=" w-full mb-4 block p-6 rounded-lg text-white font-bold"
-                // onClick={handleClickPay}
+                onClick={handleClickPay}
               >
                 THÊM VÀO GIỎ HÀNG
               </button>

@@ -7,25 +7,27 @@ import NextArrow from "src/components/Slick/NextArrow";
 import PrevArrow from "src/components/Slick/PrevArrow";
 import Slider from "react-slick";
 import { useSelector } from "react-redux";
+import { useAppSelector } from "src/hooks/useRedux";
+import { productService } from "src/services";
 
 function OtherProduct() {
-  //   const initProductDetail = useSelector(
-  //     (state) => state.products.productDetail.data
-  //   );
-  //   const { brand } = initProductDetail;
+  const initProductDetail: any = useAppSelector(
+    (state) => state.products.productDetail.data
+  );
+  const { brand } = initProductDetail;
   const [products, setProducts] = useState([]);
-  //   useEffect(() => {
-  //     async function getProducts() {
-  //       const res = await productService.queryProduct(
-  //         ["brand", brand],
-  //         ["category", "dienthoai"],
-  //         ["_start", "1"],
-  //         ["_limit", "10"]
-  //       );
-  //       setProducts(res);
-  //     }
-  //     getProducts();
-  //   }, [brand]);
+  useEffect(() => {
+    async function getProducts() {
+      const res: any = await productService.queryProduct(
+        ["brand", brand]
+        // ["category", "dienthoai"]
+        // ["_start", "1"],
+        // ["_limit", "10"]
+      );
+      setProducts(res);
+    }
+    getProducts();
+  }, [brand]);
 
   const tags = [
     "iPhone",

@@ -6,43 +6,44 @@ import {
   HandThumbsUpFill,
 } from "react-bootstrap-icons";
 import { useSelector } from "react-redux";
+import { useAppSelector } from "src/hooks/useRedux";
 function Head() {
-  //   const initProductDetail = useSelector(
-  //     (state) => state.products.productDetail.data
-  //   );
-  //   const { title, slug, category, star, totalVote, rating } = initProductDetail;
+  const initProductDetail: any = useAppSelector(
+    (state) => state.products.productDetail.data
+  );
+  const { title, slug, category, star, totalVote, rating } = initProductDetail;
 
-  //   const data = {
-  //     like: "910",
-  //     breadcrumb: [
-  //       { name: category, path: `/${category}` },
-  //       { name: title, path: `/${category}/${slug}` },
-  //     ],
-  //   };
+  const data = {
+    like: "910",
+    breadcrumb: [
+      { name: category, path: `/${category}` },
+      { name: title, path: `/${category}/${slug}` },
+    ],
+  };
 
-  //   const sum = function (items = [], prop) {
-  //     return items.reduce(function (a, b) {
-  //       const star = b[prop] ? b[prop] : 0;
-  //       return a + star;
-  //     }, 0);
-  //   };
+  const sum = function (items = [], prop: any) {
+    return items.reduce(function (a, b) {
+      const star = b[prop] ? b[prop] : 0;
+      return a + star;
+    }, 0);
+  };
 
-  //   let avgStar = sum(rating, "star") / rating?.length;
-  //   avgStar = Number.isNaN(avgStar) ? 0 : avgStar;
+  let avgStar = sum(rating, "star") / rating?.length;
+  avgStar = Number.isNaN(avgStar) ? 0 : avgStar;
 
-  //   const numberStar = Math.floor(avgStar) || 0;
+  const numberStar = Math.floor(avgStar) || 0;
   const Star = () => {
-    //   return [...Array(numberStar)].map((e, i) => (
-    //     <i key={i}>
-    //       <StarFill />
-    //     </i>
-    //   ));
+    return [...Array(numberStar)].map((e, i) => (
+      <i key={i}>
+        <StarFill />
+      </i>
+    ));
     return "";
   };
   return (
     <div className="p-4">
       <ul className="breadcrumb flex text-blue-600 text-2xl list-none">
-        {/* {data.breadcrumb.map((item, index) => {
+        {data.breadcrumb.map((item, index) => {
           return (
             <li key={index}>
               <Link to={item.path || "/"}>{item.name}</Link>
@@ -51,16 +52,16 @@ function Head() {
               </i>
             </li>
           );
-        })} */}
+        })}
       </ul>
       <div className="flex items-center">
-        {/* <h1 className="text-4xl font-bold">{title}</h1> */}
+        <h1 className="text-4xl font-bold">{title}</h1>
         &emsp;
         <span className="text-yellow-300">
           <Star />
         </span>
         &nbsp;
-        {/* <span className="text-blue-400">{rating?.length} đánh giá</span>&emsp; */}
+        <span className="text-blue-400">{rating?.length} đánh giá</span>&emsp;
         <span className="text-blue-400">
           <i>
             <Plus />
@@ -72,7 +73,7 @@ function Head() {
             <i>
               <HandThumbsUpFill />
             </i>
-            {/* &nbsp; Thích&nbsp;<span>{data.like}</span> */}
+            &nbsp; Thích&nbsp;<span>{data.like}</span>
           </button>
           &emsp;
           <button className="bg-blue-500 text-white p-4 rounded">
