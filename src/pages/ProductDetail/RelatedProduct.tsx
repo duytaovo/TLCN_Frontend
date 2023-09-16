@@ -6,7 +6,6 @@ import Slick from "src/components/Slick";
 import NextArrow from "src/components/Slick/NextArrow";
 import PrevArrow from "src/components/Slick/PrevArrow";
 import Slider from "react-slick";
-import { useSelector } from "react-redux";
 import { useAppSelector } from "src/hooks/useRedux";
 import { productService } from "src/services";
 
@@ -19,23 +18,22 @@ function RelatedProduct() {
   useEffect(() => {
     async function getProducts() {
       const res: any = await productService.queryProduct(
-        ["brand", brand]
-        // ["category", "phukien"],
-        // ["_start", "0"],
-        // ["_limit", "10"]
+        ["brand", brand],
+        ["category", "phukien"],
+        ["_start", "0"],
+        ["_limit", "10"]
       );
-      setProducts(res);
+      setProducts(res.data);
     }
     getProducts();
   }, [brand]);
-
   return (
     <Section
       title="Phụ kiện thường mua cùng"
-      styles="bg-white"
+      styles="bg-white text-black/80"
       rightOption={<Link to="/accessory">Xem tất cả</Link>}
     >
-      <div className="w-full">
+      <div className="w-full text-black/80">
         <Slider
           slidesToShow={5}
           slidesToScroll={5}

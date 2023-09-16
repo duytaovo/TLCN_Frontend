@@ -7,6 +7,7 @@ import {
   getProductDetail,
   updateAllProduct,
 } from "./productsSlice";
+import { AppThunkDispatch } from "../store";
 
 // export const getProducts = async(dispatch,id)=>{
 //     let res = await commentService.getCommentByProductId(id)
@@ -35,8 +36,11 @@ export const getAllProductApi = async (dispatch: any) => {
   dispatch(getLocationProduct(res));
 };
 
-export const getProductDetailApi = async (dispatch: any, slug: any) => {
-  let res: any = await productService.getProductBySlug(slug);
-  let resRating = await ratingService.getRating(res[0].id);
+export const getProductDetailApi = async (
+  dispatch: AppThunkDispatch,
+  slug: string | undefined
+) => {
+  let res: any = await productService.getProductBySlug(slug || "");
+  let resRating = await ratingService.getRating(res[0]?.id);
   dispatch(getProductDetail({ ...res[0], rating: resRating }));
 };

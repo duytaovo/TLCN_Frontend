@@ -5,8 +5,8 @@ import {
   Plus,
   HandThumbsUpFill,
 } from "react-bootstrap-icons";
-import { useSelector } from "react-redux";
 import { useAppSelector } from "src/hooks/useRedux";
+import { Rate } from "antd";
 function Head() {
   const initProductDetail: any = useAppSelector(
     (state) => state.products.productDetail.data
@@ -20,33 +20,37 @@ function Head() {
       { name: title, path: `/${category}/${slug}` },
     ],
   };
+  console.log(data);
 
-  const sum = function (items = [], prop: any) {
-    return items.reduce(function (a, b) {
-      const star = b[prop] ? b[prop] : 0;
-      return a + star;
-    }, 0);
-  };
+  // const sum = function (items = [], prop: any) {
+  //   console.log(items);
+  //   return items?.reduce(function (a, b) {
+  //     const star = b[prop] ? b[prop] : 0;
+  //     return a + star;
+  //   }, 0);
+  // };
 
-  let avgStar = sum(rating, "star") / rating?.length;
-  avgStar = Number.isNaN(avgStar) ? 0 : avgStar;
+  // let avgStar = sum(rating, "star") / rating?.length;
+  // avgStar = Number.isNaN(avgStar) ? 0 : avgStar;
 
-  const numberStar = Math.floor(avgStar) || 0;
-  const Star = () => {
-    return [...Array(numberStar)].map((e, i) => (
-      <i key={i}>
-        <StarFill />
-      </i>
-    ));
-    return "";
-  };
+  // const numberStar = Math.floor(avgStar) || 0;
+  // const Star = () => {
+  //   return [...Array(numberStar)].map((e, i) => (
+  //     <i key={i}>
+  //       <StarFill />
+  //     </i>
+  //   ));
+  //   return "";
+  // };
   return (
     <div className="p-4">
       <ul className="breadcrumb flex text-blue-600 text-2xl list-none">
         {data.breadcrumb.map((item, index) => {
           return (
             <li key={index}>
-              <Link to={item.path || "/"}>{item.name}</Link>
+              <Link to={item.path || "/"}>
+                {item.name || "Điện thoại Iphone 15 promax"}{" "}
+              </Link>
               <i>
                 <ChevronRight />
               </i>
@@ -58,7 +62,7 @@ function Head() {
         <h1 className="text-4xl font-bold">{title}</h1>
         &emsp;
         <span className="text-yellow-300">
-          <Star />
+          <Rate allowHalf defaultValue={2.5} />
         </span>
         &nbsp;
         <span className="text-blue-400">{rating?.length} đánh giá</span>&emsp;

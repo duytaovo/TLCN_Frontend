@@ -70,7 +70,7 @@ function PayInfo() {
     addToCart(productForCart);
   };
   return (
-    <div className="">
+    <div className="text-black/80">
       <div>
         <p>Giá tại </p>
         <div>

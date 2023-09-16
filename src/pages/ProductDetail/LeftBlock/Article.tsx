@@ -2,10 +2,9 @@ import { useAppSelector } from "src/hooks/useRedux";
 import ModalBox from "./ModalBox";
 
 function Article() {
-  const initProductDetail: any = useAppSelector(
+  const { article, info } = useAppSelector(
     (state) => state.products.productDetail.data
   );
-  const { article, info } = initProductDetail;
 
   const data = article ? article : info;
   const Art = () => {

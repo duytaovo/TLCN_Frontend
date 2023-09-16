@@ -1,58 +1,63 @@
 import { useEffect, useRef, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
 import { CameraFill, PersonFill, CaretUpFill } from "react-bootstrap-icons";
 import styles from "./comment.module.scss";
-// import { getComments, postComments } from "src/redux/comment/commentsApi";
 import moment from "moment";
 import Commentmini from "./commentmini";
+import { useAppDispatch, useAppSelector } from "src/hooks/useRedux";
+import { getComments, postComments } from "src/store/comment/commentsApi";
 function Comment({ replies }: any) {
-  //   const loadProductDetail = useSelector(
-  //     (state) => state.products.productDetail.data
-  //   );
-  const [hideModal, setHideMomal] = useState(false);
-  const [showboxcomment, setShowboxcomment] = useState(false);
-  const [checksex, setChecksex] = useState(-1);
+  const loadProductDetail = useAppSelector(
+    (state) => state.products.productDetail.data
+  );
+  const [hideModal, setHideMomal] = useState<boolean>(false);
+  const [showboxcomment, setShowboxcomment] = useState<boolean>(false);
+  const [checksex, setChecksex] = useState<number>(-1);
   const [replyforuserId, setReplyforuserId] = useState(null);
-  const [text, setText] = useState("");
-  const [email, setEmail] = useState("");
-  const [sdt, setSdt] = useState("");
-  const [nameuser, setNameuser] = useState("");
-  const dispatch = useDispatch();
-  const ref = useRef();
-  //   useEffect(() => {
-  //     getComments(dispatch, loadProductDetail.id);
-  //   }, [loadProductDetail.id]);
-  //   const loadComment = useSelector((state) => state.comments.comment.data);
-  let admin2 = false;
+  const [text, setText] = useState<string>("");
+  const [email, setEmail] = useState<string>("");
+  const [sdt, setSdt] = useState<string>("");
+  const [nameuser, setNameuser] = useState<string>("");
+  const dispatch = useAppDispatch();
+  const ref: any = useRef();
 
+  useEffect(() => {
+    getComments(dispatch, loadProductDetail?.id);
+  }, [loadProductDetail?.id]);
+
+  const loadComment: any = useAppSelector(
+    (state) => state.comments.comment.data
+  );
+  let admin2 = false;
+  console.log(loadComment);
   const handleClicksend = () => {
     setHideMomal(true);
   };
   const handleClicksend2 = (e: any) => {
     e.preventDefault();
-    //   const getAdmin = loadComment.filter(
-    //     (item) => item.creator.admin === true && item.creator.id === parseInt(sdt)
-    //   );
-    //   if (getAdmin.length > 0) {
-    //     admin2 = true;
-    //   } else {
-    //     admin2 = false;
-    //   }
-    //   postComments(dispatch, {
-    //     id: loadComment[loadComment.length - 1].id + 1,
-    //     content: text,
-    //     create_date: moment().format("HH:MM MM/DD, YYYY"),
-    //     creator: {
-    //       id: parseInt(sdt),
-    //       name: nameuser,
-    //       avatar:
-    //         "https://cafedev.vn/wp-content/uploads/2019/12/cafedev_javascript.png",
-    //       username: email,
-    //       admin: admin2,
-    //       replyforId: replyforuserId,
-    //     },
-    //     productId: loadProductDetail.id,
-    //   });
+    const getAdmin = loadComment?.data.filter(
+      (item: any) =>
+        item.creator.admin === true && item.creator.id === parseInt(sdt)
+    );
+    if (getAdmin.length > 0) {
+      admin2 = true;
+    } else {
+      admin2 = false;
+    }
+    postComments(dispatch, {
+      id: loadComment[loadComment.length - 1]?.id + 1,
+      content: text,
+      create_date: moment().format("HH:MM MM/DD, YYYY"),
+      creator: {
+        id: parseInt(sdt),
+        name: nameuser,
+        avatar:
+          "https://cafedev.vn/wp-content/uploads/2019/12/cafedev_javascript.png",
+        username: email,
+        admin: admin2,
+        replyforId: replyforuserId,
+      },
+      productId: loadProductDetail.id,
+    });
     setHideMomal(false);
     setShowboxcomment(false);
     setReplyforuserId(null);
@@ -78,32 +83,32 @@ function Comment({ replies }: any) {
     setText(e.target.value);
   };
 
-  //   const handleReply = (replyId) => {
-  //     setShowboxcomment(true);
-  //     ref.current.focus();
-  //     setReplyforuserId(replyId);
-  //     setText("");
-  //     setSdt("");
-  //     setNameuser("");
-  //     setEmail("");
-  //   };
+  const handleReply = (replyId: any) => {
+    setShowboxcomment(true);
+    ref.current.focus();
+    setReplyforuserId(replyId);
+    setText("");
+    setSdt("");
+    setNameuser("");
+    setEmail("");
+  };
 
-  //   const getReplies = (id) => {
-  //     return loadComment
-  //       .filter((item) => item.creator.replyforId === parseInt(id))
-  //       .sort(
-  //         (a, b) =>
-  //           new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime()
-  //       );
-  //   };
+  const getReplies = (id: string) => {
+    return loadComment.data
+      ?.filter((item: any) => item.creator.replyforId === parseInt(id))
+      .sort(
+        (a: any, b: any) =>
+          new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime()
+      );
+  };
 
   return (
     <div className={styles.wrap}>
       {hideModal && (
-        <div>
+        <div className="text-black/80">
           <div
             id="defaultModal"
-            className=" overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 w-full md:inset-0 h-modal md:h-full justify-center items-center flex"
+            className=" overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 w-full md:inset-0 h-modal md:h-full justify-center items-center flex text-black/80"
             aria-modal="true"
             role="dialog"
           >
@@ -205,7 +210,7 @@ function Comment({ replies }: any) {
           onChange={handleChangetext}
           value={text}
         ></textarea>
-        <div className="flex justify-between border-t border-gray-200 p-2 items-center">
+        <div className="flex justify-between border-t border-gray-200 p-2 items-center text-black/80">
           <div className="text-blue-400 ">
             <span>
               <i>
@@ -226,7 +231,7 @@ function Comment({ replies }: any) {
         </div>
       </div>
       <div className={styles.filter}>
-        <div className="flex items-center mt-4 mb-4">
+        <div className="flex items-center mt-4 mb-4 text-black/80">
           <strong>10.481 Bình Luận</strong>&emsp;
           <span>
             <input type="checkbox" />
@@ -239,7 +244,7 @@ function Comment({ replies }: any) {
             className="p-4 outline-none border border-gray-200 rounded-lg ml-auto"
           />
         </div>
-        <div className="flex items-center my-8">
+        <div className="flex items-center my-8 text-black/80">
           <span>Sắp xếp theo</span>&emsp;
           <input type="radio" name="sort" />
           &nbsp;
@@ -250,7 +255,7 @@ function Comment({ replies }: any) {
         </div>
       </div>
       <div className={styles.body}>
-        {/* {loadComment.map((item, index) => {
+        {loadComment?.data?.map((item: any) => {
           if (item.creator.replyforId === null) {
             return (
               <Commentmini
@@ -261,9 +266,9 @@ function Comment({ replies }: any) {
               ></Commentmini>
             );
           }
-        })} */}
+        })}
 
-        <div>
+        <div className="text-black/80">
           <button className="bg-gray-100 px-6 py-4 rounded">1</button>
           &emsp;
           <button className="bg-gray-100 px-6 py-4 rounded">2</button>
@@ -275,7 +280,7 @@ function Comment({ replies }: any) {
         </div>
       </div>
       <textarea
-        className="w-full outline-none p-2 bg-transparent border border-gray-100 h-28 mt-4"
+        className="w-full outline-none p-2 bg-transparent border border-gray-100 h-28 mt-4 text-black/80"
         placeholder="Mời Bạn để lại bình luận..."
         rows={40}
       ></textarea>

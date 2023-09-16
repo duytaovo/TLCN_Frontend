@@ -9,8 +9,8 @@ import { Modal } from "flowbite-react";
 import clsx from "clsx";
 import moment from "moment";
 import { v4 as uuidv4 } from "uuid";
-import { useDispatch, useSelector } from "react-redux";
 import PopupInfo from "./PopupInfo";
+import { useAppDispatch, useAppSelector } from "src/hooks/useRedux";
 
 const Rating = ({ onClick }: { onClick: () => void }) => {
   const [numberStar, setNumberStar] = useState(0);
@@ -44,39 +44,44 @@ const Star = ({ star }: { star: number }) => {
 };
 
 function ProductRating() {
-  //   const initProductDetail = useSelector(
-  //     (state) => state.products.productDetail.data
-  //   );
+  const { title, img, rating, id } = useAppSelector(
+    (state) => state.products.productDetail.data
+  );
 
-  //   const { title, img, rating, id } = initProductDetail;
+  const dispatch = useAppDispatch();
+  const [productRating, setProductRating] = useState(() => {
+    return rating ? rating.slice(4) : [];
+  });
 
-  const dispatch = useDispatch();
-  //   const [productRating, setProductRating] = useState(() => {
-  //     return rating ? rating.slice(4) : [];
-  //   });
+  const [showModal, setShowModal] = useState<boolean>(false);
+  const [showPopupInfo, setShowPopupInfo] = useState<boolean>(false);
+  const [star, setStar] = useState<number>(0);
+  const [discuss, setDiscuss] = useState<{
+    id: number;
+    status: boolean;
+    data: never[];
+  }>({ id, status: false, data: [] });
+  const [ratingId, setRatingId] = useState<{ index: number; id: number }>({
+    index: -1,
+    id,
+  });
 
-  const [showModal, setShowModal] = useState(false);
-  const [showPopupInfo, setShowPopupInfo] = useState(false);
-  const [star, setStar] = useState(0);
-  //   const [discuss, setDiscuss] = useState({ id, status: false, data: [] });
-  //   const [ratingId, setRatingId] = useState({ index: -1, id });
-
-  //   let infoRating = {
-  //     id: uuidv4(),
-  //     product: id,
-  //     user: {},
-  //     content: "",
-  //     discuss: [],
-  //     star: 0,
-  //     createdAt: moment().format("HH:MM MM/DD, YYYY"),
-  //   };
-  const images = [
+  let infoRating = {
+    id: uuidv4(),
+    product: id,
+    user: {},
+    content: "",
+    discuss: [],
+    star: 0,
+    createdAt: moment().format("HH:MM MM/DD, YYYY"),
+  };
+  const images: string[] = [
     "https://cdn.tgdd.vn/comment/51982240/7230F870-6211-4567-A752-EAF2DCD900E0ITETG.jpeg",
     "https://cdn.tgdd.vn/comment/51690516/imageA70I9.jpg",
     "https://cdn.tgdd.vn/comment/51690511/imageJI9W2.jpg",
     "https://cdn.tgdd.vn/comment/51341098/IMG_UPLOAD_20220503_162905-20220503162907.jpg",
   ];
-  const vote = [
+  const vote: { star: number; percent: number }[] = [
     {
       star: 5,
       percent: 79,
@@ -170,14 +175,14 @@ function ProductRating() {
       {/* <p className="text-3xl font-bold">Đánh giá {title}</p> */}
       <div className="flex items-center border-b py-4">
         <div className="rating w-96">
-          {/* <div className="my-6">
-            <span>{Number.parseFloat(avgStar).toFixed(1)}</span>
+          <div className="my-6">
+            {/* <span>{Number.parseFloat(avgStar).toFixed(1)}</span> */}
             <span className="text-yellow-300">
-              <Star star={Math.floor(avgStar)} />
+              {/* <Star star={Math.floor(avgStar)} /> */}
             </span>
             &nbsp;
             <span>{rating?.length} đánh giá</span>
-          </div> */}
+          </div>
           {vote.map((item) => {
             const style = { width: `${item.percent}%` };
             return (
@@ -308,9 +313,9 @@ function ProductRating() {
             <div className="p-8 text-center">
               <div className="font-bold p-4 text-2xl flex items-center justify-center">
                 <div className="w-56 mt-2">
-                  {/* <img src={img} alt="" /> */}
+                  <img src={img} alt="" />
                 </div>
-                {/* <p>{title}</p> */}
+                <p>{title}</p>
               </div>
               <div className="flex justify-center my-4">
                 {/* <Rating
@@ -331,9 +336,9 @@ function ProductRating() {
                   name=""
                   cols={30}
                   rows={10}
-                  //   onChange={(e) => {
-                  //     infoRating = { ...infoRating, content: e.target.value };
-                  //   }}
+                  onChange={(e) => {
+                    infoRating = { ...infoRating, content: e.target.value };
+                  }}
                   placeholder="Mời bạn chia sẻ thêm một số cảm nhận về sản phẩm ..."
                 ></textarea>
                 <div>
@@ -342,11 +347,11 @@ function ProductRating() {
                     className="p-4 border outline-none rounded-xl mr-4"
                     placeholder="Họ và tên (bắt buộc)"
                     required
-                    // onChange={(e) => {
-                    //   let { user } = infoRating;
-                    //   user = { ...user, username: e.target.value };
-                    //   infoRating = { ...infoRating, user };
-                    // }}
+                    onChange={(e) => {
+                      let { user } = infoRating;
+                      user = { ...user, username: e.target.value };
+                      infoRating = { ...infoRating, user };
+                    }}
                   />
                   <input
                     type=""
@@ -354,11 +359,11 @@ function ProductRating() {
                     placeholder="Số điện thoại (bắt buộc)"
                     required
                     pattern="(84|0[3|5|7|8|9])+([0-9]{8})\b"
-                    // onChange={(e) => {
-                    //   let { user } = infoRating;
-                    //   user = { ...user, id: e.target.value };
-                    //   infoRating = { ...infoRating, user };
-                    // }}
+                    onChange={(e) => {
+                      let { user } = infoRating;
+                      user = { ...user, id: e.target.value };
+                      infoRating = { ...infoRating, user };
+                    }}
                   />
                 </div>
                 <button
@@ -376,10 +381,10 @@ function ProductRating() {
           </Modal.Body>
         </Modal>
         <button
-          //   onClick={() => setProductRating(rating)}
+          onClick={() => setProductRating(rating)}
           className="border border-blue-500 p-4 rounded text-blue-500 w-1/2"
         >
-          {/* Xem {rating?.length} đánh giá */}
+          Xem {rating?.length} đánh giá
         </button>
       </div>
     </div>

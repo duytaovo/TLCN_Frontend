@@ -7,7 +7,7 @@ import PrevArrow from "src/components/Slick/PrevArrow";
 import { Modal, Tabs, Button } from "flowbite-react";
 import { useAppSelector } from "src/hooks/useRedux";
 
-function ModalSelectBox(props: any) {
+const ModalSelectBox = (props: any) => {
   return (
     <div className="flex gap-4 justify-center flex-wrap w-5/6 m-auto">
       {props.data.map((item: any) => {
@@ -27,11 +27,12 @@ function ModalSelectBox(props: any) {
       })}
     </div>
   );
-}
+};
 function ModalBox(props: any) {
-  const initProductDetail = useAppSelector((state) => state.loading);
-  //   const { gallery, article, info } = initProductDetail;
-  const [showModal, setShowModal] = useState(false);
+  const { gallery, article, info } = useAppSelector(
+    (state) => state.products.productDetail.data
+  );
+  const [showModal, setShowModal] = useState<boolean>(false);
   const settings = {
     dots: true,
     infinite: true,
@@ -42,8 +43,7 @@ function ModalBox(props: any) {
     prevArrow: <PrevArrow />,
   };
   const Art = () => {
-    // return <div dangerouslySetInnerHTML={{ __html: info }} />;
-    return "";
+    return <div dangerouslySetInnerHTML={{ __html: info }} />;
   };
   const data = [
     {
@@ -51,7 +51,7 @@ function ModalBox(props: any) {
       content: (
         <div className="w-[900px]">
           <Slider {...settings}>
-            {/* {gallery?.map((src: string, index: number) => (
+            {gallery?.map((src: string, index: number) => (
               <div key={index} className="" style={{ width: 800 }}>
                 <div className="h-[400px]">
                   <a href="">
@@ -63,7 +63,7 @@ function ModalBox(props: any) {
                   </a>
                 </div>
               </div>
-            ))} */}
+            ))}
           </Slider>
         </div>
       ),

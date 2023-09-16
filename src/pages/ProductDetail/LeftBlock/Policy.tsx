@@ -5,7 +5,7 @@ function Policy() {
     "Bộ sản phẩm gồm: Hộp, Sách hướng dẫn, Cây lấy sim, Cáp Lightning - Type C Xem hình",
   ];
   return (
-    <ul className="flex flex-wrap m-4">
+    <ul className="flex flex-wrap m-4 text-black/70">
       {policy.map((item, index) => {
         return (
           <li className="w-1/2 p-2 border-b" key={index}>

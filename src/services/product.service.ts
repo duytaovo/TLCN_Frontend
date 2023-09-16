@@ -36,7 +36,7 @@ export const productService = {
   getProductByLocation(location: string) {
     return http.get(`/products/?location=${location}`);
   },
-  queryProduct(_query: string[]) {
+  queryProduct(a: string[], b: string[], c: string[], d: string[]) {
     const query = Array.from(arguments)
       .map((param) => {
         return `${param[0]}=${param[1]}`;

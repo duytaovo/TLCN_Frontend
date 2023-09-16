@@ -31,7 +31,7 @@ function ProductHistory({ styleTitle }: { styleTitle: string }) {
       }
       ref={section}
     >
-      <div className="w-full">
+      <div className="w-full text-black/80">
         <Slider
           slidesToShow={5}
           slidesToScroll={5}

@@ -1,24 +1,60 @@
 import { createSlice } from "@reduxjs/toolkit";
 
-export const products = createSlice({
-  name: "products",
-  initialState: {
-    allProducts: {
-      data: [],
-    },
-    oneProduct: {
-      data: "",
-    },
-    filter: {
-      data: [],
-    },
-    location: {
-      data: [],
-    },
-    productDetail: {
-      data: {},
+interface State {
+  allProducts: {
+    data: [];
+  };
+  oneProduct: {
+    data: string;
+  };
+  filter: {
+    data: [];
+  };
+  location: {
+    data: [];
+  };
+  productDetail: {
+    data: {
+      article: string[];
+      info: string[];
+      gallery: string[];
+      title: string[];
+      img: string;
+      rating: number[];
+      id: number;
+    };
+  };
+}
+
+const initialState: State = {
+  allProducts: {
+    data: [],
+  },
+  oneProduct: {
+    data: "",
+  },
+  filter: {
+    data: [],
+  },
+  location: {
+    data: [],
+  },
+  productDetail: {
+    data: {
+      article: [],
+      info: [],
+      gallery: [],
+      title: [],
+      img: "",
+      rating: [],
+      id: 0,
     },
   },
+};
+
+export const products = createSlice({
+  name: "products",
+  initialState: initialState,
   reducers: {
     getAllProducts: (state, action) => {
       state.allProducts.data = action.payload;

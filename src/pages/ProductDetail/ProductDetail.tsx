@@ -1,4 +1,3 @@
-import { useEffect } from "react";
 import { Link, useParams } from "react-router-dom";
 import Comment from "src/components/Comment";
 import Head from "./Head";
@@ -7,16 +6,20 @@ import RelatedProduct from "./RelatedProduct";
 import ProductHistory from "src/components/ProductHistory";
 import clsx from "clsx";
 import styles from "./productdetail.module.scss";
-import { Parameter, DiscountBox, PayInfo, Tag } from "./RightBlock";
 import { Article, Policy, SlickBlock } from "./LeftBlock";
-import { useDispatch, useSelector } from "react-redux";
-import ProductRating from "src/components/Rating";
 import { Helmet } from "react-helmet-async";
 import { getProductDetailApi } from "src/store/product/productsApi";
+import { useAppDispatch } from "src/hooks/useRedux";
+import ProductRating from "src/components/Rating";
+import { DiscountBox, Parameter, PayInfo, Tag } from "./RightBlock";
+import { useEffect } from "react";
+
 function ProductDetail() {
   const { productSlug } = useParams();
-  const dispatch = useDispatch();
-  getProductDetailApi(dispatch, productSlug);
+  const dispatch = useAppDispatch();
+  useEffect(() => {
+    getProductDetailApi(dispatch, productSlug);
+  }, []);
 
   return (
     <div className={clsx("bg-white", styles.main)}>
@@ -46,7 +49,7 @@ function ProductDetail() {
         </div>
         <OtherProduct />
         <RelatedProduct />
-        <ProductHistory styleTitle="" />
+        <ProductHistory styleTitle="text-black/80" />
         <Comment />
       </div>
     </div>

@@ -19,10 +19,10 @@ function OtherProduct() {
   useEffect(() => {
     async function getProducts() {
       const res: any = await productService.queryProduct(
-        ["brand", brand]
-        // ["category", "dienthoai"]
-        // ["_start", "1"],
-        // ["_limit", "10"]
+        ["brand", brand],
+        ["category", "dienthoai"],
+        ["_start", "1"],
+        ["_limit", "10"]
       );
       setProducts(res);
     }
@@ -38,9 +38,9 @@ function OtherProduct() {
   ];
 
   return (
-    <Section title="Xem thêm điện thoại khác" styles="bg-white">
+    <Section title="Xem thêm điện thoại khác" styles="bg-white text-black/80">
       <>
-        <div className="overflow-scroll flex gap-2 no-scrollbar">
+        <div className="overflow-scroll flex gap-2 no-scrollbar text-black/80">
           {tags.map((tag, index) => {
             return (
               <button
