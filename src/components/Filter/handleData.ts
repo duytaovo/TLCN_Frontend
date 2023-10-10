@@ -1,11 +1,12 @@
-const handleData = (data: any, filter: any) => {
+const handleData = (_data: any, filter: any) => {
+  let data = _data.data;
   let gia: any = 0;
   let price: any = 0;
   // Lọc qua từng product trong mảng
-  const dataAfter = data?.filter((e: any) => {
-    if (e.parameter) {
+  const dataAfter = data?.filter((ele: any) => {
+    if (ele.parameter) {
       // Lọc qua từng cặp key value trong parameter
-      for (const [key, value] of Object?.entries(e?.parameter)) {
+      for (const [key, value] of Object?.entries(ele?.parameter)) {
         // Lọc qua từng phần tử trong
         const checkTitle = filter.some((element: any) => {
           let keyM = Object.keys(element);
@@ -30,10 +31,10 @@ const handleData = (data: any, filter: any) => {
               temp[1] = Number(res + "000000");
             }
 
-            return e.price >= temp[0] && e.price <= temp[1];
+            return ele.price >= temp[0] && ele.price <= temp[1];
           }
           if (keyM[0] == "Hãng") {
-            return e.brand === valueM[0];
+            return ele.brand === valueM[0];
           }
           if (keyM[0] == "price") {
             price = valueM[0];
@@ -57,13 +58,13 @@ const handleData = (data: any, filter: any) => {
           const res = price.match(/\d+/g)?.[1];
           temp[1] = Number(res + "000");
 
-          return e.price >= temp[0] && e.price <= temp[1];
+          return ele.price >= temp[0] && ele.price <= temp[1];
         }
 
         if (gia != 0 && checkTitle) {
-          return e;
+          return ele;
         }
-        if (checkTitle) return e;
+        if (checkTitle) return ele;
       }
     }
   });

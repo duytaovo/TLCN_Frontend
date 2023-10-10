@@ -2,8 +2,11 @@ import "./phone.scss";
 import { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import BoxSort from "src/components/BoxSort/BoxSort";
+import handleData from "src/components/Filter/handleData";
 import ListProduct from "src/components/ListProduct/ListProduct";
-import { useAppSelector } from "src/hooks/useRedux";
+import { useAppDispatch, useAppSelector } from "src/hooks/useRedux";
+import { productService } from "src/services";
+import { getAllProductByCategory } from "src/store/product/productsApi";
 export interface DataListPhone {
   title: string;
   link: string;
@@ -55,70 +58,75 @@ interface Props {
   isOpen: boolean;
 }
 const ListPhone = ({ choose, isOpen }: Props) => {
-  const [data, setData] = useState([]);
+  const [data, setData] = useState<[]>([]);
   const [selected, setSelected] = useState<boolean>(false);
-  const [_choose, _setChoose] = useState<number>(0);
-  const [checked, setChecked] = useState([]);
+  const [_chooseBoxSort, _setChooseBoxSort] = useState<number>(0);
+  const [checked, setChecked] = useState<any[]>([]);
+  const dispatch = useAppDispatch();
+
   useEffect(() => {
-    // getAllProductByCategory(dispatch, "dienthoai");
+    getAllProductByCategory(dispatch, "dienthoai");
   }, []);
   const dataFilter = useAppSelector((state) => state.products.allProducts.data);
   const filter = useAppSelector((state) => state.products.filter.data);
 
   let dataAfter = dataFilter;
   if (filter?.length !== 0) {
-    // dataAfter = handleData(dataFilter, filter);
+    dataAfter = handleData(dataFilter, filter);
   }
-  let getDataFilter = data;
-  let typeFilter = checked.concat(choose);
+  let getDataFilter: any = data;
+  // let typeFilter = checked.concat(choose);
+
+  useEffect(() => {
+    fetch(`https://json.msang.repl.co/products?category=dienthoai`)
+      .then((res) => {
+        res.json();
+      })
+      .then((data: any) => {
+        setData(data);
+      });
+  }, []);
+
   useEffect(() => {
     const getProduct = async () => {
-      //let res = await productService.getProductByBrand('dienthoai',props.chose.toLowerCase())
       if (choose === "") {
-        // let res = await productService.getProductByPolicy(
-        //   "dienthoai",
-        //   checked.map((item) => "&" + item + "=true").join("")
-        // );
-        // setData(res);
+        let res: any = await productService.getProductByPolicy(
+          "dienthoai",
+          checked.map((item) => "&" + item + "=true").join("")
+        );
+        setData(res.data);
       } else if (choose !== "") {
-        // let res = await productService.getProductByBrand(
-        //   "dienthoai",
-        //   props.chose.toLowerCase() +
-        //     checked.map((item) => "&" + item + "=true").join("")
-        // );
-        // setData(res);
+        let res: any = await productService.getProductByBrand(
+          "dienthoai",
+          choose.toLowerCase() +
+            checked.map((item) => "&" + item + "=true").join("")
+        );
+        setData(res.data);
       }
     };
     getProduct();
   }, [choose, checked]);
 
-  useEffect(() => {
-    fetch(`https://json.msang.repl.co/products?category=dienthoai`)
-      .then((res) => res.json())
-      .then((datas) => {
-        setData(datas);
-      });
-  }, []);
   const handleClick = (index: number) => {
-    _setChoose(index);
+    _setChooseBoxSort(index);
   };
-  if (_choose === 3) {
+
+  if (_chooseBoxSort === 3) {
     getDataFilter = getDataFilter.sort((a: any, b: any) => a.price - b.price);
-  } else if (_choose === 2) {
+  } else if (_chooseBoxSort === 2) {
     getDataFilter = getDataFilter.sort((a: any, b: any) => b.price - a.price);
-  } else if (_choose === 1) {
-    getDataFilter = getDataFilter.sort(
+  } else if (_chooseBoxSort === 1) {
+    getDataFilter = getDataFilter?.sort(
       (a: any, b: any) => b.discount - a.discount
     );
   }
-  // const a: unknown = "";
-  // if (checked.includes("giamgia")) {
-  //   getDataFilter = getDataFilter.filter((item) => item.discount !== 0);
-  // } else if (checked.includes("tragop")) {
-  //   getDataFilter = getDataFilter.filter(
-  //     (item) => item.promotion === "Trả góp 0%"
-  //   );
-  // }
+  if (checked.includes("giamgia")) {
+    getDataFilter = getDataFilter.filter((item: any) => item.discount !== 0);
+  } else if (checked.includes("tragop")) {
+    getDataFilter = getDataFilter.filter(
+      (item: any) => item.promotion === "Trả góp 0%"
+    );
+  }
   return (
     <>
       <BoxSort
@@ -129,7 +137,7 @@ const ListPhone = ({ choose, isOpen }: Props) => {
         setSelected={setSelected}
         choose={choose}
         countProduct={
-          isOpen === false ? getDataFilter.length : dataAfter.length
+          isOpen === false ? getDataFilter?.length : dataAfter?.length
         }
         title={choose}
         checked={checked}

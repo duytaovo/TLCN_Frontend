@@ -3,7 +3,7 @@ import { clsx } from "clsx";
 import { useState } from "react";
 import { DataListPhone } from "src/pages/Phone/ListPhone";
 
-interface Props {
+type Props = {
   data: any;
   onclick: any;
   dataSelected: any;
@@ -15,17 +15,26 @@ interface Props {
   checked: any;
   setChecked: any;
   category: string;
-}
+};
 
-const BoxSort = (props: Props) => {
-  const data = props.data;
-  const [checked, setChecked] = useState([]);
-  const [selected, setSelected] = useState(false);
+const BoxSort = ({
+  category,
+  checked,
+  choose,
+  countProduct,
+  data,
+  dataSelected,
+  onclick,
+  selected,
+  setChecked,
+  setSelected,
+  title,
+}: Props) => {
   const handleChecked = (id: any) => {
-    props.setChecked((prev: any) => {
-      const isCheck = props.checked.includes(id);
+    setChecked((prev: any) => {
+      const isCheck = checked.includes(id);
       if (isCheck) {
-        return props.checked.filter((item: any) => item !== id);
+        return checked.filter((item: any) => item !== id);
       } else {
         return [...prev, id];
       }
@@ -35,11 +44,11 @@ const BoxSort = (props: Props) => {
     <div className={styles.boxsort}>
       <div className={styles.boxsort__body}>
         <p className={styles.boxsort__total}>
-          <b>{props.countProduct}</b>
+          <b>{countProduct}</b>
           <> </>
-          <strong>{props.category}</strong>
+          <strong>{category}</strong>
           <> </>
-          {/* <b>{props.title.toUpperCase()}</b> */}
+          {/* <b>{title.toUpperCase()}</b> */}
         </p>
         <div className={styles.checkbox}>
           {data.map((item: DataListPhone, index: number) => (
@@ -51,7 +60,7 @@ const BoxSort = (props: Props) => {
               <span
                 className={clsx(
                   styles.tickCheckbox,
-                  props.checked.includes(item.type) && styles.active
+                  checked.includes(item.type) && styles.active
                 )}
               ></span>
               <i>
@@ -62,19 +71,16 @@ const BoxSort = (props: Props) => {
           ))}
         </div>
       </div>
-      <p
-        className={styles.click}
-        onClick={() => props.setSelected(!props.selected)}
-      >
-        <span>Xếp theo: {props.dataSelected[props.choose]?.type}</span>
-        {props.selected && (
+      <p className={styles.click} onClick={() => setSelected(!selected)}>
+        <span>Xếp theo: {dataSelected[choose]?.type}</span>
+        {selected && (
           <div className={styles.select}>
-            {props.dataSelected.map((item: any, index: number) => (
+            {dataSelected.map((item: any, index: number) => (
               <p>
                 <a
-                  className={`${props.choose === index && styles.check}`}
+                  className={`${choose === index && styles.check}`}
                   onClick={() => {
-                    props.onclick(index);
+                    onclick(index);
                   }}
                 >
                   <i className="text-black text-xl">{item.type}</i>

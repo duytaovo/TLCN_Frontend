@@ -10,12 +10,9 @@ import { IPhoneDocument } from "src/types/allProductsType.interface";
 
 type Props = {
   isSlide: boolean;
-  products: any[];
+  products: any;
 };
-const ListProduct = (props: Props) => {
-  const isSlide = props.isSlide;
-  const products = props.products;
-
+const ListProduct = ({ isSlide, products }: Props) => {
   return (
     <>
       {isSlide ? (
@@ -24,7 +21,7 @@ const ListProduct = (props: Props) => {
         </div>
       ) : (
         <div className="listproduct">
-          {products.map((product: any, index: number) => (
+          {products?.map((product: any, index: number) => (
             <div key={index}>
               <ProductCard {...product} />
             </div>
