@@ -16,10 +16,12 @@ const PromoFirst = () => {
       const { firstpromo } = promo.data;
       setBanner(firstpromo.banner);
       setTheme(firstpromo.theme);
-      const res = await productService.queryProduct([
-        firstpromo.query,
-        firstpromo.value,
-      ]);
+      const res = await productService.queryProduct(
+        [firstpromo.query, firstpromo.value],
+        [],
+        [],
+        []
+      );
       setProducts(res.data);
     }
     getPromoProduct();
