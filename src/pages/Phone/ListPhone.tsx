@@ -62,10 +62,8 @@ const ListPhone = ({ choose, isOpen }: Props) => {
   useEffect(() => {
     // getAllProductByCategory(dispatch, "dienthoai");
   }, []);
-  const dataFilter = useAppSelector(
-    (state: any) => state?.products?.allProducts?.data
-  );
-  const filter = useAppSelector((state: any) => state?.products?.filter.data);
+  const dataFilter = useAppSelector((state) => state.products.allProducts.data);
+  const filter = useAppSelector((state) => state.products.filter.data);
 
   let dataAfter = dataFilter;
   if (filter?.length !== 0) {
@@ -137,7 +135,7 @@ const ListPhone = ({ choose, isOpen }: Props) => {
         checked={checked}
         setChecked={setChecked}
         category="Điện thoại"
-      ></BoxSort>
+      />
       <div className="phone__content">
         <div className="listcontent">
           {isOpen === false ? (

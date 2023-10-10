@@ -1,10 +1,17 @@
-import { CaretDownFill } from "react-bootstrap-icons";
-
 import styles from "./btnItem.module.scss";
 
-function ButtonItem(props: any) {
+type Props = {
+  title: string;
+  name: string;
+  img?: string;
+};
+function ButtonItem(props: Props) {
   return (
-    <div className={styles.wrap} id={props.title} title={props.name}>
+    <div
+      className={`${styles.wrap}  ${props.name} `}
+      id={props.title}
+      title={props.name}
+    >
       {props.img ? (
         <img src={props.img} className={styles.text}></img>
       ) : (

@@ -2,6 +2,8 @@ import BigBannerPhone from "./BigBannerPhone";
 import { useState } from "react";
 import { Helmet } from "react-helmet-async";
 import FilterPhone from "./FilterPhone";
+import QuickLinkPhone from "./QuickLinkPhone";
+import ListPhone from "./ListPhone";
 
 const Phone = () => {
   const [choose, setChoose] = useState<string>("");
@@ -20,8 +22,8 @@ const Phone = () => {
       </Helmet>
       <BigBannerPhone />
       <FilterPhone handle={handle} />
-      {/* <QuickLinkPhone handleSetChoose={handleSetChoose} />
-      <ListPhone choose={choose} isOpen={isOpen} /> */}
+      <QuickLinkPhone handleSetChoose={handleSetChoose} />
+      <ListPhone choose={choose} isOpen={isOpen} />
     </div>
   );
 };

@@ -7,10 +7,10 @@ import { HandleFilter } from "src/store/product/productsApi";
 
 function SliderPrice({ Apper }: any) {
   //css
-  const [min, setMin] = useState(0);
-  const [max, setMax] = useState(100000);
-  const [commaMin, setCommaMin] = useState("0");
-  const [commaMax, setCommaMax] = useState("100.000");
+  const [min, setMin] = useState<number>(0);
+  const [max, setMax] = useState<number>(100000);
+  const [commaMin, setCommaMin] = useState<string>("0");
+  const [commaMax, setCommaMax] = useState<string>("100.000");
 
   const progress: any = useRef();
   const minVal: any = useRef();
@@ -25,30 +25,30 @@ function SliderPrice({ Apper }: any) {
 
     if (!value.includes(".")) {
       setMin(value);
-      var commas = value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+      let commas = value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
       setCommaMin(commas);
     } else {
-      var commas = value.toString().replace(".", "");
-
+      let commas = value.toString().replace(".", "");
       setCommaMin(commas);
       setMin(commas);
     }
     if (max - min < 100) {
-      // minVal.current.value= max-100
+      minVal.current.value = max - 100;
     } else {
       const temp = (min / 100000) * 100 + "%";
       progress.current.style.left = `${temp}`;
     }
   };
+
   const handleInputMax = (e: any) => {
     const value = e.target.value;
 
     if (!value.includes(".")) {
       setMax(value);
-      var commas = value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+      let commas = value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
       setCommaMax(commas);
     } else {
-      var commas = value.toString().replace(".", "");
+      let commas = value.toString().replace(".", "");
 
       setCommaMax(commas);
       setMax(commas);

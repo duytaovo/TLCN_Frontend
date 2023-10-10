@@ -3,6 +3,7 @@ import { Funnel } from "react-bootstrap-icons";
 import styles from "./btnFilterTotal.module.scss";
 import { forwardRef, useRef } from "react";
 import { useAppSelector } from "src/hooks/useRedux";
+
 function ButtonFilterTotal({}, ref: any) {
   const filter = useAppSelector((state) => state.products.filter.data);
   const number: any = useRef();

@@ -13,7 +13,7 @@ const images: string[] = [
 const BigBanner = () => {
   return (
     <div className="container__bigbanner">
-      <div className="containner__body">
+      <div className="containner__body ">
         <div className="containner__first-item">
           <Slider
             dots={true}

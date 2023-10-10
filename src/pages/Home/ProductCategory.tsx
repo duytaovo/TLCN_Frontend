@@ -12,7 +12,7 @@ function ProductCategory() {
   }, []);
   return (
     <Section title="DANH MỤC NỔI BẬT" styles="bg-white">
-      <div className={styles.body}>
+      <div className="flex flex">
         {categories.map((item: any) => (
           <Link to={item.href} key={item.title}>
             <div className={styles.cateIcon}>

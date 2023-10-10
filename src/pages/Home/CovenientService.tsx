@@ -39,7 +39,7 @@ function CovenientService() {
       <Link to="/dichvu" className="w-fit">
         <div
           className={clsx(
-            "flex w-[285px] h-64 border rounded-3xl p-4 cursor-pointer",
+            "flex w-[285px] h-64 border rounded-3xl p-4 cursor-pointer ",
             styles
           )}
         >

@@ -14,9 +14,9 @@ const images: string[] = [
 ];
 const BigBanner = () => {
   return (
-    <div className="container__bigbanner">
-      <div className="containner__body">
-        <div className="containner__first-item">
+    <div className="w-full flex justify-center ">
+      <div className="flex max-w-[1200px] h-[200px] w-full ">
+        <div className="w-[800px]">
           <Slider
             dots={true}
             slidesToShow={1}
@@ -37,8 +37,8 @@ const BigBanner = () => {
             ))}
           </Slider>
         </div>
-        <div className="containner__second-item">
-          <div>
+        <div className="pl-[10px] flex flex-col">
+          <div className="pt-1">
             <a href="">
               <img
                 src="//cdn.tgdd.vn/2022/05/banner/sticky-intel-390-97-390x97.png"

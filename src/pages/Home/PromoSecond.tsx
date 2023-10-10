@@ -10,6 +10,7 @@ function PromoSecond() {
   const [title, setTitle] = useState<string>("");
   const [theme, setTheme] = useState<string>("");
   const [products, setProducts] = useState<[]>([]);
+
   useEffect(() => {
     async function getPromoProduct() {
       const promo = await promoService.getPromo();
@@ -17,10 +18,12 @@ function PromoSecond() {
       setImages(secondpromo.slider);
       setTitle(secondpromo.title);
       setTheme(secondpromo.theme);
-      const res = await productService.queryProduct([
-        secondpromo.query,
-        secondpromo.value,
-      ]);
+      const res = await productService.queryProduct(
+        [secondpromo.query, secondpromo.value],
+        [],
+        [],
+        []
+      );
       setProducts(res.data);
     }
     getPromoProduct();

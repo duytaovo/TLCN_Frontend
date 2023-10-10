@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import ProductCard from "src/components/ProductCard/ProductCard";
 import Section from "src/components/Section/Section";
+
 function ProductSuggest() {
   const [products, setProducts] = useState([]);
   const [limit, setLimit] = useState(10);

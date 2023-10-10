@@ -1,5 +1,4 @@
 import styles from "./filteritem.module.scss";
-
 import { useState, useRef, useEffect, useCallback } from "react";
 import ReactDOM from "react-dom";
 import SliderPrice from "./SliderPrice";
@@ -7,21 +6,25 @@ import { useAppDispatch, useAppSelector } from "src/hooks/useRedux";
 import { HandleFilter } from "src/store/product/productsApi";
 import ButtonFilter from "src/components/Button/ButtonFilter";
 import ButtonItem from "src/components/Button/ButtonItem";
+import path from "src/constants/path";
+import { Link } from "react-router-dom";
+import { DataPropsPhone } from "src/pages/Phone/FilterPhone";
 
 interface Props {
-  data: any;
+  data: DataPropsPhone;
   handle: (boolean: boolean) => void;
   scroll: () => void;
 }
 function FilterItem({ data, handle, scroll }: Props) {
   //css
-  const [isOpen, setisOpen] = useState("false");
+  const [isOpen, setIsOpen] = useState(false);
   const [isApper, setIsApper] = useState(false);
-  const item: any = useRef();
-  const bound: any = useRef();
-  const button: any = useRef();
-  const itemHiden: any = useRef();
-  const ad: any = useRef();
+  const item: any = useRef<HTMLDivElement>(null);
+  const bound: any = useRef<HTMLDivElement>(null);
+  const button: any = useRef<HTMLDivElement>(null);
+  const itemHiden: any = useRef<HTMLDivElement>(null);
+  const before: any = useRef<HTMLDivElement>(null);
+
   //redux + logic
   const filter = useAppSelector((state) => state.products.filter.data); // Lấy tất cả
   const [arrayTemp, setArrayTemp] = useState([]); // Lấy giá trị trong một khung
@@ -33,41 +36,13 @@ function FilterItem({ data, handle, scroll }: Props) {
   // Xử lý đóng mở nút
   const handleOpen = () => {
     scroll();
-    if (isOpen == "false") {
-      setisOpen("true");
-      button.current.style.borderColor = "#498fef";
-      let div: any = ReactDOM.findDOMNode(button.current.firstElementChild);
-      let span: any = div.firstElementChild;
-      //Đổi chiều mũi tên
-      span.style =
-        "border-color:  transparent transparent black  transparent;bottom: 6px;";
-
-      const position: any = document.getElementById(data.id);
-      if (position.getBoundingClientRect().right > 1000) {
-        item.current.style = "right:0 ; display :flex";
-        ad.current.style = "";
-      } else {
-        item.current.style.display = "flex";
-      }
-      ad.current.style = "display:block";
+    if (isOpen === false) {
+      item.current.style.display = "flex";
+      setIsOpen(true);
     } else {
-      setFalse();
+      item.current.style.display = "none";
+      setIsOpen(false);
     }
-  };
-
-  const setFalse = () => {
-    item.current.style.display = "none";
-    setisOpen("false");
-    if (arrayTemp.length === 0 || (filter.length > 0 && checkTurnOn())) {
-      button.current.style.borderColor = "#e1e1e1";
-    }
-
-    //Đổi chiều mũi tên
-    let div: any = ReactDOM.findDOMNode(button.current.firstElementChild);
-    let span: any = div.firstElementChild;
-    span.style =
-      "border-color:black transparent transparent   transparent;bottom: 2px;";
-    ad.current.style = "display:none";
   };
 
   // Đóng khi click ra ngoài
@@ -77,9 +52,10 @@ function FilterItem({ data, handle, scroll }: Props) {
         if (
           ref.current &&
           !ref.current.contains(event.target) &&
-          isOpen === "true"
+          isOpen === true
         ) {
-          setFalse();
+          item.current.style.display = "none";
+          setIsOpen(false);
         }
       };
       // Bind the event listener
@@ -104,11 +80,12 @@ function FilterItem({ data, handle, scroll }: Props) {
       if (value[0] === e.target.id) return true;
     });
     // Lấy element theo tên
-    const element = Array.from(document.getElementsByName(data.title));
+    // const element = Array.from(document.getElementsByName(data.title));
+    const element = Array.from(document.getElementsByClassName(data.title));
 
     // Nếu có thì tắt và bỏ ra khỏi mảng
     if (checkInArray) {
-      // e.target.style='border-color: #e1e1e1; color:#333'
+      e.target.style = "border-color: #e1e1e1; color:#333";
       // Tắt bằng id
       const temp = arrayTemp.filter((element) => {
         return Object.values(element) != e.target.id;
@@ -117,15 +94,13 @@ function FilterItem({ data, handle, scroll }: Props) {
     }
     // Nếu chưa thì bật và thêm vào mảng
     else {
-      // e.target.style='border-color: #498fef;color: #498fef;'
+      e.target.style = "border-color: #498fef;color: #498fef;";
       // Mở bằng id
-
       const temp: any = [...arrayTemp, newKeyword];
       setArrayTemp(temp);
     }
 
-    //------------------------------------
-    // kiểm tra có tồn tại chưa trong filter chưa
+    // kiểm tra có tồn tại trong filter chưa
     const checkInFilter = filter.some((element) => {
       let value = Object.values(element);
       let key = Object.keys(element);
@@ -143,6 +118,7 @@ function FilterItem({ data, handle, scroll }: Props) {
         let key = Object.keys(element);
 
         if (key[0] === data.title && value[0] === e.target.id) {
+          return;
         } else {
           return element;
         }
@@ -162,15 +138,16 @@ function FilterItem({ data, handle, scroll }: Props) {
     itemHiden.current.style.display = "block";
   };
 
-  const handleFilter = (e: any) => {
+  const handleFilter = () => {
     handle(true);
-    // item.current.style.display = 'none';
-    setFalse();
+    item.current.style.display = "none";
+    setIsOpen(false);
   };
 
   const Apper = (boolean: boolean) => {
     setIsApper(boolean);
   };
+
   if (isApper) {
     itemHiden.current.style.display = "block";
   }
@@ -183,27 +160,30 @@ function FilterItem({ data, handle, scroll }: Props) {
       }),
     []
   );
+
   const checkTurnOn1 = () =>
     filter.some((element) => {
       let key = Object.keys(element);
       if (key[0] === data.title) return true;
     });
+
   useEffect(() => {
     if (filter.length === 0) setArrayTemp([]);
     if (arrayTemp.length > 0 || (filter.length > 0 && checkTurnOn())) {
       button.current.style.borderColor = "#498fef";
-      const number = Array.from(document.getElementsByName("number"));
-      number[0].style.display = "inline";
+      // const number = Array.from(document.getElementsByClassName("number"));
+      // number[0].display = "inline";
     } else {
       button.current.style.borderColor = "#e1e1e1";
     }
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [filter.length, checkTurnOn]);
+
   useEffect(() => {
     if (checkTurnOn1()) {
       button.current.style.borderColor = "#498fef";
-      const number = Array.from(document.getElementsByName("number"));
+      // const number = Array.from(document.getElementsByClassName("number"));
       // number[0].style.display = "inline";
     }
   }, [checkTurnOn1]);
@@ -211,10 +191,10 @@ function FilterItem({ data, handle, scroll }: Props) {
   return (
     <div className={styles.bound} ref={bound}>
       {/* Nút chính */}
-      <div className={styles.temp} onClick={handleOpen} id={data.id}>
+      <div className={styles.temp} onClick={handleOpen} id={data.id.toString()}>
         <ButtonFilter title={data.title} ref={button} />
       </div>
-      <span className={styles.ad} ref={ad}></span>
+      <span className={styles.before} ref={before}></span>
       <div className={styles.item} ref={item}>
         {/* Các nút con */}
         <div className={styles.wrap}>
@@ -230,7 +210,7 @@ function FilterItem({ data, handle, scroll }: Props) {
                   <ButtonItem
                     title={src}
                     name={data.title}
-                    img={data.img[index]}
+                    // img={data.img[index] || ""}
                   />
                 ) : (
                   <ButtonItem title={src} name={data.title} />
@@ -242,9 +222,9 @@ function FilterItem({ data, handle, scroll }: Props) {
         {data.title == "Giá" ? <SliderPrice Apper={Apper} /> : ""}
 
         <div className={styles.itemHiden} ref={itemHiden}>
-          <a href="" className={styles.close}>
+          <Link to={path.phone} className={styles.close} onClick={handleFilter}>
             Bỏ chọn
-          </a>
+          </Link>
           <div className={styles.open} onClick={handleFilter}>
             Xem kết quả
           </div>

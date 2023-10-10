@@ -1,4 +1,5 @@
 import styles from "./promo.module.scss";
+
 function Promo() {
   return (
     <div className={styles.promo}>

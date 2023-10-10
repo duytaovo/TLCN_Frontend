@@ -1,7 +1,7 @@
 import QuickLink from "src/components/QuickLink/ButtonQuickLink";
 import ListPhone from "./ListPhone";
 import { Link } from "react-router-dom";
-// import "./quicklinkphone-module.scss";
+import "./quicklinkphone-module.scss";
 interface Data {
   type: string;
   link: string;
@@ -87,12 +87,12 @@ const QuickLinkPhone = ({ handleSetChoose }: Props) => {
                   link={item.link}
                   handleSetChoose={handleSetChoose}
                   isImg={true}
-                ></QuickLink>
+                />
               </div>
             ))}
           </div>
         </div>
-        <div className="container__quicklink-demand">
+        {/* <div className="container__quicklink-demand">
           <div className="">
             <div className=" space-y-4">
               <h4 className="text-[14px] ">Chọn điện thoại theo nhu cầu:</h4>
@@ -111,7 +111,7 @@ const QuickLinkPhone = ({ handleSetChoose }: Props) => {
               </div>
             </div>
           </div>
-        </div>
+        </div> */}
       </div>
     </>
   );

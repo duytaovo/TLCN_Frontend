@@ -2,8 +2,10 @@ import styles from "./filteritemtotal.module.scss";
 
 import { useState, useRef, useEffect } from "react";
 import ReactDOM from "react-dom";
+import { Link } from "react-router-dom";
 import ButtonFilterTotal from "src/components/Button/ButtonFilterTotal";
 import ButtonItem from "src/components/Button/ButtonItem";
+import path from "src/constants/path";
 import { useAppDispatch, useAppSelector } from "src/hooks/useRedux";
 import { HandleFilter } from "src/store/product/productsApi";
 
@@ -12,18 +14,17 @@ interface Props {
   handle: (boolean: boolean) => void;
   scroll: () => void;
 }
+
 const FilterItemTotal = ({ data, handle, scroll }: Props) => {
   //css
-  const [isOpen, setisOpen] = useState("false");
+  const [isOpen, setisOpen] = useState<boolean>(false);
   const item: any = useRef<HTMLDivElement>(null);
   const bound: any = useRef<HTMLDivElement>(null);
   const button: any = useRef<HTMLDivElement>(null);
   const itemHiden: any = useRef<HTMLDivElement>(null);
   const before: any = useRef<HTMLDivElement>(null);
-  //redux + logic
-  //redux + logic
-  const filter = useAppSelector((state) => state.products.filter.data); // Lấy tất cả
 
+  const filter = useAppSelector((state) => state.products.filter.data); // Lấy tất cả
   const dispatch = useAppDispatch();
   //const navigate = useNavigate();
   // Tạo thẻ để css thêm
@@ -32,35 +33,13 @@ const FilterItemTotal = ({ data, handle, scroll }: Props) => {
   // Xử lý đóng mở nút
   const handleOpen = () => {
     scroll();
-    if (isOpen == "false") {
+    if (isOpen === false) {
       item.current.style.display = "flex";
-      setisOpen("true");
-      button.current.style.borderColor = "#498fef";
-      let div: any = ReactDOM.findDOMNode(button.current.firstElementChild);
-      let span = div.firstElementChild;
-      //Đổi chiều mũi tên
-      span.style =
-        "border-color:  transparent transparent black  transparent;bottom: 6px;";
-      before.current.style = "display:block";
+      setisOpen(true);
     } else {
-      setFalse();
+      item.current.style.display = "none";
+      setisOpen(false);
     }
-  };
-
-  const setFalse = () => {
-    item.current.style.display = "none";
-    setisOpen("false");
-    if (filter.length === 0) {
-      button.current.style.borderColor = "#e1e1e1";
-    }
-
-    //Đổi chiều mũi tên
-    let div: any = ReactDOM.findDOMNode(button.current.firstElementChild);
-    let span = div.firstElementChild;
-    span.style =
-      "border-color:black transparent transparent   transparent;bottom: 2px;";
-
-    before.current.style = "display:none";
   };
 
   // Đóng khi click ra ngoài
@@ -70,9 +49,10 @@ const FilterItemTotal = ({ data, handle, scroll }: Props) => {
         if (
           ref.current &&
           !ref.current.contains(event.target) &&
-          isOpen === "true"
+          isOpen === true
         ) {
-          setFalse();
+          item.current.style.display = "none";
+          setisOpen(false);
         }
       };
       // Bind the event listener
@@ -92,27 +72,26 @@ const FilterItemTotal = ({ data, handle, scroll }: Props) => {
     let newKeyword = {
       [title]: id,
     };
-
     // // Lấy element theo tên
-    const element = Array.from(document.getElementsByName(title));
-
+    const elements = Array.from(document.getElementsByClassName(title));
     // // kiểm tra có tồn tại chưa trong filter chưa
-    const checkInFilter = filter.some((element) => {
+    const checkInFilter: boolean = filter.some((element) => {
       let value = Object.values(element);
       let key = Object.keys(element);
       if (value[0] === id && key[0] === title) return true;
     });
 
     //  // Nếu có thì bỏ ra khỏi filter
-    if (checkInFilter) {
-      element.map((curent: any) => {
-        if (curent.id === id)
-          curent.style = "border-color: #e1e1e1; color:#333";
+    if (checkInFilter === true) {
+      elements.map((current: any) => {
+        if (current.id === id)
+          current.style = "border-color: #e1e1e1; color:#333";
       });
       const temp = filter.filter((element) => {
         let value = Object.values(element);
         let key = Object.keys(element);
         if (key[0] === title && value[0] === id) {
+          return;
         } else {
           return element;
         }
@@ -121,9 +100,11 @@ const FilterItemTotal = ({ data, handle, scroll }: Props) => {
     }
     // Nếu chưa thì thêm vào filter
     else {
-      element.map((curent: any) => {
-        if (curent.id === id)
-          curent.style = "border-color: #498fef;color: #498fef;";
+      elements.map((current: any) => {
+        if (current.id === id) {
+          current.style.display = "none";
+          current.style = "border-color: #498fef;color: #498fef;";
+        }
       });
       const temp = [...filter, newKeyword];
       HandleFilter(dispatch, temp);
@@ -134,16 +115,13 @@ const FilterItemTotal = ({ data, handle, scroll }: Props) => {
 
   const handleFilter = () => {
     handle(true);
-    setFalse();
+    item.current.style.display = "none";
+    setisOpen(false);
   };
 
   useEffect(() => {
     if (filter.length > 0) {
       button.current.style.borderColor = "#498fef";
-      const getElement: any = document.getElementById("number");
-      const number: any = Array.from(getElement);
-      console.log(number);
-      // number[0].style.display = "inline";
     } else {
       button.current.style.borderColor = "#e1e1e1";
     }
@@ -157,18 +135,20 @@ const FilterItemTotal = ({ data, handle, scroll }: Props) => {
       <div className={styles.temp} onClick={handleOpen}>
         <ButtonFilterTotal ref={button} />
       </div>
+
       <span className={styles.before} ref={before}></span>
+
       <div className={styles.item} ref={item}>
         {/* Các nút con */}
         <div className={styles.wrap}>
-          {data.map((src: any, index: any) => {
+          {data.map((src: any, index: number) => {
             return (
               <div className={styles.show} key={index}>
                 <p className={styles.text}>{src.title}</p>
                 <span className={styles.click}>
-                  {src.detail.map((btn: any, index: any) => {
+                  {src.detail.map((btn: any, index: number) => {
                     return (
-                      <div className="div" onClick={handleAppear} key={index}>
+                      <div className="" onClick={handleAppear} key={index}>
                         {src.title === "Hãng" ? (
                           <ButtonItem
                             title={btn}
@@ -189,9 +169,9 @@ const FilterItemTotal = ({ data, handle, scroll }: Props) => {
 
         {/* Kết quả */}
         <div className={styles.itemHiden} ref={itemHiden}>
-          <a href="" className={styles.close}>
+          <Link to={path.phone} className={styles.close} onClick={handleFilter}>
             Bỏ chọn
-          </a>
+          </Link>
           <div className={styles.open} onClick={handleFilter}>
             Xem kết quả
           </div>

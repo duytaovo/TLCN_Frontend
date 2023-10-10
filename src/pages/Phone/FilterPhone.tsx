@@ -1,12 +1,13 @@
 import { Dispatch, SetStateAction, useState } from "react";
 import Filter from "src/components/Filter/Filter";
 
-interface Data {
+export interface DataPropsPhone {
   id: number;
   title: string;
   detail: string[];
+  img?: string[];
 }
-const data: Data[] = [
+const data: DataPropsPhone[] = [
   {
     id: 1,
     title: "Giá",
@@ -69,12 +70,10 @@ const data: Data[] = [
 interface Props {
   handle: (boolean: boolean) => void;
 }
+
 const FilterPhone = ({ handle }: Props) => {
   return (
-    <div
-      style={{ maxWidth: "1200px", margin: "auto" }}
-      className="text-textWhiteMain"
-    >
+    <div className="text-textWhiteMain max-w-[1200px] m-auto">
       <Filter handle={handle} data={data} />
     </div>
   );
