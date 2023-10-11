@@ -3,18 +3,7 @@ import ProductCard from "src/components/ProductCard";
 import ListProduct from "src/components/ListProduct/ListProduct";
 import ProductTab from "src/components/ProductTab/ProductTab";
 import { useState, useEffect } from "react";
-const products = [
-  ProductCard,
-  ProductCard,
-  ProductCard,
-  ProductCard,
-  ProductCard,
-  ProductCard,
-  ProductCard,
-  ProductCard,
-  ProductCard,
-  ProductCard,
-];
+
 const productTab = [
   "Nổi bật",
   "Khóa điện tử",

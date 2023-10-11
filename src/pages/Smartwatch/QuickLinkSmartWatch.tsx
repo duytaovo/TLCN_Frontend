@@ -2,28 +2,28 @@ import QuickLink from "src/components/QuickLink/ButtonQuickLink";
 
 const data: { link: string }[] = [
   {
-    link: "https://cdn.tgdd.vn/mwgcart/mwgcore/ContentMwg/images/smartwatch/logo01.png",
+    link: "//cdn.tgdd.vn/mwgcart/mwgcore/ContentMwg/images/smartwatch/logo01.png",
   },
   {
-    link: "https://cdn.tgdd.vn/mwgcart/mwgcore/ContentMwg/images/smartwatch/logo02b.png",
+    link: "//cdn.tgdd.vn/mwgcart/mwgcore/ContentMwg/images/smartwatch/logo02b.png",
   },
   {
-    link: "https://cdn.tgdd.vn/mwgcart/mwgcore/ContentMwg/images/smartwatch/logo03.png",
+    link: "//cdn.tgdd.vn/mwgcart/mwgcore/ContentMwg/images/smartwatch/logo03.png",
   },
   {
-    link: "https://cdn.tgdd.vn/mwgcart/mwgcore/ContentMwg/images/smartwatch/logo04-1.png",
+    link: "//cdn.tgdd.vn/mwgcart/mwgcore/ContentMwg/images/smartwatch/logo04-1.png",
   },
   {
-    link: "https://cdn.tgdd.vn/mwgcart/mwgcore/ContentMwg/images/smartwatch/logo05.png",
+    link: "//cdn.tgdd.vn/mwgcart/mwgcore/ContentMwg/images/smartwatch/logo05.png",
   },
   {
-    link: "https://cdn.tgdd.vn/mwgcart/mwgcore/ContentMwg/images/smartwatch/logo06.png",
+    link: "//cdn.tgdd.vn/mwgcart/mwgcore/ContentMwg/images/smartwatch/logo06.png",
   },
   {
-    link: "https://cdn.tgdd.vn/mwgcart/mwgcore/ContentMwg/images/smartwatch/logoAMZ.png",
+    link: "//cdn.tgdd.vn/mwgcart/mwgcore/ContentMwg/images/smartwatch/logoAMZ.png",
   },
   {
-    link: "https://cdn.tgdd.vn/mwgcart/mwgcore/ContentMwg/images/smartwatch/logo08.png",
+    link: "//cdn.tgdd.vn/mwgcart/mwgcore/ContentMwg/images/smartwatch/logo08.png",
   },
 ];
 const QuickLinkSmartWatch = () => {
@@ -37,7 +37,7 @@ const QuickLinkSmartWatch = () => {
               type=""
               handleSetChoose={() => {}}
               link={item.link}
-            ></QuickLink>
+            />
           ))}
         </div>
       </div>

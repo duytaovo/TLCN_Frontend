@@ -57,7 +57,10 @@ const dataDemand = data
     return accumulator;
   }, []);
 
-const QuickLinkTablet = (props: any) => {
+interface Props {
+  handleSetChoose: (text: string) => void;
+}
+const QuickLinkTablet = ({ handleSetChoose }: Props) => {
   return (
     <div className="container__phone">
       <div className="">
@@ -68,7 +71,7 @@ const QuickLinkTablet = (props: any) => {
                 isImg={true}
                 type={item.type}
                 link={item.link}
-                handleSetChoose={props.handleSetChoose}
+                handleSetChoose={handleSetChoose}
               ></QuickLink>
             ))}
           </div>
@@ -76,8 +79,8 @@ const QuickLinkTablet = (props: any) => {
       </div>
       <div className="container__quicklink-demand mt-4">
         <div className="">
-          <div className="quicklink text-black/75 ">
-            <h4 className="ml-6 mb-0">Chọn điện thoại theo nhu cầu:</h4>
+          {/* <div className="quicklink text-black/75 ">
+            <h4 className="ml-6 mb-0">Chọn tablet theo nhu cầu:</h4>
             <div className="text-black/75 ">
               {dataDemand.map((item: any) => (
                 <QuickLink
@@ -88,7 +91,7 @@ const QuickLinkTablet = (props: any) => {
                 ></QuickLink>
               ))}
             </div>
-          </div>
+          </div> */}
         </div>
       </div>
     </div>

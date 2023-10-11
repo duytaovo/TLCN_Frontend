@@ -4,20 +4,20 @@ import QuickLinkTablet from "./QuickLinkTablet";
 import { useState } from "react";
 import FilterTablet from "./FilterTablet";
 const Tablet = () => {
-  const [choose, setChoose] = useState("");
-  const [isOpen, setisOpen] = useState(false);
+  const [choose, setChoose] = useState<string>("");
+  const [isOpen, setisOpen] = useState<boolean>(false);
   const handle = (boolean: boolean) => {
     setisOpen(boolean);
   };
-  const handleSetChose = (text: string) => {
+  const handleSetChoose = (text: string) => {
     setChoose(text);
   };
   return (
     <div style={{ backgroundColor: "" }} className="text-white/75">
-      <BigBannerTablet></BigBannerTablet>
-      <FilterTablet handle={handle}></FilterTablet>
-      <QuickLinkTablet handleSetChose={handleSetChose}></QuickLinkTablet>
-      <ListTablet chose={choose} isOpen={isOpen}></ListTablet>
+      <BigBannerTablet />
+      <FilterTablet handle={handle} />
+      <QuickLinkTablet handleSetChoose={handleSetChoose} />
+      <ListTablet choose={choose} isOpen={isOpen} />
     </div>
   );
 };

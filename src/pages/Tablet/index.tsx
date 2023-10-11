@@ -1,1 +1,1 @@
-export { default } from './Tablet';
+export { default } from "./Tablet";

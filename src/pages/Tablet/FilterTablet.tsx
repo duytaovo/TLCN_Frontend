@@ -66,12 +66,12 @@ const data: Data[] = [
   },
 ];
 interface Props {
-  handle: any;
+  handle: (boolean: boolean) => void;
 }
-const FilterTablet = (props: Props) => {
+const FilterTablet = ({ handle }: Props) => {
   return (
     <div style={{ maxWidth: "1200px", margin: "auto" }}>
-      <Filter handle={props.handle} data={data} />
+      <Filter handle={handle} data={data} />
     </div>
   );
 };

@@ -3,22 +3,7 @@ import "./smartwatchhotdeal.scss";
 import { useState, useEffect } from "react";
 import ProductTab from "src/components/ProductTab/ProductTab";
 import ListProduct from "src/components/ListProduct/ListProduct";
-// const products = [
-//     ProductCard,
-//     ProductCard,
-//     ProductCard,
-//     ProductCard,
-//     ProductCard,
-//     ProductCard,
-//     ProductCard,
-//     ProductCard,
-//     ProductCard,
-//     ProductCard,
-//     ProductCard,
-//     ProductCard,
-//     ProductCard,
-//     ProductCard,
-// ];
+
 const productTab = ["Nổi bật", "Loa Bluetooth", "JBL", "Harman Kardon", "Sony"];
 
 const SmartWatchFashion = () => {

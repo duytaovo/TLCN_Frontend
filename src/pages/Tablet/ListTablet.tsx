@@ -3,6 +3,10 @@ import "./tablet.scss";
 import { useSelector, useDispatch } from "react-redux";
 import BoxSort from "src/components/BoxSort/BoxSort";
 import ListProduct from "src/components/ListProduct/ListProduct";
+import { getAllProductByCategory } from "src/store/product/productsApi";
+import { useAppSelector } from "src/hooks/useRedux";
+import handleData from "src/components/Filter/handleData";
+import { productService } from "src/services";
 
 interface Data {
   title: string;
@@ -44,67 +48,73 @@ const dataSelected: { type: string }[] = [
     type: "Giá thấp đến cao",
   },
 ];
-const ListTablet = (props: any) => {
+
+interface Props {
+  choose?: ConcatArray<never> | string | any;
+  isOpen?: boolean;
+}
+const ListTablet = ({ choose, isOpen }: Props) => {
   const [data, setData] = useState([]);
   const [selected, setSelected] = useState(false);
-  const [choose, setChose] = useState(0);
-  const [checked, setChecked] = useState([]);
+  const [checked, setChecked] = useState<any>([]);
+  const [_chooseBoxSort, _setChooseBoxSort] = useState<number>(0);
   //const [products, setProducts] = useState([]);
   const dispatch = useDispatch();
   useEffect(() => {
-    // getAllProductByCategory(dispatch, "tablet");
+    getAllProductByCategory(dispatch, "tablet");
   }, []);
-  //   const dataFilter = useSelector((state) => state?.products?.allProducts?.data);
-  //   const filter = useSelector((state) => state.products.filter.data);
+  const dataFilter = useAppSelector((state) => state.products.allProducts.data);
+  const filter = useAppSelector((state) => state.products.filter.data);
 
-  //   let dataAfter = dataFilter;
-  //   if (filter.length !== 0) {
-  // dataAfter = handleData(dataFilter, filter);
-  //   }
+  let dataAfter = dataFilter;
+  if (filter?.length !== 0) {
+    dataAfter = handleData(dataFilter, filter);
+  }
   let getDataFilter = data;
-  let typeFilter = checked.concat(props.chose);
   useEffect(() => {
-    // const getProduct = async () => {
-    //   //let res = await productService.getProductByBrand('dienthoai',props.chose.toLowerCase())
-    //   if (props.chose === "") {
-    //     let res = await productService.getProductByPolicy(
-    //       "tablet",
-    //       checked.map((item) => "&" + item + "=true").join("")
-    //     );
-    //     setData(res);
-    //   } else if (props.chose !== "") {
-    //     let res = await productService.getProductByBrand(
-    //       "tablet",
-    //       props.chose.toLowerCase() +
-    //         checked.map((item) => "&" + item + "=true").join("")
-    //     );
-    //     setData(res);
-    //   }
-    // };
-    // getProduct();
-  }, [props.chose, checked]);
+    const getProduct = async () => {
+      if (choose === "") {
+        let res: any = await productService.getProductByPolicy(
+          "tablet",
+          checked.map((item: any) => "&" + item + "=true").join("")
+        );
+        setData(res.data);
+      } else if (choose !== "") {
+        let res: any = await productService.getProductByBrand(
+          "tablet",
+          choose.toLowerCase() +
+            checked.map((item: any) => "&" + item + "=true").join("")
+        );
+        setData(res.data);
+      }
+    };
+    getProduct();
+  }, [choose, checked]);
+
   const handleClick = (index: number) => {
-    setChose(index);
+    _setChooseBoxSort(index);
   };
   useEffect(() => {
     fetch("https://json.msang.repl.co/products?category=tablet")
       .then((response) => response.json())
       .then((datas) => setData(datas));
   }, []);
-  //   if (chose === 3) {
-  //     getDataFilter = getDataFilter.sort((a, b) => a.price - b.price);
-  //   } else if (chose === 2) {
-  //     getDataFilter = getDataFilter.sort((a, b) => b.price - a.price);
-  //   } else if (chose === 1) {
-  //     getDataFilter = getDataFilter.sort((a, b) => b.discount - a.discount);
-  //   }
-  //   if (checked.includes("giamgia")) {
-  //     getDataFilter = getDataFilter.filter((item) => item.discount !== 0);
-  //   } else if (checked.includes("tragop")) {
-  //     getDataFilter = getDataFilter.filter(
-  //       (item) => item.promotion === "Trả góp 0%"
-  //     );
-  //   }
+  if (_chooseBoxSort === 3) {
+    getDataFilter = getDataFilter.sort((a: any, b: any) => a.price - b.price);
+  } else if (_chooseBoxSort === 2) {
+    getDataFilter = getDataFilter.sort((a: any, b: any) => b.price - a.price);
+  } else if (_chooseBoxSort === 1) {
+    getDataFilter = getDataFilter?.sort(
+      (a: any, b: any) => b.discount - a.discount
+    );
+  }
+  if (checked.includes("giamgia")) {
+    getDataFilter = getDataFilter.filter((item: any) => item.discount !== 0);
+  } else if (checked.includes("tragop")) {
+    getDataFilter = getDataFilter.filter(
+      (item: any) => item.promotion === "Trả góp 0%"
+    );
+  }
   return (
     <div className="space-y-8">
       <BoxSort
@@ -118,14 +128,14 @@ const ListTablet = (props: any) => {
           //   props.isOpen === false ? getDataFilter.length : dataAfter.length
           ""
         }
-        title={props.choose}
+        title={choose}
         checked={checked}
         setChecked={setChecked}
         category={"Máy tính bảng"}
       ></BoxSort>
       <div className="tablet__content">
         <div className="listcontent">
-          {props.isOpen === false ? (
+          {isOpen === false ? (
             <ListProduct products={getDataFilter} isSlide={false}></ListProduct>
           ) : (
             <ListProduct products={[]} isSlide={false}></ListProduct>

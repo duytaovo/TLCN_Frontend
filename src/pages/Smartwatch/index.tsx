@@ -1,1 +1,1 @@
-export { default } from './SmartWatch';
+export { default } from "./SmartWatch";
