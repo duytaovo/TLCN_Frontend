@@ -39,7 +39,13 @@ function Header() {
       <div className={styles.top}>
         <div className={styles.wrap}>
           <Link to="/">
-            <div className={styles.logo}></div>
+            <div className="translate-x-2">
+              <img
+                src="public/images/logonew.jpg"
+                alt=""
+                className="w-[130px] h-[65px] rounded-md"
+              />
+            </div>
           </Link>
           <FilterButton />
           <SearchInput />

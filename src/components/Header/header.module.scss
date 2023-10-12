@@ -10,7 +10,7 @@
     flex-wrap: wrap;
   }
   .logo {
-    background-image: url("../../assets/logo.jpg");
+    background-image: url("public/images/logonew.jpg");
     background-size: cover;
     border-radius: 3px;
     width: 160px;
@@ -18,7 +18,7 @@
     cursor: pointer;
   }
   .top {
-    height: 50px;
+    height: 55px;
     @include d-flex;
     .wrap {
       width: 1200px;
@@ -29,7 +29,7 @@
   }
   .bottom {
     display: flex;
-    height: 64px;
+    height: 72px;
     nav {
       @include d-flex;
       justify-content: space-between;

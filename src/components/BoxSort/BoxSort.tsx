@@ -1,7 +1,9 @@
 import styles from "./boxsort.module.scss";
 import { clsx } from "clsx";
 import { useState } from "react";
+import { Link } from "react-router-dom";
 import { DataListPhone } from "src/pages/Phone/ListPhone";
+import SelectCustom from "../Select";
 
 type Props = {
   data: any;
@@ -30,6 +32,7 @@ const BoxSort = ({
   setSelected,
   title,
 }: Props) => {
+  console.log(dataSelected);
   const handleChecked = (id: any) => {
     setChecked((prev: any) => {
       const isCheck = checked.includes(id);
@@ -48,7 +51,7 @@ const BoxSort = ({
           <> </>
           <strong>{category}</strong>
           <> </>
-          {/* <b>{title.toUpperCase()}</b> */}
+          <b>{title.toUpperCase()}</b>
         </p>
         <div className={styles.checkbox}>
           {data.map((item: DataListPhone, index: number) => (
@@ -77,16 +80,25 @@ const BoxSort = ({
           <div className={styles.select}>
             {dataSelected.map((item: any, index: number) => (
               <p>
-                <a
+                <Link
+                  to={""}
                   className={`${choose === index && styles.check}`}
                   onClick={() => {
                     onclick(index);
                   }}
                 >
                   <i className="text-black text-xl">{item.type}</i>
-                </a>
+                </Link>
               </p>
             ))}
+            {/* <SelectCustom
+              // className={`${choose === index && styles.check}`}
+              id="boxPhone"
+              placeholder="Vui lòng chọn"
+              defaultValue={""}
+              options={["Điện thoại", "Laptop", "Tablet", "Phụ kiện"]}
+              // onChange={handleOnChangeCarBrand}
+            ></SelectCustom> */}
           </div>
         )}
       </p>
