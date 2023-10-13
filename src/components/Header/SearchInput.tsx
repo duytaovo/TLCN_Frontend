@@ -7,8 +7,27 @@ import numberWithCommas from "../../utils/numberWithCommas";
 import useDebound from "./../../hooks/useDebound";
 import { Link, useNavigate } from "react-router-dom";
 import "./header.module.scss";
-import { useAppDispatch } from "src/hooks/useRedux";
-function SearchInput() {
+import { useAppDispatch, useAppSelector } from "src/hooks/useRedux";
+import { getResult, removeResult } from "src/store/search/searchApi";
+
+const config = {
+  dienthoai: "dienthoai",
+  điệnthoại: "dienthoai",
+  maytinhbang: "tablet",
+  máytínhbảng: "tablet",
+  tablet: "tablet",
+  phukien: "accessory",
+  phụkiện: "accessory",
+  accessory: "accessory",
+  dongho: "watch",
+  đồnghồ: "watch",
+  watch: "watch",
+  laptop: "laptop",
+  donghothongminh: "smartwatch",
+  đồnghồthôngminh: "smartwatch",
+  smartwatch: "smartwatch",
+};
+const SearchInput = () => {
   const [value, setValue] = useState<string>("");
   const [showResult, setShowResult] = useState<boolean>(false);
   const [checknull, setChecknull] = useState<boolean>(false);
@@ -16,19 +35,18 @@ function SearchInput() {
   let keySearch = useDebound(value, 500);
   const inputRef = useRef<HTMLDivElement>(null);
   const navigate = useNavigate();
+  let resultSearch = useAppSelector((state) => state.search.search.data);
+
   useEffect(() => {
     if (keySearch.length === 0) {
-      // removeResult(dispatch)
+      removeResult(dispatch);
       setShowResult(false);
       return;
     }
     setShowResult(true);
     setChecknull(false);
-    // getResult(dispatch, keySearch);
+    getResult(dispatch, keySearch);
   }, [keySearch]);
-  // let resultSearch = useSelector((state) => state.search.search.data);
-  let resultSearch: [] = [];
-
   const handleText = (e: React.ChangeEvent<HTMLInputElement>) => {
     setValue(e.target.value);
     if (value.length < 1) {
@@ -41,38 +59,20 @@ function SearchInput() {
     setValue("");
     setShowResult(false);
   };
-  const config = {
-    dienthoai: "dienthoai",
-    điệnthoại: "dienthoai",
-    maytinhbang: "tablet",
-    máytínhbảng: "tablet",
-    tablet: "tablet",
-    phukien: "accessory",
-    phụkiện: "accessory",
-    accessory: "accessory",
-    dongho: "watch",
-    đồnghồ: "watch",
-    watch: "watch",
-    laptop: "laptop",
-    donghothongminh: "smartwatch",
-    đồnghồthôngminh: "smartwatch",
-    smartwatch: "smartwatch",
-  };
 
-  function match(input: string, obj: any) {
-    var matched: any = Object.keys(obj).find(
+  const match = (input: string, obj: any): string => {
+    let matched: any = Object.keys(obj).find(
       (key) => input.toLowerCase().search(key) > -1
     );
     return obj[matched] || null;
-  }
+  };
 
-  //console.log(match('cats wea dogs', config));
   const hanleClickSearch = (e: React.SyntheticEvent) => {
     e.preventDefault();
     let getValue: string = value.replace(/\s/g, "");
     let url: string = match(getValue, config);
     if (url === null) {
-      // getResult(dispatch, value);
+      getResult(dispatch, value);
       hideResultSearch();
       navigate(`tim-kiem`);
     }
@@ -100,13 +100,14 @@ function SearchInput() {
     });
   };
 
+  useOutsideAlerter(inputRef);
   return (
-    <div className="w-[28%]">
+    <div className="w-[28%]" ref={inputRef}>
       <label
         htmlFor="default-search"
         className="mb-2 text-xl font-medium text-gray-900 sr-only "
       >
-        Search
+        Tìm kiếm
       </label>
       <form className="relative outline-none" onSubmit={hanleClickSearch}>
         <div className="flex absolute inset-y-0 left-0 items-center pl-3 pointer-events-none outline-none">
@@ -124,7 +125,7 @@ function SearchInput() {
                 <h2>Không có sản phẩm trong hệ thống chúng tôi</h2>
               )}
 
-              {resultSearch.map((item: any) => (
+              {resultSearch?.map((item: any) => (
                 <Link
                   to={`${item.category}/${item.slug}`}
                   className="flex items-center justify-between gap-5 p-3"
@@ -200,6 +201,6 @@ function SearchInput() {
     //        </div>
     //  )}
   );
-}
+};
 
 export default SearchInput;
