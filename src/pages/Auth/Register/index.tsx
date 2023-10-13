@@ -1,154 +1,142 @@
-import { yupResolver } from '@hookform/resolvers/yup'
-import { useMutation } from '@tanstack/react-query'
-import React, { Dispatch, SetStateAction, useContext, useState } from 'react'
-import { useForm } from 'react-hook-form'
-import { useSelector } from 'react-redux'
-import { Link, useNavigate } from 'react-router-dom'
-import authApi from 'src/apis/auth.api'
-import Button from 'src/components/Button'
-import Input from 'src/components/Input'
-import { useAppDispatch } from 'src/hooks/useRedux'
-import { updateStatusLogin } from 'src/store/slices/auth'
-import { RootState } from 'src/store/store'
-import { Schema, schema } from 'src/utils/rules'
+import React, { useContext, useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import { useAppDispatch } from "src/hooks/useRedux";
+import { AppContext } from "src/contexts/app.context";
+import { useForm } from "react-hook-form";
+import { ErrorResponse } from "src/types/utils.type";
+import { toast } from "react-toastify";
+import Input from "src/components/Input";
+import { Schema, schema } from "src/utils/rules";
+import { yupResolver } from "@hookform/resolvers/yup";
+import { unwrapResult } from "@reduxjs/toolkit";
+import { registerUser } from "src/store/user/userSlice";
+import { isAxiosUnprocessableEntityError } from "src/utils/utils";
+import { getAccessTokenFromLS, setAccessTokenToLS } from "src/utils/auth";
+import { Helmet } from "react-helmet-async";
+import { CircularProgress } from "@mui/material";
+import Button from "../Button";
 
-import omit from 'lodash/omit'
-import { AppContext } from 'src/contexts/app.context'
-import { isAxiosUnprocessableEntityError } from 'src/utils/utils'
-import { ErrorResponse } from 'src/types/utils.type'
-import { FcGoogle } from 'react-icons/fc'
-import { toast } from 'react-toastify'
-import { signInWithPopup } from 'firebase/auth'
-import { auth, provider } from '../LoginWithFireBase/config'
-
-type FormData = Pick<Schema, 'email' | 'password' | 'confirm_password'>
-
-const registerSchema = schema.pick(['email', 'password', 'confirm_password'])
+type FormData = Pick<Schema, "email" | "password" | "confirm_password">;
+const loginSchema = schema.pick(["email", "password", "confirm_password"]);
 
 const Register = () => {
-  const { setIsAuthenticated, setProfile, setOpenModal } = useContext(AppContext)
-  const { isLogin } = useSelector((state: RootState) => state.auth)
-  const navigate = useNavigate()
-  const [value, setValue] = useState<any>()
+  const dispatch = useAppDispatch();
+  const navigate = useNavigate();
+  const { setIsAuthenticated } = useContext(AppContext);
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   const {
-    register,
     handleSubmit,
+    formState: { errors },
     setError,
-    formState: { errors }
+    register,
   } = useForm<FormData>({
-    resolver: yupResolver(registerSchema)
-  })
-  const dispatch = useAppDispatch()
+    resolver: yupResolver(loginSchema),
+  });
 
-  const registerAccountMutation = useMutation({
-    mutationFn: (body: Omit<FormData, 'confirm_password'>) => authApi.registerAccount(body)
-  })
+  const onSubmit = handleSubmit(async (data) => {
+    const body = {
+      email: data.email,
+      password: data.password,
+      confirmPass: data.confirm_password,
+    };
+    try {
+      setIsSubmitting(true);
+      const res = await dispatch(registerUser(body));
+      unwrapResult(res);
 
-  const onSubmit = handleSubmit((data) => {
-    const body = omit(data, ['confirm_password'])
-    registerAccountMutation.mutate(body, {
-      onSuccess: (data) => {
-        setIsAuthenticated(true)
-        setProfile(data.data.data.user)
-        setOpenModal(false)
-        toast.success('Tạo tài khoản thành công 😀😊😎')
-      },
-      onError: (error) => {
-        if (isAxiosUnprocessableEntityError<ErrorResponse<Omit<FormData, 'confirm_password'>>>(error)) {
-          const formError = error.response?.data.data
-          if (formError) {
-            Object.keys(formError).forEach((key) => {
-              setError(key as keyof Omit<FormData, 'confirm_password'>, {
-                message: formError[key as keyof Omit<FormData, 'confirm_password'>],
-                type: 'Server'
-              })
-            })
-          }
+      const d = res?.payload?.data;
+      if (d?.result == 0) return toast.error(d?.message);
+      await toast.success(
+        "Đăng ký thành công vui lòng kiểm tra email để xác thực tài khoản!"
+      );
+    } catch (error: any) {
+      if (isAxiosUnprocessableEntityError<ErrorResponse<FormData>>(error)) {
+        const formError = error.response?.data.data;
+        if (formError) {
+          Object.keys(formError).forEach((key) => {
+            setError(key as keyof FormData, {
+              message: formError[key as keyof FormData],
+              type: "Server",
+            });
+          });
         }
       }
-    })
-  })
+    } finally {
+      setIsSubmitting(false);
+    }
+  });
 
-  const onChangeForm = () => {
-    dispatch(updateStatusLogin(!isLogin))
-  }
-  const handleClickLoginWithGG = () => {
-    signInWithPopup(auth, provider).then((data) => {
-      setValue(data.user.email)
-      localStorage.setItem('email', value)
-    })
-  }
   return (
-    <div>
-      <div className='lg:col-span-2 lg:col-start-4'>
-        <div className='flex items-center justify-center'>
-          <img src='https://music.youtube.com/img/on_platform_logo_dark.svg' alt=''></img>
+    <div className="w-full flex justify-center">
+      <Helmet>
+        <title>Register</title>
+        <meta name="description" content="Trang đăng nhập" />
+      </Helmet>
+      <div className="lg:col-span-2 lg:col-start-4 bg-white w-1/2 md:w-full justify-center m-10 rounded-2xl">
+        <div className="flex items-center justify-center rounded-2xl mt-3">
+          <img src="/logo.jpg" alt="logo" className="w-30 h-20"></img>
         </div>
-        <form className='rounded p-10 shadow-sm' onSubmit={onSubmit} noValidate>
-          <div className='flex items-center justify-center text-[25px] text-[#ffffff]'>Đăng ký</div>
+        <form className="rounded p-10 shadow-sm" onSubmit={onSubmit} noValidate>
+          <div className=" flex items-center justify-center text-[25px] text-black">
+            Đăng ký
+          </div>
 
           <Input
-            name='email'
+            name="email"
             register={register}
-            type='email'
-            className='mt-8'
+            type="text"
+            className="mt-8"
             errorMessage={errors.email?.message}
-            placeholder='Email'
+            placeholder="Email"
           />
           <Input
-            name='password'
+            name="password"
             register={register}
-            type='password'
-            className='mt-2'
-            classNameEye='absolute right-[5px] h-5 w-5 cursor-pointer top-[12px]'
+            type="password"
+            className="mt-2"
+            classNameEye="absolute right-[5px] h-5 w-5 cursor-pointer top-[12px]"
             errorMessage={errors.password?.message}
-            placeholder='Password'
-            autoComplete='on'
+            placeholder="Password"
+            autoComplete="on"
           />
-
           <Input
-            name='confirm_password'
+            name="confirm_password"
             register={register}
-            type='password'
-            className='mt-2'
-            classNameEye='absolute right-[5px] h-5 w-5 cursor-pointer top-[12px]'
+            type="password"
+            className="mt-2"
+            classNameEye="absolute right-[5px] h-5 w-5 cursor-pointer top-[12px]"
             errorMessage={errors.confirm_password?.message}
-            placeholder='Confirm Password'
-            autoComplete='on'
+            placeholder="Confirm Password"
+            autoComplete="on"
           />
-
-          <div className='mt-2'>
+          <div className="mt-3">
             <Button
-              className='flex w-full items-center justify-center rounded-[30px] bg-[#75C2F6]  py-4 px-2 text-sm uppercase text-white hover:opacity-80'
-              isLoading={registerAccountMutation.isLoading}
-              disabled={registerAccountMutation.isLoading}
+              type="submit"
+              className="flex w-full items-center justify-center rounded-[30px] bg-mainColor py-4 px-2 text-sm uppercase text-white hover:opacity-80"
             >
-              Đăng ký
+              {isSubmitting ? (
+                <CircularProgress
+                  sx={{ width: "25px", height: "25px" }}
+                  disableShrink
+                />
+              ) : (
+                "Đăng ký"
+              )}
             </Button>
-          </div>
-          <div className='mt-8 flex items-center justify-center'>
-            <span className='text-[#000]'>Bạn đã có tài khoản?</span>
-            <Link className='ml-1 text-[#fff]' to='' onClick={onChangeForm}>
-              Đăng nhập
-            </Link>
-          </div>
-          <span className='mt-3 flex items-center justify-center text-[#000]'>Hoặc</span>
-          <div className='mt-3 flex items-center justify-center'>
-            <Button
-              className=' w-[50%] items-center justify-center rounded-[30px] bg-[#75C2F6]  py-4 px-2 text-sm uppercase text-white hover:opacity-80'
-              onClick={handleClickLoginWithGG}
-            >
-              <div className='flex  items-center justify-center gap-3 hover:opacity-80'>
-                <FcGoogle size={18} />
+            <span className="text-base text-center flex w-full items-center justify-center mt-2 ">
+              Hoặc
+            </span>
+            <div onClick={() => navigate("/login")} className="mt-3">
+              <Button className="flex w-full items-center justify-center rounded-[30px] bg-mainL1 py-4 px-2 text-sm uppercase text-white hover:opacity-80">
                 Đăng nhập
-              </div>
-            </Button>
+              </Button>
+            </div>
           </div>
         </form>
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default Register
+export default Register;

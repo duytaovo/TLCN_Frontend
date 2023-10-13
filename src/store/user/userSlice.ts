@@ -1,21 +1,97 @@
-import { createSlice } from "@reduxjs/toolkit";
-
-export const userSlice = createSlice({
-  name: "user",
-  initialState: {
-    user: null,
+import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+import { payloadCreator } from "src/utils/utils";
+import jwtDecode from "jwt-decode";
+import { getAccessTokenFromLS } from "src/utils/auth";
+import { toast } from "react-toastify";
+import http from "src/utils/http";
+const authApi = {
+  login(data: any) {
+    return http.post("/auth/login", data);
   },
+  register(data: any) {
+    return http.post("/auth/register", data);
+  },
+  logout() {
+    return http.post("/auth/logout-user", {});
+  },
+};
+export const login = createAsyncThunk(
+  "auth/login",
+  payloadCreator(authApi.login)
+);
+export const registerUser = createAsyncThunk(
+  "auth/registerUser",
+  payloadCreator(authApi.register)
+);
+export const logoutUser = createAsyncThunk(
+  "auth/logoutUser",
+  payloadCreator(authApi.logout)
+);
+
+interface DecodedToken {
+  userId: number;
+  permissions: number;
+  username: string;
+  userUuid: string;
+}
+
+interface IUser {
+  name: string;
+  accessToken: string;
+  permission: number;
+  isActiveEdit?: boolean;
+  userUuid: any;
+  userId: number;
+}
+
+let decodeToken: DecodedToken;
+export const isAccessTokenExpired = (): any => {
+  if (!getAccessTokenFromLS() || getAccessTokenFromLS() == "") {
+    return "0";
+  }
+  try {
+    decodeToken = jwtDecode(getAccessTokenFromLS() || "") as DecodedToken;
+    const decoded = {
+      permission: decodeToken.permissions,
+      userId: decodeToken.userId,
+      userUuid: decodeToken.userUuid,
+    };
+    return decoded;
+  } catch (error) {
+    toast.error("Token không đúng định dạng");
+    return "";
+  }
+};
+
+const initialState: IUser = {
+  name: "admin",
+  accessToken: "123",
+  permission: isAccessTokenExpired().permission || 0,
+  isActiveEdit: false,
+  userId: isAccessTokenExpired().userId | 0,
+  userUuid: isAccessTokenExpired().userUuid,
+};
+const userSlice = createSlice({
+  name: "user",
+  initialState,
   reducers: {
-    login: (state, action) => {
-      state.user = action.payload;
+    updateUser: (state, action: { payload: any }) => {
+      state.permission = action?.payload?.permission;
+      state.userId = action?.payload?.userId;
+      state.userUuid = action?.payload?.userUuid;
     },
-    logout: (state) => {
-      state.user = null;
+
+    toggleActiveEdit: (state) => {
+      state.isActiveEdit = !state.isActiveEdit;
     },
+  },
+  extraReducers: (builder) => {
+    builder.addCase(login.fulfilled, (state, { payload }) => {
+      state.accessToken = payload.data.accessToken;
+    });
   },
 });
-export const { login, logout } = userSlice.actions;
 
-export const selectUser = (state: any) => state.user.user;
-
-export default userSlice.reducer;
+export const { updateUser, toggleActiveEdit } = userSlice.actions;
+const userReducer = userSlice.reducer;
+export default userReducer;
