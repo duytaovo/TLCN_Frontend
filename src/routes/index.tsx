@@ -18,6 +18,9 @@ const Tablet = lazy(() => import("src/pages/Tablet/Tablet"));
 const Lenovo = lazy(() => import("src/pages/Lenovo/Lenovo"));
 const Pc = lazy(() => import("src/pages/Pc/Pc"));
 
+const Login = lazy(() => import("src/pages/Auth/Login"));
+const Register = lazy(() => import("src/pages/Auth/Register"));
+
 export const routeMain = [
   {
     path: path.home,
@@ -89,3 +92,13 @@ export const productDetailRoutes = urls.map((url) => ({
   path: url,
   Component: ProductDetail,
 }));
+export const routeAuth = [
+  {
+    path: path.login,
+    Component: Login,
+  },
+  {
+    path: path.register,
+    Component: Register,
+  },
+];

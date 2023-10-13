@@ -5,9 +5,29 @@ import CartButton from "./CartButton";
 import FilterButton from "./FilterButton";
 import styles from "./header.module.scss";
 import "./header.module.scss";
-import { useEffect, useState } from "react";
+import { Dropdown, MenuProps } from "antd";
+import { useContext, useEffect, useState } from "react";
+import path from "src/constants/path";
+import { useTranslation } from "react-i18next";
+import CustomDropDown from "../Dropdown/Dropdown";
+import { AppContext } from "src/contexts/app.context";
+import SentimentSatisfiedAltRoundedIcon from "@mui/icons-material/SentimentSatisfiedAltRounded";
+import AccountCircleIcon from "@mui/icons-material/AccountCircle";
+import logo from "src/assets/images/logonew.jpg";
+const customDropdownStyle = {
+  arrow: false,
+  isOnClick: false,
+  className: "px-1 mx-3 xl:p-0 xl:mr-0 hover:text-mainColor",
+};
 
+const menuStyle = {
+  padding: "20px 20px",
+  borderRadius: "16px",
+};
 function Header() {
+  const { t } = useTranslation("home");
+  const { setOpenModal, isAuthenticated } = useContext(AppContext);
+
   const [isScrolled, setIsScrolled] = useState(false);
 
   const handleOrderClick = () => {};
@@ -28,6 +48,31 @@ function Header() {
       window.removeEventListener("scroll", handleScroll);
     };
   }, []);
+  const handleOpenModal = () => {
+    setOpenModal(true);
+  };
+  const itemAcount: MenuProps["items"] = [
+    {
+      key: "0",
+      label: (
+        <Link to={path.register}>
+          <div className={""}>
+            <span className={""}>{t("header.register")}</span>
+          </div>
+        </Link>
+      ),
+    },
+    {
+      key: "1",
+      label: (
+        <Link to={path.login}>
+          <div className={""}>
+            <span className={""}>{t("header.login")}</span>
+          </div>
+        </Link>
+      ),
+    },
+  ];
   return (
     <header
       className={`${
@@ -41,8 +86,8 @@ function Header() {
           <Link to="/">
             <div className="translate-x-2">
               <img
-                src="public/images/logonew.jpg"
-                alt=""
+                src={logo}
+                alt="logo"
                 className="w-[130px] h-[65px] rounded-md"
               />
             </div>
@@ -59,9 +104,22 @@ function Header() {
           <Link to="/cart">
             <CartButton />
           </Link>
-          <Link to="/news">24h Công nghệ</Link>
-          <Link to="/about">Hỏi đáp</Link>
-          {/* <Link to="/gameapp">Game app</Link> */}
+          <CustomDropDown
+            {...customDropdownStyle}
+            menuStyle={menuStyle}
+            items={itemAcount}
+            children={
+              <div className="flex items-center justify-around cursor-pointer ">
+                {isAuthenticated ? (
+                  <SentimentSatisfiedAltRoundedIcon />
+                ) : (
+                  <AccountCircleIcon onClick={handleOpenModal} />
+                )}
+
+                {/* <ArrowDropDownIcon className='group-hover:text-mainColor'/> */}
+              </div>
+            }
+          />
         </div>
       </div>
       <div className={styles.bottom}>

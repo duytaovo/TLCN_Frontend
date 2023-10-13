@@ -15,6 +15,7 @@ import { getAccessTokenFromLS, setAccessTokenToLS } from "src/utils/auth";
 import { Helmet } from "react-helmet-async";
 import { CircularProgress } from "@mui/material";
 import Button from "../Button";
+import logo from "src/assets/images/logonew.jpg";
 
 type FormData = Pick<Schema, "email" | "password" | "confirm_password">;
 const loginSchema = schema.pick(["email", "password", "confirm_password"]);
@@ -73,9 +74,9 @@ const Register = () => {
         <title>Register</title>
         <meta name="description" content="Trang đăng nhập" />
       </Helmet>
-      <div className="lg:col-span-2 lg:col-start-4 bg-white w-1/2 md:w-full justify-center m-10 rounded-2xl">
+      <div className="lg:col-span-2 lg:col-start-4 bg-white w-1/3 md:w-full justify-center m-10 rounded-2xl">
         <div className="flex items-center justify-center rounded-2xl mt-3">
-          <img src="/logo.jpg" alt="logo" className="w-30 h-20"></img>
+          <img src={logo} alt="logo" className="w-40 h-30"></img>
         </div>
         <form className="rounded p-10 shadow-sm" onSubmit={onSubmit} noValidate>
           <div className=" flex items-center justify-center text-[25px] text-black">
@@ -113,22 +114,15 @@ const Register = () => {
           <div className="mt-3">
             <Button
               type="submit"
-              className="flex w-full items-center justify-center rounded-[30px] bg-mainColor py-4 px-2 text-sm uppercase text-white hover:opacity-80"
+              className="flex w-full items-center justify-center rounded-[30px] bg-mainColor py-4 px-2 text-base uppercase text-white hover:opacity-80"
             >
-              {isSubmitting ? (
-                <CircularProgress
-                  sx={{ width: "25px", height: "25px" }}
-                  disableShrink
-                />
-              ) : (
-                "Đăng ký"
-              )}
+              {isSubmitting ? "Loading..." : "Đăng ký"}
             </Button>
-            <span className="text-base text-center flex w-full items-center justify-center mt-2 ">
+            <span className="text-base text-black text-center flex w-full items-center justify-center mt-2 ">
               Hoặc
             </span>
             <div onClick={() => navigate("/login")} className="mt-3">
-              <Button className="flex w-full items-center justify-center rounded-[30px] bg-mainL1 py-4 px-2 text-sm uppercase text-white hover:opacity-80">
+              <Button className="flex w-full items-center justify-center rounded-[30px] bg-mainL1 py-4 px-2 text-base uppercase text-white hover:opacity-80">
                 Đăng nhập
               </Button>
             </div>
