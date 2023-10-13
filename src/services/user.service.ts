@@ -6,6 +6,6 @@ export const userService = {
   },
 
   editUser(phone: string, data: string) {
-    return http.patch(`/users/${phone}`, data);
+    return http.put(`/users/${phone}`, data);
   },
 };
