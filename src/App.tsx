@@ -7,6 +7,8 @@ import "normalize.css";
 import "src/assets/styles/global.scss";
 import { ThemeProvider, createTheme } from "@mui/material/styles";
 import ErrorBoundary from "./components/ErrorBoundary";
+import { useContext } from "react";
+import { AppContext } from "./contexts/app.context";
 
 const theme = createTheme({
   direction: "rtl",
@@ -15,7 +17,14 @@ const theme = createTheme({
 
 function App() {
   const routeElements = useRouteElements();
+  // const { reset } = useContext(AppContext);
 
+  // useEffect(() => {
+  //   LocalStorageEventTarget.addEventListener("clearLS", reset);
+  //   return () => {
+  //     LocalStorageEventTarget.removeEventListener("clearLS", reset);
+  //   };
+  // }, [reset]);
   return (
     <ThemeProvider theme={theme}>
       <HelmetProvider>

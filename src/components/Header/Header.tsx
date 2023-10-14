@@ -17,7 +17,7 @@ import logo from "src/assets/images/logonew.jpg";
 const customDropdownStyle = {
   arrow: false,
   isOnClick: false,
-  className: "px-1 mx-3 xl:p-0 xl:mr-0 hover:text-mainColor",
+  className: "px-1 mx-3 xl:p-0 xl:mr-0 hover:",
 };
 
 const menuStyle = {
@@ -113,7 +113,11 @@ function Header() {
                 {isAuthenticated ? (
                   <SentimentSatisfiedAltRoundedIcon />
                 ) : (
-                  <AccountCircleIcon onClick={handleOpenModal} />
+                  <div onClick={handleOpenModal}>Tài khoản</div>
+                  // <AccountCircleIcon
+                  //   className="text-lg"
+                  //   onClick={handleOpenModal}
+                  // />
                 )}
 
                 {/* <ArrowDropDownIcon className='group-hover:text-mainColor'/> */}

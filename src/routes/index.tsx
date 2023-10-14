@@ -76,13 +76,11 @@ export const routeMain = [
   },
 ];
 
-const urls = [
+const urls: string[] = [
   "phone/:productSlug",
   "laptop/:productSlug",
   "tablet/:productSlug",
   "watch/:productSlug",
-  "may-in/:productSlug",
-  "muc-in/:productSlug",
   "man-hinh-may-tinh/:productSlug",
   "may-tinh-de-ban/:productSlug",
   "accessory/:productSlug",
@@ -92,6 +90,7 @@ export const productDetailRoutes = urls.map((url) => ({
   path: url,
   Component: ProductDetail,
 }));
+
 export const routeAuth = [
   {
     path: path.login,
