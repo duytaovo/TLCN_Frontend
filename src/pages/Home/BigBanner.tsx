@@ -5,13 +5,14 @@ import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import { Link } from "react-router-dom";
 import axios from "axios";
+import { promoService } from "src/services";
 
 const BigBanner = () => {
   const [images, setImages] = useState<string[]>([]);
   const [bannerImage, setBannerImage] = useState<string>("");
   useEffect(() => {
     async function getPromo() {
-      const promo = await axios.get(`https://jsonserv.glitch.me/promo`);
+      const promo = await promoService.getPromo();
       const bigbanner = promo.data.bigbanner;
       setBannerImage(bigbanner.bigImage);
       setImages(bigbanner.slider);

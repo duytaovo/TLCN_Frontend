@@ -17,7 +17,7 @@ const Loading = () => {
             left: 0,
             zIndex: 1000,
           }}
-          color="success"
+          color="error"
         />
       </div>
     );

@@ -74,7 +74,7 @@ export const products = createSlice({
     getProductDetail: (state, action) => {
       state.productDetail.data = action.payload;
     },
-    updateDiscussRating: (state: any, action) => {
+    updateDiscussRating: (state, action) => {
       const rating: any = state.productDetail.data.rating.find(
         (rating: any) => rating.id === action.payload.idRating
       );

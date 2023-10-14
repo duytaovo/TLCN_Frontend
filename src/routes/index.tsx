@@ -86,6 +86,7 @@ const urls: string[] = [
   "accessory/:productSlug",
   "smartwatch/:productSlug",
 ];
+
 export const productDetailRoutes = urls.map((url) => ({
   path: url,
   Component: ProductDetail,

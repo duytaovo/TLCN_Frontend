@@ -1,10 +1,11 @@
 import path from "src/constants/path";
-import { lazy, Suspense, useEffect, useMemo, useState } from "react";
+import { Suspense, useMemo } from "react";
 import { Route, Routes, useLocation } from "react-router-dom";
 import { productDetailRoutes, routeAuth, routeMain } from "./routes";
 import CommonLayout from "./layouts/CommonLayout";
 import AuthenticatedGuard from "./guards/AuthenticatedGuard";
 import AuthLayout from "./layouts/AuthLayout";
+import Loading from "./components/Loading";
 
 export default function useRouteElements() {
   const renderRouter = useMemo(() => {
@@ -30,7 +31,7 @@ export default function useRouteElements() {
           key={index}
           path={path}
           element={
-            <Suspense>
+            <Suspense fallback={<Loading />}>
               <Component />
             </Suspense>
           }
@@ -45,7 +46,7 @@ export default function useRouteElements() {
           key={index}
           path={path}
           element={
-            <Suspense>
+            <Suspense fallback={<Loading />}>
               <Component />
             </Suspense>
           }
