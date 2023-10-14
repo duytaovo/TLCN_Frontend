@@ -2,11 +2,14 @@ import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import clsx from "clsx";
 import { data } from "jquery";
+import axios from "axios";
+
 function PcContent() {
   const [items, setItems] = useState([]);
   useEffect(() => {
-    fetch("https://json.msang.repl.co/pc")
-      .then((response) => response.json())
+    axios
+      .get("https://json.msang.repl.co/pc")
+      .then((response) => response.data)
       .then((data) => setItems(data));
   }, []);
   return (

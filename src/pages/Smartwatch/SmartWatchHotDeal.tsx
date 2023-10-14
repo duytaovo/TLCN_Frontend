@@ -1,3 +1,4 @@
+import axios from "axios";
 import { useState, useEffect } from "react";
 import DealMain from "src/components/DealMain/DealMain";
 import ListProduct from "src/components/ListProduct/ListProduct";
@@ -6,8 +7,9 @@ import ListProduct from "src/components/ListProduct/ListProduct";
 const SmartWatchHotDeal = () => {
   const [products, setProducts] = useState([]);
   useEffect(() => {
-    fetch("https://json.msang.repl.co/products")
-      .then((response) => response.json())
+    axios
+      .get("https://json.msang.repl.co/products")
+      .then((response) => response.data)
       .then((data) => setProducts(data));
   }, []);
   return (

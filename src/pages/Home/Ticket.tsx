@@ -1,7 +1,8 @@
 import { useEffect } from "react";
 import css from "./home.module.scss";
 import { ArrowUp } from "react-bootstrap-icons";
-function Ticket({ show }: { show: boolean }) {
+
+const Ticket = ({ show }: { show: boolean }) => {
   const scrollToTop = () => {
     window.scrollTo({
       top: 0,
@@ -31,6 +32,6 @@ function Ticket({ show }: { show: boolean }) {
       )}
     </div>
   );
-}
+};
 
 export default Ticket;

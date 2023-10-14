@@ -10,14 +10,16 @@ import Dienthoai from "./Dienthoai";
 import Maytinhbang from "./Maytinhbang";
 import SmartWatch from "./SmartWatch";
 import Phukien from "./Phukien";
+import axios from "axios";
 
 const Content2 = () => {
   const [products, setProducts] = useState([]);
   const [limit, setLimit] = useState(10);
   const number = 25;
   useEffect(() => {
-    fetch(`https://json.msang.repl.co/products?brand=samsung`)
-      .then((response) => response.json())
+    axios
+      .get(`https://json.msang.repl.co/products?brand=samsung`)
+      .then((response) => response.data)
       .then((data) => setProducts(data));
   }, [limit]);
   const handleClick = () => {

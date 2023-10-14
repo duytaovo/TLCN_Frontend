@@ -3,6 +3,7 @@ import ProductCard from "src/components/ProductCard";
 import ListProduct from "src/components/ListProduct/ListProduct";
 import ProductTab from "src/components/ProductTab/ProductTab";
 import { useState, useEffect } from "react";
+import axios from "axios";
 
 const productTab = [
   "Nổi bật",
@@ -14,8 +15,9 @@ const productTab = [
 const Pin = () => {
   const [products, setProducts] = useState([]);
   useEffect(() => {
-    fetch("https://json.msang.repl.co/products?category=phukien&nameType=pin")
-      .then((response) => response.json())
+    axios
+      .get("https://json.msang.repl.co/products?category=phukien&nameType=pin")
+      .then((response) => response.data)
       .then((data) => setProducts(data));
   }, []);
   return (

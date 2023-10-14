@@ -7,6 +7,7 @@ import { getAllProductByCategory } from "src/store/product/productsApi";
 import { useAppSelector } from "src/hooks/useRedux";
 import handleData from "src/components/Filter/handleData";
 import { productService } from "src/services";
+import axios from "axios";
 
 interface Data {
   title: string;
@@ -95,8 +96,9 @@ const ListTablet = ({ choose, isOpen }: Props) => {
     _setChooseBoxSort(index);
   };
   useEffect(() => {
-    fetch("https://json.msang.repl.co/products?category=tablet")
-      .then((response) => response.json())
+    axios
+      .get("https://json.msang.repl.co/products?category=tablet")
+      .then((response) => response.data)
       .then((datas) => setData(datas));
   }, []);
   if (_chooseBoxSort === 3) {

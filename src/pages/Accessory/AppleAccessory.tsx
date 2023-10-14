@@ -2,12 +2,14 @@ import DealMain from "src/components/DealMain/DealMain";
 import ListProduct from "src/components/ListProduct/ListProduct";
 import ProductTab from "src/components/ProductTab/ProductTab";
 import { useState, useEffect } from "react";
+import axios from "axios";
 const productTab = ["Nổi bật", "Tai nghe", "Adapter sạc", "Cáp sạc", "Ốp lưng"];
 const AppleAccessory = () => {
   const [products, setProducts] = useState([]);
   useEffect(() => {
-    fetch("https://json.msang.repl.co/products?category=phukien&brand=apple")
-      .then((response) => response.json())
+    axios
+      .get("https://json.msang.repl.co/products?category=phukien&brand=apple")
+      .then((response) => response.data)
       .then((data) => setProducts(data));
   }, []);
   return (

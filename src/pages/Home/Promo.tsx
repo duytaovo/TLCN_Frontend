@@ -1,6 +1,6 @@
 import styles from "./promo.module.scss";
 
-function Promo() {
+const Promo = () => {
   return (
     <div className={styles.promo}>
       <div className={styles.tag}>
@@ -32,6 +32,6 @@ function Promo() {
       </div>
     </div>
   );
-}
+};
 
 export default Promo;

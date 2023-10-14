@@ -2,12 +2,14 @@ import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import styles from "./productcategory.module.scss";
 import Section from "src/components/Section/Section";
+import axios from "axios";
 
 function ProductCategory() {
   const [categories, setCategories] = useState([]);
   useEffect(() => {
-    fetch("https://json.msang.repl.co/categories")
-      .then((response) => response.json())
+    axios
+      .get("https://json.msang.repl.co/categories")
+      .then((response) => response.data)
       .then((data) => setCategories(data));
   }, []);
   return (

@@ -1,11 +1,13 @@
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import clsx from "clsx";
+import axios from "axios";
 function AccesContent() {
   const [items, setItems] = useState([]);
   useEffect(() => {
-    fetch("https://json.msang.repl.co/accessories")
-      .then((response) => response.json())
+    axios
+      .get("https://json.msang.repl.co/accessories")
+      .then((response) => response.data)
       .then((data) => setItems(data));
   }, []);
   return (

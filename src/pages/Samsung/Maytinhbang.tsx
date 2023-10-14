@@ -4,14 +4,16 @@ import Section from "src/components/Section";
 import Slider from "react-slick";
 import NextArrow from "src/components/Slick/NextArrow";
 import PrevArrow from "src/components/Slick/PrevArrow";
+import axios from "axios";
 
 const Maytinhbang = () => {
   const [products, setProducts] = useState([]);
   const [limit, setLimit] = useState(10);
   const number = 25;
   useEffect(() => {
-    fetch(`https://json.msang.repl.co/products?brand=samsung&category=tablet`)
-      .then((response) => response.json())
+    axios
+      .get(`https://json.msang.repl.co/products?brand=samsung&category=tablet`)
+      .then((response) => response.data)
       .then((data) => setProducts(data));
   }, [limit]);
   const handleClick = () => {

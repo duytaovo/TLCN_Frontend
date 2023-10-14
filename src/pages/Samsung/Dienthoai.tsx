@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import ProductCard from "src/components/ProductCard";
 import Section from "src/components/Section";
 import Slider from "react-slick";
+import axios from "axios";
 // import NextArrow from "src/components/Slick/NextArrow";
 // import PrevArrow from "src/components/Slick/PrevArrow";
 
@@ -10,10 +11,11 @@ const Dienthoai = () => {
   const [limit, setLimit] = useState(10);
   const number = 25;
   useEffect(() => {
-    fetch(
-      `https://json.msang.repl.co/products?brand=samsung&category=dienthoai`
-    )
-      .then((response) => response.json())
+    axios
+      .get(
+        `https://json.msang.repl.co/products?brand=samsung&category=dienthoai`
+      )
+      .then((response) => response.data)
       .then((data) => setProducts(data));
   }, [limit]);
   const handleClick = () => {

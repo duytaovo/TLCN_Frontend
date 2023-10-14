@@ -22,7 +22,8 @@ const news: News[] = [
       "Đừng bỏ qua loạt iPhone giảm giá mạnh đáng sắm nhất chương trình sale tại TGDĐ, bây giờ không mua thì khi nào mới mua?",
   },
 ];
-function News() {
+
+const News = () => {
   return (
     <div className="flex gap-4 h-[350px] items-center">
       <Section
@@ -63,6 +64,6 @@ function News() {
       />
     </div>
   );
-}
+};
 
 export default News;

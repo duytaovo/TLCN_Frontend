@@ -3,12 +3,14 @@ import "./laptop.scss";
 import { useEffect, useState } from "react";
 import DealMain from "src/components/DealMain";
 import ListProduct from "src/components/ListProduct/ListProduct";
+import axios from "axios";
 
 const Gaming = () => {
   const [data, setData] = useState([]);
   useEffect(() => {
-    fetch("https://json.msang.repl.co/products?category=laptop")
-      .then((res) => res.json())
+    axios
+      .get("https://json.msang.repl.co/products?category=laptop")
+      .then((res) => res.data)
       .then((datas) => {
         setData(datas);
       });

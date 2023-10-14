@@ -3,6 +3,7 @@ import { ChevronRight } from "react-bootstrap-icons";
 import clsx from "clsx";
 import { ReactNode } from "react";
 import Section from "src/components/Section/Section";
+
 interface Props {
   styles?: string;
   icon?: ReactNode;
@@ -33,7 +34,7 @@ const services: Props[] = [
     styles: "bg-green-100",
   },
 ];
-function CovenientService() {
+const CovenientService = () => {
   const Card = ({ styles, icon, title, content }: Props) => {
     return (
       <Link to="/dichvu" className="w-fit">
@@ -82,6 +83,6 @@ function CovenientService() {
       </>
     </Section>
   );
-}
+};
 
 export default CovenientService;

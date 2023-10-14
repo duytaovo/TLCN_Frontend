@@ -1,11 +1,13 @@
 import { useEffect, useState } from "react";
 import "./ListProductPc.scss";
 import ListProduct from "src/components/ListProduct/ListProduct";
+import axios from "axios";
 function ListProductPc({}) {
   const [data, setData] = useState([]);
   useEffect(() => {
-    fetch("https://json.msang.repl.co/products?category=dienthoai")
-      .then((res) => res.json())
+    axios
+      .get("https://json.msang.repl.co/products?category=dienthoai")
+      .then((res) => res.data)
       .then((datas) => {
         setData(datas);
       });

@@ -3,29 +3,16 @@ import "./smartwatchhotdeal.scss";
 import { useState, useEffect } from "react";
 import ListProduct from "src/components/ListProduct/ListProduct";
 import ProductTab from "src/components/ProductTab/ProductTab";
-// const products = [
-//   ProductCard,
-//   ProductCard,
-//   ProductCard,
-//   ProductCard,
-//   ProductCard,
-//   ProductCard,
-//   ProductCard,
-//   ProductCard,
-//   ProductCard,
-//   ProductCard,
-//   ProductCard,
-//   ProductCard,
-//   ProductCard,
-//   ProductCard,
-// ];
+import axios from "axios";
+
 const productTab = ["Nổi bật", "Loa Bluetooth", "JBL", "Harman Kardon", "Sony"];
 
 const SmartWatchAccessory = () => {
   const [products, setProducts] = useState([]);
   useEffect(() => {
-    fetch("https://json.msang.repl.co/products?category=watch")
-      .then((response) => response.json())
+    axios
+      .get("https://json.msang.repl.co/products?category=watch")
+      .then((response) => response.data)
       .then((data) => setProducts(data));
   }, []);
   return (

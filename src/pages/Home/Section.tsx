@@ -7,10 +7,11 @@ interface Props {
   children?: ReactNode;
   rightOption?: any;
 }
-function Section(
+
+const Section = (
   { title, styles = "bg-transparent", children, rightOption }: Props,
   ref: any
-) {
+) => {
   return (
     <section className={clsx(styles)} ref={ref}>
       <div className={clsx(title && css.head)}>
@@ -20,6 +21,6 @@ function Section(
       <div className="flex gap-6 flex-wrap justify-center">{children}</div>
     </section>
   );
-}
+};
 
 export default forwardRef(Section);

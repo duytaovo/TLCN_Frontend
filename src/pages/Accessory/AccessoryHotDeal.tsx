@@ -1,12 +1,14 @@
 import ListProduct from "src/components/ListProduct/ListProduct";
 import DealMain from "src/components/DealMain/DealMain";
 import { useState, useEffect } from "react";
+import axios from "axios";
 
 const AccessoryHotDeal = () => {
   const [products, setProducts] = useState([]);
   useEffect(() => {
-    fetch("https://json.msang.repl.co/products")
-      .then((response) => response.json())
+    axios
+      .get("https://json.msang.repl.co/products")
+      .then((response) => response.data)
       .then((data) => setProducts(data));
   }, []);
   return (

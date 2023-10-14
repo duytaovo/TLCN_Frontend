@@ -5,7 +5,7 @@ const images: string[] = [
   "https://cdn.tgdd.vn/2022/07/banner/Kids-380x2002x-(1)-(1)-(1)-(1)-760x400-1.jpg",
   "https://cdn.tgdd.vn/2022/07/banner/Sport-380x2002x-760x400-2.jpg",
 ];
-function ProductDeal() {
+const ProductDeal = () => {
   return (
     <Section title="CHUỖI MỚI DEAL KHỦNG" styleTitle="text-textWhiteMain">
       <>
@@ -19,6 +19,6 @@ function ProductDeal() {
       </>
     </Section>
   );
-}
+};
 
 export default ProductDeal;

@@ -1,3 +1,4 @@
+import axios from "axios";
 import "./phone.scss";
 import { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
@@ -78,9 +79,10 @@ const ListPhone = ({ choose, isOpen }: Props) => {
   // let typeFilter = checked.concat(choose);
 
   useEffect(() => {
-    fetch(`https://json.msang.repl.co/products?category=dienthoai`)
+    axios
+      .get(`https://json.msang.repl.co/products?category=dienthoai`)
       .then((res) => {
-        res.json();
+        res.data;
       })
       .then((data: any) => {
         setData(data);
