@@ -7,12 +7,12 @@ import SelectCustom from "../Select";
 
 type Props = {
   data: any;
-  onclick: any;
-  dataSelected: any;
-  selected: any;
-  setSelected: any;
-  choose: any;
-  countProduct: any;
+  onclick: (value: number) => void;
+  dataSelected: { type: string }[];
+  selected: boolean;
+  setSelected: (value: boolean) => void;
+  choose: number;
+  countProduct?: number;
   title: string;
   checked: any;
   setChecked: any;
@@ -32,7 +32,6 @@ const BoxSort = ({
   setSelected,
   title,
 }: Props) => {
-  console.log(dataSelected);
   const handleChecked = (id: any) => {
     setChecked((prev: any) => {
       const isCheck = checked.includes(id);

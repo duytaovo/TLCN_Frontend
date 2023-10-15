@@ -14,7 +14,7 @@ interface Props {
   handle: (boolean: boolean) => void;
   scroll: () => void;
 }
-function FilterItem({ data, handle, scroll }: Props) {
+const FilterItem = ({ data, handle, scroll }: Props) => {
   //css
   const [isOpen, setIsOpen] = useState(false);
   const [isApper, setIsApper] = useState(false);
@@ -231,5 +231,5 @@ function FilterItem({ data, handle, scroll }: Props) {
       </div>
     </div>
   );
-}
+};
 export default FilterItem;

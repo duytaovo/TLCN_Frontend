@@ -56,14 +56,14 @@ interface Props {
   choose?: ConcatArray<never> | string | any;
   isOpen: boolean;
 }
+
 const ListPhone = ({ choose, isOpen }: Props) => {
   const [dataLocal, setDataLocal] = useState<[]>([]);
   const [selected, setSelected] = useState<boolean>(false);
-  const [_chooseBoxSort, _setChooseBoxSort] = useState<number>(0);
+  const [chooseBoxSort, setChooseBoxSort] = useState<number>(0);
   const [checked, setChecked] = useState<any[]>([]);
-  const dispatch = useAppDispatch();
   const { data } = useAppSelector((state) => state.products.allProducts);
-
+  console.log(data);
   const dataFilter = useAppSelector((state) => state.products.allProducts.data);
   const filter = useAppSelector((state) => state.products.filter.data);
   let dataAfter = dataFilter;
@@ -98,18 +98,19 @@ const ListPhone = ({ choose, isOpen }: Props) => {
   }, [choose, checked]);
 
   const handleClick = (index: number) => {
-    _setChooseBoxSort(index);
+    setChooseBoxSort(index);
   };
 
-  if (_chooseBoxSort === 3) {
+  if (chooseBoxSort === 3) {
     getDataFilter = getDataFilter.sort((a: any, b: any) => a.price - b.price);
-  } else if (_chooseBoxSort === 2) {
+  } else if (chooseBoxSort === 2) {
     getDataFilter = getDataFilter.sort((a: any, b: any) => b.price - a.price);
-  } else if (_chooseBoxSort === 1) {
+  } else if (chooseBoxSort === 1) {
     getDataFilter = getDataFilter?.sort(
       (a: any, b: any) => b.discount - a.discount
     );
   }
+
   if (checked.includes("giamgia")) {
     getDataFilter = getDataFilter.filter((item: any) => item.discount !== 0);
   } else if (checked.includes("tragop")) {
@@ -117,6 +118,7 @@ const ListPhone = ({ choose, isOpen }: Props) => {
       (item: any) => item.promotion === "Trả góp 0%"
     );
   }
+
   return (
     <>
       <BoxSort

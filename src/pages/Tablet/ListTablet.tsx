@@ -1,13 +1,10 @@
 import { useState, useEffect } from "react";
 import "./tablet.scss";
-import { useSelector, useDispatch } from "react-redux";
 import BoxSort from "src/components/BoxSort/BoxSort";
 import ListProduct from "src/components/ListProduct/ListProduct";
-import { getAllProductByCategory } from "src/store/product/productsApi";
 import { useAppSelector } from "src/hooks/useRedux";
 import handleData from "src/components/Filter/handleData";
 import { productService } from "src/services";
-import axios from "axios";
 
 interface Data {
   title: string;
@@ -58,20 +55,17 @@ const ListTablet = ({ choose, isOpen }: Props) => {
   const [data, setData] = useState([]);
   const [selected, setSelected] = useState(false);
   const [checked, setChecked] = useState<any>([]);
-  const [_chooseBoxSort, _setChooseBoxSort] = useState<number>(0);
-  //const [products, setProducts] = useState([]);
-  const dispatch = useDispatch();
-  useEffect(() => {
-    getAllProductByCategory(dispatch, "tablet");
-  }, []);
+  const [chooseBoxSort, setChooseBoxSort] = useState<number>(0);
   const dataFilter = useAppSelector((state) => state.products.allProducts.data);
   const filter = useAppSelector((state) => state.products.filter.data);
 
   let dataAfter = dataFilter;
+
   if (filter?.length !== 0) {
     dataAfter = handleData(dataFilter, filter);
   }
   let getDataFilter = data;
+
   useEffect(() => {
     const getProduct = async () => {
       if (choose === "") {
@@ -93,23 +87,19 @@ const ListTablet = ({ choose, isOpen }: Props) => {
   }, [choose, checked]);
 
   const handleClick = (index: number) => {
-    _setChooseBoxSort(index);
+    setChooseBoxSort(index);
   };
-  useEffect(() => {
-    axios
-      .get("https://json.msang.repl.co/products?category=tablet")
-      .then((response) => response.data)
-      .then((datas) => setData(datas));
-  }, []);
-  if (_chooseBoxSort === 3) {
+
+  if (chooseBoxSort === 3) {
     getDataFilter = getDataFilter.sort((a: any, b: any) => a.price - b.price);
-  } else if (_chooseBoxSort === 2) {
+  } else if (chooseBoxSort === 2) {
     getDataFilter = getDataFilter.sort((a: any, b: any) => b.price - a.price);
-  } else if (_chooseBoxSort === 1) {
+  } else if (chooseBoxSort === 1) {
     getDataFilter = getDataFilter?.sort(
       (a: any, b: any) => b.discount - a.discount
     );
   }
+
   if (checked.includes("giamgia")) {
     getDataFilter = getDataFilter.filter((item: any) => item.discount !== 0);
   } else if (checked.includes("tragop")) {
@@ -117,6 +107,7 @@ const ListTablet = ({ choose, isOpen }: Props) => {
       (item: any) => item.promotion === "Trả góp 0%"
     );
   }
+
   return (
     <div className="space-y-8">
       <BoxSort
@@ -127,20 +118,19 @@ const ListTablet = ({ choose, isOpen }: Props) => {
         setSelected={setSelected}
         choose={choose}
         countProduct={
-          //   props.isOpen === false ? getDataFilter.length : dataAfter.length
-          ""
+          isOpen === false ? getDataFilter.length : dataAfter.length
         }
         title={choose}
         checked={checked}
         setChecked={setChecked}
         category={"Máy tính bảng"}
-      ></BoxSort>
-      <div className="tablet__content">
+      />
+      <div className="tablet__content container__phone">
         <div className="listcontent">
           {isOpen === false ? (
-            <ListProduct products={getDataFilter} isSlide={false}></ListProduct>
+            <ListProduct products={getDataFilter} isSlide={false} />
           ) : (
-            <ListProduct products={[]} isSlide={false}></ListProduct>
+            <ListProduct products={dataAfter} isSlide={false} />
           )}
         </div>
       </div>

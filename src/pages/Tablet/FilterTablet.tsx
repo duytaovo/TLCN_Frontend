@@ -1,4 +1,3 @@
-import { useState } from "react";
 import Filter from "src/components/Filter/Filter";
 
 interface Data {
