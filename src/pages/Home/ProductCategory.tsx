@@ -4,7 +4,7 @@ import styles from "./productcategory.module.scss";
 import Section from "src/components/Section/Section";
 import axios from "axios";
 
-function ProductCategory() {
+const ProductCategory = () => {
   const [categories, setCategories] = useState([]);
   useEffect(() => {
     axios
@@ -14,7 +14,7 @@ function ProductCategory() {
   }, []);
   return (
     <Section title="DANH MỤC NỔI BẬT" styles="bg-white">
-      <div className="flex flex">
+      <div className="flex ">
         {categories.map((item: any) => (
           <Link to={item.href} key={item.title}>
             <div className={styles.cateIcon}>
@@ -26,6 +26,6 @@ function ProductCategory() {
       </div>
     </Section>
   );
-}
+};
 
 export default ProductCategory;

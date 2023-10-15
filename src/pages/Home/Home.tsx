@@ -14,9 +14,13 @@ import ProductSuggest from "./ProductSuggest";
 import ProductCategory from "./ProductCategory";
 import ProductHistory from "src/components/ProductHistory";
 import { Helmet } from "react-helmet-async";
+import { useAppDispatch } from "src/hooks/useRedux";
+import { getPromo } from "src/store/banner/bannerSlice";
 
 const Home = ({ title }: { title: string }) => {
   const [displayTicket, setDisplayTicket] = useState<boolean>(false);
+  const dispatch = useAppDispatch();
+
   useEffect(() => {
     const handleScroll = (event: Event) => {
       setDisplayTicket(window.scrollY > 500);
@@ -29,6 +33,11 @@ const Home = ({ title }: { title: string }) => {
   useEffect(() => {
     document.title = title;
   }, []);
+
+  useEffect(() => {
+    dispatch(getPromo(""));
+  }, []);
+
   return (
     <div>
       <Helmet>

@@ -7,7 +7,7 @@ const ProductSuggest = () => {
   const [products, setProducts] = useState([]);
   const [limit, setLimit] = useState<number>(10);
   const [province, setProvince] = useState();
-  const dispatch = useDispatch();
+
   const number = 25;
   const handleClick = () => {
     setLimit(number);

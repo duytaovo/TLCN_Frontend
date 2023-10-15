@@ -5,23 +5,17 @@ import PrevArrow from "src/components/Slick/PrevArrow";
 import ProductCard from "src/components/ProductCard/ProductCard";
 import { productService, promoService } from "src/services";
 import Section from "src/components/Section/Section";
+import { useAppSelector } from "src/hooks/useRedux";
 
 const PromoFirst = () => {
   const [products, setProducts] = useState([]);
-  const [banner, setBanner] = useState<string>("");
-  const [theme, setTheme] = useState<string>("");
+  const { banner, theme, query, value } = useAppSelector(
+    (state) => state.banner.promo.firstpromo
+  );
+
   useEffect(() => {
     async function getPromoProduct() {
-      const promo = await promoService.getPromo();
-      const { firstpromo } = promo.data;
-      setBanner(firstpromo.banner);
-      setTheme(firstpromo.theme);
-      const res = await productService.queryProduct(
-        [firstpromo.query, firstpromo.value],
-        [],
-        [],
-        []
-      );
+      const res = await productService.queryProduct([query, value], [], [], []);
       setProducts(res.data);
     }
     getPromoProduct();

@@ -29,7 +29,7 @@ const products: Product[] = [
     image: "https://cdn.tgdd.vn/2022/06/banner/Deskx1-280x235.png",
   },
 ];
-function ProductTrend() {
+const ProductTrend = () => {
   return (
     <Section title="XU HƯỚNG MUA SẮM" styles="bg-red-300">
       <>
@@ -47,6 +47,6 @@ function ProductTrend() {
       </>
     </Section>
   );
-}
+};
 
 export default ProductTrend;

@@ -1,13 +1,12 @@
 import styles from "./filteritemtotal.module.scss";
 
 import { useState, useRef, useEffect } from "react";
-import ReactDOM from "react-dom";
 import { Link } from "react-router-dom";
 import ButtonFilterTotal from "src/components/Button/ButtonFilterTotal";
 import ButtonItem from "src/components/Button/ButtonItem";
 import path from "src/constants/path";
 import { useAppDispatch, useAppSelector } from "src/hooks/useRedux";
-import { HandleFilter } from "src/store/product/productsApi";
+import { handleFilterStore } from "src/store/product/productsSlice";
 
 interface Props {
   data: any;
@@ -96,7 +95,7 @@ const FilterItemTotal = ({ data, handle, scroll }: Props) => {
           return element;
         }
       });
-      HandleFilter(dispatch, temp);
+      dispatch(handleFilterStore(temp));
     }
     // Nếu chưa thì thêm vào filter
     else {
@@ -107,13 +106,13 @@ const FilterItemTotal = ({ data, handle, scroll }: Props) => {
         }
       });
       const temp = [...filter, newKeyword];
-      HandleFilter(dispatch, temp);
+      dispatch(handleFilterStore(temp));
     }
     // Hiện nút filter
     itemHiden.current.style.display = "block";
   };
 
-  const handleFilter = () => {
+  const handleFilterLocal = () => {
     handle(true);
     item.current.style.display = "none";
     setisOpen(false);
@@ -169,10 +168,14 @@ const FilterItemTotal = ({ data, handle, scroll }: Props) => {
 
         {/* Kết quả */}
         <div className={styles.itemHiden} ref={itemHiden}>
-          <Link to={path.phone} className={styles.close} onClick={handleFilter}>
+          <Link
+            to={path.phone}
+            className={styles.close}
+            onClick={handleFilterLocal}
+          >
             Bỏ chọn
           </Link>
-          <div className={styles.open} onClick={handleFilter}>
+          <div className={styles.open} onClick={handleFilterLocal}>
             Xem kết quả
           </div>
         </div>

@@ -17,12 +17,12 @@ export class Http {
   private accessToken: string;
   private refreshToken: string;
   private refreshTokenRequest: Promise<string> | null;
-  constructor() {
+  constructor(url: string) {
     this.accessToken = getAccessTokenFromLS();
     this.refreshToken = getRefreshTokenFromLS();
     this.refreshTokenRequest = null;
     this.instance = axios.create({
-      baseURL: config.baseUrl,
+      baseURL: url,
       timeout: 10000,
       headers: {
         "Content-Type": "application/json",
@@ -127,6 +127,6 @@ export class Http {
   //     })
   // }
 }
-const http = new Http().instance;
-// export const http_auth = new Http(config.baseUrl).instance
+const http = new Http(config.baseUrl).instance;
+export const httpCategory = new Http("https://json.msang.repl.co").instance;
 export default http;

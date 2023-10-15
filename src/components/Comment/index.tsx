@@ -4,8 +4,9 @@ import styles from "./comment.module.scss";
 import moment from "moment";
 import Commentmini from "./commentmini";
 import { useAppDispatch, useAppSelector } from "src/hooks/useRedux";
-import { getComments, postComments } from "src/store/comment/commentsApi";
-function Comment({ replies }: any) {
+import { getComments, postComments } from "src/store/comment/commentsSlice";
+
+const Comment = ({ replies }: any) => {
   const loadProductDetail = useAppSelector(
     (state) => state.products.productDetail.data
   );
@@ -21,20 +22,17 @@ function Comment({ replies }: any) {
   const ref: any = useRef();
 
   useEffect(() => {
-    getComments(dispatch, loadProductDetail?.id);
+    dispatch(getComments(loadProductDetail?.id));
   }, [loadProductDetail?.id]);
 
-  const loadComment: any = useAppSelector(
-    (state) => state.comments.comment.data
-  );
+  const { comment } = useAppSelector((state) => state.comments);
   let admin2 = false;
-  console.log(loadComment);
   const handleClicksend = () => {
     setHideMomal(true);
   };
   const handleClicksend2 = (e: any) => {
     e.preventDefault();
-    const getAdmin = loadComment?.data.filter(
+    const getAdmin = comment?.data.filter(
       (item: any) =>
         item.creator.admin === true && item.creator.id === parseInt(sdt)
     );
@@ -43,8 +41,8 @@ function Comment({ replies }: any) {
     } else {
       admin2 = false;
     }
-    postComments(dispatch, {
-      id: loadComment[loadComment.length - 1]?.id + 1,
+    const body = {
+      id: comment.data[comment.data.length - 1] + 1,
       content: text,
       create_date: moment().format("HH:MM MM/DD, YYYY"),
       creator: {
@@ -57,7 +55,8 @@ function Comment({ replies }: any) {
         replyforId: replyforuserId,
       },
       productId: loadProductDetail.id,
-    });
+    };
+    dispatch(postComments(body));
     setHideMomal(false);
     setShowboxcomment(false);
     setReplyforuserId(null);
@@ -94,7 +93,7 @@ function Comment({ replies }: any) {
   };
 
   const getReplies = (id: string) => {
-    return loadComment.data
+    return comment.data
       ?.filter((item: any) => item.creator.replyforId === parseInt(id))
       .sort(
         (a: any, b: any) =>
@@ -255,7 +254,7 @@ function Comment({ replies }: any) {
         </div>
       </div>
       <div className={styles.body}>
-        {loadComment?.data?.map((item: any) => {
+        {comment?.data?.map((item: any) => {
           if (item.creator.replyforId === null) {
             return (
               <Commentmini
@@ -286,6 +285,6 @@ function Comment({ replies }: any) {
       ></textarea>
     </div>
   );
-}
+};
 
 export default Comment;

@@ -3,17 +3,11 @@ import "./laptop.scss";
 import { useEffect, useState } from "react";
 import DealMain from "src/components/DealMain/DealMain";
 import ListProduct from "src/components/ListProduct/ListProduct";
+import { useAppSelector } from "src/hooks/useRedux";
 
 const Office = () => {
-  const [data, setData] = useState([]);
-  useEffect(() => {
-    axios
-      .get("https://json.msang.repl.co/products?category=laptop")
-      .then((res) => res.data)
-      .then((datas) => {
-        setData(datas);
-      });
-  }, []);
+  const { data } = useAppSelector((state) => state.products.allProducts);
+
   return (
     <div id="office" className="blocklist">
       <div className="listcontent">

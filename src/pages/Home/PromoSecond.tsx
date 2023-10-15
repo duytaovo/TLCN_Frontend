@@ -5,25 +5,15 @@ import PrevArrow from "src/components/Slick/PrevArrow";
 import ProductCard from "src/components/ProductCard/ProductCard";
 import { productService, promoService } from "src/services";
 import Section from "src/components/Section/Section";
+import { useAppSelector } from "src/hooks/useRedux";
 function PromoSecond() {
-  const [images, setImages] = useState<any[]>([]);
-  const [title, setTitle] = useState<string>("");
-  const [theme, setTheme] = useState<string>("");
   const [products, setProducts] = useState<[]>([]);
-
+  const { query, slider, theme, title, value } = useAppSelector(
+    (state) => state.banner.promo.secondpromo
+  );
   useEffect(() => {
     async function getPromoProduct() {
-      const promo = await promoService.getPromo();
-      const { secondpromo } = promo.data;
-      setImages(secondpromo.slider);
-      setTitle(secondpromo.title);
-      setTheme(secondpromo.theme);
-      const res = await productService.queryProduct(
-        [secondpromo.query, secondpromo.value],
-        [],
-        [],
-        []
-      );
+      const res = await productService.queryProduct([query, value], [], [], []);
       setProducts(res.data);
     }
     getPromoProduct();
@@ -44,7 +34,7 @@ function PromoSecond() {
             nextArrow={<NextArrow />}
             prevArrow={<PrevArrow />}
           >
-            {images.map((src, index) => (
+            {slider.map((src, index) => (
               <div className="w-full" key={index}>
                 <div className="mx-4">
                   <a href="https://google.com">

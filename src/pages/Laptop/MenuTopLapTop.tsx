@@ -63,7 +63,8 @@ const MenuTopLapTop = () => {
             title={item.title}
             type={item.type}
             style={"w-24 h-24"}
-          ></MenuTop>
+            key={item.title}
+          />
         ))}
       </div>
     </nav>

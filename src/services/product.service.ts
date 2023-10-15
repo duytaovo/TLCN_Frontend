@@ -1,4 +1,5 @@
-import http from "src/utils/http";
+import axios from "axios";
+import http, { httpCategory } from "src/utils/http";
 
 export const productService = {
   getProducts(page: string, limit: string) {
@@ -25,7 +26,7 @@ export const productService = {
     return http.get(`/products/?category=${category}&sex=${sex}`);
   },
   getProductByCategory(category: string) {
-    return http.get(`/products/?category=${category}`);
+    return httpCategory.get(`/products/?category=${category}`);
   },
   getProductByPolicy(category: string, brand: string) {
     return http.get(`/products/?category=${category}${brand}`);
@@ -58,4 +59,9 @@ export const productService = {
   getArticle(id: string) {
     return http.get(`/productarticle/?productId=${id}`);
   },
+  // getLaptop(category: string) {
+  //   return axios.get(
+  //     `https://json.msang.repl.co/products?category=${category}`
+  //   );
+  // },
 };

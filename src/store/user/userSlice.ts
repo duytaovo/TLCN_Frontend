@@ -4,17 +4,8 @@ import jwtDecode from "jwt-decode";
 import { getAccessTokenFromLS } from "src/utils/auth";
 import { toast } from "react-toastify";
 import http from "src/utils/http";
-const authApi = {
-  login(data: any) {
-    return http.post("/auth/login", data);
-  },
-  register(data: any) {
-    return http.post("/auth/register", data);
-  },
-  logout() {
-    return http.post("/auth/logout-user", {});
-  },
-};
+import { authApi } from "src/services/auth.service";
+
 export const login = createAsyncThunk(
   "auth/login",
   payloadCreator(authApi.login)

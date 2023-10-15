@@ -1,6 +1,5 @@
 import styles from "./filteritem.module.scss";
 import { useState, useRef, useEffect, useCallback } from "react";
-import ReactDOM from "react-dom";
 import SliderPrice from "./SliderPrice";
 import { useAppDispatch, useAppSelector } from "src/hooks/useRedux";
 import { HandleFilter } from "src/store/product/productsApi";

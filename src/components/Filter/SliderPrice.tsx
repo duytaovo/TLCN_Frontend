@@ -1,11 +1,10 @@
 import styles from "./sliderPrice.module.scss";
 
 import { useState, useRef, useEffect } from "react";
-import ReactDOM from "react-dom";
 import { useAppDispatch, useAppSelector } from "src/hooks/useRedux";
-import { HandleFilter } from "src/store/product/productsApi";
+import { handleFilterStore } from "src/store/product/productsSlice";
 
-function SliderPrice({ Apper }: any) {
+const SliderPrice = ({ Apper }: any) => {
   //css
   const [min, setMin] = useState<number>(0);
   const [max, setMax] = useState<number>(100000);
@@ -92,10 +91,10 @@ function SliderPrice({ Apper }: any) {
           return obj;
         });
 
-        HandleFilter(dispatch, temp);
+        dispatch(handleFilterStore(temp));
       } else {
         const temp = [...filter, newKeyword];
-        HandleFilter(dispatch, temp);
+        dispatch(handleFilterStore(temp));
       }
     }
 
@@ -161,6 +160,6 @@ function SliderPrice({ Apper }: any) {
       </div>
     </div>
   );
-}
+};
 
 export default SliderPrice;

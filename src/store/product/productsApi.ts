@@ -1,8 +1,7 @@
 import { productService, ratingService } from "src/services";
 import {
-  getAllProducts,
-  getOneProduct,
-  handleFilter,
+  // getAllProducts,
+  handleFilterStore,
   getLocationProduct,
   getProductDetail,
   updateAllProduct,
@@ -15,7 +14,7 @@ import { AppThunkDispatch } from "../store";
 // }
 
 export const HandleFilter = async (dispatch: AppThunkDispatch, data: any) => {
-  dispatch(handleFilter(data));
+  dispatch(handleFilterStore(data));
 };
 
 export const updateAllProducts = async (
@@ -25,13 +24,13 @@ export const updateAllProducts = async (
   dispatch(updateAllProduct(data));
 };
 
-export const getAllProductByCategory = async (
-  dispatch: AppThunkDispatch,
-  category: any
-) => {
-  let res = await productService.getProductByCategory(category);
-  dispatch(getAllProducts(res));
-};
+// export const getAllProductByCategory = async (
+//   dispatch: AppThunkDispatch,
+//   category: any
+// ) => {
+//   let res = await productService.getProductByCategory(category);
+//   dispatch(getAllProducts(res));
+// };
 //get by location and page and limit
 export const getLocation = async (
   dispatch: AppThunkDispatch,

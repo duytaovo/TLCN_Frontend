@@ -1,13 +1,11 @@
 import axios from "axios";
 import "./phone.scss";
 import { useEffect, useState } from "react";
-import { useSelector, useDispatch } from "react-redux";
 import BoxSort from "src/components/BoxSort/BoxSort";
 import handleData from "src/components/Filter/handleData";
 import ListProduct from "src/components/ListProduct/ListProduct";
 import { useAppDispatch, useAppSelector } from "src/hooks/useRedux";
 import { productService } from "src/services";
-import { getAllProductByCategory } from "src/store/product/productsApi";
 export interface DataListPhone {
   title: string;
   link: string;
@@ -59,34 +57,24 @@ interface Props {
   isOpen: boolean;
 }
 const ListPhone = ({ choose, isOpen }: Props) => {
-  const [data, setData] = useState<[]>([]);
+  const [dataLocal, setDataLocal] = useState<[]>([]);
   const [selected, setSelected] = useState<boolean>(false);
   const [_chooseBoxSort, _setChooseBoxSort] = useState<number>(0);
   const [checked, setChecked] = useState<any[]>([]);
   const dispatch = useAppDispatch();
+  const { data } = useAppSelector((state) => state.products.allProducts);
 
-  useEffect(() => {
-    getAllProductByCategory(dispatch, "dienthoai");
-  }, []);
   const dataFilter = useAppSelector((state) => state.products.allProducts.data);
   const filter = useAppSelector((state) => state.products.filter.data);
-
   let dataAfter = dataFilter;
   if (filter?.length !== 0) {
     dataAfter = handleData(dataFilter, filter);
   }
-  let getDataFilter: any = data;
+  let getDataFilter: any = dataLocal;
   // let typeFilter = checked.concat(choose);
 
   useEffect(() => {
-    axios
-      .get(`https://json.msang.repl.co/products?category=dienthoai`)
-      .then((res) => {
-        res.data;
-      })
-      .then((data: any) => {
-        setData(data);
-      });
+    setDataLocal(data);
   }, []);
 
   useEffect(() => {
@@ -96,14 +84,14 @@ const ListPhone = ({ choose, isOpen }: Props) => {
           "dienthoai",
           checked.map((item) => "&" + item + "=true").join("")
         );
-        setData(res.data);
+        setDataLocal(res.data);
       } else if (choose !== "") {
         let res: any = await productService.getProductByBrand(
           "dienthoai",
           choose.toLowerCase() +
             checked.map((item) => "&" + item + "=true").join("")
         );
-        setData(res.data);
+        setDataLocal(res.data);
       }
     };
     getProduct();

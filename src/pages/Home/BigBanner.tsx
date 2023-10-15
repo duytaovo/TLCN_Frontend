@@ -6,23 +6,16 @@ import "slick-carousel/slick/slick-theme.css";
 import { Link } from "react-router-dom";
 import axios from "axios";
 import { promoService } from "src/services";
+import { useAppDispatch, useAppSelector } from "src/hooks/useRedux";
+import { getPromo } from "src/store/banner/bannerSlice";
 
 const BigBanner = () => {
-  const [images, setImages] = useState<string[]>([]);
-  const [bannerImage, setBannerImage] = useState<string>("");
-  useEffect(() => {
-    async function getPromo() {
-      const promo = await promoService.getPromo();
-      const bigbanner = promo.data.bigbanner;
-      setBannerImage(bigbanner.bigImage);
-      setImages(bigbanner.slider);
-    }
-    getPromo();
-  }, []);
+  const { bigImage } = useAppSelector((state) => state.banner.promo.bigbanner);
+
   return (
     <div className={"h-full object-cover bg-transparent  rounded-2xl mb-6"}>
       <Link to="khuyen-mai">
-        <img src={bannerImage} className="rounded-xl" />
+        <img src={bigImage} className="rounded-xl" />
       </Link>
     </div>
   );

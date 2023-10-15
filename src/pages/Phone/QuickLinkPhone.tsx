@@ -1,7 +1,6 @@
 import QuickLink from "src/components/QuickLink/ButtonQuickLink";
-import ListPhone from "./ListPhone";
-import { Link } from "react-router-dom";
 import "./quicklinkphone-module.scss";
+
 interface Data {
   type: string;
   link: string;

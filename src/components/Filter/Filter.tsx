@@ -1,23 +1,23 @@
 import FilterItem from "./FilterItem";
 import { useRef, useEffect } from "react";
 import FilterItemTotal from "./FilterItemTotal";
-import { HandleFilter } from "src/store/product/productsApi";
 import { useAppDispatch } from "src/hooks/useRedux";
 import { DataPropsPhone } from "src/pages/Phone/FilterPhone";
+import { handleFilterStore } from "src/store/product/productsSlice";
 
 interface FilterItem {
   handle: (boolean: boolean) => void;
   data: DataPropsPhone[];
 }
 
-function Filter({ handle, data }: FilterItem) {
+const Filter = ({ handle, data }: FilterItem) => {
   const contain: any = useRef();
   const dispatch = useAppDispatch();
   const scroll = () => {
     contain.current?.scrollIntoView({ behavior: "smooth" });
   };
   useEffect(() => {
-    HandleFilter(dispatch, []);
+    dispatch(handleFilterStore(data));
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -34,6 +34,6 @@ function Filter({ handle, data }: FilterItem) {
       </div>
     </div>
   );
-}
+};
 
 export default Filter;

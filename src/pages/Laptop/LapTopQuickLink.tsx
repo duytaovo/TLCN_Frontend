@@ -68,6 +68,7 @@ const LapTopQuickLink = () => {
             type={item.type}
             link={item.link}
             isImg={true}
+            key={item.link}
           ></QuickLink>
         ))}
       </div>

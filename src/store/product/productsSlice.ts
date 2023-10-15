@@ -1,4 +1,16 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+import { productService } from "src/services";
+import { payloadCreator } from "src/utils/utils";
+
+export const getAllProductByCategory = createAsyncThunk(
+  "products/getAllProductByCategory",
+  payloadCreator(productService.getProductByCategory)
+);
+
+// export const getLaptop = createAsyncThunk(
+//   "products/getLaptop",
+//   payloadCreator(productService.getLaptop)
+// );
 
 interface State {
   allProducts: {
@@ -24,6 +36,7 @@ interface State {
       id: number;
     };
   };
+  laptop: [];
 }
 
 const initialState: State = {
@@ -50,22 +63,23 @@ const initialState: State = {
       id: 0,
     },
   },
+  laptop: [],
 };
 
 export const products = createSlice({
   name: "products",
   initialState: initialState,
   reducers: {
-    getAllProducts: (state, action) => {
-      state.allProducts.data = action.payload;
-    },
+    // getAllProducts: (state, action) => {
+    //   state.allProducts.data = action.payload;
+    // },
     updateAllProduct: (state, action) => {
       state.allProducts.data = action.payload;
     },
     getOneProduct: (state, action) => {
       state.oneProduct.data = action.payload;
     },
-    handleFilter: (state, action) => {
+    handleFilterStore: (state, action) => {
       state.filter.data = action.payload;
     },
     getLocationProduct: (state, action) => {
@@ -83,15 +97,21 @@ export const products = createSlice({
       }
     },
   },
+  extraReducers: (builder) => {
+    builder.addCase(getAllProductByCategory.fulfilled, (state, action) => {
+      state.allProducts.data = action.payload.data;
+    });
+  },
 });
 export const {
   updateDiscussRating,
-  getAllProducts,
+  // getAllProducts,
   getOneProduct,
-  handleFilter,
+  handleFilterStore,
   getLocationProduct,
   getProductDetail,
   updateAllProduct,
 } = products.actions;
 
-export default products.reducer;
+const productsReducer = products.reducer;
+export default productsReducer;

@@ -3,17 +3,11 @@ import "./laptop.scss";
 import { useEffect, useState } from "react";
 import ListProduct from "src/components/ListProduct/ListProduct";
 import axios from "axios";
+import { useAppSelector } from "src/hooks/useRedux";
 
 const StudyLaptop = () => {
-  const [data, setData] = useState([]);
-  useEffect(() => {
-    axios
-      .get("https://json.msang.repl.co/products?category=laptop")
-      .then((res) => res.data)
-      .then((datas) => {
-        setData(datas);
-      });
-  }, []);
+  const { data } = useAppSelector((state) => state.products.allProducts);
+
   return (
     <div id="hoctap" className="blocklist">
       <div className="listcontent">

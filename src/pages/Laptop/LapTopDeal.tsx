@@ -4,16 +4,10 @@ import { useEffect, useState } from "react";
 import DealMain from "src/components/DealMain/DealMain";
 import ListProduct from "src/components/ListProduct/ListProduct";
 import axios from "axios";
+import { useAppSelector } from "src/hooks/useRedux";
 const LapTopDeal = () => {
-  const [data, setData] = useState([]);
-  useEffect(() => {
-    axios
-      .get("https://json.msang.repl.co/products?category=laptop")
-      .then((res) => res.data)
-      .then((datas) => {
-        setData(datas);
-      });
-  }, []);
+  const { data } = useAppSelector((state) => state.products.allProducts);
+
   return (
     <div className="blocklist" id="dealsoc">
       <div className="listcontent">
