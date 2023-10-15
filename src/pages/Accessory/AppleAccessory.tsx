@@ -4,6 +4,8 @@ import ProductTab from "src/components/ProductTab/ProductTab";
 import { useState, useEffect } from "react";
 import axios from "axios";
 const productTab = ["Nổi bật", "Tai nghe", "Adapter sạc", "Cáp sạc", "Ốp lưng"];
+import "./quicklinkaccessory.module.scss";
+
 const AppleAccessory = () => {
   const [products, setProducts] = useState([]);
   useEffect(() => {

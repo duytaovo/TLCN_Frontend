@@ -27,27 +27,27 @@ const Content2 = () => {
   };
   return (
     <div className="samsung">
-      <div className="content-2">
-        <div className="pl-40 pr-40 container-c2-top">
-          <h1>Danh Mục Sản Phẩm</h1>
+      <div className="content-2 text-white">
+        <div className="pl-40 pr-40 container-c2-top text-textWhiteMain">
+          <h1 className="text-textWhiteMain">Danh Mục Sản Phẩm</h1>
           <div>
             <a href="#dien-thoai" className="scrollTo">
-              <img src="https://cdn.tgdd.vn/2021/11/campaign/Frame21-119x141.png"></img>
+              <img src="https://cdn.tgdd.vn/2021/11/campaign/Frame21-119x141.png" />
             </a>
             <a href="#may-tinh-bang" className="scrollTo">
-              <img src="https://cdn.tgdd.vn/2021/11/campaign/Frame22-163x141.png"></img>
+              <img src="https://cdn.tgdd.vn/2021/11/campaign/Frame22-163x141.png" />
             </a>
             <a href="#dong-ho-thong-minh" className="scrollTo">
-              <img src="https://cdn.tgdd.vn/2021/11/campaign/Frame23-235x141.png"></img>
+              <img src="https://cdn.tgdd.vn/2021/11/campaign/Frame23-235x141.png" />
             </a>
             <a href="#phu-kien" className="scrollTo">
-              <img src="https://cdn.tgdd.vn/2021/11/campaign/Frame24-101x141.png"></img>
+              <img src="https://cdn.tgdd.vn/2021/11/campaign/Frame24-101x141.png" />
             </a>
           </div>
           <h1>Sản phẩm mới</h1>
           <div className="boxNew">
             <div className="item">
-              <img src="https://cdn.tgdd.vn/2022/05/campaign/M53-368x368.png"></img>
+              <img src="https://cdn.tgdd.vn/2022/05/campaign/M53-368x368.png" />
               <h1>Samsung Galaxy M5 5G</h1>
               <a
                 href="/dtdd/samsung-galaxy-m53"
@@ -57,7 +57,7 @@ const Content2 = () => {
               </a>
             </div>
             <div className="item">
-              <img src="https://cdn.tgdd.vn/2022/05/campaign/A73-368x368-1.png"></img>
+              <img src="https://cdn.tgdd.vn/2022/05/campaign/A73-368x368-1.png" />
               <h1>Samsung Galaxy A73 5G</h1>
               <a
                 href="/dtdd/samsung-galaxy-a73"
@@ -67,7 +67,7 @@ const Content2 = () => {
               </a>
             </div>
             <div className="item">
-              <img src="https://cdn.tgdd.vn/2022/05/campaign/A33-368x368-1.png"></img>
+              <img src="https://cdn.tgdd.vn/2022/05/campaign/A33-368x368-1.png" />
               <h1>Samsung Galaxy A33 5G</h1>
               <a
                 href="/dtdd/samsung-galaxy-a33"
@@ -77,7 +77,7 @@ const Content2 = () => {
               </a>
             </div>
             <div className="item">
-              <img src="https://cdn.tgdd.vn/2022/05/campaign/S22-368x368.png"></img>
+              <img src="https://cdn.tgdd.vn/2022/05/campaign/S22-368x368.png" />
               <h1>Samsung Galaxy S22 Ultra</h1>
               <a
                 href="/dtdd/samsung-galaxy-s22-ultra"
@@ -89,13 +89,13 @@ const Content2 = () => {
           </div>
           <h1>Khuyến mãi nổi bật</h1>
           <div>
-            <Section styles="bg-white">
+            <Section styles="">
               <div className="w-full ">
                 <Slider
                   slidesToShow={5}
                   slidesToScroll={5}
-                  //   nextArrow={<NextArrow />}
-                  //   prevArrow={<PrevArrow />}
+                  nextArrow={<NextArrow />}
+                  prevArrow={<PrevArrow />}
                 >
                   {products.map((product: any) => (
                     <div className="w-full" key={product.title}>

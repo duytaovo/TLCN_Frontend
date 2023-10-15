@@ -1,5 +1,4 @@
 import DealMain from "src/components/DealMain/DealMain";
-import ProductCard from "src/components/ProductCard";
 import ListProduct from "src/components/ListProduct/ListProduct";
 import ProductTab from "src/components/ProductTab/ProductTab";
 import { useState, useEffect } from "react";
@@ -12,6 +11,7 @@ const productTab: string[] = [
   "Adapter sạc USB",
   "Cáp Type-C",
 ];
+
 const Cable = () => {
   const [products, setProducts] = useState([]);
   useEffect(() => {

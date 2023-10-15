@@ -15,8 +15,8 @@ const LapTopDeal = () => {
           dealShock="Deal Sốc"
           discount="Giảm Tới 10.000.000đ"
           isDealMain={true}
-        ></DealMain>
-        <ListProduct products={data} isSlide={true}></ListProduct>
+        />
+        <ListProduct products={data} isSlide={true} />
       </div>
     </div>
   );

@@ -3,8 +3,8 @@ import ProductCard from "src/components/ProductCard";
 import Section from "src/components/Section";
 import Slider from "react-slick";
 import axios from "axios";
-// import NextArrow from "src/components/Slick/NextArrow";
-// import PrevArrow from "src/components/Slick/PrevArrow";
+import NextArrow from "src/components/Slick/NextArrow";
+import PrevArrow from "src/components/Slick/PrevArrow";
 
 const Dienthoai = () => {
   const [products, setProducts] = useState([]);
@@ -23,13 +23,13 @@ const Dienthoai = () => {
   };
   return (
     <div>
-      <Section styles="bg-white">
+      <Section styles="">
         <div className="w-full">
           <Slider
             slidesToShow={5}
             slidesToScroll={5}
-            // nextArrow={<NextArrow />}
-            // prevArrow={<PrevArrow />}
+            nextArrow={<NextArrow />}
+            prevArrow={<PrevArrow />}
           >
             {products.map((product: any) => (
               <div className="w-full" key={product.title}>

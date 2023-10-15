@@ -1,22 +1,28 @@
 import { createContext, useState } from "react";
-import { getAccessTokenFromLS } from "src/utils/auth";
+import { ExtendedPurchase } from "src/types/purchase.type";
+import { User } from "src/types/user.type";
+import { getAccessTokenFromLS, getProfileFromLS } from "src/utils/auth";
 
 interface AppContextInterface {
-  openModal: boolean;
-  setOpenModal: React.Dispatch<React.SetStateAction<boolean>>;
   isAuthenticated: boolean;
   setIsAuthenticated: React.Dispatch<React.SetStateAction<boolean>>;
-  setEnable: React.Dispatch<React.SetStateAction<boolean>>;
-  enable: boolean;
+  profile: User | null;
+  setProfile: React.Dispatch<React.SetStateAction<User | null>>;
+  extendedPurchases: ExtendedPurchase[];
+  setExtendedPurchases: React.Dispatch<
+    React.SetStateAction<ExtendedPurchase[]>
+  >;
+  reset: () => void;
 }
 
 export const getInitialAppContext: () => AppContextInterface = () => ({
-  openModal: false,
-  setOpenModal: () => {},
   isAuthenticated: Boolean(getAccessTokenFromLS()),
   setIsAuthenticated: () => null,
-  setEnable: () => null,
-  enable: false,
+  profile: getProfileFromLS(),
+  setProfile: () => null,
+  extendedPurchases: [],
+  setExtendedPurchases: () => null,
+  reset: () => null,
 });
 
 const initialAppContext = getInitialAppContext();
@@ -30,21 +36,30 @@ export const AppProvider = ({
   children: React.ReactNode;
   defaultValue?: AppContextInterface;
 }) => {
-  const [openModal, setOpenModal] = useState(false);
   const [isAuthenticated, setIsAuthenticated] = useState<boolean>(
     defaultValue.isAuthenticated
   );
-  const [enable, setEnable] = useState<boolean>(false);
+  const [extendedPurchases, setExtendedPurchases] = useState<
+    ExtendedPurchase[]
+  >(defaultValue.extendedPurchases);
+  const [profile, setProfile] = useState<User | null>(defaultValue.profile);
+
+  const reset = () => {
+    setIsAuthenticated(false);
+    setExtendedPurchases([]);
+    setProfile(null);
+  };
 
   return (
     <AppContext.Provider
       value={{
-        openModal,
-        setOpenModal,
         isAuthenticated,
         setIsAuthenticated,
-        setEnable,
-        enable,
+        profile,
+        setProfile,
+        extendedPurchases,
+        setExtendedPurchases,
+        reset,
       }}
     >
       {children}

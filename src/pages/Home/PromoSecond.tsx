@@ -3,12 +3,13 @@ import Slider from "react-slick";
 import NextArrow from "src/components/Slick/NextArrow";
 import PrevArrow from "src/components/Slick/PrevArrow";
 import ProductCard from "src/components/ProductCard/ProductCard";
-import { productService, promoService } from "src/services";
+import { productService } from "src/services";
 import Section from "src/components/Section/Section";
 import { useAppSelector } from "src/hooks/useRedux";
+
 function PromoSecond() {
   const [products, setProducts] = useState<[]>([]);
-  const { query, slider, theme, title, value } = useAppSelector(
+  const { query, slider, title, value } = useAppSelector(
     (state) => state.banner.promo.secondpromo
   );
   useEffect(() => {

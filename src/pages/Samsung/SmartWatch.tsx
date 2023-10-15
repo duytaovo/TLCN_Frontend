@@ -22,18 +22,18 @@ const SmartWatch = () => {
   };
   return (
     <div>
-      <Helmet>
+      {/* <Helmet>
         <title>Trang đồng hồ thông minh</title>
         <meta name="description" content="Trang đồng hồ thông minh" />
-      </Helmet>
-      <Section styles="bg-white">
+      </Helmet> */}
+      <Section styles="">
         <div className="w-full">
           <Slider
             slidesToShow={4}
             slidesToScroll={4}
             autoplay={true}
-            // nextArrow={<NextArrow />}
-            // prevArrow={<PrevArrow />}
+            nextArrow={<NextArrow />}
+            prevArrow={<PrevArrow />}
           >
             {products.map((product: any) => (
               <div className="w-full" key={product.title}>

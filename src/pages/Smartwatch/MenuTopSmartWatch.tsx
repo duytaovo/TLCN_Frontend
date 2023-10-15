@@ -53,11 +53,7 @@ const MenuTopSmartWatch = () => {
     >
       <div className="body body-smartwatch">
         {data.map((item) => (
-          <MenuTop
-            title={item.title}
-            type={item.type}
-            style={"w-16 h-16"}
-          ></MenuTop>
+          <MenuTop title={item.title} type={item.type} style={"w-16 h-16"} />
         ))}
       </div>
     </nav>

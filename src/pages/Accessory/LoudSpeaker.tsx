@@ -1,26 +1,20 @@
 import DealMain from "src/components/DealMain/DealMain";
-import ProductCard from "src/components/ProductCard";
 import ListProduct from "src/components/ListProduct/ListProduct";
 import ProductTab from "src/components/ProductTab/ProductTab";
-import { useState, useEffect } from "react";
-import axios from "axios";
+import { useAppSelector } from "src/hooks/useRedux";
 
 const productTab = ["Nổi bật", "Loa Bluetooth", "JBL", "Harman Kardon", "Sony"];
+
 const LoudSpeaker = () => {
-  const [products, setProducts] = useState([]);
-  useEffect(() => {
-    axios
-      .get("https://json.msang.repl.co/products?category=accessory")
-      .then((response) => response.data)
-      .then((data) => setProducts(data));
-  }, []);
+  const { data } = useAppSelector((state) => state.products.allProducts);
+
   return (
     <>
       <div id="loudspeaker" className="blocklist">
-        <div className="listcontent">
-          <DealMain linkImg="https://cdn.tgdd.vn/2022/03/banner/DESKTOPTagline5-1200x147-1.png"></DealMain>
-          <ProductTab productTab={productTab}></ProductTab>
-          <ListProduct products={products} isSlide={false}></ListProduct>
+        <div className="listcontent ">
+          <DealMain linkImg="https://cdn.tgdd.vn/2022/03/banner/DESKTOPTagline5-1200x147-1.png" />
+          <ProductTab productTab={productTab} />
+          <ListProduct products={data} isSlide={false} />
         </div>
       </div>
     </>

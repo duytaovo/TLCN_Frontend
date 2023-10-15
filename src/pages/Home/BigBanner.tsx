@@ -1,13 +1,8 @@
-import { useState, useEffect } from "react";
-import styles from "./bigbanner.module.scss";
-import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import { Link } from "react-router-dom";
-import axios from "axios";
-import { promoService } from "src/services";
-import { useAppDispatch, useAppSelector } from "src/hooks/useRedux";
-import { getPromo } from "src/store/banner/bannerSlice";
+
+import { useAppSelector } from "src/hooks/useRedux";
 
 const BigBanner = () => {
   const { bigImage } = useAppSelector((state) => state.banner.promo.bigbanner);

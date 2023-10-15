@@ -10,6 +10,7 @@ import store from "./store/store";
 import { ConfigProvider } from "antd";
 import { theme } from "./constants/antdConfig";
 import GlobalStyles from "./components/GlobalStyles";
+import { AppProvider } from "./contexts/app.context";
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
   // <React.StrictMode>
@@ -17,7 +18,9 @@ ReactDOM.createRoot(document.getElementById("root")!).render(
     <ConfigProvider theme={theme}>
       <Provider store={store}>
         <GlobalStyles>
-          <App />
+          <AppProvider>
+            <App />
+          </AppProvider>
         </GlobalStyles>
       </Provider>
     </ConfigProvider>

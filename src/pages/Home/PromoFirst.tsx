@@ -3,13 +3,13 @@ import Slider from "react-slick";
 import NextArrow from "src/components/Slick/NextArrow";
 import PrevArrow from "src/components/Slick/PrevArrow";
 import ProductCard from "src/components/ProductCard/ProductCard";
-import { productService, promoService } from "src/services";
+import { productService } from "src/services";
 import Section from "src/components/Section/Section";
 import { useAppSelector } from "src/hooks/useRedux";
 
 const PromoFirst = () => {
   const [products, setProducts] = useState([]);
-  const { banner, theme, query, value } = useAppSelector(
+  const { banner, query, value } = useAppSelector(
     (state) => state.banner.promo.firstpromo
   );
 
@@ -18,6 +18,7 @@ const PromoFirst = () => {
       const res = await productService.queryProduct([query, value], [], [], []);
       setProducts(res.data);
     }
+
     getPromoProduct();
   }, []);
   return (

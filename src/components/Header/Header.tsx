@@ -5,15 +5,15 @@ import CartButton from "./CartButton";
 import FilterButton from "./FilterButton";
 import styles from "./header.module.scss";
 import "./header.module.scss";
-import { Dropdown, MenuProps } from "antd";
+import { MenuProps } from "antd";
 import { useContext, useEffect, useState } from "react";
 import path from "src/constants/path";
 import { useTranslation } from "react-i18next";
 import CustomDropDown from "../Dropdown/Dropdown";
 import { AppContext } from "src/contexts/app.context";
 import SentimentSatisfiedAltRoundedIcon from "@mui/icons-material/SentimentSatisfiedAltRounded";
-import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import logo from "src/assets/images/logonew.jpg";
+
 const customDropdownStyle = {
   arrow: false,
   isOnClick: false,
@@ -26,7 +26,7 @@ const menuStyle = {
 };
 function Header() {
   const { t } = useTranslation("home");
-  const { setOpenModal, isAuthenticated } = useContext(AppContext);
+  const { isAuthenticated } = useContext(AppContext);
 
   const [isScrolled, setIsScrolled] = useState(false);
 
@@ -48,9 +48,7 @@ function Header() {
       window.removeEventListener("scroll", handleScroll);
     };
   }, []);
-  const handleOpenModal = () => {
-    setOpenModal(true);
-  };
+  const handleOpenModal = () => {};
   const itemAcount: MenuProps["items"] = [
     {
       key: "0",
@@ -95,13 +93,13 @@ function Header() {
           <FilterButton />
           <SearchInput />
           <Link
-            to="/history"
+            to={path.history}
             onClick={handleOrderClick}
             className="w-32 text-center "
           >
             Lịch sử đơn hàng
           </Link>
-          <Link to="/cart">
+          <Link to={path.cartNew}>
             <CartButton />
           </Link>
           <CustomDropDown

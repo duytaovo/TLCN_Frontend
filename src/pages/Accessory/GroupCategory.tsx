@@ -1,5 +1,5 @@
-import "./gruopcategory-module.scss";
-const data: { title: string; link: string }[] = [
+import "./groupcategory.module.scss";
+const data = [
   {
     title: "Sạc dự phòng",
     link: "https://cdn.tgdd.vn/Category/57/5-Pinsa%CC%A3cdu%CC%9B%CC%A3pho%CC%80ng-120x120.png",

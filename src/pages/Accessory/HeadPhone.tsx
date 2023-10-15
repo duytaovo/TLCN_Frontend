@@ -1,5 +1,4 @@
 import DealMain from "src/components/DealMain/DealMain";
-import ProductCard from "src/components/ProductCard";
 import ListProduct from "src/components/ListProduct/ListProduct";
 import ProductTab from "src/components/ProductTab/ProductTab";
 import { useState, useEffect } from "react";
@@ -25,7 +24,7 @@ const HeadPhone = () => {
   return (
     <>
       <div id="headphone" className="blocklist">
-        <div className="listcontent">
+        <div className="listcontent ">
           <DealMain linkImg="https://cdn.tgdd.vn/2022/03/banner/DESKTOPTagline4-1200x150.png"></DealMain>
           <ProductTab productTab={productTab}></ProductTab>
           <ListProduct products={products} isSlide={false}></ListProduct>

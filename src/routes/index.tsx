@@ -21,6 +21,15 @@ const Pc = lazy(() => import("src/pages/Pc/Pc"));
 const Login = lazy(() => import("src/pages/Auth/Login"));
 const Register = lazy(() => import("src/pages/Auth/Register"));
 
+const Profile = lazy(() => import("src/pages/User/pages/Profile"));
+const CartNew = lazy(() => import("src/pages/CartNew"));
+const ChangePassword = lazy(
+  () => import("src/pages/User/pages/ChangePassword")
+);
+const HistoryPurchase = lazy(
+  () => import("src/pages/User/pages/HistoryPurchase")
+);
+
 export const routeMain = [
   {
     path: path.home,
@@ -100,5 +109,24 @@ export const routeAuth = [
   {
     path: path.register,
     Component: Register,
+  },
+  {
+    path: path.cartNew,
+    Component: CartNew,
+  },
+];
+
+export const routeUser = [
+  {
+    path: path.profile,
+    Component: Profile,
+  },
+  {
+    path: path.changePassword,
+    Component: ChangePassword,
+  },
+  {
+    path: path.historyPurchase,
+    Component: HistoryPurchase,
   },
 ];

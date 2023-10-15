@@ -1,10 +1,11 @@
 import BigBanner from "src/components/BigBanner/BigBanner";
 import "./bigbanneraccessory.scss";
+
 const BigBannerAccessory = () => {
   return (
     <div>
       <BigBanner />
-      <div className="groupcate">
+      <div className="groupcate text-blue-500">
         <div className="groupcate__body">
           <div className="groupcate__item">
             <div className="item-title">

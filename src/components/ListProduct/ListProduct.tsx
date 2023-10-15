@@ -17,7 +17,7 @@ const ListProduct = ({ isSlide, products }: Props) => {
     <>
       {isSlide ? (
         <div className="slideproduct">
-          <SlideProduct products={products}></SlideProduct>
+          <SlideProduct products={products} />
         </div>
       ) : (
         <div className="listproduct">

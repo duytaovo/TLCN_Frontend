@@ -23,10 +23,10 @@ const Pin = () => {
   return (
     <>
       <div id="pin" className="blocklist">
-        <div className="listcontent">
-          <DealMain linkImg="https://cdn.tgdd.vn/2022/03/banner/DESKTOPTagline2-1200x150-3.png"></DealMain>
-          <ProductTab productTab={productTab}></ProductTab>
-          <ListProduct products={products} isSlide={false}></ListProduct>
+        <div className="listcontent ">
+          <DealMain linkImg="https://cdn.tgdd.vn/2022/03/banner/DESKTOPTagline2-1200x150-3.png" />
+          <ProductTab productTab={productTab} />
+          <ListProduct products={products} isSlide={false} />
         </div>
       </div>
     </>

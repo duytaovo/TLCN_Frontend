@@ -2,6 +2,8 @@ import "./bigbanner.scss";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import Slider from "react-slick";
+import NextArrow from "src/components/Slick/NextArrow";
+import PrevArrow from "src/components/Slick/PrevArrow";
 
 const images: string[] = [
   "//cdn.tgdd.vn/2022/08/banner/foldnew-1200-300-1200x300-1.png",
@@ -19,6 +21,8 @@ const BigBanner = () => {
             slidesToScroll={1}
             autoplay={true}
             autoplaySpeed={2000}
+            nextArrow={<NextArrow />}
+            prevArrow={<PrevArrow />}
           >
             {images.map((src: string) => (
               <div className="owl-item">

@@ -26,7 +26,10 @@ const data: { link: string }[] = [
     link: "//cdn.tgdd.vn/mwgcart/mwgcore/ContentMwg/images/smartwatch/logo08.png",
   },
 ];
-const QuickLinkSmartWatch = () => {
+interface Props {
+  handleSetChoose: (text: string) => void;
+}
+const QuickLinkSmartWatch = ({ handleSetChoose }: Props) => {
   return (
     <div className="container__quicklink bg-[#0f0004]">
       <div className="quicklink m-0" style={{ backgroundColor: "#0f0004" }}>
@@ -35,7 +38,7 @@ const QuickLinkSmartWatch = () => {
             <QuickLink
               isImg={true}
               type=""
-              handleSetChoose={() => {}}
+              handleSetChoose={handleSetChoose}
               link={item.link}
             />
           ))}

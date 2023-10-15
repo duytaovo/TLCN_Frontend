@@ -3,11 +3,9 @@ import clsx from "clsx";
 import { StarFill } from "react-bootstrap-icons";
 import styles from "./card.module.scss";
 import { useState } from "react";
-import { useDispatch } from "react-redux";
 import numberWithCommas from "src/utils/numberWithCommas";
 
-function ProductCard(props: any) {
-  const dispatch = useDispatch();
+const ProductCard = (props: any) => {
   const handleClickDisable = (e: any) => {
     e.stopPropagation();
     e.nativeEvent.stopImmediatePropagation();
@@ -85,7 +83,7 @@ function ProductCard(props: any) {
             </div>
           )}
           <p>
-            <span className="text-yellow-400 font-bold">
+            <span className="text-mainColor font-bold">
               {props.star}&ensp;
               <i>
                 <StarFill />
@@ -97,6 +95,6 @@ function ProductCard(props: any) {
       </div>
     </Link>
   );
-}
+};
 
 export default ProductCard;

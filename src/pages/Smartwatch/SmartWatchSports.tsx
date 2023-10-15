@@ -1,27 +1,21 @@
 import DealMain from "src/components/DealMain/DealMain";
 import "./smartwatchhotdeal.scss";
-import { useState, useEffect } from "react";
 import ProductTab from "src/components/ProductTab/ProductTab";
 import ListProduct from "src/components/ListProduct/ListProduct";
-import axios from "axios";
+import { useAppSelector } from "src/hooks/useRedux";
 
 const productTab = ["Nổi bật", "Loa Bluetooth", "JBL", "Harman Kardon", "Sony"];
 
 const SmartWatchSports = () => {
-  const [products, setProducts] = useState([]);
-  useEffect(() => {
-    axios
-      .get("https://json.msang.repl.co/products?category=smartwatch")
-      .then((response) => response.data)
-      .then((data) => setProducts(data));
-  }, []);
+  const { data } = useAppSelector((state) => state.products.allProducts);
+
   return (
     <>
       <div id="sports" className="blocklist">
         <div className="listcontent">
           <DealMain linkImg="https://cdn.tgdd.vn/2021/08/banner/The%CC%82%CC%89thao-1200x200.png"></DealMain>
           <ProductTab productTab={productTab}></ProductTab>
-          <ListProduct isSlide={false} products={products}></ListProduct>
+          <ListProduct isSlide={false} products={data}></ListProduct>
         </div>
       </div>
     </>

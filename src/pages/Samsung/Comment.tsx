@@ -1,6 +1,6 @@
 import { CameraFill, PersonFill, CaretUpFill } from "react-bootstrap-icons";
 import styles from "./comment.module.scss";
-function Comment() {
+const Comment = () => {
   return (
     <div className={styles.wrap}>
       <div className={styles.head}>
@@ -102,6 +102,6 @@ function Comment() {
       ></textarea>
     </div>
   );
-}
+};
 
 export default Comment;

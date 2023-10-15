@@ -18,7 +18,8 @@ export class Http {
   private refreshToken: string;
   private refreshTokenRequest: Promise<string> | null;
   constructor(url: string) {
-    this.accessToken = getAccessTokenFromLS();
+    this.accessToken =
+      "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY0YmYzNzU5MzQyZWQ2MjNlYzgzZjExMiIsImVtYWlsIjoiZHV5dGFvdm8xMTExQGdtYWlsLmNvbSIsInJvbGVzIjpbIlVzZXIiXSwiY3JlYXRlZF9hdCI6IjIwMjMtMTAtMTVUMDU6NDI6MDYuMzY2WiIsImlhdCI6MTY5NzM0ODUyNiwiZXhwIjoxNjk3NDM0OTI2fQ.m5KyV6Ozte0bD4fQqTdEmkQzGExLJEBFJ5NZkM3-1do";
     this.refreshToken = getRefreshTokenFromLS();
     this.refreshTokenRequest = null;
     this.instance = axios.create({
@@ -129,4 +130,5 @@ export class Http {
 }
 const http = new Http(config.baseUrl).instance;
 export const httpCategory = new Http("https://json.msang.repl.co").instance;
+export const httpCart = new Http("https://api-ecom.duthanhduoc.com/").instance;
 export default http;

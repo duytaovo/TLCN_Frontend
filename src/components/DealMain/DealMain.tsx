@@ -7,7 +7,7 @@ interface Props {
 }
 const DealMain = (props: Props) => {
   return (
-    <h2 className="deal__title">
+    <h2 className="deal__title rounded-md">
       <a href="#">
         {props.isDealMain ? (
           <>

@@ -8,12 +8,12 @@ const Samsung = () => {
   return (
     <div>
       <Helmet>
-        <title>Trang chi tiết sam sung</title>
+        <title>Sam sung</title>
         <meta name="description" content="Trang chi tiết sam sung" />
       </Helmet>
       <BigBanner />
       <Content2 />
-      <div className="commentSamsung">
+      <div className="commentSamsung mb-5">
         <Comment />
       </div>
     </div>

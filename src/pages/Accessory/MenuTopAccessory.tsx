@@ -1,5 +1,6 @@
 import MenuTop from "src/components/MenuTop/MenuTop";
 import { useEffect, useState } from "react";
+
 const data: { title: string; type: string }[] = [
   {
     title: "Deal Sốc",
@@ -53,11 +54,7 @@ const MenuTopAccessory = () => {
     <nav className={menuTop ? "menu-top" : "menu-top menu-top-fixed"}>
       <div className="body">
         {data.map((item) => (
-          <MenuTop
-            title={item.title}
-            type={item.type}
-            style={"w-28 h-28"}
-          ></MenuTop>
+          <MenuTop title={item.title} type={item.type} style={"w-28 h-28"} />
         ))}
       </div>
     </nav>

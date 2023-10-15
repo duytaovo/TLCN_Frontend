@@ -1,5 +1,4 @@
-import { useState, useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useState } from "react";
 import ProductCard from "src/components/ProductCard/ProductCard";
 import Section from "src/components/Section/Section";
 

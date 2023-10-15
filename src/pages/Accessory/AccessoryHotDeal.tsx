@@ -15,14 +15,14 @@ const AccessoryHotDeal = () => {
     <>
       <div id="dealsoc" className="blocklist">
         <div
-          className="listcontent block__gaming"
-          style={{ backgroundColor: "#a10026" }}
+          className="listcontent block__gaming  rounded-md "
+          // style={{ backgroundColor: "#a10026" }}
         >
           <DealMain
             linkImg="https://cdn.tgdd.vn/2022/04/banner/DESKTOPTagline11-1200x100-6.png"
             discount="50%"
-          ></DealMain>
-          <ListProduct products={products} isSlide={true}></ListProduct>
+          />
+          <ListProduct products={products} isSlide={true} />
         </div>
       </div>
     </>

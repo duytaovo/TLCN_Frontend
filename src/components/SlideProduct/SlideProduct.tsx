@@ -3,6 +3,8 @@ import Slider from "react-slick";
 import Slick from "../Slick";
 import "./slideproduct.scss";
 import { IPhoneDocument } from "src/types/allProductsType.interface";
+import NextArrow from "../Slick/NextArrow";
+import PrevArrow from "../Slick/PrevArrow";
 
 interface Props {
   products: any[];
@@ -15,8 +17,8 @@ const SlideProduct = (props: Props) => {
         <Slider
           slidesToShow={5}
           slidesToScroll={5}
-          //   nextArrow={<NextArrow />}
-          //   prevArrow={<PrevArrow />}
+          nextArrow={<NextArrow />}
+          prevArrow={<PrevArrow />}
         >
           {products.map((product: any) => (
             <div className="w-full" key={product.title}>

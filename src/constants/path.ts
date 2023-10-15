@@ -22,6 +22,12 @@ const path = {
   maytinhdeban: "may-tinh-de-ban/:productSlug",
   phukienDetail: "phukien/:productSlug",
   smartwatchDetail: "smartwatch/:productSlug",
+  ////
+  user: "/user",
+  profile: "/user/profile",
+  changePassword: "/user/password",
+  historyPurchase: "/user/purchase",
+  cartNew: "/user/cartNew",
 } as const;
 
 export default path;

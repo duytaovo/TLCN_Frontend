@@ -21,13 +21,13 @@ const Maytinhbang = () => {
   };
   return (
     <div>
-      <Section styles="bg-white">
+      <Section styles="">
         <div className="w-full">
           <Slider
             slidesToShow={4}
             slidesToScroll={4}
-            // nextArrow={<NextArrow />}
-            // prevArrow={<PrevArrow />}
+            nextArrow={<NextArrow />}
+            prevArrow={<PrevArrow />}
           >
             {products.map((product: any) => (
               <div className="w-full" key={product.title}>

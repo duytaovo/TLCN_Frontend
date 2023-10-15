@@ -1,5 +1,4 @@
 import Section from "src/components/Section/Section";
-import css from "./home.module.scss";
 import { Link } from "react-router-dom";
 interface Image {
   thumbnail: string;

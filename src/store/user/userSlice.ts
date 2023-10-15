@@ -5,6 +5,7 @@ import { getAccessTokenFromLS } from "src/utils/auth";
 import { toast } from "react-toastify";
 import http from "src/utils/http";
 import { authApi } from "src/services/auth.service";
+import { userService } from "src/services";
 
 export const login = createAsyncThunk(
   "auth/login",
@@ -17,6 +18,16 @@ export const registerUser = createAsyncThunk(
 export const logoutUser = createAsyncThunk(
   "auth/logoutUser",
   payloadCreator(authApi.logout)
+);
+
+export const updateMe = createAsyncThunk(
+  "auth/updateMe",
+  payloadCreator(userService.updateProfile)
+);
+
+export const getMe = createAsyncThunk(
+  "auth/getMe",
+  payloadCreator(userService.getProfile)
 );
 
 interface DecodedToken {
@@ -33,6 +44,7 @@ interface IUser {
   isActiveEdit?: boolean;
   userUuid: any;
   userId: number;
+  profile: any;
 }
 
 let decodeToken: DecodedToken;
@@ -61,6 +73,7 @@ const initialState: IUser = {
   isActiveEdit: false,
   userId: isAccessTokenExpired().userId | 0,
   userUuid: isAccessTokenExpired().userUuid,
+  profile: {},
 };
 const userSlice = createSlice({
   name: "user",
@@ -79,6 +92,10 @@ const userSlice = createSlice({
   extraReducers: (builder) => {
     builder.addCase(login.fulfilled, (state, { payload }) => {
       state.accessToken = payload.data.accessToken;
+    });
+    builder.addCase(updateMe.fulfilled, (state, { payload }) => {
+      state.profile = payload.data;
+      localStorage.setItem("user", JSON.stringify(state.profile));
     });
   },
 });

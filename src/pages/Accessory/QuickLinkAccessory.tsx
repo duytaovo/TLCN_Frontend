@@ -1,4 +1,4 @@
-import "./quicklinkaccessory-module.scss";
+import "./quicklinkaccessory.module.scss";
 import QuickLink from "src/components/QuickLink";
 
 const data: { type: string; link: string }[] = [
@@ -68,7 +68,7 @@ const QuickLinkAccessory = () => {
                 type={item.type}
                 link={`${item.link}`}
                 isImg={true}
-              ></QuickLink>
+              />
             ))}
           </div>
         </div>
