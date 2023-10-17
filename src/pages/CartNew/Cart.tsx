@@ -152,14 +152,16 @@ export default function CartNew() {
 
   const handleDelete = (purchaseIndex: number) => async () => {
     const purchaseId = extendedPurchases[purchaseIndex]._id;
-    const res = await dispatch(deletePurchases(purchaseId)).then(unwrapResult);
+    const res = await dispatch(deletePurchases([purchaseId])).then(
+      unwrapResult
+    );
     const res2 = await dispatch(
       getPurchases({ status: purchasesStatus.inCart })
     ).then(unwrapResult);
     setPurchasesInCartData(res2.data.data);
 
-    if (res.status === "success") {
-      toast.success("Thành công", {
+    if (res.status === 200) {
+      toast.success("Xóa thành công", {
         position: "top-center",
         autoClose: 1000,
       });
@@ -177,8 +179,8 @@ export default function CartNew() {
     ).then(unwrapResult);
     setPurchasesInCartData(res2.data.data);
 
-    if (res.status === "success") {
-      toast.success("Thành công", {
+    if (res.status === 200) {
+      toast.success("Xóa thành công", {
         position: "top-center",
         autoClose: 1000,
       });
@@ -192,17 +194,22 @@ export default function CartNew() {
         buy_count: purchase.buy_count,
       }));
       const res = await dispatch(buyPurchases(body)).then(unwrapResult);
-      if (res.status === "success") {
-        toast.success("Thành công", {
+      if (res.status === 200) {
+        toast.success("Mua thành công", {
           position: "top-center",
           autoClose: 1000,
         });
       }
+      const res2 = await dispatch(
+        getPurchases({ status: purchasesStatus.inCart })
+      ).then(unwrapResult);
+      setPurchasesInCartData(res2.data.data);
+    } else {
+      toast.error("Vui lòng chọn sản phẩm", {
+        position: "top-center",
+        autoClose: 1000,
+      });
     }
-    const res2 = await dispatch(
-      getPurchases({ status: purchasesStatus.inCart })
-    ).then(unwrapResult);
-    setPurchasesInCartData(res2.data.data);
   };
 
   return (
@@ -328,7 +335,7 @@ export default function CartNew() {
                               />
                             </div>
                             <div className="col-span-1">
-                              <span className="text-orange">
+                              <span className="text-orange-600">
                                 ₫
                                 {formatCurrency(
                                   purchase.product.price * purchase.buy_count
@@ -338,7 +345,7 @@ export default function CartNew() {
                             <div className="col-span-1">
                               <button
                                 onClick={handleDelete(index)}
-                                className="bg-none text-black transition-colors hover:text-orange"
+                                className="bg-none text-black transition-colors hover:text-orange-600"
                               >
                                 Xóa
                               </button>
@@ -381,19 +388,19 @@ export default function CartNew() {
                     <div>
                       Tổng thanh toán ({checkedPurchasesCount} sản phẩm):
                     </div>
-                    <div className="ml-2 text-2xl text-orange">
+                    <div className="ml-2 text-2xl text-orange-600">
                       ₫{formatCurrency(totalCheckedPurchasePrice)}
                     </div>
                   </div>
                   <div className="flex items-center text-lg sm:justify-end">
                     <div className="text-gray-500">Tiết kiệm</div>
-                    <div className="ml-6 text-orange">
+                    <div className="ml-6 text-orange-600">
                       ₫{formatCurrency(totalCheckedPurchaseSavingPrice)}
                     </div>
                   </div>
                 </div>
                 <Button
-                  className="mt-5 flex h-10 w-52 items-center justify-center bg-red-500 text-lg uppercase text-white hover:bg-red-600 sm:ml-4 sm:mt-0"
+                  className="mt-5 flex h-10 w-52 items-center justify-center bg-mainColor rounded text-lg uppercase text-white hover:bg-red-600 sm:ml-4 sm:mt-0"
                   onClick={handleBuyPurchases}
                   // disabled={buyProductsMutation.isLoading}
                 >

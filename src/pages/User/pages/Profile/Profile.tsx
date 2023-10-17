@@ -20,7 +20,7 @@ import { useAppDispatch } from "src/hooks/useRedux";
 import { getMe, updateMe } from "src/store/user/userSlice";
 import { unwrapResult } from "@reduxjs/toolkit";
 import { User } from "src/types/user.type";
-import Button from "src/pages/Auth/Button";
+import { Button } from "@mui/material";
 
 function Info() {
   const {
@@ -32,7 +32,7 @@ function Info() {
     <Fragment>
       <div className="mt-6 flex flex-col flex-wrap sm:flex-row">
         <div className="truncate pt-3 capitalize sm:w-[20%] sm:text-right">
-          Tên
+          Tên:
         </div>
         <div className="sm:w-[80%] sm:pl-5">
           <Input
@@ -46,7 +46,7 @@ function Info() {
       </div>
       <div className="mt-2 flex flex-col flex-wrap sm:flex-row">
         <div className="truncate pt-3 capitalize sm:w-[20%] sm:text-right">
-          Số điện thoại
+          Số điện thoại:
         </div>
         <div className="sm:w-[80%] sm:pl-5">
           <Controller
@@ -120,6 +120,7 @@ export default function Profile() {
   useEffect(() => {
     const _getMe = async () => {
       const res = await dispatch(getMe("")).then(unwrapResult);
+      console.log(res.data);
       setProfileLocal(res);
     };
     _getMe();
@@ -182,12 +183,12 @@ export default function Profile() {
   };
 
   return (
-    <div className="rounded-sm bg-white px-2 pb-10 shadow md:px-7 md:pb-20">
+    <div className="rounded-sm bg-white px-2 pl-5 pb-10 shadow md:px-7 md:pb-20">
       <div className="border-b border-b-gray-200 py-6">
         <h1 className="text-2xl font-medium capitalize text-gray-900">
           Hồ Sơ Của Tôi
         </h1>
-        <div className="mt-1 text-sm text-gray-700">
+        <div className="mt-1 text-xl text-gray-700">
           Quản lý thông tin hồ sơ để bảo mật tài khoản
         </div>
       </div>
@@ -197,18 +198,20 @@ export default function Profile() {
           onSubmit={onSubmit}
         >
           <div className="mt-6 flex-grow md:mt-0 md:pr-12">
-            <div className="flex flex-col flex-wrap sm:flex-row">
+            <div className="flex flex-grow space-x-1 flex-wrap sm:flex-row">
               <div className="truncate pt-3 capitalize sm:w-[20%] sm:text-right">
-                Email
+                Email:
               </div>
-              <div className="sm:w-[80%] sm:pl-5">
-                <div className="pt-3 text-gray-700">{profile?.email}</div>
+              <div className="sm:w-[80%] sm:pl-5 ml-2">
+                <div className="pt-3 text-gray-900 ml-1">
+                  {profile?.email || "voduytao3@gmail.com"}
+                </div>
               </div>
             </div>
             <Info />
             <div className="mt-2 flex flex-col flex-wrap sm:flex-row">
               <div className="truncate pt-3 capitalize sm:w-[20%] sm:text-right">
-                Địa chỉ
+                Địa chỉ:
               </div>
               <div className="sm:w-[80%] sm:pl-5">
                 <Input
@@ -235,7 +238,10 @@ export default function Profile() {
               <div className="truncate pt-3 capitalize sm:w-[20%] sm:text-right" />
               <div className="sm:w-[80%] sm:pl-5">
                 <Button
-                  className="flex h-9 items-center rounded-sm bg-orange px-5 text-center text-sm text-white hover:bg-orange/80"
+                  style={{
+                    backgroundColor: "Highlight",
+                  }}
+                  className="flex h-12 w-12 items-center border-yellow-200 border-solid  rounded-sm  px-8 text-center text-sm text-black "
                   type="submit"
                 >
                   Lưu

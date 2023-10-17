@@ -1,10 +1,10 @@
 import { yupResolver } from "@hookform/resolvers/yup";
+import { Button } from "@mui/material";
 import { unwrapResult } from "@reduxjs/toolkit";
 import { useForm } from "react-hook-form";
 import { toast } from "react-toastify";
 import Input from "src/components/Input";
 import { useAppDispatch } from "src/hooks/useRedux";
-import Button from "src/pages/Auth/Button";
 import { updateMe } from "src/store/user/userSlice";
 import { ErrorResponse } from "src/types/utils.type";
 import { userSchema, UserSchema } from "src/utils/rules";
@@ -64,12 +64,12 @@ export default function ChangePassword() {
   });
 
   return (
-    <div className="rounded-sm bg-white px-2 pb-10 shadow md:px-7 md:pb-20">
+    <div className="rounded-sm bg-white px-2 pb-10 shadow md:px-7 md:pb-20 pl-5">
       <div className="border-b border-b-gray-200 py-6">
-        <h1 className="text-lg font-medium capitalize text-gray-900">
+        <h1 className="text-2xl font-medium capitalize text-gray-900">
           Đổi mật khẩu
         </h1>
-        <div className="mt-1 text-sm text-gray-700">
+        <div className="mt-1 text-xl text-gray-700">
           Quản lý thông tin hồ sơ để bảo mật tài khoản
         </div>
       </div>
@@ -77,7 +77,7 @@ export default function ChangePassword() {
         <div className="mt-6 flex-grow md:mt-0 md:pr-12">
           <div className="mt-2 flex flex-col flex-wrap sm:flex-row">
             <div className="truncate pt-3 capitalize sm:w-[20%] sm:text-right">
-              Mật khẩu cũ
+              Mật khẩu cũ:
             </div>
             <div className="sm:w-[80%] sm:pl-5">
               <Input
@@ -93,7 +93,7 @@ export default function ChangePassword() {
           </div>
           <div className="mt-2 flex flex-col flex-wrap sm:flex-row">
             <div className="truncate pt-3 capitalize sm:w-[20%] sm:text-right">
-              Mật khẩu mới
+              Mật khẩu mới:
             </div>
             <div className="sm:w-[80%] sm:pl-5">
               <Input
@@ -109,7 +109,7 @@ export default function ChangePassword() {
           </div>
           <div className="mt-2 flex flex-col flex-wrap sm:flex-row">
             <div className="truncate pt-3 capitalize sm:w-[20%] sm:text-right">
-              Nhập lại mật khẩu
+              Nhập lại mật khẩu:
             </div>
             <div className="sm:w-[80%] sm:pl-5">
               <Input
@@ -127,7 +127,10 @@ export default function ChangePassword() {
             <div className="truncate pt-3 capitalize sm:w-[20%] sm:text-right" />
             <div className="sm:w-[80%] sm:pl-5">
               <Button
-                className="flex h-9 items-center rounded-sm bg-orange px-5 text-center text-sm text-white hover:bg-orange/80"
+                style={{
+                  backgroundColor: "Highlight",
+                }}
+                className="flex h-12 w-12 items-center border-yellow-200 border-solid  rounded-sm  px-8 text-center text-sm text-black "
                 type="submit"
               >
                 Lưu

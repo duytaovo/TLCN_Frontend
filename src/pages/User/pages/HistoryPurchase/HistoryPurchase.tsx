@@ -6,7 +6,6 @@ import path from "src/constants/path";
 import { purchasesStatus } from "src/constants/purchase";
 import useQueryParams from "src/hooks/useQueryParams";
 import { useAppDispatch } from "src/hooks/useRedux";
-import { orderService } from "src/services";
 import { getPurchases } from "src/store/order/orderSlice";
 import { PurchaseListStatus } from "src/types/purchase.type";
 import { formatCurrency, generateNameId } from "src/utils/utils";
@@ -25,11 +24,12 @@ export default function HistoryPurchase() {
   const status: number = Number(queryParams.status) || purchasesStatus.all;
   const [purchases, setPurchases] = useState([]);
   const dispatch = useAppDispatch();
+
   useEffect(() => {
     dispatch(getPurchases({ status: status as PurchaseListStatus }))
       .then(unwrapResult)
       .then((res: any) => {
-        setPurchases(res.data);
+        setPurchases(res.data.data);
       });
   }, [status, dispatch]);
 
@@ -45,7 +45,7 @@ export default function HistoryPurchase() {
       className={classNames(
         "flex flex-1 items-center justify-center border-b-2 bg-white py-4 text-center",
         {
-          "border-b-orange text-orange": status === tab.status,
+          "border-b-mainColor text-mainColor": status === tab.status,
           "border-b-black/10 text-gray-900": status !== tab.status,
         }
       )}
@@ -89,7 +89,7 @@ export default function HistoryPurchase() {
                     <span className="truncate text-gray-500 line-through">
                       ₫{formatCurrency(purchase.product.price_before_discount)}
                     </span>
-                    <span className="ml-2 truncate text-orange">
+                    <span className="ml-2 truncate text-red-500">
                       ₫{formatCurrency(purchase.product.price)}
                     </span>
                   </div>
@@ -97,7 +97,7 @@ export default function HistoryPurchase() {
                 <div className="flex justify-end">
                   <div>
                     <span>Tổng giá tiền</span>
-                    <span className="ml-4 text-xl text-orange">
+                    <span className="ml-4 text-3xl text-red-500">
                       ₫
                       {formatCurrency(
                         purchase.product.price * purchase.buy_count
