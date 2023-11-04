@@ -1,4 +1,4 @@
-function PopupInfo(props: any) {
+const PopupInfo = (props: any) => {
   const handleSubmitForm = (e: any) => {
     e.preventDefault();
     // const name = document.getElementById("name").value;
@@ -118,6 +118,6 @@ function PopupInfo(props: any) {
       </div>
     </div>
   );
-}
+};
 
 export default PopupInfo;

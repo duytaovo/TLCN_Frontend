@@ -214,12 +214,12 @@ export default function CartNew() {
 
   return (
     <div className="bg-neutral-100 py-16">
-      <div className="container text-black">
+      <div className="px-48 text-black">
         {extendedPurchases.length > 0 ? (
           <>
             <div className="overflow-auto">
               <div className="">
-                <div className="grid grid-cols-12 rounded-sm bg-white py-5 px-9 text-lg capitalize text-gray-500 shadow">
+                <div className="grid grid-cols-12 rounded-sm bg-white py-5 px-9 text-2xl capitalize text-gray-500 shadow">
                   <div className="col-span-6">
                     <div className="flex items-center">
                       <div className="flex flex-shrink-0 items-center justify-center pr-3">
@@ -247,7 +247,7 @@ export default function CartNew() {
                     {extendedPurchases.map((purchase, index) => (
                       <div
                         key={purchase._id}
-                        className="mb-5 grid grid-cols-12 items-center rounded-sm border border-gray-200 bg-white py-5 px-4 text-center text-lg text-gray-500 first:mt-0"
+                        className="mb-5 grid grid-cols-12 items-center rounded-sm border border-gray-200 bg-white py-5 px-4 text-center text-2xl text-gray-500 first:mt-0"
                       >
                         <div className="col-span-6">
                           <div className="flex">
@@ -335,7 +335,7 @@ export default function CartNew() {
                               />
                             </div>
                             <div className="col-span-1">
-                              <span className="text-orange-600">
+                              <span className="text-red-600">
                                 ₫
                                 {formatCurrency(
                                   purchase.product.price * purchase.buy_count
@@ -345,7 +345,7 @@ export default function CartNew() {
                             <div className="col-span-1">
                               <button
                                 onClick={handleDelete(index)}
-                                className="bg-none text-black transition-colors hover:text-orange-600"
+                                className="bg-none text-black transition-colors hover:text-red-600"
                               >
                                 Xóa
                               </button>
@@ -392,7 +392,7 @@ export default function CartNew() {
                       ₫{formatCurrency(totalCheckedPurchasePrice)}
                     </div>
                   </div>
-                  <div className="flex items-center text-lg sm:justify-end">
+                  <div className="flex items-center text-2xl sm:justify-end">
                     <div className="text-gray-500">Tiết kiệm</div>
                     <div className="ml-6 text-orange-600">
                       ₫{formatCurrency(totalCheckedPurchaseSavingPrice)}
@@ -400,7 +400,7 @@ export default function CartNew() {
                   </div>
                 </div>
                 <Button
-                  className="mt-5 flex h-10 w-52 items-center justify-center bg-mainColor rounded text-lg uppercase text-white hover:bg-red-600 sm:ml-4 sm:mt-0"
+                  className="mt-5 flex h-10 w-52 items-center justify-center bg-mainColor rounded text-2xl uppercase text-white hover:bg-red-600 sm:ml-4 sm:mt-0"
                   onClick={handleBuyPurchases}
                   // disabled={buyProductsMutation.isLoading}
                 >

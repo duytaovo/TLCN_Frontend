@@ -10,7 +10,7 @@ import { useSelector } from "react-redux";
 import { useAppSelector } from "src/hooks/useRedux";
 import { productService } from "src/services";
 
-function OtherProduct() {
+const OtherProduct = () => {
   const initProductDetail: any = useAppSelector(
     (state) => state.products.productDetail.data
   );
@@ -71,6 +71,6 @@ function OtherProduct() {
       </>
     </Section>
   );
-}
+};
 
 export default OtherProduct;

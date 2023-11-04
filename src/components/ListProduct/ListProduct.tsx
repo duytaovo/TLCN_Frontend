@@ -1,12 +1,8 @@
 import "./listproduct.scss";
 import ProductCard from "../ProductCard";
-import Slick from "../Slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
-import Slider from "react-slick";
-import { useSelector } from "react-redux";
 import SlideProduct from "../SlideProduct/SlideProduct";
-import { IPhoneDocument } from "src/types/allProductsType.interface";
 
 type Props = {
   isSlide: boolean;

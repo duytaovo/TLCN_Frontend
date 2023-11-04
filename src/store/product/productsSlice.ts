@@ -32,7 +32,7 @@ interface State {
       gallery: string[];
       title: string[];
       img: string;
-      rating: number[];
+      rating: any;
       id: number;
     };
   };

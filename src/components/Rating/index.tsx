@@ -43,14 +43,14 @@ const Star = ({ star }: { star: number }) => {
   ));
 };
 
-function ProductRating() {
+const ProductRating = () => {
   const { title, img, rating, id } = useAppSelector(
     (state) => state.products.productDetail.data
   );
 
   const dispatch = useAppDispatch();
   const [productRating, setProductRating] = useState(() => {
-    return rating ? rating.slice(4) : [];
+    return rating ? rating.data?.slice(4) : [];
   });
 
   const [showModal, setShowModal] = useState<boolean>(false);
@@ -183,7 +183,7 @@ function ProductRating() {
             &nbsp;
             <span>{rating?.length} đánh giá</span>
           </div>
-          {vote.map((item) => {
+          {vote?.map((item) => {
             const style = { width: `${item.percent}%` };
             return (
               <div className="flex items-center text-2xl" key={item.star}>
@@ -389,6 +389,6 @@ function ProductRating() {
       </div>
     </div>
   );
-}
+};
 
 export default ProductRating;

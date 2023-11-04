@@ -1,10 +1,5 @@
 import { Link } from "react-router-dom";
-import {
-  ChevronRight,
-  StarFill,
-  Plus,
-  HandThumbsUpFill,
-} from "react-bootstrap-icons";
+import { ChevronRight, Plus, HandThumbsUpFill } from "react-bootstrap-icons";
 import { useAppSelector } from "src/hooks/useRedux";
 import { Rate } from "antd";
 function Head() {

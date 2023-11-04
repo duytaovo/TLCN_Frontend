@@ -4,7 +4,7 @@ import clsx from "clsx";
 import { data } from "jquery";
 import axios from "axios";
 
-function PcContent() {
+const PcContent = () => {
   const [items, setItems] = useState([]);
   useEffect(() => {
     axios
@@ -33,6 +33,6 @@ function PcContent() {
       })}
     </div>
   );
-}
+};
 
 export default PcContent;

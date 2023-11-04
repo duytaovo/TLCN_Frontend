@@ -10,7 +10,7 @@ const ProductCard = (props: any) => {
     e.stopPropagation();
     e.nativeEvent.stopImmediatePropagation();
   };
-  const [checked, setChecked] = useState(0);
+  const [checked, setChecked] = useState<number>(0);
 
   const handleProductClick = () => {};
   return (

@@ -12,7 +12,7 @@ const DvContent = () => {
   }, []);
   return (
     <div className="text-gray-800 w-80">
-      {items.map((item: any, index: any) => {
+      {/* {items.map((item: any, index: any) => {
         return (
           <ul className="" key={index}>
             <li className="font-bold text-2xl">{item.title}</li>
@@ -28,7 +28,7 @@ const DvContent = () => {
             })}
           </ul>
         );
-      })}
+      })} */}
     </div>
   );
 };

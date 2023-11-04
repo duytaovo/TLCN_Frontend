@@ -86,7 +86,7 @@ export const routeMain = [
 ];
 
 const urls: string[] = [
-  "phone/:productSlug",
+  "dienthoai/:productSlug",
   "laptop/:productSlug",
   "tablet/:productSlug",
   "watch/:productSlug",

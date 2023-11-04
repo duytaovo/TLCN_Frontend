@@ -14,7 +14,7 @@ import ProductRating from "src/components/Rating";
 import { DiscountBox, Parameter, PayInfo, Tag } from "./RightBlock";
 import { useEffect } from "react";
 
-function ProductDetail() {
+const ProductDetail = () => {
   const { productSlug } = useParams();
   const dispatch = useAppDispatch();
   useEffect(() => {
@@ -54,6 +54,6 @@ function ProductDetail() {
       </div>
     </div>
   );
-}
+};
 
 export default ProductDetail;

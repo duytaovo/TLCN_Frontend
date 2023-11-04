@@ -139,9 +139,9 @@ const ListPhone = ({ choose, isOpen }: Props) => {
       <div className="phone__content">
         <div className="listcontent">
           {isOpen === false ? (
-            <ListProduct products={getDataFilter} isSlide={false}></ListProduct>
+            <ListProduct products={getDataFilter} isSlide={false} />
           ) : (
-            <ListProduct products={dataAfter} isSlide={false}></ListProduct>
+            <ListProduct products={dataAfter} isSlide={false} />
           )}
         </div>
       </div>

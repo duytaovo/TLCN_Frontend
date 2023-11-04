@@ -26,7 +26,7 @@ const menuStyle = {
 };
 function Header() {
   const { t } = useTranslation("home");
-  const { isAuthenticated } = useContext(AppContext);
+  const {} = useContext(AppContext);
 
   const [isScrolled, setIsScrolled] = useState(false);
 
@@ -93,7 +93,7 @@ function Header() {
           <FilterButton />
           <SearchInput />
           <Link
-            to={path.history}
+            to={path.historyPurchase}
             onClick={handleOrderClick}
             className="w-32 text-center "
           >
@@ -108,7 +108,7 @@ function Header() {
             items={itemAcount}
             children={
               <div className="flex items-center justify-around cursor-pointer ">
-                {isAuthenticated ? (
+                {true ? (
                   <SentimentSatisfiedAltRoundedIcon />
                 ) : (
                   <div onClick={handleOpenModal}>Tài khoản</div>

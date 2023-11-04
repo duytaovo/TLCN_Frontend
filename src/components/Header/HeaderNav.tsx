@@ -14,36 +14,37 @@ import {
   Pc,
   Down,
 } from "../Icons";
+import path from "src/constants/path";
 function HeaderNav() {
   const anchors = [
-    { name: "Điện thoại", path: "/phone", firstIcon: Phone },
-    { name: "Laptop", path: "/laptop", firstIcon: Laptop },
-    { name: "Tablet", path: "/tablet", firstIcon: Tablet },
+    { name: "Điện thoại", path: path.phone, firstIcon: Phone },
+    { name: "Laptop", path: path.laptop, firstIcon: Laptop },
+    { name: "Tablet", path: path.tablet, firstIcon: Tablet },
     {
       name: "Phụ kiện",
-      path: "/accessory",
+      path: path.accessory,
       firstIcon: Headphone,
       secondIcon: Down,
       tooltip: true,
       content: AccesContent,
     },
-    { name: "Smartwatch", path: "/smartwatch", firstIcon: Smartwatch },
-    { name: "Đồng hồ", path: "/watch", firstIcon: Watch },
+    { name: "Smartwatch", path: path.smartwatch, firstIcon: Smartwatch },
+    // { name: "Đồng hồ", path: "/watch", firstIcon: Watch },
     {
-      name: "PC, Máy in",
+      name: "PC",
       path: "/pc",
       firstIcon: Pc,
       secondIcon: Down,
       tooltip: true,
       content: PcContent,
     },
-    { name: "Máy cũ giá rẻ", path: "/maycu" },
-    { name: "Sim, thẻ cào", path: "/sim" },
+    { name: "Máy cũ giá rẻ", path: path.maycu },
+    // { name: "Sim, thẻ cào", path: "/sim" },
     {
       name: "Dịch vụ tiện ích",
       path: "/dichvu",
       secondIcon: Down,
-      tooltip: true,
+      // tooltip: true,
       content: DvContent,
     },
   ];

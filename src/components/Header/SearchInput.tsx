@@ -2,7 +2,6 @@ import { Search } from "../Icons";
 import Tippy from "@tippyjs/react";
 import "tippy.js/dist/tippy.css";
 import { useState, useEffect, useRef } from "react";
-// import { getResult, removeResult } from "../../redux/search/searchApi";
 import numberWithCommas from "../../utils/numberWithCommas";
 import useDebound from "./../../hooks/useDebound";
 import { Link, useNavigate } from "react-router-dom";
@@ -12,6 +11,7 @@ import { getResult, removeResult } from "src/store/search/searchApi";
 
 const config = {
   dienthoai: "dienthoai",
+  phone: "dienthoai",
   điệnthoại: "dienthoai",
   maytinhbang: "tablet",
   máytínhbảng: "tablet",
@@ -19,9 +19,9 @@ const config = {
   phukien: "accessory",
   phụkiện: "accessory",
   accessory: "accessory",
-  dongho: "watch",
-  đồnghồ: "watch",
-  watch: "watch",
+  dongho: "smartwatch",
+  đồnghồ: "smartwatch",
+  watch: "smartwatch",
   laptop: "laptop",
   donghothongminh: "smartwatch",
   đồnghồthôngminh: "smartwatch",
