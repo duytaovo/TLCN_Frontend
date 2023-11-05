@@ -9,7 +9,6 @@ const Ticket = ({ show }: { show: boolean }) => {
       behavior: "smooth",
     });
   };
-  useEffect(() => {}, []);
   return (
     <div>
       {show && (

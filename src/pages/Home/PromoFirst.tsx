@@ -14,10 +14,10 @@ const PromoFirst = () => {
   );
 
   useEffect(() => {
-    async function getPromoProduct() {
+    const getPromoProduct = async () => {
       const res = await productService.queryProduct([query, value], [], [], []);
       setProducts(res.data);
-    }
+    };
 
     getPromoProduct();
   }, []);

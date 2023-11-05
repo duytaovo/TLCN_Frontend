@@ -9,7 +9,7 @@ const BigBanner = () => {
 
   return (
     <div className={"h-full object-cover bg-transparent  rounded-2xl mb-6"}>
-      <Link to="khuyen-mai">
+      <Link to="/">
         <img src={bigImage} className="rounded-xl" />
       </Link>
     </div>

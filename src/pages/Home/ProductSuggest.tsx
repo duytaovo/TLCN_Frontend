@@ -5,13 +5,12 @@ import Section from "src/components/Section/Section";
 const ProductSuggest = () => {
   const [products, setProducts] = useState([]);
   const [limit, setLimit] = useState<number>(10);
-  const [province, setProvince] = useState();
 
   const number = 25;
   const handleClick = () => {
     setLimit(number);
   };
-  // products = products.slice(0,limit)
+
   return (
     <Section title="GỢI Ý HÔM NAY" styles="bg-white">
       <>
@@ -20,7 +19,7 @@ const ProductSuggest = () => {
             return <ProductCard key={product.title} {...product} />;
           })}
           <div className="w-full">
-            {limit != number && (
+            {limit !== number && (
               <button
                 className="m-auto block bg-white/40 text-black rounded-lg px-56 py-4 border outline-none"
                 onClick={handleClick}

@@ -7,16 +7,16 @@ import { productService } from "src/services";
 import Section from "src/components/Section/Section";
 import { useAppSelector } from "src/hooks/useRedux";
 
-function PromoSecond() {
+const PromoSecond = () => {
   const [products, setProducts] = useState<[]>([]);
   const { query, slider, title, value } = useAppSelector(
     (state) => state.banner.promo.secondpromo
   );
   useEffect(() => {
-    async function getPromoProduct() {
+    const getPromoProduct = async () => {
       const res = await productService.queryProduct([query, value], [], [], []);
       setProducts(res.data);
-    }
+    };
     getPromoProduct();
   }, []);
 
@@ -76,6 +76,6 @@ function PromoSecond() {
       </>
     </Section>
   );
-}
+};
 
 export default PromoSecond;
