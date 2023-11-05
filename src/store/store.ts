@@ -15,6 +15,7 @@ import bannerReducer from "./banner/bannerSlice";
 import commentsReducer from "./comment/commentsSlice";
 import historyReducer from "./history/historyOrdersSlice";
 import productsReducer from "./product/productsSlice";
+import smartPhoneReducer from "./product/smartPhoneSlice";
 
 export const store = configureStore({
   reducer: {
@@ -23,6 +24,7 @@ export const store = configureStore({
     cartItems: cartItemsReducer,
     user: userReducer,
     products: productsReducer,
+    smartphone: smartPhoneReducer,
     search: searchSlice,
     order: orderSlice,
     banner: bannerReducer,

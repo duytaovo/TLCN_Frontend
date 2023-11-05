@@ -1,15 +1,20 @@
-import axios from "axios";
-import http, { httpCategory } from "src/utils/http";
+import http, { httpCategory, httpNew } from "src/utils/http";
 
-export const productService = {
+export const smartphoneService = {
   getProducts(page: string, limit: string) {
     return http.get(`/products/?_page=${page}&_limit=${limit}`);
   },
   getAllProducts() {
-    return http.get(`/products/`);
+    return httpNew.get(`/product/smartphone`);
   },
   getProduct(id: string) {
-    return http.get(`/products/${id}`);
+    return httpNew.get(`/manage/product/smartphone/${id}`);
+  },
+  getProductWithPage(pageNumber: string) {
+    return httpNew.get(`/product/smartphone/${pageNumber}`);
+  },
+  getProductWithPageSize(pageNumber: string, size: string) {
+    return httpNew.get(`/product/smartphone/${pageNumber}/${size}`);
   },
   getProductByName(name: string) {
     return http.get(`/products/${name}`);

@@ -15,7 +15,6 @@ function Head() {
       { name: title, path: `/${category}/${slug}` },
     ],
   };
-  console.log(data);
 
   // const sum = function (items = [], prop: any) {
   //   console.log(items);

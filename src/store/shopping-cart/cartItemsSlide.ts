@@ -14,34 +14,33 @@ export const cartItemsSlice = createSlice({
   initialState,
   reducers: {
     addItem: (state, action) => {
+      console.log("action" + JSON.stringify(action.payload));
       const newItem = action.payload;
       const duplicate = state.value.filter(
-        (e: any) =>
-          e.slug === newItem.slug &&
-          e.color === newItem.color &&
-          e.size === newItem.size
+        (e: any) => e.id === newItem.id
+        // e.color === newItem.color &&
+        // e.size === newItem.size
       );
       if (duplicate.length > 0) {
         state.value = state.value.filter(
-          (e: any) =>
-            e.slug !== newItem.slug ||
-            e.color !== newItem.color ||
-            e.size !== newItem.size
+          (e: any) => e.id !== newItem.id
+          // e.color !== newItem.color ||
+          // e.size !== newItem.size
         );
 
         state.value = [
           ...state.value,
           {
             id: duplicate[0].id,
-            img: newItem.img,
-            title: newItem.title,
-            discount: newItem.discount,
-            slug: newItem.slug,
+            // img: newItem.img,
+            // title: newItem.title,
+            // discount: newItem.discount,
+            // slug: newItem.slug,
             color: newItem.color,
             size: newItem.size,
             price: newItem.price,
-            brand: newItem.brand,
-            category: newItem.category,
+            // brand: newItem.brand,
+            // category: newItem.category,
             quantity: newItem.quantity + duplicate[0].quantity,
           },
         ];
@@ -50,10 +49,10 @@ export const cartItemsSlice = createSlice({
           ...state.value,
           {
             ...action.payload,
-            id:
-              state.value.length > 0
-                ? state.value[state.value.length - 1].id + 1
-                : 1,
+            // id:
+            //   state.value.length > 0
+            //     ? state.value[state.value.length - 1].id + 1
+            //     : 1,
           },
         ];
       }

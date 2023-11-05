@@ -3,12 +3,14 @@ import ProductCard from "../ProductCard";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import SlideProduct from "../SlideProduct/SlideProduct";
+import { ListSmartPhone } from "src/types/allProductsType.interface";
 
 type Props = {
   isSlide: boolean;
   products: any;
+  category: string;
 };
-const ListProduct = ({ isSlide, products }: Props) => {
+const ListProduct = ({ isSlide, products, category }: Props) => {
   return (
     <>
       {isSlide ? (
@@ -17,9 +19,9 @@ const ListProduct = ({ isSlide, products }: Props) => {
         </div>
       ) : (
         <div className="listproduct">
-          {products?.map((product: any, index: number) => (
+          {products?.map((product: ListSmartPhone, index: number) => (
             <div key={index}>
-              <ProductCard {...product} />
+              <ProductCard product={product} category={category} />
             </div>
           ))}
         </div>

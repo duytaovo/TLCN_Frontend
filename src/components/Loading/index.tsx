@@ -5,7 +5,6 @@ import { RootState } from "src/store/store";
 
 const Loading = () => {
   const loading = useSelector((state: RootState) => state.loading.loading);
-  console.log("loading" + loading);
   if (loading > 0) {
     return (
       <div>

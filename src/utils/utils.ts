@@ -13,7 +13,8 @@ export const payloadCreator =
       return thunkAPI.rejectWithValue(error);
     }
   };
-
+export const rateSale = (original: number, sale: number) =>
+  Math.round(((original - sale) / original) * 100) + "%";
 export function isAxiosError<T>(error: unknown): error is AxiosError<T> {
   // eslint-disable-next-line import/no-named-as-default-member
   return axios.isAxiosError(error);
@@ -49,13 +50,13 @@ export function isAxiosExpiredTokenError<UnauthorizedError>(
 
 const removeSpecialCharacter = (str: string) =>
   // eslint-disable-next-line no-useless-escape
-  str.replace(
+  str?.replace(
     /!|@|%|\^|\*|\(|\)|\+|\=|\<|\>|\?|\/|,|\.|\:|\;|\'|\"|\&|\#|\[|\]|~|\$|_|`|-|{|}|\||\\/g,
     ""
   );
 
 export const generateNameId = ({ name, id }: { name: string; id: string }) => {
-  return removeSpecialCharacter(name).replace(/\s/g, "-") + `-i-${id}`;
+  return removeSpecialCharacter(name)?.replace(/\s/g, "-") + `-i-${id}`;
 };
 
 export const getIdFromNameId = (name: string) => {

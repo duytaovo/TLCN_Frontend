@@ -10,7 +10,7 @@ const Maycu = lazy(() => import("src/pages/Maycu/Maycu"));
 const NotFound = lazy(() => import("src/pages/NotFound "));
 const Phone = lazy(() => import("src/pages/Phone/Phone"));
 const ProductDetail = lazy(
-  () => import("src/pages/ProductDetail/ProductDetail")
+  () => import("src/pages/ProductDetail/SmartPhoneDetail")
 );
 const Samsung = lazy(() => import("src/pages/Samsung/Samsung"));
 const SmartWatch = lazy(() => import("src/pages/Smartwatch/SmartWatch"));
@@ -86,14 +86,14 @@ export const routeMain = [
 ];
 
 const urls: string[] = [
-  "dienthoai/:productSlug",
-  "laptop/:productSlug",
-  "tablet/:productSlug",
-  "watch/:productSlug",
-  "man-hinh-may-tinh/:productSlug",
-  "may-tinh-de-ban/:productSlug",
-  "accessory/:productSlug",
-  "smartwatch/:productSlug",
+  "smartphone/detail/:productSlug",
+  "laptop/detail/:productSlug",
+  "tablet/detail/:productSlug",
+  "watch/detail/:productSlug",
+  "man-hinh-may-tinh/detail/:productSlug",
+  "may-tinh-de-ban/detail/:productSlug",
+  "accessory/detail/:productSlug",
+  "smartwatch/detail/:productSlug",
 ];
 
 export const productDetailRoutes = urls.map((url) => ({

@@ -7,7 +7,6 @@ import { useAppSelector } from "src/hooks/useRedux";
 const ButtonFilterTotal = ({}, ref: any) => {
   const filter = useAppSelector((state) => state.products.filter.data);
   const number: any = useRef();
-  console.log(filter);
   return (
     <div className={styles.wrap} ref={ref}>
       <span className={styles.text}>

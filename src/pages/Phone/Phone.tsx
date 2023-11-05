@@ -5,15 +5,14 @@ import FilterPhone from "./FilterPhone";
 import QuickLinkPhone from "./QuickLinkPhone";
 import ListPhone from "./ListPhone";
 import { useAppDispatch } from "src/hooks/useRedux";
-import { getAllProductByCategory } from "src/store/product/productsSlice";
+import { getSmartPhones } from "src/store/product/smartPhoneSlice";
 
 const Phone = () => {
   const [choose, setChoose] = useState<string>("");
   const [isOpen, setisOpen] = useState<boolean>(false);
   const dispatch = useAppDispatch();
-
   useEffect(() => {
-    dispatch(getAllProductByCategory("dienthoai"));
+    dispatch(getSmartPhones(""));
   }, []);
 
   const handle = (boolean: boolean) => {
@@ -23,7 +22,6 @@ const Phone = () => {
   const handleSetChoose = (text: string) => {
     setChoose(text);
   };
-
   return (
     <div className="text-textWhiteMain">
       <Helmet>

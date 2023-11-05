@@ -130,5 +130,6 @@ export class Http {
 }
 const http = new Http(config.baseUrl).instance;
 export const httpCategory = new Http("https://json.msang.repl.co").instance;
+export const httpNew = new Http("http://localhost:8081/api").instance;
 export const httpCart = new Http("https://api-ecom.duthanhduoc.com/").instance;
 export default http;

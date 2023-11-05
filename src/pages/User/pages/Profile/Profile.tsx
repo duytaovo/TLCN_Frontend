@@ -120,7 +120,6 @@ export default function Profile() {
   useEffect(() => {
     const _getMe = async () => {
       const res = await dispatch(getMe("")).then(unwrapResult);
-      console.log(res.data);
       setProfileLocal(res);
     };
     _getMe();
