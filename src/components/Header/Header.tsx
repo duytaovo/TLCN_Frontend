@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import HeaderNav from "./HeaderNav";
 import SearchInput from "./SearchInput";
 import CartButton from "./CartButton";
@@ -13,6 +13,7 @@ import CustomDropDown from "../Dropdown/Dropdown";
 import { AppContext } from "src/contexts/app.context";
 import SentimentSatisfiedAltRoundedIcon from "@mui/icons-material/SentimentSatisfiedAltRounded";
 import logo from "src/assets/images/logonew.jpg";
+import { clearLS } from "src/utils/auth";
 
 const customDropdownStyle = {
   arrow: false,
@@ -24,9 +25,11 @@ const menuStyle = {
   padding: "20px 20px",
   borderRadius: "16px",
 };
-function Header() {
+const Header = () => {
   const { t } = useTranslation("home");
   const {} = useContext(AppContext);
+  const { isAuthenticated } = useContext(AppContext);
+  const navigate = useNavigate();
 
   const [isScrolled, setIsScrolled] = useState(false);
 
@@ -71,6 +74,29 @@ function Header() {
       ),
     },
   ];
+
+  const itemLogout: MenuProps["items"] = [
+    {
+      key: "2",
+      label: (
+        <div
+          onClick={async () => {
+            await clearLS();
+            // await dispatch(updateUser("0"));
+            // const res = await dispatch(logoutUser("")).then(unwrapResult);
+            // await toast.success("Đăng xuất thành công");
+
+            setTimeout(async () => {
+              await location.reload();
+              await navigate("/");
+            }, 1000);
+          }}
+        >
+          <span className={""}>{t("header.logout")}</span>
+        </div>
+      ),
+    },
+  ];
   return (
     <header
       className={`${
@@ -105,7 +131,7 @@ function Header() {
           <CustomDropDown
             {...customDropdownStyle}
             menuStyle={menuStyle}
-            items={itemAcount}
+            items={isAuthenticated ? itemLogout : itemAcount}
             children={
               <div className="flex items-center justify-around cursor-pointer ">
                 {true ? (
@@ -129,6 +155,6 @@ function Header() {
       </div>
     </header>
   );
-}
+};
 
 export default Header;

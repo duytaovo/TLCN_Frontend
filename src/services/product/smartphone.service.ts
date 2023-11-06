@@ -1,11 +1,16 @@
+import { ProductListConfig } from "src/types/product.type";
 import http, { httpCategory, httpNew } from "src/utils/http";
 
 export const smartphoneService = {
   getProducts(page: string, limit: string) {
     return http.get(`/products/?_page=${page}&_limit=${limit}`);
   },
-  getAllProducts() {
-    return httpNew.get(`/product/smartphone`);
+  getAllProducts(params: ProductListConfig) {
+    const paramsNew = {
+      ...params,
+      pageNumber: Number(params.pageNumber) - 1,
+    };
+    return httpNew.get(`/product/smartphone`, { params: paramsNew });
   },
   getProduct(id: string) {
     return httpNew.get(`/manage/product/smartphone/${id}`);

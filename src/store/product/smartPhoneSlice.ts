@@ -25,13 +25,27 @@ export const getDetailPhone = createAsyncThunk(
   "smartPhone/getDetailPhone",
   payloadCreator(smartphoneService.getProduct)
 );
+const data = {
+  data: [],
+  pageNumber: 0,
+  pageSize: 10,
+  totalElements: 1,
+  totalPages: 1,
+};
 
+type SmartPhone = {
+  data: ListSmartPhone[];
+  pageNumber: number;
+  pageSize: number;
+  totalElements: number;
+  totalPages: number;
+};
 interface IProduct {
-  smartPhone: ListSmartPhone[];
+  smartPhone: SmartPhone;
   smartPhoneDetail: SmartPhoneDetail;
   filter: ListSmartPhone[];
 }
-const data = {
+const dataDetail = {
   id: 8,
   monitor: "6.7 - Tần số quét 60 Hz",
   operatingSystem: "iOS",
@@ -83,8 +97,8 @@ const data = {
   },
 };
 const initialState: IProduct = {
-  smartPhone: [],
-  smartPhoneDetail: data,
+  smartPhone: data,
+  smartPhoneDetail: dataDetail,
   filter: [],
 };
 const smartPhoneSlice = createSlice({
@@ -93,7 +107,8 @@ const smartPhoneSlice = createSlice({
   reducers: {},
   extraReducers: (builder) => {
     builder.addCase(getSmartPhones.fulfilled, (state, { payload }) => {
-      state.smartPhone = payload.data.data.data;
+      console.log(payload.data.data);
+      state.smartPhone = payload.data.data;
     });
     builder.addCase(getDetailPhone.fulfilled, (state, { payload }) => {
       state.smartPhoneDetail = payload.data.data;

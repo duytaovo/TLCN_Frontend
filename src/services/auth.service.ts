@@ -1,8 +1,8 @@
-import http from "src/utils/http";
+import http, { httpNew } from "src/utils/http";
 
 export const authApi = {
   login(data: any) {
-    return http.post("/auth/login", data);
+    return httpNew.post("/authenticate", data);
   },
   register(data: any) {
     return http.post("/auth/register", data);

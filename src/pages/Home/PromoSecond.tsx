@@ -3,22 +3,24 @@ import Slider from "react-slick";
 import NextArrow from "src/components/Slick/NextArrow";
 import PrevArrow from "src/components/Slick/PrevArrow";
 import ProductCard from "src/components/ProductCard/ProductCard";
-import { productService } from "src/services";
 import Section from "src/components/Section/Section";
 import { useAppSelector } from "src/hooks/useRedux";
+import Pagination from "src/components/Pagination";
+import useQueryConfig from "src/hooks/useQueryConfig";
 
 const PromoSecond = () => {
   const [products, setProducts] = useState<[]>([]);
   const { query, slider, title, value } = useAppSelector(
     (state) => state.banner.promo.secondpromo
   );
-  useEffect(() => {
-    const getPromoProduct = async () => {
-      const res = await productService.queryProduct([query, value], [], [], []);
-      setProducts(res.data);
-    };
-    getPromoProduct();
-  }, []);
+  const queryConfig = useQueryConfig();
+
+  // const dispatch = useAppDispatch();
+  const { smartPhone } = useAppSelector((state) => state.smartphone);
+
+  // useEffect(() => {
+  //   dispatch(getSmartPhones(queryConfig));
+  // }, []);
 
   return (
     <Section styles={""}>
@@ -58,21 +60,22 @@ const PromoSecond = () => {
             nextArrow={<NextArrow />}
             prevArrow={<PrevArrow />}
           >
-            {products?.map((product: any) => (
+            {smartPhone.data?.map((product: any) => (
               <div
                 className="w-full rounded-xl overflow-hidden"
-                key={product.title}
+                key={product.id}
               >
                 <div className="mx-4  rounded-xl overflow-hidden">
-                  <ProductCard {...product} />
+                  <ProductCard product={product} category="smartphone" />
                 </div>
               </div>
             ))}
           </Slider>
         </div>
-        <button className="outline-none text-2xl my-10 border bg-white/40 px-20 py-4 rounded-lg">
-          Xem tất cả sản phẩm
-        </button>
+        <Pagination
+          queryConfig={queryConfig}
+          pageSize={smartPhone.totalPages}
+        />
       </>
     </Section>
   );

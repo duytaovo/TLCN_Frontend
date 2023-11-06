@@ -5,21 +5,19 @@ import PrevArrow from "src/components/Slick/PrevArrow";
 import ProductCard from "src/components/ProductCard/ProductCard";
 import { productService } from "src/services";
 import Section from "src/components/Section/Section";
-import { useAppSelector } from "src/hooks/useRedux";
+import { useAppDispatch, useAppSelector } from "src/hooks/useRedux";
+import { getSmartPhones } from "src/store/product/smartPhoneSlice";
+import Pagination from "src/components/Pagination";
+import useQueryConfig from "src/hooks/useQueryConfig";
 
 const PromoFirst = () => {
-  const [products, setProducts] = useState([]);
-  const { banner, query, value } = useAppSelector(
-    (state) => state.banner.promo.firstpromo
-  );
+  const { banner } = useAppSelector((state) => state.banner.promo.firstpromo);
+  const dispatch = useAppDispatch();
+  const queryConfig = useQueryConfig();
 
+  const { smartPhone } = useAppSelector((state) => state.smartphone);
   useEffect(() => {
-    const getPromoProduct = async () => {
-      const res = await productService.queryProduct([query, value], [], [], []);
-      setProducts(res.data);
-    };
-
-    getPromoProduct();
+    dispatch(getSmartPhones(queryConfig));
   }, []);
   return (
     <Section styles={`rounded-xl overflow-hidden `}>
@@ -34,23 +32,24 @@ const PromoFirst = () => {
             nextArrow={<NextArrow />}
             prevArrow={<PrevArrow />}
           >
-            {products &&
-              products?.map((product: any) => (
-                <div className="w-full" key={product.title}>
+            {smartPhone &&
+              smartPhone.data?.map((product: any) => (
+                <div className="w-full" key={""}>
                   <div className="mx-4">
                     <ProductCard
-                      key={product.title}
-                      {...product}
-                      data={product}
+                      key={product.id}
+                      category="smartphone"
+                      product={product}
                     />
                   </div>
                 </div>
               ))}
           </Slider>
         </div>
-        <button className="outline-none text-2xl my-10 border bg-white/40  px-20 py-4 rounded-lg">
-          Xem tất cả sản phẩm
-        </button>
+        <Pagination
+          queryConfig={queryConfig}
+          pageSize={smartPhone.totalElements}
+        />
       </>
     </Section>
   );

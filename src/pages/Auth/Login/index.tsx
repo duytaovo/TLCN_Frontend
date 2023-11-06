@@ -11,15 +11,13 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import { unwrapResult } from "@reduxjs/toolkit";
 import { login } from "src/store/user/userSlice";
 import { isAxiosUnprocessableEntityError } from "src/utils/utils";
-import { getAccessTokenFromLS, setAccessTokenToLS } from "src/utils/auth";
+import { setAccessTokenToLS, setRefreshTokenToLS } from "src/utils/auth";
 import { Helmet } from "react-helmet-async";
-import { Spin } from "antd";
-import { CircularProgress } from "@mui/material";
+import logo from "./logo-main.png";
 import Button from "../Button";
-import logo from "src/assets/images/logonew.jpg";
 
-type FormData = Pick<Schema, "email" | "password">;
-const loginSchema = schema.pick(["email", "password"]);
+type FormData = Pick<Schema, "phone" | "password">;
+const loginSchema = schema.pick(["phone", "password"]);
 
 const Login = () => {
   const dispatch = useAppDispatch();
@@ -37,24 +35,20 @@ const Login = () => {
 
   const onSubmit = handleSubmit(async (data) => {
     const body = {
-      email: data.email,
+      phoneNumber: data.phone,
       password: data.password,
     };
     try {
-      setIsSubmitting(true);
+      await setIsSubmitting(true);
       const res = await dispatch(login(body));
       unwrapResult(res);
-      const d = res?.payload?.data;
-      if (d?.result == 0) return toast.error(d?.message);
-      await setAccessTokenToLS(d?.accessToken);
-      await getAccessTokenFromLS();
+      const d = res?.payload.data;
+      if (d?.code !== 200) return toast.error("Lỗi đăng nhập");
+      await setAccessTokenToLS(d?.data.accessToken);
+      await setRefreshTokenToLS(d?.data.token);
       await setIsAuthenticated(true);
-      await toast.success("Đăng nhập thành công ");
-
-      setTimeout(async () => {
-        await navigate("/");
-        await window.location.reload();
-      }, 1000);
+      await navigate("/");
+      location.reload();
     } catch (error: any) {
       if (isAxiosUnprocessableEntityError<ErrorResponse<FormData>>(error)) {
         const formError = error.response?.data.data;
@@ -73,14 +67,14 @@ const Login = () => {
   });
 
   return (
-    <div className="w-full flex justify-center">
+    <div className=" items-start bg-white  m-auto mb-5 flex justify-center  h-screen">
       <Helmet>
         <title>Login </title>
         <meta name="description" content="Trang đăng nhập" />
       </Helmet>
-      <div className="lg:col-span-2 lg:col-start-4 bg-white w-1/3 md:w-full justify-center m-10 rounded-2xl">
+      <div className="lg:col-span-2 lg:col-start-4  bg-mainColor/30 w-1/4 md:w-full justify-center m-10 rounded-2xl">
         <div className="flex items-center justify-center rounded-2xl mt-3">
-          <img src={logo} alt="logo" className="w-40 h-30 md:hidden"></img>
+          <img src={logo} alt="logo" className="w-30 h-20 md:hidden"></img>
         </div>
         <form
           className="rounded p-10 md:p-2 shadow-sm"
@@ -92,12 +86,12 @@ const Login = () => {
           </div>
 
           <Input
-            name="email"
+            name="phone"
             register={register}
             type="text"
             className="mt-8"
-            errorMessage={errors.email?.message}
-            placeholder="User name"
+            errorMessage={errors.phone?.message}
+            placeholder="Số điện thoại"
           />
           <Input
             name="password"
@@ -109,28 +103,18 @@ const Login = () => {
             placeholder="Password"
             autoComplete="on"
           />
-          <div className="mt-3">
+          <div className="mt-3 flex justify-center space-x-2 items-center ">
             <Button
+              // isNext
               type="submit"
-              className="flex w-full items-center justify-center rounded-[30px] bg-mainColor py-4 px-2 text-sm uppercase text-white hover:opacity-80"
+              className="flex w-full items-center justify-center mt-2 rounded-[30px] bg-mainColor py-3 px-2 text-sm uppercase text-white hover:opacity-80"
             >
-              {isSubmitting === true
-                ? // <CircularProgress
-                  //   sx={{ width: "25px", height: "25px" }}
-                  //   disableShrink
-                  // />
-                  "Loading..."
-                : "Đăng nhập"}
+              {isSubmitting ? (
+                "Loading..."
+              ) : (
+                <span className="text-2xl mt-4">Đăng nhập</span>
+              )}
             </Button>
-            <span className="text-base text-center flex w-full items-center justify-center mt-2 ">
-              Hoặc
-            </span>
-
-            <div onClick={() => navigate("/register")} className="mt-3">
-              <Button className="flex w-full items-center justify-center rounded-[30px] bg-mainL1 py-4 px-2 text-sm uppercase text-white hover:opacity-80">
-                Đăng ký
-              </Button>
-            </div>
           </div>
         </form>
       </div>

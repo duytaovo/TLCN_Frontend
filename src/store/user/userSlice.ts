@@ -1,11 +1,6 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import { payloadCreator } from "src/utils/utils";
-import jwtDecode from "jwt-decode";
-import { getAccessTokenFromLS } from "src/utils/auth";
-import { toast } from "react-toastify";
-import http from "src/utils/http";
 import { authApi } from "src/services/auth.service";
-import { userService } from "src/services";
+import { payloadCreator } from "src/utils/utils";
 
 export const login = createAsyncThunk(
   "auth/login",
@@ -20,86 +15,68 @@ export const logoutUser = createAsyncThunk(
   payloadCreator(authApi.logout)
 );
 
-export const updateMe = createAsyncThunk(
-  "auth/updateMe",
-  payloadCreator(userService.updateProfile)
-);
-
-export const getMe = createAsyncThunk(
-  "auth/getMe",
-  payloadCreator(userService.getProfile)
-);
-
 interface DecodedToken {
   userId: number;
   permissions: number;
   username: string;
   userUuid: string;
 }
+const a = {
+  id: 3,
+  fullName: null,
+  phoneNumber: "0352811529",
+  password: "$2a$10$ZGDn9NMoM4VtF.777BatRu49zzV3w4UpagNGHABhxLVTaTGdySwui",
+  email: "duytaovo@gmail.com",
+  gender: null,
+  address: "số 3 Hồng Đức",
+  imageUrl: null,
+  level: 1,
+  levelString: "Bronze",
+};
+type User = {
+  id: number;
+  fullName: null;
+  phoneNumber: string;
+  password: string;
+  email: string;
+  gender: null;
+  address: string;
+  imageUrl: null;
+  level: number;
+  levelString: string;
+};
 
 interface IUser {
   name: string;
   accessToken: string;
-  permission: number;
-  isActiveEdit?: boolean;
-  userUuid: any;
-  userId: number;
-  profile: any;
+  token: string;
+  user: User[];
 }
-
-let decodeToken: DecodedToken;
-export const isAccessTokenExpired = (): any => {
-  if (!getAccessTokenFromLS() || getAccessTokenFromLS() == "") {
-    return "0";
-  }
-  try {
-    decodeToken = jwtDecode(getAccessTokenFromLS() || "") as DecodedToken;
-    const decoded = {
-      permission: decodeToken.permissions,
-      userId: decodeToken.userId,
-      userUuid: decodeToken.userUuid,
-    };
-    return decoded;
-  } catch (error) {
-    toast.error("Token không đúng định dạng");
-    return "";
-  }
-};
 
 const initialState: IUser = {
   name: "admin",
   accessToken: "123",
-  permission: isAccessTokenExpired().permission || 0,
-  isActiveEdit: false,
-  userId: isAccessTokenExpired().userId | 0,
-  userUuid: isAccessTokenExpired().userUuid,
-  profile: {},
+  token: "",
+  user: [],
 };
 const userSlice = createSlice({
-  name: "user",
+  name: "auth",
   initialState,
-  reducers: {
-    updateUser: (state, action: { payload: any }) => {
-      state.permission = action?.payload?.permission;
-      state.userId = action?.payload?.userId;
-      state.userUuid = action?.payload?.userUuid;
-    },
-
-    toggleActiveEdit: (state) => {
-      state.isActiveEdit = !state.isActiveEdit;
-    },
-  },
+  reducers: {},
   extraReducers: (builder) => {
     builder.addCase(login.fulfilled, (state, { payload }) => {
-      state.accessToken = payload.data.accessToken;
+      state.accessToken = payload.data.data.accessToken;
+      state.token = payload.data.data.token;
     });
-    builder.addCase(updateMe.fulfilled, (state, { payload }) => {
-      state.profile = payload.data;
-      localStorage.setItem("user", JSON.stringify(state.profile));
-    });
+    // builder.addCase(addUser.fulfilled, (state, { payload }) => {
+    //   state.user = payload.data;
+    // });
+
+    // builder.addCase(getDetailUser.fulfilled, (state, { payload }) => {
+    //   state.user = payload.data;
+    // });
   },
 });
 
-export const { updateUser, toggleActiveEdit } = userSlice.actions;
 const userReducer = userSlice.reducer;
 export default userReducer;
