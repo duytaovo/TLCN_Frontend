@@ -1,9 +1,8 @@
 import path from "src/constants/path";
 import { Suspense, useMemo } from "react";
-import { Route, Routes, useLocation } from "react-router-dom";
+import { Route, Routes } from "react-router-dom";
 import { productDetailRoutes, routeAuth, routeMain, routeUser } from "./routes";
 import CommonLayout from "./layouts/CommonLayout";
-import AuthenticatedGuard from "./guards/AuthenticatedGuard";
 import AuthLayout from "./layouts/AuthLayout";
 import Loading from "./components/Loading";
 import UserLayout from "./pages/User/layouts/UserLayout";

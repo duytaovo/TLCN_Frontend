@@ -5,7 +5,7 @@ import { useForm } from "react-hook-form";
 import { toast } from "react-toastify";
 import Input from "src/components/Input";
 import { useAppDispatch } from "src/hooks/useRedux";
-import { updateMe } from "src/store/user/userSlice";
+import { updateProfile } from "src/store/user/userSlice";
 import { ErrorResponse } from "src/types/utils.type";
 import { userSchema, UserSchema } from "src/utils/rules";
 import { isAxiosUnprocessableEntityError } from "src/utils/utils";
@@ -42,7 +42,7 @@ export default function ChangePassword() {
     const body = { password: data.password, new_password: data.new_password };
 
     try {
-      await dispatch(updateMe(body)).then(unwrapResult);
+      await dispatch(updateProfile(body)).then(unwrapResult);
       reset();
       toast.success("Đổi mật khẩu thành công", {
         position: "top-center",

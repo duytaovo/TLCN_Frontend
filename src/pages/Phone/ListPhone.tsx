@@ -74,15 +74,9 @@ const ListPhone = ({ choose, isOpen }: Props) => {
   }
   let getDataFilter: any = dataLocal;
   // let typeFilter = checked.concat(choose);
-  useEffect(() => {
-    const _getSmartPhone = async () => {
-      await dispatch(getSmartPhones(""));
-    };
-    _getSmartPhone();
-  }, []);
 
   useEffect(() => {
-    setDataLocal(smartPhone);
+    setDataLocal(smartPhone.data);
   }, [smartPhone]);
   useEffect(() => {
     const getProduct = async () => {
@@ -136,7 +130,7 @@ const ListPhone = ({ choose, isOpen }: Props) => {
         setSelected={setSelected}
         choose={choose}
         countProduct={
-          isOpen === false ? getDataFilter?.length : dataAfter?.length
+          isOpen === false ? getDataFilter?.length : dataAfter.data?.length
         }
         title={choose}
         checked={checked}

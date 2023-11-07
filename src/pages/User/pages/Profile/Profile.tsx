@@ -12,17 +12,21 @@ import InputFile from "src/components/InputFile";
 import InputNumber from "src/components/InputNumber";
 import { AppContext } from "src/contexts/app.context";
 import { ErrorResponse } from "src/types/utils.type";
-import { userSchema, UserSchema } from "src/utils/rules";
+import { schemaAddUser, SchemaRegister } from "src/utils/rules";
 import { getAvatarUrl, isAxiosUnprocessableEntityError } from "src/utils/utils";
-import DateSelect from "../../components/DateSelect";
-import { setProfileToLS } from "src/utils/auth";
-import { useAppDispatch } from "src/hooks/useRedux";
-import { getMe, updateMe } from "src/store/user/userSlice";
+import { useAppDispatch, useAppSelector } from "src/hooks/useRedux";
 import { unwrapResult } from "@reduxjs/toolkit";
-import { User } from "src/types/user.type";
 import { Button } from "@mui/material";
+import { getUser, updateProfile } from "src/store/user/userSlice";
+import SelectCustom from "src/components/Select";
 
 function Info() {
+  const dispatch = useAppDispatch();
+
+  const { profile } = useAppSelector((state) => state.user);
+  useEffect(() => {
+    // dispatch(getUser(1));
+  }, []);
   const {
     register,
     control,
@@ -32,15 +36,16 @@ function Info() {
     <Fragment>
       <div className="mt-6 flex flex-col flex-wrap sm:flex-row">
         <div className="truncate pt-3 capitalize sm:w-[20%] sm:text-right">
-          Tên:
+          Họ Tên:
         </div>
         <div className="sm:w-[80%] sm:pl-5">
           <Input
             classNameInput="w-full rounded-sm border border-gray-300 px-3 py-2 outline-none focus:border-gray-500 focus:shadow-sm"
             register={register}
-            name="name"
-            placeholder="Tên"
-            errorMessage={errors.name?.message}
+            name="fullName"
+            placeholder="Họ Tên"
+            defaultValue={profile?.fullName}
+            errorMessage={errors.fullName?.message}
           />
         </div>
       </div>
@@ -51,12 +56,13 @@ function Info() {
         <div className="sm:w-[80%] sm:pl-5">
           <Controller
             control={control}
-            name="phone"
+            name="phoneNumber"
             render={({ field }) => (
               <InputNumber
                 classNameInput="w-full rounded-sm border border-gray-300 px-3 py-2 outline-none focus:border-gray-500 focus:shadow-sm"
                 placeholder="Số điện thoại"
-                errorMessage={errors.phone?.message}
+                defaultValue={profile?.phoneNumber}
+                errorMessage={errors.phoneNumber?.message}
                 {...field}
                 onChange={field.onChange}
               />
@@ -69,20 +75,17 @@ function Info() {
 }
 
 type FormData = Pick<
-  UserSchema,
-  "name" | "address" | "phone" | "date_of_birth" | "avatar"
+  SchemaRegister,
+  "address" | "phoneNumber" | "email" | "imageUrl" | "fullName" | "gender"
 >;
 
-type FormDataError = Omit<FormData, "date_of_birth"> & {
-  date_of_birth?: string;
-};
-
-const profileSchema = userSchema.pick([
-  "name",
+const profileSchema = schemaAddUser.pick([
   "address",
-  "phone",
-  "date_of_birth",
-  "avatar",
+  "phoneNumber",
+  "email",
+  "fullName",
+  "gender",
+  "imageUrl",
 ]);
 
 export default function Profile() {
@@ -97,15 +100,15 @@ export default function Profile() {
 
   const methods = useForm<FormData>({
     defaultValues: {
-      name: "",
-      phone: "",
+      phoneNumber: "",
       address: "",
-      avatar: "",
-      date_of_birth: new Date(1990, 0, 1),
+      imageUrl: "",
+      fullName: "",
+      email: "",
     },
     resolver: yupResolver<any>(profileSchema),
   });
-  const [profile, setProfileLocal] = useState<User>();
+  const { profile } = useAppSelector((state) => state.user);
   const {
     register,
     control,
@@ -115,37 +118,34 @@ export default function Profile() {
     watch,
     setError,
   } = methods;
-  const avatar = watch("avatar");
+  const avatar = watch("imageUrl");
 
   useEffect(() => {
-    const _getMe = async () => {
-      const res = await dispatch(getMe("")).then(unwrapResult);
-      setProfileLocal(res);
-    };
-    _getMe();
+    dispatch(getUser(1));
   }, []);
 
   useEffect(() => {
     if (profile) {
-      setValue("name", profile.name);
-      setValue("phone", profile.phone);
+      setValue("fullName", profile.fullName);
+      setValue("phoneNumber", profile.phoneNumber);
       setValue("address", profile.address);
-      setValue("avatar", profile.avatar);
-      setValue(
-        "date_of_birth",
-        profile.date_of_birth
-          ? new Date(profile.date_of_birth)
-          : new Date(1990, 0, 1)
-      );
+      setValue("imageUrl", profile.imageUrl);
+      setValue("email", profile.email);
+      setValue("gender", profile.gender?.toString());
     }
   }, [profile, setValue]);
 
   const onSubmit = handleSubmit(async (data) => {
+    console.log(data);
     const body = {
-      name: data.name,
-      phone: data.phone,
+      fullName: data.fullName,
+      phoneNumber: data.phoneNumber,
+      password: "",
+      email: data.email,
+      gender: Number(data.gender),
       address: data.address,
-      // date_of_birth: new Date(data.date_of_birth).toISOString()
+      imageUrl: data.imageUrl,
+      isEnable: true,
     };
     try {
       let avatarName = avatar;
@@ -156,19 +156,17 @@ export default function Profile() {
         // avatarName = uploadRes.data.data;
         // setValue("avatar", avatarName);
       }
-      const res = await dispatch(updateMe(body)).then(unwrapResult);
+      const res = await dispatch(updateProfile(body)).then(unwrapResult);
       setProfile(res.data.data);
-      setProfileToLS(res.data.data);
+      // setProfileToLS(res.data.data);
       toast.success(res.data.message);
     } catch (error) {
-      if (
-        isAxiosUnprocessableEntityError<ErrorResponse<FormDataError>>(error)
-      ) {
+      if (isAxiosUnprocessableEntityError<ErrorResponse<FormData>>(error)) {
         const formError = error.response?.data.data;
         if (formError) {
           Object.keys(formError).forEach((key) => {
-            setError(key as keyof FormDataError, {
-              message: formError[key as keyof FormDataError],
+            setError(key as keyof FormData, {
+              message: formError[key as keyof FormData],
               type: "Server",
             });
           });
@@ -219,20 +217,24 @@ export default function Profile() {
                   name="address"
                   placeholder="Địa chỉ"
                   errorMessage={errors.address?.message}
+                  defaultValue={profile?.address}
                 />
               </div>
             </div>
-            <Controller
-              control={control}
-              name="date_of_birth"
-              render={({ field }) => (
-                <DateSelect
-                  errorMessage={errors.date_of_birth?.message}
-                  value={field.value}
-                  onChange={field.onChange}
-                />
-              )}
-            />
+            <SelectCustom
+              className={"flex-1 text-black"}
+              id="gender"
+              // label="Hãng xe"
+              placeholder="Vui lòng chọn"
+              defaultValue={Number(profile?.gender) === 0 ? "Nam" : "Nữ"}
+              options={[
+                { id: 0, name: "Nam" },
+                { id: 1, name: "Nữ" },
+              ]}
+              register={register}
+            >
+              {errors.gender?.message}
+            </SelectCustom>
             <div className="mt-2 flex flex-col flex-wrap sm:flex-row">
               <div className="truncate pt-3 capitalize sm:w-[20%] sm:text-right" />
               <div className="sm:w-[80%] sm:pl-5">

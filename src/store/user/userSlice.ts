@@ -1,4 +1,5 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+import { userService } from "src/services";
 import { authApi } from "src/services/auth.service";
 import { payloadCreator } from "src/utils/utils";
 
@@ -15,35 +16,42 @@ export const logoutUser = createAsyncThunk(
   payloadCreator(authApi.logout)
 );
 
-interface DecodedToken {
-  userId: number;
-  permissions: number;
-  username: string;
-  userUuid: string;
-}
-const a = {
-  id: 3,
-  fullName: null,
-  phoneNumber: "0352811529",
-  password: "$2a$10$ZGDn9NMoM4VtF.777BatRu49zzV3w4UpagNGHABhxLVTaTGdySwui",
-  email: "duytaovo@gmail.com",
-  gender: null,
-  address: "số 3 Hồng Đức",
-  imageUrl: null,
-  level: 1,
-  levelString: "Bronze",
-};
+export const getUser = createAsyncThunk(
+  "auth/getUser",
+  payloadCreator(userService.getUserById)
+);
+
+export const updatePassword = createAsyncThunk(
+  "auth/updatePassword",
+  payloadCreator(userService.updatePassword)
+);
+
+export const updateProfile = createAsyncThunk(
+  "auth/updateProfile",
+  payloadCreator(userService.updateProfile)
+);
+
+export const activeAccount = createAsyncThunk(
+  "auth/activeAccount",
+  payloadCreator(userService.activeAccount)
+);
+
+export const getCodeValidator = createAsyncThunk(
+  "auth/getCodeValidator",
+  payloadCreator(userService.sendCode)
+);
+
 type User = {
   id: number;
-  fullName: null;
+  fullName: string;
   phoneNumber: string;
-  password: string;
+  password?: string;
   email: string;
-  gender: null;
+  gender: number;
   address: string;
-  imageUrl: null;
-  level: number;
-  levelString: string;
+  imageUrl?: string;
+  level?: number;
+  levelString?: string;
 };
 
 interface IUser {
@@ -51,6 +59,7 @@ interface IUser {
   accessToken: string;
   token: string;
   user: User[];
+  profile: User;
 }
 
 const initialState: IUser = {
@@ -58,6 +67,16 @@ const initialState: IUser = {
   accessToken: "123",
   token: "",
   user: [],
+  profile: {
+    id: 1,
+    address: "",
+    email: "",
+    fullName: "",
+    gender: 0,
+    imageUrl: "",
+    level: 1,
+    phoneNumber: "",
+  },
 };
 const userSlice = createSlice({
   name: "auth",
@@ -68,13 +87,10 @@ const userSlice = createSlice({
       state.accessToken = payload.data.data.accessToken;
       state.token = payload.data.data.token;
     });
-    // builder.addCase(addUser.fulfilled, (state, { payload }) => {
-    //   state.user = payload.data;
-    // });
 
-    // builder.addCase(getDetailUser.fulfilled, (state, { payload }) => {
-    //   state.user = payload.data;
-    // });
+    builder.addCase(getUser.fulfilled, (state, { payload }) => {
+      state.profile = payload.data.data;
+    });
   },
 });
 

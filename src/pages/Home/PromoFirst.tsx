@@ -9,6 +9,7 @@ import { useAppDispatch, useAppSelector } from "src/hooks/useRedux";
 import { getSmartPhones } from "src/store/product/smartPhoneSlice";
 import Pagination from "src/components/Pagination";
 import useQueryConfig from "src/hooks/useQueryConfig";
+import path from "src/constants/path";
 
 const PromoFirst = () => {
   const { banner } = useAppSelector((state) => state.banner.promo.firstpromo);
@@ -47,6 +48,7 @@ const PromoFirst = () => {
           </Slider>
         </div>
         <Pagination
+          path={path.home}
           queryConfig={queryConfig}
           pageSize={smartPhone.totalElements}
         />

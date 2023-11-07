@@ -77,6 +77,18 @@ const Header = () => {
 
   const itemLogout: MenuProps["items"] = [
     {
+      key: "3",
+      label: (
+        <div
+          onClick={async () => {
+            await navigate(path.user);
+          }}
+        >
+          <span className={""}>{t("header.profile")}</span>
+        </div>
+      ),
+    },
+    {
       key: "2",
       label: (
         <div

@@ -8,12 +8,12 @@ export const smartphoneService = {
   getAllProducts(params: ProductListConfig) {
     const paramsNew = {
       ...params,
-      pageNumber: Number(params.pageNumber) - 1,
+      pageNumber: Number(params.pageNumber) - 1 || "0",
     };
     return httpNew.get(`/product/smartphone`, { params: paramsNew });
   },
   getProduct(id: string) {
-    return httpNew.get(`/manage/product/smartphone/${id}`);
+    return httpNew.get(`/product/smartphone/${id}`);
   },
   getProductWithPage(pageNumber: string) {
     return httpNew.get(`/product/smartphone/${pageNumber}`);

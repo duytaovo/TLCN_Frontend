@@ -6,6 +6,7 @@ import { QueryConfig } from "src/hooks/useQueryConfig";
 interface Props {
   queryConfig: QueryConfig;
   pageSize: number;
+  path: string;
 }
 
 /**
@@ -30,7 +31,7 @@ Với range = 2 áp dụng cho khoảng cách đầu, cuối và xung quanh curr
  */
 
 const RANGE = 2;
-export default function Pagination({ queryConfig, pageSize }: Props) {
+export default function Pagination({ queryConfig, pageSize, path }: Props) {
   const page = Number(queryConfig.pageNumber);
 
   const renderPagination = () => {
@@ -96,7 +97,7 @@ export default function Pagination({ queryConfig, pageSize }: Props) {
         return (
           <Link
             to={{
-              pathname: path.home,
+              pathname: path,
               search: createSearchParams({
                 ...queryConfig,
                 pageNumber: pageNumber.toString(),
@@ -125,7 +126,7 @@ export default function Pagination({ queryConfig, pageSize }: Props) {
       ) : (
         <Link
           to={{
-            pathname: path.home,
+            pathname: path,
             search: createSearchParams({
               ...queryConfig,
               pageNumber: (page - 1).toString(),
@@ -145,7 +146,7 @@ export default function Pagination({ queryConfig, pageSize }: Props) {
       ) : (
         <Link
           to={{
-            pathname: path.home,
+            pathname: path,
             search: createSearchParams({
               ...queryConfig,
               pageNumber: (page + 1).toString(),

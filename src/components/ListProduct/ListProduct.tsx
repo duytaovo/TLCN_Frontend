@@ -27,7 +27,7 @@ const ListProduct = ({ isSlide, products, category }: Props) => {
         </div>
       )}
 
-      <a className="listcontent__btn">Xem tất cả sản phẩm</a>
+      {/* <a className="listcontent__btn">Xem tất cả sản phẩm</a> */}
     </>
   );
 };

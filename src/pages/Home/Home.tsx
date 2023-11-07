@@ -51,7 +51,7 @@ const Home = ({ title }: { title: string }) => {
         <PromoFirst />
         <PromoSecond />
         <ProductTrend />
-        <ProductSuggest />
+        {/* <ProductSuggest /> */}
         <ProductCategory />
         <DiscountOnline />
         <CovenientService />

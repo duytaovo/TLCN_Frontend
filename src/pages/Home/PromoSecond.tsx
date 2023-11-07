@@ -7,6 +7,7 @@ import Section from "src/components/Section/Section";
 import { useAppSelector } from "src/hooks/useRedux";
 import Pagination from "src/components/Pagination";
 import useQueryConfig from "src/hooks/useQueryConfig";
+import path from "src/constants/path";
 
 const PromoSecond = () => {
   const [products, setProducts] = useState<[]>([]);
@@ -73,6 +74,7 @@ const PromoSecond = () => {
           </Slider>
         </div>
         <Pagination
+          path={path.home}
           queryConfig={queryConfig}
           pageSize={smartPhone.totalPages}
         />

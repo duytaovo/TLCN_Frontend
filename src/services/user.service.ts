@@ -1,26 +1,44 @@
 import { User } from "src/types/user.type";
 import { SuccessResponse } from "src/types/utils.type";
-import http from "src/utils/http";
+import http, { httpNew } from "src/utils/http";
 
-interface BodyUpdateProfile
-  extends Omit<User, "_id" | "roles" | "createdAt" | "updatedAt" | "email"> {
-  password?: string;
-  newPassword?: string;
+interface BodyUpdatePassword {
+  phoneNumber: string;
+  newPassword: string;
+  validatorCode: string;
+}
+
+interface BodyUpdateProfile {
+  fullName: string;
+  phoneNumber: string;
+  password: string;
+  email: string;
+  gender: number;
+  address: string;
+  imageUrl: string;
+  isEnable?: true;
 }
 
 export const userService = {
-  getUserById(id: string) {
-    return http.get(`/users?id=${id}`);
+  getUserById(id: number) {
+    return httpNew.get(`/user/profile/${id}`);
   },
 
-  editUser(phone: string, data: string) {
-    return http.put(`/users/${phone}`, data);
+  updateProfile(id: number, body: BodyUpdateProfile) {
+    return httpNew.put<SuccessResponse<User>>(
+      `/user/update-profile/${id}`,
+      body
+    );
   },
-  getProfile() {
-    return http.get<SuccessResponse<User>>("me");
+
+  activeAccount(data: any) {
+    return http.put("/user/active-account", data);
   },
-  updateProfile(body: BodyUpdateProfile) {
-    return http.put<SuccessResponse<User>>("user", body);
+  updatePassword(body: BodyUpdatePassword) {
+    return httpNew.put<SuccessResponse<User>>(`/user/forgot-password`, body);
+  },
+  sendCode(data: any) {
+    return httpNew.post("/user/send-code", data);
   },
   uploadAvatar(body: FormData) {
     return http.post<SuccessResponse<string>>("user/upload-avatar", body, {

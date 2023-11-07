@@ -53,9 +53,8 @@ export class Http {
     this.instance.interceptors.response.use(
       (response) => {
         const { url } = response.config;
-        if (url === URL_LOGIN || url === URL_REGISTER) {
+        if (url === URL_LOGIN) {
           const data = response.data as AuthResponse;
-          console.log(data);
           this.accessToken = data.data.accessToken;
           this.refreshToken = data.data.token;
           setAccessTokenToLS(this.accessToken);

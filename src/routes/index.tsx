@@ -1,7 +1,9 @@
 import { lazy } from "react";
 import path from "src/constants/path";
 
+const CodeValidator = lazy(() => import("src/pages/Auth/ValidatorCode"));
 const Home = lazy(() => import("src/pages/Home/Home"));
+const ForgotPassword = lazy(() => import("src/pages/Auth/ForgotPasword"));
 const Accessory = lazy(() => import("src/pages/Accessory/Accessory"));
 const Cart = lazy(() => import("src/pages/Cart/Cart"));
 const History = lazy(() => import("src/pages/History/History"));
@@ -110,9 +112,14 @@ export const routeAuth = [
     path: path.register,
     Component: Register,
   },
+
   {
-    path: path.cartNew,
-    Component: CartNew,
+    path: path.forgotPassword,
+    Component: ForgotPassword,
+  },
+  {
+    path: path.sendCode,
+    Component: CodeValidator,
   },
 ];
 
@@ -122,9 +129,14 @@ export const routeUser = [
     Component: Profile,
   },
   {
+    path: path.cartNew,
+    Component: CartNew,
+  },
+  {
     path: path.changePassword,
     Component: ChangePassword,
   },
+
   {
     path: path.historyPurchase,
     Component: HistoryPurchase,

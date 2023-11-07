@@ -79,6 +79,38 @@ export const schema = yup.object({
   confirm_password: handleConfirmPasswordYup("password"),
 });
 
+export const schemaAddUser = yup.object({
+  gender: yup.string(),
+  phoneNumber: yup
+    .string()
+    .required("Số điện thoại là bắt buộc")
+    .min(10, "Độ dài từ 10 chữ số")
+    .matches(
+      /(84|0[3|5|7|8|9])+([0-9]{8})\b/g,
+      "Số điện thoại không đúng định dạng"
+    ),
+  name: yup.string(),
+  fullName: yup.string(),
+  email: yup.string(),
+  password: yup.string(),
+  address: yup.string(),
+  imageUrl: yup.string(),
+});
+
+export const schemaForgot = yup.object({
+  phoneNumber: yup
+    .string()
+    .required("Số điện thoại là bắt buộc")
+    .min(10, "Độ dài từ 10 chữ số")
+    .matches(
+      /(84|0[3|5|7|8|9])+([0-9]{8})\b/g,
+      "Số điện thoại không đúng định dạng"
+    ),
+  newPassword: yup.string(),
+  email: yup.string(),
+  validatorCode: yup.string(),
+});
+
 export const userSchema = yup.object({
   name: yup.string().max(160, "Độ dài tối đa là 160 ký tự"),
   phone: yup.string().max(20, "Độ dài tối đa là 20 ký tự"),
@@ -93,3 +125,5 @@ export const userSchema = yup.object({
 export type UserSchema = yup.InferType<typeof userSchema>;
 
 export type Schema = yup.InferType<typeof schema>;
+export type SchemaForGot = yup.InferType<typeof schemaForgot>;
+export type SchemaRegister = yup.InferType<typeof schemaAddUser>;
