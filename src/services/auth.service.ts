@@ -10,4 +10,7 @@ export const authApi = {
   logout() {
     return http.post("/auth/logout-user", {});
   },
+  getUser() {
+    return httpNew.get(`/authenticate/user`);
+  },
 };

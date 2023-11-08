@@ -89,10 +89,24 @@ export const schemaAddUser = yup.object({
       /(84|0[3|5|7|8|9])+([0-9]{8})\b/g,
       "Số điện thoại không đúng định dạng"
     ),
-  name: yup.string(),
   fullName: yup.string(),
   email: yup.string(),
-  password: yup.string(),
+  address: yup.string(),
+  imageUrl: yup.string(),
+});
+
+export const schemaUpdateUser = yup.object({
+  gender: yup.string(),
+  phoneNumber: yup
+    .string()
+    .required("Số điện thoại là bắt buộc")
+    .min(10, "Độ dài từ 10 chữ số")
+    .matches(
+      /(84|0[3|5|7|8|9])+([0-9]{8})\b/g,
+      "Số điện thoại không đúng định dạng"
+    ),
+  fullName: yup.string(),
+  email: yup.string(),
   address: yup.string(),
   imageUrl: yup.string(),
 });

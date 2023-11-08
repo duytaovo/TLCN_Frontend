@@ -24,7 +24,7 @@ export const userService = {
     return httpNew.get(`/user/profile/${id}`);
   },
 
-  updateProfile(id: number, body: BodyUpdateProfile) {
+  updateProfile({ id, body }: { id: number; body: BodyUpdateProfile }) {
     return httpNew.put<SuccessResponse<User>>(
       `/user/update-profile/${id}`,
       body
@@ -32,7 +32,7 @@ export const userService = {
   },
 
   activeAccount(data: any) {
-    return http.put("/user/active-account", data);
+    return httpNew.put("/user/active-account", data);
   },
   updatePassword(body: BodyUpdatePassword) {
     return httpNew.put<SuccessResponse<User>>(`/user/forgot-password`, body);

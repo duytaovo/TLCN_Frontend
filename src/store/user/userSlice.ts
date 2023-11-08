@@ -16,9 +16,14 @@ export const logoutUser = createAsyncThunk(
   payloadCreator(authApi.logout)
 );
 
+export const getUserById = createAsyncThunk(
+  "auth/getUserById",
+  payloadCreator(userService.getUserById)
+);
+
 export const getUser = createAsyncThunk(
   "auth/getUser",
-  payloadCreator(userService.getUserById)
+  payloadCreator(authApi.getUser)
 );
 
 export const updatePassword = createAsyncThunk(
@@ -52,6 +57,7 @@ type User = {
   imageUrl?: string;
   level?: number;
   levelString?: string;
+  isEnable: boolean;
 };
 
 interface IUser {
@@ -76,6 +82,7 @@ const initialState: IUser = {
     imageUrl: "",
     level: 1,
     phoneNumber: "",
+    isEnable: false,
   },
 };
 const userSlice = createSlice({
@@ -88,7 +95,7 @@ const userSlice = createSlice({
       state.token = payload.data.data.token;
     });
 
-    builder.addCase(getUser.fulfilled, (state, { payload }) => {
+    builder.addCase(getUserById.fulfilled, (state, { payload }) => {
       state.profile = payload.data.data;
     });
   },

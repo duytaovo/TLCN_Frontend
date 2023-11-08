@@ -123,10 +123,11 @@ export class Http {
   private handleRefreshToken() {
     return this.instance
       .post<RefreshTokenReponse>(URL_REFRESH_TOKEN, {
-        refresh_token: this.refreshToken,
+        token: this.refreshToken,
       })
       .then((res) => {
         const { accessToken } = res.data.data;
+        console.log(accessToken);
         setAccessTokenToLS(accessToken);
         this.accessToken = accessToken;
         return accessToken;

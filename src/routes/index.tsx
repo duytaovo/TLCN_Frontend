@@ -1,8 +1,14 @@
 import { lazy } from "react";
 import path from "src/constants/path";
 
-const CodeValidator = lazy(() => import("src/pages/Auth/ValidatorCode"));
+const CodeValidator = lazy(
+  () => import("src/pages/Auth/ForgotPasword/ValidatorCode")
+);
 const Home = lazy(() => import("src/pages/Home/Home"));
+const CodeValidatorActiveAccount = lazy(
+  () => import("src/pages/Auth/AcctiveAccount/ValidatorCode")
+);
+const ActiveAccount = lazy(() => import("src/pages/Auth/AcctiveAccount"));
 const ForgotPassword = lazy(() => import("src/pages/Auth/ForgotPasword"));
 const Accessory = lazy(() => import("src/pages/Accessory/Accessory"));
 const Cart = lazy(() => import("src/pages/Cart/Cart"));
@@ -131,6 +137,14 @@ export const routeUser = [
   {
     path: path.cartNew,
     Component: CartNew,
+  },
+  {
+    path: path.activeAccount,
+    Component: ActiveAccount,
+  },
+  {
+    path: path.sendCodeActive,
+    Component: CodeValidatorActiveAccount,
   },
   {
     path: path.changePassword,
