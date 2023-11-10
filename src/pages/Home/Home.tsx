@@ -49,7 +49,7 @@ const Home = ({ title }: { title: string }) => {
         <Ticket show={displayTicket} />
         <Promo />
         <PromoFirst />
-        <PromoSecond />
+        {/* <PromoSecond /> */}
         <ProductTrend />
         {/* <ProductSuggest /> */}
         <ProductCategory />

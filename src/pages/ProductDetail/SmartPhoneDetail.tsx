@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useRef, useState } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
 import { toast } from "react-toastify";
 import {
   formatCurrency,
@@ -19,35 +19,44 @@ import { unwrapResult } from "@reduxjs/toolkit";
 import { Button, Modal, Rate } from "antd";
 import DOMPurify from "dompurify";
 import QuantityController from "../CartNew/QuantityController";
-import { addItem } from "src/store/shopping-cart/cartItemsSlide";
+import {
+  addItem,
+  getProductByProductSlugId,
+} from "src/store/shopping-cart/cartItemsSlide";
 import path from "src/constants/path";
 import { Descriptions } from "antd";
 import type { DescriptionsProps } from "antd";
 
 export default function SmartPhoneDetail() {
-  // const { t } = useTranslation(["product"]);
+  const { t } = useTranslation(["product"]);
   const [buyCount, setBuyCount] = useState(1);
   const { productSlug } = useParams();
   const dispatch = useAppDispatch();
-  const { smartPhoneDetail } = useAppSelector((state) => state.smartphone);
+  const location = useLocation();
+  const [productData, setProductData] = useState<any>();
+  const [keys, setKeys] = useState([]);
+  const pathParts = location.pathname.split("/");
   const id = getIdFromNameId(productSlug as string);
   const [currentIndexImages, setCurrentIndexImages] = useState([0, 5]);
   const [activeImage, setActiveImage] = useState("");
   const imageRef = useRef<HTMLImageElement>(null);
+  const [productDataPrivate, setProductDataPrivate] = useState<any>();
+  const [productDataPrivateArray, setProductDataPrivateArray] = useState<any>();
   const [price, setPrice] = useState(
-    smartPhoneDetail?.productInfo?.lstProductTypeAndPrice[0].salePrice
+    productData?.productInfo?.lstProductTypeAndPrice[0].salePrice
   );
   const [salePrice, setSalePrice] = useState(
-    smartPhoneDetail?.productInfo?.lstProductTypeAndPrice[0].price
+    productData?.productInfo?.lstProductTypeAndPrice[0].price
   );
+
   const currentImages = useMemo(
     () =>
-      smartPhoneDetail?.productInfo?.lstProductImageUrl
-        ? smartPhoneDetail?.productInfo?.lstProductImageUrl.slice(
+      productData?.productInfo?.lstProductImageUrl
+        ? productData?.productInfo?.lstProductImageUrl.slice(
             ...currentIndexImages
           )
         : [],
-    [smartPhoneDetail, currentIndexImages]
+    [productData, currentIndexImages]
   );
   const [isModalOpen, setIsModalOpen] = useState(false);
 
@@ -65,21 +74,45 @@ export default function SmartPhoneDetail() {
   const navigate = useNavigate();
   useEffect(() => {
     if (
-      smartPhoneDetail &&
-      smartPhoneDetail?.productInfo?.lstProductImageUrl?.length > 0
+      productData &&
+      productData?.productInfo?.lstProductImageUrl?.length > 0
     ) {
-      setActiveImage(smartPhoneDetail?.productInfo?.lstProductImageUrl[0]);
+      setActiveImage(productData?.productInfo?.lstProductImageUrl[0]);
     }
-  }, [smartPhoneDetail]);
+  }, [productData]);
 
   useEffect(() => {
-    dispatch(getDetailPhone(id));
-  }, [id, dispatch]);
+    const getData = async () => {
+      const res = await dispatch(
+        getProductByProductSlugId({ id, slug: pathParts[1] })
+      );
+      unwrapResult(res);
+      setKeys(res.payload.data.data);
+      console.log(keys);
+      setProductData(res.payload.data.data);
+    };
+    getData();
+  }, [id, pathParts, dispatch]);
+  console.log(productData);
 
+  useEffect(() => {
+    const { productInfo, ...productDetailsWithoutInfo } = productData;
+    setProductDataPrivate(productDetailsWithoutInfo);
+    console.log(productDetailsWithoutInfo);
+    const productDetailsArray = Object.keys(productDetailsWithoutInfo);
+    setProductDataPrivateArray(productDetailsArray);
+    console.log(productDataPrivateArray);
+  }, [productData]);
+
+  useEffect(() => {
+    setPrice(productData?.productInfo?.lstProductTypeAndPrice[0]?.price);
+    setSalePrice(
+      productData?.productInfo?.lstProductTypeAndPrice[0]?.salePrice
+    );
+  }, [productData]);
   const next = () => {
     if (
-      currentIndexImages[1] <
-      smartPhoneDetail?.productInfo.lstProductImageUrl.length
+      currentIndexImages[1] < productData?.productInfo.lstProductImageUrl.length
     ) {
       setCurrentIndexImages((prev) => [prev[0] + 1, prev[1] + 1]);
     }
@@ -97,20 +130,19 @@ export default function SmartPhoneDetail() {
 
   const onClickChangeColor = (ram: string, rom: string, color: string) => {
     if (
-      ram === smartPhoneDetail?.productInfo?.lstProductTypeAndPrice[0]?.ram &&
+      ram === productData?.productInfo?.lstProductTypeAndPrice[0]?.ram &&
       rom ===
-        smartPhoneDetail?.productInfo?.lstProductTypeAndPrice[0]
-          ?.storageCapacity &&
-      color === smartPhoneDetail?.productInfo?.lstProductTypeAndPrice[0]?.color
+        productData?.productInfo?.lstProductTypeAndPrice[0]?.storageCapacity &&
+      color === productData?.productInfo?.lstProductTypeAndPrice[0]?.color
     ) {
-      setPrice(smartPhoneDetail?.productInfo?.lstProductTypeAndPrice[0]?.price);
+      setPrice(productData?.productInfo?.lstProductTypeAndPrice[0]?.price);
       setSalePrice(
-        smartPhoneDetail?.productInfo?.lstProductTypeAndPrice[0]?.salePrice
+        productData?.productInfo?.lstProductTypeAndPrice[0]?.salePrice
       );
     } else {
-      setPrice(smartPhoneDetail?.productInfo?.lstProductTypeAndPrice[1]?.price);
+      setPrice(productData?.productInfo?.lstProductTypeAndPrice[1]?.price);
       setSalePrice(
-        smartPhoneDetail?.productInfo?.lstProductTypeAndPrice[1]?.salePrice
+        productData?.productInfo?.lstProductTypeAndPrice[1]?.salePrice
       );
     }
   };
@@ -140,10 +172,11 @@ export default function SmartPhoneDetail() {
   };
 
   const addToCart = async () => {
-    console.log("smartPhoneDetail" + smartPhoneDetail.id);
     const body = {
-      id: smartPhoneDetail.id,
-      quantity: 1,
+      id: productData.id,
+      product_id: productData.productInfo.productId,
+      slug: productData.productInfo.slug,
+      quantity: buyCount,
     };
     const res = await dispatch(addItem(body));
     // await dispatch(getCartPurchases()).then(unwrapResult);
@@ -155,8 +188,9 @@ export default function SmartPhoneDetail() {
 
   const buyNow = async () => {
     const body = {
-      product_id: smartPhoneDetail.id,
-      quantity: 1,
+      id: productData.id,
+      product_id: productData.productInfo.productId,
+      quantity: buyCount,
     };
     const res = await dispatch(addItem(body));
     const purchase = res.payload;
@@ -167,14 +201,14 @@ export default function SmartPhoneDetail() {
     });
   };
 
-  if (!smartPhoneDetail) return null;
+  if (!productData) return null;
   return (
     <div className="bg-gray-200 py-6">
       <Helmet>
-        <title>{smartPhoneDetail?.productInfo?.name}</title>
+        <title>{productData?.productInfo?.name}</title>
         <meta
           name="description"
-          content={convert(smartPhoneDetail?.productInfo?.description, {
+          content={convert(productData?.productInfo?.description, {
             limits: {
               maxInputLength: 50000,
             },
@@ -192,7 +226,7 @@ export default function SmartPhoneDetail() {
               >
                 <img
                   src={activeImage}
-                  alt={smartPhoneDetail?.productInfo?.name}
+                  alt={productData?.productInfo?.name}
                   className="absolute left-0 top-0 h-full w-full bg-white object-cover"
                   ref={imageRef}
                 />
@@ -227,7 +261,7 @@ export default function SmartPhoneDetail() {
                     >
                       <img
                         src={img}
-                        alt={smartPhoneDetail?.productInfo?.name}
+                        alt={productData?.productInfo?.name}
                         className="absolute left-0 top-0 h-full w-full cursor-pointer bg-white object-cover"
                       />
                       {isActive && (
@@ -259,18 +293,16 @@ export default function SmartPhoneDetail() {
             </div>
             <div className="col-span-7">
               <h1 className="text-4xl font-medium uppercase">
-                {smartPhoneDetail?.productInfo?.name}
+                {productData?.productInfo?.name}
               </h1>
               <div className="mt-8 flex items-center">
                 <div className="flex items-center">
                   <span className="mr-1 border-b border-b-orange text-orange">
-                    {smartPhoneDetail?.productInfo?.star}
+                    {productData?.productInfo.star}
                   </span>
                   <Rate
                     allowHalf
-                    defaultValue={
-                      Number(smartPhoneDetail?.productInfo?.star) || 4.5
-                    }
+                    defaultValue={Number(productData?.productInfo.star) || 4.5}
                     disabled
                   />
                   ;
@@ -279,7 +311,7 @@ export default function SmartPhoneDetail() {
                 <div className="text-black">
                   <span>
                     {formatNumberToSocialStyle(
-                      Number(smartPhoneDetail?.productInfo.totalReview) || 1520
+                      Number(productData?.productInfo.totalReview) || 1520
                     )}
                   </span>
                   <span className="ml-1 text-gray-500">Đã xem</span>
@@ -294,7 +326,7 @@ export default function SmartPhoneDetail() {
                   {formatCurrency(price)}
                 </div>
                 <div className="ml-4 rounded-sm bg-orange-300 px-1 py-[2px] text-lg font-semibold uppercase text-black">
-                  {/* {rateSale(Number(smartPhoneDetail?.productInfo?.star), price)}{" "} */}
+                  {/* {rateSale(Number(productData?.productInfo?.star), price)}{" "} */}
                   10% giảm
                 </div>
               </div>
@@ -330,43 +362,34 @@ export default function SmartPhoneDetail() {
                   className="w-[100px] "
                   onClick={() =>
                     onClickChangeColor(
-                      smartPhoneDetail?.productInfo?.lstProductTypeAndPrice[0]
-                        ?.ram,
-                      smartPhoneDetail?.productInfo?.lstProductTypeAndPrice[0]
+                      productData?.productInfo?.lstProductTypeAndPrice[0]?.ram,
+                      productData?.productInfo?.lstProductTypeAndPrice[0]
                         ?.storageCapacity,
-                      smartPhoneDetail?.productInfo?.lstProductTypeAndPrice[0]
-                        ?.color
+                      productData?.productInfo?.lstProductTypeAndPrice[0]?.color
                     )
                   }
                   type="default"
                   color="red"
                 >
-                  {
-                    smartPhoneDetail?.productInfo?.lstProductTypeAndPrice[0]
-                      ?.color
-                  }
+                  {productData?.productInfo?.lstProductTypeAndPrice[0]?.color}
                 </Button>
-                {smartPhoneDetail?.productInfo?.lstProductTypeAndPrice[1]
-                  ?.color && (
+                {productData?.productInfo?.lstProductTypeAndPrice[1]?.color && (
                   <Button
                     className="w-[100px] bg-black/30"
                     onClick={() =>
                       onClickChangeColor(
-                        smartPhoneDetail?.productInfo?.lstProductTypeAndPrice[1]
+                        productData?.productInfo?.lstProductTypeAndPrice[1]
                           ?.ram,
-                        smartPhoneDetail?.productInfo?.lstProductTypeAndPrice[1]
+                        productData?.productInfo?.lstProductTypeAndPrice[1]
                           ?.storageCapacity,
-                        smartPhoneDetail?.productInfo?.lstProductTypeAndPrice[1]
+                        productData?.productInfo?.lstProductTypeAndPrice[1]
                           ?.color
                       )
                     }
                     type="dashed"
                     color="red"
                   >
-                    {
-                      smartPhoneDetail?.productInfo?.lstProductTypeAndPrice[1]
-                        ?.color
-                    }
+                    {productData?.productInfo?.lstProductTypeAndPrice[1]?.color}
                   </Button>
                 )}
               </div>
@@ -384,73 +407,75 @@ export default function SmartPhoneDetail() {
           centered
         >
           <div className="block space-y-2">
-            <div className="flex justify-start align-baseline space-x-4">
-              <h4 className="font-bold">Màn hình :</h4>
-              <h5>{smartPhoneDetail.monitor}</h5>
-            </div>
-            <div className="flex justify-start align-baseline space-x-4">
+            {/* {productDataPrivate?.map((item: any, index: number) => (
+              <div key={index}>
+                <div className="flex justify-start align-baseline space-x-4">
+                  <h4 className="font-bold">{{t(`${pathParts}.{item}`)}}</h4>
+                  <h5>{productData.rearCamera}</h5>
+                </div>
+              </div>
+            ))} */}
+            {/* <div className="flex justify-start align-baseline space-x-4">
               <h4 className="font-bold">Hệ điều hành :</h4>
-              <h5>{smartPhoneDetail.operatingSystem}</h5>
+              <h5>{productData.operatingSystem}</h5>
             </div>
             <div className="flex justify-start align-baseline space-x-4">
               <h4 className="font-bold">Camera chính :</h4>
-              <h5>{smartPhoneDetail.rearCamera}</h5>
+              <h5>{productData.rearCamera}</h5>
             </div>
             <div className="flex justify-start align-baseline space-x-4">
               <h4 className="font-bold">Camera trước :</h4>
-              <h5>{smartPhoneDetail.frontCamera}</h5>
+              <h5>{productData.frontCamera}</h5>
             </div>
             <div className="flex justify-start align-baseline space-x-4">
               <h4 className="font-bold">Chip :</h4>
-              <h5>{smartPhoneDetail.chip}</h5>
+              <h5>{productData.chip}</h5>
             </div>
             <div className="flex justify-start align-baseline space-x-4">
               <h4 className="font-bold">Sim :</h4>
-              <h5>{smartPhoneDetail.sim}</h5>
+              <h5>{productData.sim}</h5>
             </div>
             <div className="flex justify-start align-baseline space-x-4">
               <h4 className="font-bold">Pin :</h4>
-              <h5>{smartPhoneDetail.monitor}</h5>
+              <h5>{productData.monitor}</h5>
             </div>
             <div className="flex justify-start align-baseline space-x-4">
               <h4 className="font-bold">Sạc nhanh:</h4>
-              <h5>{smartPhoneDetail.charging}</h5>
+              <h5>{productData.charging}</h5>
             </div>
             <div className="flex justify-start align-baseline space-x-4">
               <h4 className="font-bold">Hỗ trợ mạng:</h4>
-              <h5>{smartPhoneDetail.networkSupport}</h5>
+              <h5>{productData.networkSupport}</h5>
             </div>
             <div className="flex justify-start align-baseline space-x-4">
               <h4 className="font-bold">Phụ kiện:</h4>
-              <h5>{smartPhoneDetail.productInfo.accessories}</h5>
+              <h5>{productData.productInfo.accessories}</h5>
             </div>
             <div className="flex justify-start align-baseline space-x-4">
               <h4 className="font-bold">Năm ra mắt:</h4>
-              <h5>{smartPhoneDetail.productInfo.launchTime}</h5>
+              <h5>{productData.productInfo.launchTime}</h5>
             </div>
             <div className="flex justify-start align-baseline space-x-4">
               <h4 className="font-bold">Thiết kế:</h4>
-              <h5>{smartPhoneDetail.productInfo.design}</h5>
+              <h5>{productData.productInfo.design}</h5>
             </div>
             <div className="flex justify-start align-baseline space-x-4">
               <h4 className="font-bold">Khối lượng:</h4>
-              <h5>{smartPhoneDetail.productInfo.mass}</h5>
+              <h5>{productData.productInfo.mass}</h5>
             </div>
             <div className="flex justify-start align-baseline space-x-4">
               <h4 className="font-bold">Ram:</h4>
-              <h5>
-                {smartPhoneDetail.productInfo.lstProductTypeAndPrice[0].ram}
-              </h5>
+              <h5>{productData.productInfo.lstProductTypeAndPrice[0].ram}</h5>
             </div>
             <div className="flex justify-start align-baseline space-x-4">
               <h4 className="font-bold">Bộ nhớ trong:</h4>
               <h5>
                 {
-                  smartPhoneDetail.productInfo.lstProductTypeAndPrice[0]
+                  productData.productInfo.lstProductTypeAndPrice[0]
                     .storageCapacity
                 }
               </h5>
-            </div>
+            </div> */}
           </div>
         </Modal>
       </div>
@@ -464,7 +489,7 @@ export default function SmartPhoneDetail() {
               <div
                 dangerouslySetInnerHTML={{
                   __html: DOMPurify.sanitize(
-                    smartPhoneDetail?.productInfo?.description
+                    productData?.productInfo?.description
                   ),
                 }}
               />

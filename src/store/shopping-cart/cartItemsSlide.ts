@@ -1,9 +1,16 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+import { cartService } from "src/services/cart.service";
+import { payloadCreator } from "src/utils/utils";
 
 const items =
   localStorage.getItem("cartItems") !== null
     ? JSON.parse(localStorage.getItem("cartItems") || "")
     : [];
+
+export const getProductByProductSlugId = createAsyncThunk(
+  "cartItems/getProductByProductSlugId",
+  payloadCreator(cartService.getProductByProductSlugId)
+);
 
 const initialState = {
   value: items,
@@ -14,16 +21,15 @@ export const cartItemsSlice = createSlice({
   initialState,
   reducers: {
     addItem: (state, action) => {
-      console.log("action" + JSON.stringify(action.payload));
       const newItem = action.payload;
       const duplicate = state.value.filter(
-        (e: any) => e.id === newItem.id
+        (e: any) => e.product_id === newItem.product_id
         // e.color === newItem.color &&
         // e.size === newItem.size
       );
       if (duplicate.length > 0) {
         state.value = state.value.filter(
-          (e: any) => e.id !== newItem.id
+          (e: any) => e.product_id !== newItem.product_id
           // e.color !== newItem.color ||
           // e.size !== newItem.size
         );
@@ -32,10 +38,11 @@ export const cartItemsSlice = createSlice({
           ...state.value,
           {
             id: duplicate[0].id,
+            product_id: duplicate[0].product_id,
             // img: newItem.img,
             // title: newItem.title,
             // discount: newItem.discount,
-            // slug: newItem.slug,
+            slug: newItem.slug,
             color: newItem.color,
             size: newItem.size,
             price: newItem.price,

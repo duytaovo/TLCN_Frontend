@@ -39,9 +39,8 @@ export type LaptopDetail = {
     lstProductImageUrl: string[];
   };
 };
-
 export type SmartPhoneDetail = {
-  id: number | string;
+  id: number;
   monitor: string;
   operatingSystem: string;
   rearCamera: string;
@@ -52,17 +51,16 @@ export type SmartPhoneDetail = {
   charging: string;
   networkSupport: string;
   productInfo: {
-    brandId: number | string;
-    categoryId: number | string;
-    totalReview: number | string;
-    star: number | string;
-    productId: number | string;
-    characteristicId: number | string;
+    brandId: number;
+    categoryId: number;
+    productId: number;
+    characteristicId: number;
     productCode: string;
     name: string;
+    description: string;
     design: string;
     dimension: string;
-    mass: number | string;
+    mass: number;
     launchTime: number | string;
     accessories: string;
     productStatus: number | string;
@@ -74,8 +72,13 @@ export type SmartPhoneDetail = {
       color: string;
       price: number;
       salePrice: number;
+      quantity: number;
+      depotId: number;
     }[];
     lstProductImageUrl: string[];
+    star: number;
+    totalReview: number;
+    slug: string;
   };
 };
 
@@ -93,4 +96,5 @@ export type ListSmartPhone = {
   }[];
   star: number;
   totalReview: number;
+  slug: string;
 };

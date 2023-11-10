@@ -143,13 +143,13 @@ const ListPhone = ({ choose, isOpen }: Props) => {
             <ListProduct
               products={getDataFilter}
               isSlide={false}
-              category="smartPhone"
+              category={smartPhone.data[0]?.slug}
             />
           ) : (
             <ListProduct
               products={dataAfter}
               isSlide={false}
-              category="smartPhone"
+              category={smartPhone.data[0]?.slug}
             />
           )}
         </div>

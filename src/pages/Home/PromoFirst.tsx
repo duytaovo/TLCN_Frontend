@@ -3,7 +3,6 @@ import Slider from "react-slick";
 import NextArrow from "src/components/Slick/NextArrow";
 import PrevArrow from "src/components/Slick/PrevArrow";
 import ProductCard from "src/components/ProductCard/ProductCard";
-import { productService } from "src/services";
 import Section from "src/components/Section/Section";
 import { useAppDispatch, useAppSelector } from "src/hooks/useRedux";
 import { getSmartPhones } from "src/store/product/smartPhoneSlice";
@@ -20,6 +19,7 @@ const PromoFirst = () => {
   useEffect(() => {
     dispatch(getSmartPhones(queryConfig));
   }, []);
+
   return (
     <Section styles={`rounded-xl overflow-hidden `}>
       <>

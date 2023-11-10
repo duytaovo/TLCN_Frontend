@@ -1,7 +1,6 @@
 import { useContext, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAppDispatch } from "src/hooks/useRedux";
-import { AppContext } from "src/contexts/app.context";
 import { useForm } from "react-hook-form";
 import { ErrorResponse } from "src/types/utils.type";
 import { toast } from "react-toastify";
@@ -9,7 +8,7 @@ import Input from "src/components/Input";
 import { SchemaForGot, schemaForgot } from "src/utils/rules";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { unwrapResult } from "@reduxjs/toolkit";
-import { getCodeValidator, updatePassword } from "src/store/user/userSlice";
+import { getCodeValidator } from "src/store/user/userSlice";
 import { isAxiosUnprocessableEntityError } from "src/utils/utils";
 import { Helmet } from "react-helmet-async";
 import logo from "./logo-main.png";

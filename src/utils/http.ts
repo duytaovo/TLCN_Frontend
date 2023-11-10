@@ -86,10 +86,11 @@ export class Http {
           >(error)
         ) {
           const config: any = error.response?.config || {};
+          console.log(error.response);
           const { url } = config;
           // Trường hợp Token hết hạn và request đó không phải là của request refresh token
           // thì chúng ta mới tiến hành gọi refresh token
-          if (isAxiosExpiredTokenError(error) && url !== URL_REFRESH_TOKEN) {
+          if (url !== URL_REFRESH_TOKEN && url.length > 0) {
             // Hạn chế gọi 2 lần handleRefreshToken
             this.refreshTokenRequest = this.refreshTokenRequest
               ? this.refreshTokenRequest
@@ -127,7 +128,6 @@ export class Http {
       })
       .then((res) => {
         const { accessToken } = res.data.data;
-        console.log(accessToken);
         setAccessTokenToLS(accessToken);
         this.accessToken = accessToken;
         return accessToken;

@@ -9,7 +9,7 @@ import keyBy from "lodash/keyBy";
 import { toast } from "react-toastify";
 import { AppContext } from "src/contexts/app.context";
 import noproduct from "src/assets/images/no-product.png";
-import { useAppDispatch } from "src/hooks/useRedux";
+import { useAppDispatch, useAppSelector } from "src/hooks/useRedux";
 import {
   buyPurchases,
   deletePurchases,
@@ -19,18 +19,46 @@ import {
 import { unwrapResult } from "@reduxjs/toolkit";
 import QuantityController from "./QuantityController";
 import Button from "../Auth/Button";
+import { getProductDetail } from "src/store/product/productsSlice";
+import { SmartPhoneDetail } from "src/types/allProductsType.interface";
+import { getProductDetailApi } from "src/store/product/productsApi";
+import { getDetailPhone } from "src/store/product/smartPhoneSlice";
+import { getProductByProductSlugId } from "src/store/shopping-cart/cartItemsSlide";
 
 export default function CartNew() {
   const { extendedPurchases, setExtendedPurchases } = useContext(AppContext);
   const [purchasesInCartData, setPurchasesInCartData] = useState<[]>([]);
   const dispatch = useAppDispatch();
+  const product_add: any =
+    JSON.parse(localStorage.getItem("cartItems") || "") || [];
+  const { smartPhoneDetail } = useAppSelector((state) => state.smartphone);
+
+  useEffect(() => {
+    async function fetchProductData() {
+      const productData: Array<{
+        product: SmartPhoneDetail;
+        quantity: number;
+      }> = [];
+
+      for (const item of product_add) {
+        const slug = item?.productInfo?.slug ? item.productInfo.slug : "";
+        const productInfo = await dispatch(
+          getProductByProductSlugId({ id: item.id, slug })
+        ).then(unwrapResult);
+        console.log("productInfo" + productInfo);
+        productData.push({ product: productInfo, quantity: item.quantity });
+      }
+
+      return productData;
+    }
+    fetchProductData();
+  }, []);
 
   useEffect(() => {
     const getData = async () => {
-      const res = await dispatch(
-        getPurchases({ status: purchasesStatus.inCart })
-      ).then(unwrapResult);
-      setPurchasesInCartData(res.data.data);
+      // const res = await dispatch(getProductDetail(product_add[0]?.id));
+      // getPurchases({ status: purchasesStatus.inCart })
+      // setPurchasesInCartData(smartPhoneDetail);
     };
     getData();
   }, [dispatch]);
