@@ -7,15 +7,25 @@ const items =
     ? JSON.parse(localStorage.getItem("cartItems") || "")
     : [];
 
+const itemsBuy =
+  localStorage.getItem("cartItemsBuy") !== null
+    ? JSON.parse(localStorage.getItem("cartItemsBuy") || "")
+    : [];
 export const getProductByProductSlugId = createAsyncThunk(
   "cartItems/getProductByProductSlugId",
   payloadCreator(cartService.getProductByProductSlugId)
 );
 
-const initialState = {
-  value: items,
-};
+interface Cart {
+  value: any[];
+  valueBuy: any[];
+}
 
+const initialState: Cart = {
+  value: items,
+  valueBuy: itemsBuy,
+};
+console.log(initialState.valueBuy);
 export const cartItemsSlice = createSlice({
   name: "cartItems",
   initialState,
@@ -24,14 +34,10 @@ export const cartItemsSlice = createSlice({
       const newItem = action.payload;
       const duplicate = state.value.filter(
         (e: any) => e.product_id === newItem.product_id
-        // e.color === newItem.color &&
-        // e.size === newItem.size
       );
       if (duplicate.length > 0) {
         state.value = state.value.filter(
           (e: any) => e.product_id !== newItem.product_id
-          // e.color !== newItem.color ||
-          // e.size !== newItem.size
         );
 
         state.value = [
@@ -39,15 +45,15 @@ export const cartItemsSlice = createSlice({
           {
             id: duplicate[0].id,
             product_id: duplicate[0].product_id,
-            // img: newItem.img,
-            // title: newItem.title,
-            // discount: newItem.discount,
             slug: newItem.slug,
             color: newItem.color,
-            size: newItem.size,
             price: newItem.price,
-            // brand: newItem.brand,
-            // category: newItem.category,
+            salePrice: newItem.salePrice,
+            name: newItem.name,
+            typeId: newItem.typeId,
+            depotId: newItem.depotId,
+            quantityInDB: newItem.quantityInDB,
+            image: newItem.image,
             quantity: newItem.quantity + duplicate[0].quantity,
           },
         ];
@@ -72,35 +78,43 @@ export const cartItemsSlice = createSlice({
         )
       );
     },
+
+    addItemBuy: (state, action) => {
+      state.valueBuy = [...action.payload];
+      localStorage.setItem(
+        "cartItemsBuy",
+        JSON.stringify(
+          state.value.sort((a: any, b: any) =>
+            a.id > b.id ? 1 : a.id < b.id ? -1 : 0
+          )
+        )
+      );
+    },
     updateItem: (state, action) => {
       const newItem = action.payload;
       const item = state.value.filter(
-        (e: any) =>
-          e.slug === newItem.slug &&
-          e.color === newItem.color &&
-          e.size === newItem.size
+        (e: any) => e.product_id === newItem.product_id
       );
+
       if (item.length > 0) {
         state.value = state.value.filter(
-          (e: any) =>
-            e.slug !== newItem.slug ||
-            e.color !== newItem.color ||
-            e.size !== newItem.size
+          (e: any) => e.product_id !== newItem.product_id
         );
 
         state.value = [
           ...state.value,
           {
             id: item[0].id,
-            img: newItem.img,
-            title: newItem.title,
-            discount: newItem.discount,
+            product_id: item[0].product_id,
             slug: newItem.slug,
             color: newItem.color,
-            size: newItem.size,
             price: newItem.price,
-            brand: newItem.brand,
-            category: newItem.category,
+            salePrice: newItem.salePrice,
+            name: newItem.name,
+            typeId: newItem.typeId,
+            depotId: newItem.depotId,
+            quantityInDB: newItem.quantityInDB,
+            image: newItem.image,
             quantity: newItem.quantity,
           },
         ];
@@ -117,8 +131,7 @@ export const cartItemsSlice = createSlice({
     removeItem: (state, action) => {
       const item = action.payload;
       state.value = state.value.filter(
-        (e: any) =>
-          e.slug !== item.slug || e.color !== item.color || e.size !== item.size
+        (e: any) => e.product_id !== item.product_id
       );
 
       localStorage.setItem(
@@ -129,6 +142,8 @@ export const cartItemsSlice = createSlice({
           )
         )
       );
+
+      JSON.parse(localStorage.getItem("cartItems") || "");
     },
     clearCart: (state, action) => {
       state.value = [];
@@ -137,7 +152,8 @@ export const cartItemsSlice = createSlice({
   },
 });
 
-export const { addItem, removeItem, updateItem, clearCart } =
+export const { addItem, removeItem, updateItem, clearCart, addItemBuy } =
   cartItemsSlice.actions;
 
-export default cartItemsSlice.reducer;
+const cartItemReducer = cartItemsSlice.reducer;
+export default cartItemReducer;

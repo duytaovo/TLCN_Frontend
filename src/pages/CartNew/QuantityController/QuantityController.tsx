@@ -32,12 +32,13 @@ export default function QuantityController({
     setLocalValue(_value);
   };
 
+  console.log(value);
   const increase = () => {
     let _value = Number(value || localValue) + 1;
     if (max !== undefined && _value > max) {
       _value = max;
     }
-    onIncrease && onIncrease(_value);
+    onIncrease && onIncrease(Number(value || localValue) + 1);
     setLocalValue(_value);
   };
 

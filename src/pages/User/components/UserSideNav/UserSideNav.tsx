@@ -16,7 +16,7 @@ export default function UserSideNav() {
           className="h-12 w-12 flex-shrink-0 overflow-hidden rounded-full border border-black/10"
         >
           <img
-            src={getAvatarUrl(profile?.avatar)}
+            // src={getAvatarUrl(profile?.avatar)}
             alt=""
             className="h-full w-full object-cover"
           />
@@ -65,24 +65,7 @@ export default function UserSideNav() {
           </div>
           Tài khoản của tôi
         </NavLink>
-        <NavLink
-          to={path.changePassword}
-          className={({ isActive }) =>
-            classNames("mt-4 flex items-center capitalize transition-colors", {
-              "text-mainColor": isActive,
-              "text-gray-600": !isActive,
-            })
-          }
-        >
-          <div className="mr-3 h-[22px] w-[22px]">
-            <img
-              src="https://cf.shopee.vn/file/ba61750a46794d8847c3f463c5e71cc4"
-              alt=""
-              className="h-full w-full"
-            />
-          </div>
-          Đổi mật khẩu
-        </NavLink>
+
         <NavLink
           to={path.historyPurchase}
           className={({ isActive }) =>

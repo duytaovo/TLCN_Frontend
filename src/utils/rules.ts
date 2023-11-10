@@ -135,7 +135,13 @@ export const userSchema = yup.object({
   new_password: schema.fields["password"],
   confirm_password: handleConfirmPasswordYup("new_password"),
 });
-
+export const schemaPayment = yup.object({
+  nameReceiver: yup.string().required("Trường này là bắt buộc"),
+  phoneReceiver: yup.string().required("Trường này là bắt buộc"),
+  addressReceiver: yup.string().required("Trường này là bắt buộc"),
+  message: yup.string().required("Trường này là bắt buộc"),
+  paymentMethod: yup.string().required("Trường này là bắt buộc"),
+});
 export type UserSchema = yup.InferType<typeof userSchema>;
 
 export type Schema = yup.InferType<typeof schema>;

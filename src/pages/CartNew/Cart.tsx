@@ -19,49 +19,47 @@ import {
 import { unwrapResult } from "@reduxjs/toolkit";
 import QuantityController from "./QuantityController";
 import Button from "../Auth/Button";
-import { getProductDetail } from "src/store/product/productsSlice";
 import { SmartPhoneDetail } from "src/types/allProductsType.interface";
-import { getProductDetailApi } from "src/store/product/productsApi";
-import { getDetailPhone } from "src/store/product/smartPhoneSlice";
-import { getProductByProductSlugId } from "src/store/shopping-cart/cartItemsSlide";
+import {
+  addItem,
+  addItemBuy,
+  getProductByProductSlugId,
+  removeItem,
+  updateItem,
+} from "src/store/shopping-cart/cartItemsSlide";
 
 export default function CartNew() {
   const { extendedPurchases, setExtendedPurchases } = useContext(AppContext);
   const [purchasesInCartData, setPurchasesInCartData] = useState<[]>([]);
   const dispatch = useAppDispatch();
-  const product_add: any =
-    JSON.parse(localStorage.getItem("cartItems") || "") || [];
-  const { smartPhoneDetail } = useAppSelector((state) => state.smartphone);
+  const product_add: any = useAppSelector((state) => state.cartItems.value);
+
+  const [buyCount, setBuyCount] = useState(1);
+
+  useEffect(() => {}, []);
+  // useEffect(() => {
+  //   async function fetchProductData() {
+  //     const productData: Array<{
+  //       product: SmartPhoneDetail;
+  //       quantity: number;
+  //     }> = [];
+
+  //     for (const item of product_add) {
+  //       const slug = item?.productInfo?.slug ? item.productInfo.slug : "";
+  //       const productInfo = await dispatch(
+  //         getProductByProductSlugId({ id: item.id, slug })
+  //       ).then(unwrapResult);
+  //       productData.push({ product: productInfo, quantity: item.quantity });
+  //     }
+
+  //     return productData;
+  //   }
+  //   fetchProductData();
+  // }, []);
 
   useEffect(() => {
-    async function fetchProductData() {
-      const productData: Array<{
-        product: SmartPhoneDetail;
-        quantity: number;
-      }> = [];
-
-      for (const item of product_add) {
-        const slug = item?.productInfo?.slug ? item.productInfo.slug : "";
-        const productInfo = await dispatch(
-          getProductByProductSlugId({ id: item.id, slug })
-        ).then(unwrapResult);
-        console.log("productInfo" + productInfo);
-        productData.push({ product: productInfo, quantity: item.quantity });
-      }
-
-      return productData;
-    }
-    fetchProductData();
-  }, []);
-
-  useEffect(() => {
-    const getData = async () => {
-      // const res = await dispatch(getProductDetail(product_add[0]?.id));
-      // getPurchases({ status: purchasesStatus.inCart })
-      // setPurchasesInCartData(smartPhoneDetail);
-    };
-    getData();
-  }, [dispatch]);
+    setPurchasesInCartData(product_add);
+  }, [product_add]);
 
   const location = useLocation();
   const choosenPurchaseIdFromLocation = (
@@ -83,7 +81,7 @@ export default function CartNew() {
   const totalCheckedPurchasePrice = useMemo(
     () =>
       checkedPurchases.reduce((result, current) => {
-        return result + current.product.price * current.buy_count;
+        return result + current.price * current.quantity;
       }, 0),
     [checkedPurchases]
   );
@@ -91,29 +89,24 @@ export default function CartNew() {
   const totalCheckedPurchaseSavingPrice = useMemo(
     () =>
       checkedPurchases.reduce((result, current) => {
-        return (
-          result +
-          (current.product.price_before_discount - current.product.price) *
-            current.buy_count
-        );
+        return result + (current.salePrice - current.price) * current.quantity;
       }, 0),
     [checkedPurchases]
   );
 
   useEffect(() => {
     setExtendedPurchases((prev) => {
-      const extendedPurchasesObject = keyBy(prev, "_id");
-
+      const extendedPurchasesObject = keyBy(prev, "id");
       return (
         purchasesInCartData?.map((purchase: any) => {
           const isChoosenPurchaseFromLocation =
-            choosenPurchaseIdFromLocation === purchase._id;
+            choosenPurchaseIdFromLocation === purchase.id;
           return {
             ...purchase,
             disabled: false,
             checked:
               isChoosenPurchaseFromLocation ||
-              Boolean(extendedPurchasesObject[purchase._id]?.checked),
+              Boolean(extendedPurchasesObject[purchase.id]?.checked),
           };
         }) || []
       );
@@ -147,7 +140,7 @@ export default function CartNew() {
   const handleTypeQuantity = (purchaseIndex: number) => (value: number) => {
     setExtendedPurchases(
       produce((draft) => {
-        draft[purchaseIndex].buy_count = value;
+        draft[purchaseIndex].quantity = value;
       })
     );
   };
@@ -165,76 +158,45 @@ export default function CartNew() {
         })
       );
 
-      await dispatch(
-        updatePurchase({
-          product_id: purchase.product._id,
-          buy_count: value,
-        })
-      ).then(unwrapResult);
-      const res = await dispatch(
-        getPurchases({ status: purchasesStatus.inCart })
-      ).then(unwrapResult);
-      setPurchasesInCartData(res.data.data);
+      dispatch(updateItem({ ...purchase, quantity: value }));
+      setPurchasesInCartData(product_add);
     }
   };
 
   const handleDelete = (purchaseIndex: number) => async () => {
-    const purchaseId = extendedPurchases[purchaseIndex]._id;
-    const res = await dispatch(deletePurchases([purchaseId])).then(
-      unwrapResult
-    );
-    const res2 = await dispatch(
-      getPurchases({ status: purchasesStatus.inCart })
-    ).then(unwrapResult);
-    setPurchasesInCartData(res2.data.data);
+    const purchaseId = extendedPurchases[purchaseIndex];
+    dispatch(removeItem(purchaseId));
 
-    if (res.status === 200) {
-      toast.success("Xóa thành công", {
-        position: "top-center",
-        autoClose: 1000,
-      });
-    }
+    setPurchasesInCartData(product_add);
+    // if (res.status === 200) {
+    toast.success("Xóa thành công", {
+      autoClose: 1000,
+    });
+    // }
   };
 
   const handleDeleteManyPurchases = async () => {
-    const purchasesIds = checkedPurchases.map((purchase) => purchase._id);
-    const res = await dispatch(deletePurchases(purchasesIds)).then(
-      unwrapResult
-    );
+    checkedPurchases.map((purchase) => dispatch(removeItem(purchase)));
 
-    const res2 = await dispatch(
-      getPurchases({ status: purchasesStatus.inCart })
-    ).then(unwrapResult);
-    setPurchasesInCartData(res2.data.data);
-
-    if (res.status === 200) {
-      toast.success("Xóa thành công", {
-        position: "top-center",
-        autoClose: 1000,
-      });
-    }
+    toast.success("Xóa thành công", {
+      autoClose: 1000,
+    });
   };
 
   const handleBuyPurchases = async () => {
     if (checkedPurchases.length > 0) {
       const body = checkedPurchases.map((purchase) => ({
-        product_id: purchase.product._id,
-        buy_count: purchase.buy_count,
+        product_id: purchase.product_id,
+        quantity: buyCount,
+        price: purchase.price,
+        salePrice: purchase.salePrice,
+        typeId: purchase?.typeId,
+        depotId: purchase.depotId,
       }));
-      const res = await dispatch(buyPurchases(body)).then(unwrapResult);
-      if (res.status === 200) {
-        toast.success("Mua thành công", {
-          position: "top-center",
-          autoClose: 1000,
-        });
-      }
-      const res2 = await dispatch(
-        getPurchases({ status: purchasesStatus.inCart })
-      ).then(unwrapResult);
-      setPurchasesInCartData(res2.data.data);
+      dispatch(addItemBuy(body));
+      checkedPurchases.map((purchase) => dispatch(removeItem(purchase)));
     } else {
       toast.error("Vui lòng chọn sản phẩm", {
-        position: "top-center",
         autoClose: 1000,
       });
     }
@@ -242,13 +204,13 @@ export default function CartNew() {
 
   return (
     <div className="bg-neutral-100 py-16">
-      <div className="px-48 text-black">
+      <div className=" text-black">
         {extendedPurchases.length > 0 ? (
           <>
             <div className="overflow-auto">
-              <div className="">
-                <div className="grid grid-cols-12 rounded-sm bg-white py-5 px-9 text-2xl capitalize text-gray-500 shadow">
-                  <div className="col-span-6">
+              <div className="min-w-[1000px]">
+                <div className="grid grid-cols-12 rounded-sm bg-white px-9 py-5 text-lg capitalize text-gray-500 shadow">
+                  <div className="col-span-5">
                     <div className="flex items-center">
                       <div className="flex flex-shrink-0 items-center justify-center pr-3">
                         <input
@@ -261,10 +223,10 @@ export default function CartNew() {
                       <div className="flex-grow text-black">Sản phẩm</div>
                     </div>
                   </div>
-                  <div className="col-span-6">
-                    <div className="grid grid-cols-5 text-center">
-                      <div className="col-span-2">Đơn giá</div>
-                      <div className="col-span-1">Số lượng</div>
+                  <div className="col-span-7">
+                    <div className="grid grid-cols-7 text-center">
+                      <div className="col-span-3">Đơn giá</div>
+                      <div className="col-span-2">Số lượng</div>
                       <div className="col-span-1">Số tiền</div>
                       <div className="col-span-1">Thao tác</div>
                     </div>
@@ -274,7 +236,7 @@ export default function CartNew() {
                   <div className="my-3 rounded-sm bg-white p-5 shadow">
                     {extendedPurchases.map((purchase, index) => (
                       <div
-                        key={purchase._id}
+                        key={purchase.id}
                         className="mb-5 grid grid-cols-12 items-center rounded-sm border border-gray-200 bg-white py-5 px-4 text-center text-2xl text-gray-500 first:mt-0"
                       >
                         <div className="col-span-6">
@@ -291,25 +253,29 @@ export default function CartNew() {
                               <div className="flex">
                                 <Link
                                   className="h-20 w-20 flex-shrink-0"
-                                  to={`${path.home}${generateNameId({
-                                    name: purchase.product.name,
-                                    id: purchase.product._id,
-                                  })}`}
+                                  to={`${`/${purchase.slug}/detail`}/${generateNameId(
+                                    {
+                                      name: purchase.name,
+                                      id: purchase.id.toString(),
+                                    }
+                                  )}`}
                                 >
                                   <img
-                                    alt={purchase.product.name}
-                                    src={purchase.product.image}
+                                    alt={purchase.name}
+                                    src={purchase.image}
                                   />
                                 </Link>
                                 <div className="flex-grow px-2 pt-1 pb-2">
                                   <Link
-                                    to={`${path.home}${generateNameId({
-                                      name: purchase.product.name,
-                                      id: purchase.product._id,
-                                    })}`}
+                                    to={`${`/${purchase.slug}/detail`}/${generateNameId(
+                                      {
+                                        name: purchase.name,
+                                        id: purchase.id.toString(),
+                                      }
+                                    )}`}
                                     className="text-left line-clamp-2"
                                   >
-                                    {purchase.product.name}
+                                    {purchase.name}
                                   </Link>
                                 </div>
                               </div>
@@ -321,42 +287,41 @@ export default function CartNew() {
                             <div className="col-span-2">
                               <div className="flex items-center justify-center">
                                 <span className="text-gray-300 line-through">
-                                  ₫
-                                  {formatCurrency(
-                                    purchase.product.price_before_discount
-                                  )}
+                                  ₫{formatCurrency(purchase.salePrice)}
                                 </span>
                                 <span className="ml-3">
-                                  ₫{formatCurrency(purchase.product.price)}
+                                  ₫{formatCurrency(purchase.price)}
                                 </span>
                               </div>
                             </div>
                             <div className="col-span-1">
                               <QuantityController
-                                max={purchase.product.quantity}
-                                value={purchase.buy_count}
+                                max={purchase.quantityInDB}
+                                value={purchase.quantity}
                                 classNameWrapper="flex items-center"
                                 onIncrease={(value) =>
                                   handleQuantity(
                                     index,
                                     value,
-                                    value <= purchase.product.quantity
+                                    value <= purchase.quantityInDB
                                   )
                                 }
                                 onDecrease={(value) =>
                                   handleQuantity(index, value, value >= 1)
                                 }
+                                // onDecrease={handleBuyCount}
+                                // onIncrease={handleBuyCount}
                                 onType={handleTypeQuantity(index)}
                                 onFocusOut={(value) =>
                                   handleQuantity(
                                     index,
                                     value,
                                     value >= 1 &&
-                                      value <= purchase.product.quantity &&
+                                      value <= purchase.quantityInDB &&
                                       value !==
                                         (purchasesInCartData as Purchase[])[
                                           index
-                                        ].buy_count
+                                        ].quantityInDB
                                   )
                                 }
                                 disabled={purchase.disabled}
@@ -366,7 +331,7 @@ export default function CartNew() {
                               <span className="text-red-600">
                                 ₫
                                 {formatCurrency(
-                                  purchase.product.price * purchase.buy_count
+                                  purchase.price * purchase.quantity
                                 )}
                               </span>
                             </div>

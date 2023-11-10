@@ -5,7 +5,7 @@ import Header from "src/components/Header/Header";
 import Loading from "src/components/Loading";
 function CommonLayout({ children }: any) {
   return (
-    <div className="bg pt-[110px] w-[100vw]">
+    <div className="bg pt-[110px] w-full">
       <Loading />
       <Header />
       <main role="main" className="wrapper h-full">

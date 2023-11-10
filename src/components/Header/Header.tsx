@@ -81,7 +81,7 @@ const Header = () => {
       label: (
         <div
           onClick={async () => {
-            await navigate(path.user);
+            await navigate(path.profile);
           }}
         >
           <span className={""}>{t("header.profile")}</span>

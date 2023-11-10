@@ -11,10 +11,6 @@ import { useTranslation } from "react-i18next";
 import { Helmet } from "react-helmet-async";
 import { convert } from "html-to-text";
 import { useAppDispatch, useAppSelector } from "src/hooks/useRedux";
-import {
-  getDetailPhone,
-  getSmartPhones,
-} from "src/store/product/smartPhoneSlice";
 import { unwrapResult } from "@reduxjs/toolkit";
 import { Button, Modal, Rate } from "antd";
 import DOMPurify from "dompurify";
@@ -34,13 +30,11 @@ export default function SmartPhoneDetail() {
   const dispatch = useAppDispatch();
   const location = useLocation();
   const [productData, setProductData] = useState<any>();
-  const [keys, setKeys] = useState([]);
   const pathParts = location.pathname.split("/");
-  const id = getIdFromNameId(productSlug as string);
+  const _id = getIdFromNameId(productSlug as string);
   const [currentIndexImages, setCurrentIndexImages] = useState([0, 5]);
   const [activeImage, setActiveImage] = useState("");
   const imageRef = useRef<HTMLImageElement>(null);
-  const [productDataPrivate, setProductDataPrivate] = useState<any>();
   const [productDataPrivateArray, setProductDataPrivateArray] = useState<any>();
   const [price, setPrice] = useState(
     productData?.productInfo?.lstProductTypeAndPrice[0].salePrice
@@ -84,23 +78,17 @@ export default function SmartPhoneDetail() {
   useEffect(() => {
     const getData = async () => {
       const res = await dispatch(
-        getProductByProductSlugId({ id, slug: pathParts[1] })
+        getProductByProductSlugId({ id: _id, slug: pathParts[1] })
       );
       unwrapResult(res);
       setProductData(res.payload.data.data);
-      const { productInfo, ...productDetailsWithoutInfo } = productData;
-      console.log(productDetailsWithoutInfo);
+      const { productInfo, id, ...productDetailsWithoutInfo } = productData;
+
+      const productDetailsArray = Object.keys(productDetailsWithoutInfo);
+      setProductDataPrivateArray(productDetailsArray);
     };
     getData();
-  }, [id, dispatch]);
-  console.log(productData);
-
-  useEffect(() => {
-    // setProductDataPrivate(productDetailsWithoutInfo);
-    // const productDetailsArray = Object.keys(productDetailsWithoutInfo);
-    // setProductDataPrivateArray(productDetailsArray);
-    // console.log(productDataPrivateArray);
-  }, []);
+  }, [_id, pathParts[1]]);
 
   useEffect(() => {
     setPrice(productData?.productInfo?.lstProductTypeAndPrice[0]?.price);
@@ -172,14 +160,22 @@ export default function SmartPhoneDetail() {
   const addToCart = async () => {
     const body = {
       id: productData.id,
-      product_id: productData.productInfo.productId,
-      slug: productData.productInfo.slug,
+      product_id: productData.productInfo?.productId,
+      slug: productData.productInfo?.slug,
       quantity: buyCount,
+      name: productData.productInfo?.name,
+      price: price,
+      salePrice: salePrice,
+      typeId: productData?.productInfo?.lstProductTypeAndPrice[0].typeId,
+      depotId: productData.productInfo?.lstProductTypeAndPrice[0].depotId,
+      quantityInDB:
+        productData?.productInfo?.lstProductTypeAndPrice[0]?.quantity,
+      image: productData.productInfo.lstProductImageUrl[0],
     };
     const res = await dispatch(addItem(body));
     // await dispatch(getCartPurchases()).then(unwrapResult);
     toast.success("Thêm sản phẩm thành công", {
-      position: "top-center",
+      // position: "top-center",
       autoClose: 4000,
     });
   };
@@ -335,10 +331,17 @@ export default function SmartPhoneDetail() {
                   onIncrease={handleBuyCount}
                   onType={handleBuyCount}
                   value={buyCount}
-                  max={100}
+                  max={
+                    productData?.productInfo?.lstProductTypeAndPrice[0]
+                      ?.quantity
+                  }
                 />
                 <div className="ml-6 text-xl text-gray-500">
-                  {100} sản phẩm có sẵn
+                  {
+                    productData?.productInfo?.lstProductTypeAndPrice[0]
+                      ?.quantity
+                  }{" "}
+                  sản phẩm có sẵn
                 </div>
               </div>
               <div className="mt-8 flex items-center text-black">
@@ -405,14 +408,19 @@ export default function SmartPhoneDetail() {
           centered
         >
           <div className="block space-y-2">
-            {/* {productDataPrivate?.map((item: any, index: number) => (
-              <div key={index}>
-                <div className="flex justify-start align-baseline space-x-4">
-                  <h4 className="font-bold">{{t(`${pathParts}.{item}`)}}</h4>
-                  <h5>{productData.rearCamera}</h5>
+            {productDataPrivateArray?.map((item: any, index: number) => {
+              console.log(item);
+              return (
+                <div key={index}>
+                  <div className="flex justify-start align-baseline space-x-4">
+                    <h4 className="font-bold">
+                      {/* {t(`${pathParts[1]}.${item}`)} */}
+                    </h4>
+                    <h5>{productData[item]}</h5>
+                  </div>
                 </div>
-              </div>
-            ))} */}
+              );
+            })}
             {/* <div className="flex justify-start align-baseline space-x-4">
               <h4 className="font-bold">Hệ điều hành :</h4>
               <h5>{productData.operatingSystem}</h5>
