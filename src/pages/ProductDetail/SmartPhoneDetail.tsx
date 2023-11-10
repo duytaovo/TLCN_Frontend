@@ -87,22 +87,20 @@ export default function SmartPhoneDetail() {
         getProductByProductSlugId({ id, slug: pathParts[1] })
       );
       unwrapResult(res);
-      setKeys(res.payload.data.data);
-      console.log(keys);
       setProductData(res.payload.data.data);
+      const { productInfo, ...productDetailsWithoutInfo } = productData;
+      console.log(productDetailsWithoutInfo);
     };
     getData();
-  }, [id, pathParts, dispatch]);
+  }, [id, dispatch]);
   console.log(productData);
 
   useEffect(() => {
-    const { productInfo, ...productDetailsWithoutInfo } = productData;
-    setProductDataPrivate(productDetailsWithoutInfo);
-    console.log(productDetailsWithoutInfo);
-    const productDetailsArray = Object.keys(productDetailsWithoutInfo);
-    setProductDataPrivateArray(productDetailsArray);
-    console.log(productDataPrivateArray);
-  }, [productData]);
+    // setProductDataPrivate(productDetailsWithoutInfo);
+    // const productDetailsArray = Object.keys(productDetailsWithoutInfo);
+    // setProductDataPrivateArray(productDetailsArray);
+    // console.log(productDataPrivateArray);
+  }, []);
 
   useEffect(() => {
     setPrice(productData?.productInfo?.lstProductTypeAndPrice[0]?.price);
