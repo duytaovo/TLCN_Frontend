@@ -1,7 +1,6 @@
 import React, { useContext, useEffect, useMemo, useState } from "react";
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import path from "src/constants/path";
-import { purchasesStatus } from "src/constants/purchase";
 import { Purchase } from "src/types/purchase.type";
 import { formatCurrency, generateNameId } from "src/utils/utils";
 import produce from "immer";
@@ -10,20 +9,12 @@ import { toast } from "react-toastify";
 import { AppContext } from "src/contexts/app.context";
 import noproduct from "src/assets/images/no-product.png";
 import { useAppDispatch, useAppSelector } from "src/hooks/useRedux";
-import {
-  buyPurchases,
-  deletePurchases,
-  getPurchases,
-  updatePurchase,
-} from "src/store/order/orderSlice";
+import { buyPurchases, getPurchases } from "src/store/order/orderSlice";
 import { unwrapResult } from "@reduxjs/toolkit";
 import QuantityController from "./QuantityController";
 import Button from "../Auth/Button";
-import { SmartPhoneDetail } from "src/types/allProductsType.interface";
 import {
-  addItem,
   addItemBuy,
-  getProductByProductSlugId,
   removeItem,
   updateItem,
 } from "src/store/shopping-cart/cartItemsSlide";
@@ -33,10 +24,8 @@ export default function CartNew() {
   const [purchasesInCartData, setPurchasesInCartData] = useState<[]>([]);
   const dispatch = useAppDispatch();
   const product_add: any = useAppSelector((state) => state.cartItems.value);
-
   const [buyCount, setBuyCount] = useState(1);
-
-  useEffect(() => {}, []);
+  const navigate = useNavigate();
   // useEffect(() => {
   //   async function fetchProductData() {
   //     const productData: Array<{
@@ -187,14 +176,16 @@ export default function CartNew() {
     if (checkedPurchases.length > 0) {
       const body = checkedPurchases.map((purchase) => ({
         product_id: purchase.product_id,
-        quantity: buyCount,
+        quantity: purchase.quantity,
         price: purchase.price,
         salePrice: purchase.salePrice,
         typeId: purchase?.typeId,
         depotId: purchase.depotId,
+        totalCheckedPurchasePrice: totalCheckedPurchasePrice,
       }));
       dispatch(addItemBuy(body));
       checkedPurchases.map((purchase) => dispatch(removeItem(purchase)));
+      navigate(path.payment);
     } else {
       toast.error("Vui lòng chọn sản phẩm", {
         autoClose: 1000,

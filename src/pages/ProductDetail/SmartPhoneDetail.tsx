@@ -20,8 +20,17 @@ import {
   getProductByProductSlugId,
 } from "src/store/shopping-cart/cartItemsSlide";
 import path from "src/constants/path";
-import { Descriptions } from "antd";
-import type { DescriptionsProps } from "antd";
+
+type SmartphoneTranslationKeys =
+  | "smartphone.monitor"
+  | "smartphone.operatingSystem"
+  | "smartphone.rearCamera"
+  | "smartphone.frontCamera"
+  | "smartphone.chip"
+  | "smartphone.sim"
+  | "smartphone.battery"
+  | "smartphone.charging"
+  | "smartphone.networkSupport";
 
 export default function SmartPhoneDetail() {
   const { t } = useTranslation(["product"]);
@@ -35,7 +44,9 @@ export default function SmartPhoneDetail() {
   const [currentIndexImages, setCurrentIndexImages] = useState([0, 5]);
   const [activeImage, setActiveImage] = useState("");
   const imageRef = useRef<HTMLImageElement>(null);
-  const [productDataPrivateArray, setProductDataPrivateArray] = useState<any>();
+  const [productDataPrivateArray, setProductDataPrivateArray] =
+    useState<string[]>();
+  console.log(productDataPrivateArray);
   const [price, setPrice] = useState(
     productData?.productInfo?.lstProductTypeAndPrice[0].salePrice
   );
@@ -82,13 +93,17 @@ export default function SmartPhoneDetail() {
       );
       unwrapResult(res);
       setProductData(res.payload.data.data);
-      const { productInfo, id, ...productDetailsWithoutInfo } = productData;
-
-      const productDetailsArray = Object.keys(productDetailsWithoutInfo);
-      setProductDataPrivateArray(productDetailsArray);
+      console.log(productData);
+      if (productData) {
+        const { productInfo, id, ...productDetailsWithoutInfo } = productData;
+        const productDetailsArray: string[] = Object.keys(
+          productDetailsWithoutInfo
+        );
+        setProductDataPrivateArray(productDetailsArray);
+      }
     };
     getData();
-  }, [_id, pathParts[1]]);
+  }, [_id, pathParts[1], dispatch, buyCount, activeImage]);
 
   useEffect(() => {
     setPrice(productData?.productInfo?.lstProductTypeAndPrice[0]?.price);
@@ -320,8 +335,12 @@ export default function SmartPhoneDetail() {
                   {formatCurrency(price)}
                 </div>
                 <div className="ml-4 rounded-sm bg-orange-300 px-1 py-[2px] text-lg font-semibold uppercase text-black">
-                  {/* {rateSale(Number(productData?.productInfo?.star), price)}{" "} */}
-                  10% giảm
+                  {rateSale(
+                    productData?.productInfo?.lstProductTypeAndPrice[0]
+                      .salePrice,
+                    productData?.productInfo?.lstProductTypeAndPrice[0].price
+                  )}{" "}
+                  giảm
                 </div>
               </div>
               <div className="mt-8 flex items-center">
@@ -408,14 +427,14 @@ export default function SmartPhoneDetail() {
           centered
         >
           <div className="block space-y-2">
-            {productDataPrivateArray?.map((item: any, index: number) => {
-              console.log(item);
+            {productDataPrivateArray?.map((item: string, index: number) => {
+              const translationKey =
+                `${productData.productInfo.slug}.${item}` as SmartphoneTranslationKeys;
+
               return (
                 <div key={index}>
                   <div className="flex justify-start align-baseline space-x-4">
-                    <h4 className="font-bold">
-                      {/* {t(`${pathParts[1]}.${item}`)} */}
-                    </h4>
+                    <h4 className="font-bold">{t(translationKey)}</h4>
                     <h5>{productData[item]}</h5>
                   </div>
                 </div>

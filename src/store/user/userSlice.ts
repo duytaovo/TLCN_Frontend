@@ -95,7 +95,7 @@ const userSlice = createSlice({
       state.token = payload.data.data.token;
     });
 
-    builder.addCase(getUserById.fulfilled, (state, { payload }) => {
+    builder.addCase(getUser.fulfilled, (state, { payload }) => {
       state.profile = payload.data.data;
     });
   },

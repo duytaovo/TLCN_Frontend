@@ -139,8 +139,10 @@ export const schemaPayment = yup.object({
   nameReceiver: yup.string().required("Trường này là bắt buộc"),
   phoneReceiver: yup.string().required("Trường này là bắt buộc"),
   addressReceiver: yup.string().required("Trường này là bắt buộc"),
-  message: yup.string().required("Trường này là bắt buộc"),
+  message: yup.string(),
   paymentMethod: yup.string().required("Trường này là bắt buộc"),
+  deliveryPrice: yup.string(),
+  discount: yup.string(),
 });
 export type UserSchema = yup.InferType<typeof userSchema>;
 

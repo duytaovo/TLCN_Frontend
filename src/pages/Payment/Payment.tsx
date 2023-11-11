@@ -1,8 +1,7 @@
-import { PlusOutlined } from "@ant-design/icons";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { unwrapResult } from "@reduxjs/toolkit";
 import { Button, Form } from "antd";
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
@@ -11,10 +10,13 @@ import path from "src/constants/path";
 import { useAppDispatch, useAppSelector } from "src/hooks/useRedux";
 import { ErrorResponse } from "src/types/utils.type";
 import { schemaPayment } from "src/utils/rules";
-import { isAxiosUnprocessableEntityError } from "src/utils/utils";
+import {
+  formatCurrency,
+  isAxiosUnprocessableEntityError,
+} from "src/utils/utils";
 import SelectCustom from "src/components/Select";
-
-import InputFile from "src/components/InputFile";
+import { buyPurchases } from "src/store/order/orderSlice";
+import { getUser } from "src/store/user/userSlice";
 
 interface FormData {}
 
@@ -26,16 +28,13 @@ const Payment: React.FC = () => {
     setError,
     register,
     setValue,
-    control,
-    watch,
   } = useForm({
     resolver: yupResolver(schemaPayment),
   });
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
-
-  useEffect(() => {}, []);
-
+  const { profile } = useAppSelector((state) => state.user);
+  const { valueBuy } = useAppSelector((state) => state.cartItems);
   useEffect(() => {
     setValue("addressReceiver", "");
     setValue("message", "");
@@ -43,38 +42,49 @@ const Payment: React.FC = () => {
     setValue("paymentMethod", "");
     setValue("phoneReceiver", "");
   }, []);
-
+  useEffect(() => {
+    dispatch(getUser(""));
+  }, []);
+  const totalPurchasePrice = useMemo(
+    () =>
+      valueBuy.reduce((result, current) => {
+        return result + current.price * current.quantity;
+      }, 0),
+    [valueBuy]
+  );
   const onSubmit = handleSubmit(async (data) => {
+    const deliveryPrice = 30000;
+    const discount = 20000;
+    // const finalPrice = totalPurchasePrice - deliveryPrice - discount;
     const body = JSON.stringify({
-      nameReceiver: "string",
-      phoneReceiver: "string",
-      addressReceiver: "string",
-      message: "string",
-      orderPrice: 0,
-      deliveryPrice: 0,
-      discount: 0,
-      finalPrice: 0,
-      userId: 0,
-      paymentMethod: 0,
-      orderProducts: [
-        {
-          productId: 0,
-          typeId: 0,
-          depotId: 0,
-          quantity: 0,
-        },
-      ],
+      nameReceiver: data.nameReceiver,
+      phoneReceiver: data.phoneReceiver,
+      addressReceiver: data.addressReceiver,
+      message: data.message,
+      orderPrice: totalPurchasePrice,
+      deliveryPrice,
+      discount,
+      finalPrice: 10000,
+      userId: profile.id,
+      paymentMethod: Number(data.paymentMethod),
+      orderProducts: valueBuy?.map((item) => ({
+        productId: item.product_id,
+        typeId: item.typeId,
+        depotId: item.depotId,
+        quantity: item.quantity,
+      })),
     });
 
     try {
       setIsSubmitting(true);
-      const res = await dispatch(addSmartPhone(body));
+      const res = await dispatch(buyPurchases(body));
       unwrapResult(res);
-      // const d = res?.payload?.data;
-      // if (d?.code !== 201) return toast.error(d?.message);
-      await toast.success("Thêm sản phẩm điện thoại thành công ");
-      await dispatch(getSmartPhones(""));
-      await navigate(path.smartPhone);
+      const d = res?.payload?.data;
+      if (d?.code !== 200) return toast.error(d?.message);
+      localStorage.removeItem("cartItemsBuy");
+      // await toast.success("Thanh toán thành công ");
+      window.location.href = d.data.paymentUrl;
+      // await navigate(d.data.paymentUrl);
     } catch (error: any) {
       if (isAxiosUnprocessableEntityError<ErrorResponse<FormData>>(error)) {
         const formError = error.response?.data.data;
@@ -100,13 +110,13 @@ const Payment: React.FC = () => {
   };
 
   return (
-    <div className="bg-white shadow ">
+    <div className=" bg-white ">
       <h2 className="font-bold m-4 text-2xl">Thanh toán sản phẩm</h2>
       <Form
         labelCol={{ span: 4 }}
-        wrapperCol={{ span: 14 }}
+        wrapperCol={{ span: 8 }}
         layout="horizontal"
-        style={{ maxWidth: 800, padding: 6 }}
+        style={{ maxWidth: 1100, padding: 2 }}
         autoComplete="off"
         noValidate
         onSubmitCapture={onSubmit}
@@ -174,7 +184,7 @@ const Payment: React.FC = () => {
             errorMessage={errors.phoneReceiver?.message}
           />
         </Form.Item>
-        <Form.Item label="Ghi chú" name="message" rules={[{ required: true }]}>
+        <Form.Item label="Ghi chú" name="message">
           <Input
             placeholder="Giao nhanh ..."
             name="message"
@@ -184,11 +194,40 @@ const Payment: React.FC = () => {
             errorMessage={errors.message?.message}
           />
         </Form.Item>
-
+        <Form.Item label="Phí vận chuyển" name="deliveryPrice">
+          <Input
+            placeholder="30.000đ"
+            name="deliveryPrice"
+            register={register}
+            type="text"
+            className=""
+            defaultValue={30000}
+            // errorMessage={errors.deliveryPrice?.message}
+            disabled
+          />
+        </Form.Item>
+        <Form.Item label="Giảm giá" name="discount">
+          <Input
+            placeholder="20.000đ"
+            name="discount"
+            register={register}
+            type="text"
+            className=""
+            defaultValue={20000}
+            // errorMessage={errors.message?.message}
+            disabled
+          />
+        </Form.Item>
+        <div className="flex items-center sm:justify-end">
+          <div>Tổng thanh toán ({valueBuy.length} sản phẩm):</div>
+          <div className="ml-2 text-2xl text-orange-600">
+            ₫{formatCurrency(totalPurchasePrice - 30000 - 20000)}
+          </div>
+        </div>
         <div className="flex justify-start">
           <Form.Item label="" className="ml-[135px] mb-2 bg-green-300">
             <Button className="w-[100px]" onClick={onSubmit} type="default">
-              Lưu
+              Thanh toán
             </Button>
           </Form.Item>
           <Form.Item label="" className="ml-[70px] mb-2">

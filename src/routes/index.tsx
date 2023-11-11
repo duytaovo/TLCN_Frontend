@@ -5,6 +5,7 @@ const CodeValidator = lazy(
   () => import("src/pages/Auth/ForgotPasword/ValidatorCode")
 );
 const Home = lazy(() => import("src/pages/Home/Home"));
+const Payment = lazy(() => import("src/pages/Payment/Payment"));
 const CodeValidatorActiveAccount = lazy(
   () => import("src/pages/Auth/AcctiveAccount/ValidatorCode")
 );
@@ -133,6 +134,10 @@ export const routeUser = [
   {
     path: path.profile,
     Component: Profile,
+  },
+  {
+    path: path.payment,
+    Component: Payment,
   },
   {
     path: path.cartNew,

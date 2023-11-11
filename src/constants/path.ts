@@ -33,6 +33,7 @@ const path = {
   cartNew: "/user/cartNew",
   sendCodeActive: "/user/sendCodeActive",
   activeAccount: "/user/activeAccount",
+  payment: "/user/payment",
 } as const;
 
 export default path;
