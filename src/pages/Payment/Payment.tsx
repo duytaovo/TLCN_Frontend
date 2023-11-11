@@ -61,19 +61,20 @@ const Payment: React.FC = () => {
       phoneReceiver: data.phoneReceiver,
       addressReceiver: data.addressReceiver,
       message: data.message,
-      orderPrice: totalPurchasePrice,
+      orderPrice: Number(totalPurchasePrice),
       deliveryPrice,
       discount,
       finalPrice: 10000,
-      userId: profile.id,
+      userId: Number(profile.id),
       paymentMethod: Number(data.paymentMethod),
       orderProducts: valueBuy?.map((item) => ({
-        productId: item.product_id,
-        typeId: item.typeId,
-        depotId: item.depotId,
-        quantity: item.quantity,
+        productId: Number(item.product_id),
+        typeId: Number(item.typeId),
+        depotId: Number(item.depotId),
+        quantity: Number(item.quantity),
       })),
     });
+    console.log(body);
 
     try {
       setIsSubmitting(true);
@@ -130,7 +131,6 @@ const Payment: React.FC = () => {
             className={"flex-1 text-black"}
             id="paymentMethod"
             placeholder="Vui lòng chọn"
-            defaultValue={""}
             options={[
               { id: 1, name: "Thanh toán khi nhận hàng" },
               { id: 2, name: "Thanh toán qua VNPay" },
@@ -201,7 +201,7 @@ const Payment: React.FC = () => {
             register={register}
             type="text"
             className=""
-            defaultValue={30000}
+            value={30000}
             // errorMessage={errors.deliveryPrice?.message}
             disabled
           />
@@ -213,7 +213,7 @@ const Payment: React.FC = () => {
             register={register}
             type="text"
             className=""
-            defaultValue={20000}
+            value={20000}
             // errorMessage={errors.message?.message}
             disabled
           />

@@ -19,23 +19,6 @@ const BestSelling = () => {
           <b>6.290.000₫</b>
         </a>
       </div>
-      <div className="listProduct-bestSellingLenovo">
-        <div className="item-bestSellingLenovo">
-          <ProductCard />
-        </div>
-        <div className="item-bestSellingLenovo">
-          <ProductCard />
-        </div>
-        <div className="item-bestSellingLenovo">
-          <ProductCard />
-        </div>
-        <div className="item-bestSellingLenovo">
-          <ProductCard />
-        </div>
-        <div className="item-bestSellingLenovo">
-          <ProductCard />
-        </div>
-      </div>
     </section>
   );
 };

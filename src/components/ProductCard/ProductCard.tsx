@@ -54,7 +54,7 @@ const ProductCard = ({ product, category }: Props) => {
           <div className="mt-3 flex items-center justify-start">
             <Rate
               allowHalf
-              defaultValue={product.star}
+              value={product.star}
               style={{
                 fontSize: "15px",
               }}

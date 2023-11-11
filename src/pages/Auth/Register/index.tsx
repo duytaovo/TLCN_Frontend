@@ -141,9 +141,7 @@ const Login = () => {
           <SelectCustom
             className={"flex-1 text-black"}
             id="gender"
-            // label="Hãng xe"
             placeholder="Vui lòng chọn"
-            defaultValue={""}
             options={[
               { id: 0, name: "Nam" },
               { id: 1, name: "Nữ" },
