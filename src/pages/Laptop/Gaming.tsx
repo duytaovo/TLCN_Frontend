@@ -12,7 +12,7 @@ const Gaming = () => {
     <div id="gaming" className="blocklist">
       <div className="listcontent block__gaming">
         <DealMain linkImg="https://cdn.tgdd.vn/2021/08/banner/gamingdes-1200x200.jpg" />
-        <ListProduct products={data} isSlide={false} />
+        <ListProduct products={data} isSlide={false} category="" />
       </div>
     </div>
   );

@@ -27,7 +27,11 @@ const HeadPhone = () => {
         <div className="listcontent ">
           <DealMain linkImg="https://cdn.tgdd.vn/2022/03/banner/DESKTOPTagline4-1200x150.png"></DealMain>
           <ProductTab productTab={productTab}></ProductTab>
-          <ListProduct products={products} isSlide={false}></ListProduct>
+          <ListProduct
+            products={products}
+            isSlide={false}
+            category=""
+          ></ListProduct>
         </div>
       </div>
     </>

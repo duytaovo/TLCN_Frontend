@@ -1,8 +1,6 @@
 import ProductCard from "../ProductCard";
 import Slider from "react-slick";
-import Slick from "../Slick";
 import "./slideproduct.scss";
-import { IPhoneDocument } from "src/types/allProductsType.interface";
 import NextArrow from "../Slick/NextArrow";
 import PrevArrow from "../Slick/PrevArrow";
 

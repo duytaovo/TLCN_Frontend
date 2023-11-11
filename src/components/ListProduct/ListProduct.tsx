@@ -8,7 +8,7 @@ import { ListSmartPhone } from "src/types/allProductsType.interface";
 type Props = {
   isSlide: boolean;
   products: any;
-  category: string;
+  category?: string;
 };
 const ListProduct = ({ isSlide, products, category }: Props) => {
   return (

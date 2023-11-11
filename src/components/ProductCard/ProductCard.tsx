@@ -14,11 +14,10 @@ import { Rate } from "antd";
 
 interface Props {
   product: ListSmartPhone;
-  category: string;
+  category?: string;
 }
 
 const ProductCard = ({ product, category }: Props) => {
-  console.log(product);
   return (
     <Link
       to={`${`/${category}/detail`}/${generateNameId({

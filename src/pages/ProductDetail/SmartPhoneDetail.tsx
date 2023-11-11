@@ -46,7 +46,6 @@ export default function SmartPhoneDetail() {
   const imageRef = useRef<HTMLImageElement>(null);
   const [productDataPrivateArray, setProductDataPrivateArray] =
     useState<string[]>();
-  console.log(productDataPrivateArray);
   const [price, setPrice] = useState(
     productData?.productInfo?.lstProductTypeAndPrice[0].salePrice
   );
@@ -103,7 +102,7 @@ export default function SmartPhoneDetail() {
       }
     };
     getData();
-  }, [_id, pathParts[1], dispatch, buyCount, activeImage]);
+  }, [_id, pathParts[1], dispatch, activeImage]);
 
   useEffect(() => {
     setPrice(productData?.productInfo?.lstProductTypeAndPrice[0]?.price);
@@ -379,7 +378,7 @@ export default function SmartPhoneDetail() {
               </div>
               <div className="space-x-3 mt-4 flex justify-start align-baseline">
                 <Button
-                  className="w-[100px] "
+                  className="w-fit "
                   onClick={() =>
                     onClickChangeColor(
                       productData?.productInfo?.lstProductTypeAndPrice[0]?.ram,
@@ -395,7 +394,7 @@ export default function SmartPhoneDetail() {
                 </Button>
                 {productData?.productInfo?.lstProductTypeAndPrice[1]?.color && (
                   <Button
-                    className="w-[100px] bg-black/30"
+                    className="w-fit bg-black/30"
                     onClick={() =>
                       onClickChangeColor(
                         productData?.productInfo?.lstProductTypeAndPrice[1]

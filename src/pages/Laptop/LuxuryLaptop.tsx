@@ -12,7 +12,7 @@ const LuxuryLaptop = () => {
     <div id="caocap" className="blocklist">
       <div className="listcontent">
         <DealMain linkImg="https://cdn.tgdd.vn/2021/08/banner/Caocapdesk-1200x200.jpg"></DealMain>
-        <ListProduct products={data} isSlide={false}></ListProduct>
+        <ListProduct category="" products={data} isSlide={false}></ListProduct>
       </div>
     </div>
   );

@@ -14,7 +14,7 @@ const LoudSpeaker = () => {
         <div className="listcontent ">
           <DealMain linkImg="https://cdn.tgdd.vn/2022/03/banner/DESKTOPTagline5-1200x147-1.png" />
           <ProductTab productTab={productTab} />
-          <ListProduct products={data} isSlide={false} />
+          <ListProduct products={data} isSlide={false} category="" />
         </div>
       </div>
     </>

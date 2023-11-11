@@ -81,6 +81,7 @@ export const schema = yup.object({
 
 export const schemaAddUser = yup.object({
   gender: yup.string(),
+  password: yup.string(),
   phoneNumber: yup
     .string()
     .required("Số điện thoại là bắt buộc")

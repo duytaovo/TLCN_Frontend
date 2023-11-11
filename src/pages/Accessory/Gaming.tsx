@@ -18,7 +18,11 @@ const Gaming = () => {
         <div className="listcontent ">
           <DealMain linkImg="https://cdn.tgdd.vn/2022/03/banner/DESKTOPTagline7-1200x138.png"></DealMain>
           <ProductTab productTab={productTab}></ProductTab>
-          <ListProduct products={data} isSlide={false}></ListProduct>
+          <ListProduct
+            products={data}
+            isSlide={false}
+            category=""
+          ></ListProduct>
         </div>
       </div>
     </>
