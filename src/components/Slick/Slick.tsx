@@ -1,4 +1,4 @@
-import { useRef, useEffect, useState } from "react";
+import { useRef, useEffect } from "react";
 import {
   ArrowLeftCircleFill,
   ArrowRightCircleFill,
@@ -9,7 +9,7 @@ interface Props {
   children: React.ReactNode;
   autoplay: boolean;
 }
-function Slick({ children, autoplay }: Props) {
+const Slick = ({ children, autoplay }: Props) => {
   const body: any = useRef<HTMLDivElement>(null);
   const wrap: any = useRef<HTMLDivElement>(null);
   const handleRight = () => {
@@ -57,6 +57,6 @@ function Slick({ children, autoplay }: Props) {
       </span>
     </div>
   );
-}
+};
 
 export default Slick;

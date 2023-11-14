@@ -25,7 +25,6 @@ const initialState: Cart = {
   value: items,
   valueBuy: itemsBuy,
 };
-console.log(initialState.valueBuy);
 export const cartItemsSlice = createSlice({
   name: "cartItems",
   initialState,

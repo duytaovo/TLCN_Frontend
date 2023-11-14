@@ -34,7 +34,7 @@ export function isAxiosUnauthorizedError<UnauthorizedError>(
 ): error is AxiosError<UnauthorizedError> {
   return (
     isAxiosError(error) &&
-    error.response?.status === HttpStatusCode.Unauthorized
+    error.response?.status === HttpStatusCode.InternalServerError
   );
 }
 

@@ -197,8 +197,17 @@ export default function SmartPhoneDetail() {
   const buyNow = async () => {
     const body = {
       id: productData.id,
-      product_id: productData.productInfo.productId,
+      product_id: productData.productInfo?.productId,
+      slug: productData.productInfo?.slug,
       quantity: buyCount,
+      name: productData.productInfo?.name,
+      price: price,
+      salePrice: salePrice,
+      typeId: productData?.productInfo?.lstProductTypeAndPrice[0].typeId,
+      depotId: productData.productInfo?.lstProductTypeAndPrice[0].depotId,
+      quantityInDB:
+        productData?.productInfo?.lstProductTypeAndPrice[0]?.quantity,
+      image: productData.productInfo.lstProductImageUrl[0],
     };
     const res = await dispatch(addItem(body));
     const purchase = res.payload;

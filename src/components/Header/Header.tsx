@@ -14,6 +14,10 @@ import { AppContext } from "src/contexts/app.context";
 import SentimentSatisfiedAltRoundedIcon from "@mui/icons-material/SentimentSatisfiedAltRounded";
 import logo from "src/assets/images/logonew.jpg";
 import { clearLS } from "src/utils/auth";
+import { logoutUser } from "src/store/user/userSlice";
+import { useAppDispatch } from "src/hooks/useRedux";
+import { unwrapResult } from "@reduxjs/toolkit";
+import { toast } from "react-toastify";
 
 const customDropdownStyle = {
   arrow: false,
@@ -30,7 +34,7 @@ const Header = () => {
   const {} = useContext(AppContext);
   const { isAuthenticated } = useContext(AppContext);
   const navigate = useNavigate();
-
+  const dispatch = useAppDispatch();
   const [isScrolled, setIsScrolled] = useState(false);
 
   const handleOrderClick = () => {};
@@ -94,9 +98,8 @@ const Header = () => {
         <div
           onClick={async () => {
             await clearLS();
-            // await dispatch(updateUser("0"));
-            // const res = await dispatch(logoutUser("")).then(unwrapResult);
-            // await toast.success("Đăng xuất thành công");
+            await dispatch(logoutUser("")).then(unwrapResult);
+            await toast.success("Đăng xuất thành công");
 
             setTimeout(async () => {
               await location.reload();

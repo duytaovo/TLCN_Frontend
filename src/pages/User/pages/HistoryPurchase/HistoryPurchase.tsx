@@ -29,7 +29,8 @@ export default function HistoryPurchase() {
     dispatch(getPurchases({ status: status as PurchaseListStatus }))
       .then(unwrapResult)
       .then((res: any) => {
-        setPurchases(res.data.data);
+        console.log(res.data.data.data);
+        setPurchases(res.data.data.data);
       });
   }, [status, dispatch]);
 
@@ -64,33 +65,26 @@ export default function HistoryPurchase() {
           <div>
             {purchases?.map((purchase: any) => (
               <div
-                key={purchase._id}
+                key={purchase.id}
                 className="mt-4 rounded-sm border-black/10 bg-white p-6 text-gray-800 shadow-sm"
               >
                 <Link
-                  to={`${path.home}${generateNameId({
-                    name: purchase.product.name,
-                    id: purchase.product._id,
+                  to={`${`/${purchase.slug}/detail`}/${generateNameId({
+                    name: purchase.name,
+                    id: purchase.id.toString(),
                   })}`}
                   className="flex"
                 >
-                  <div className="flex-shrink-0">
-                    <img
-                      className="h-20 w-20 object-cover"
-                      src={purchase.product.image}
-                      alt={purchase.product.name}
-                    />
-                  </div>
                   <div className="ml-3 flex-grow overflow-hidden">
-                    <div className="truncate">{purchase.product.name}</div>
-                    <div className="mt-3">x{purchase.buy_count}</div>
+                    <div className="truncate">{purchase.name}</div>
+                    <div className="mt-3">x{purchase.quantity}</div>
                   </div>
                   <div className="ml-3 flex-shrink-0">
                     <span className="truncate text-gray-500 line-through">
-                      ₫{formatCurrency(purchase.product.price_before_discount)}
+                      ₫{formatCurrency(purchase.salePrice)}
                     </span>
                     <span className="ml-2 truncate text-red-500">
-                      ₫{formatCurrency(purchase.product.price)}
+                      ₫{formatCurrency(purchase.price)}
                     </span>
                   </div>
                 </Link>
@@ -98,10 +92,7 @@ export default function HistoryPurchase() {
                   <div>
                     <span>Tổng giá tiền</span>
                     <span className="ml-4 text-3xl text-red-500">
-                      ₫
-                      {formatCurrency(
-                        purchase.product.price * purchase.buy_count
-                      )}
+                      ₫{formatCurrency(purchase.price * purchase.quantity)}
                     </span>
                   </div>
                 </div>

@@ -11,6 +11,7 @@ type Props = {
   category?: string;
 };
 const ListProduct = ({ isSlide, products, category }: Props) => {
+  console.log(products);
   return (
     <>
       {isSlide ? (

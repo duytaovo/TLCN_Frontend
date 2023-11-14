@@ -65,7 +65,6 @@ const ListPhone = ({ choose, isOpen }: Props) => {
   const [chooseBoxSort, setChooseBoxSort] = useState<number>(0);
   const [checked, setChecked] = useState<any[]>([]);
   const { smartPhone, filter } = useAppSelector((state) => state.smartphone);
-  const dispatch = useAppDispatch();
 
   // const dataFilter = useAppSelector((state) => state.products.allProducts.data);
   let dataAfter = smartPhone;

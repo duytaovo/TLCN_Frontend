@@ -9,8 +9,7 @@ import {
   setAccessTokenToLS,
   setRefreshTokenToLS,
 } from "./auth";
-
-import { isAxiosExpiredTokenError, isAxiosUnauthorizedError } from "./utils";
+import { isAxiosUnauthorizedError } from "./utils";
 import { ErrorResponse } from "src/types/utils.type";
 import config from "src/constants/configApi";
 
@@ -18,6 +17,7 @@ export const URL_LOGIN = "/authenticate";
 export const URL_REGISTER = "register";
 export const URL_LOGOUT = "logout";
 export const URL_REFRESH_TOKEN = "/refreshToken";
+
 export class Http {
   instance: AxiosInstance;
   private accessToken: string;
@@ -38,7 +38,6 @@ export class Http {
     });
     this.instance.interceptors.request.use(
       (config) => {
-        config.headers.authorization = `Bearer ${this.accessToken}`;
         if (this.accessToken && config.headers) {
           config.headers.authorization = `Bearer ${this.accessToken}`;
           return config;
@@ -72,12 +71,17 @@ export class Http {
           ![
             HttpStatusCode.UnprocessableEntity,
             HttpStatusCode.Unauthorized,
+            HttpStatusCode.InternalServerError,
           ].includes(error.response?.status as number)
         ) {
           // eslint-disable-next-line @typescript-eslint/no-explicit-any
           const data: any | undefined = error.response?.data;
           const message = data?.message || error.message;
-          toast.error(message + "🥹");
+          toast.error(message);
+          console.log(message);
+          if (message === "Request failed with status code 500") {
+            // this.handleRefreshToken();
+          }
         }
 
         if (
@@ -90,8 +94,12 @@ export class Http {
           const { url } = config;
           // Trường hợp Token hết hạn và request đó không phải là của request refresh token
           // thì chúng ta mới tiến hành gọi refresh token
-          if (url !== URL_REFRESH_TOKEN && url.length > 0) {
+          if (
+            url !== URL_REFRESH_TOKEN &&
+            error.response?.status == HttpStatusCode.InternalServerError
+          ) {
             // Hạn chế gọi 2 lần handleRefreshToken
+            this.accessToken = "";
             this.refreshTokenRequest = this.refreshTokenRequest
               ? this.refreshTokenRequest
               : this.handleRefreshToken().finally(() => {

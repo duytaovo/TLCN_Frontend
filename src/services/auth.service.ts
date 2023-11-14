@@ -8,7 +8,7 @@ export const authApi = {
     return httpNew.post("/user/sign-up", data);
   },
   logout() {
-    return http.post("/auth/logout-user", {});
+    return httpNew.post("/logout", {});
   },
   getUser() {
     return httpNew.get(`/authenticate/user`);

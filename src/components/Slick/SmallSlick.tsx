@@ -1,13 +1,12 @@
 import { useRef, useEffect } from "react";
 import { ChevronLeft, ChevronRight } from "react-bootstrap-icons";
-
 import styles from "./smallslick.module.scss";
 
 interface Props {
   children: React.ReactNode;
   autoplay: boolean;
 }
-function SmallSlick({ children, autoplay }: Props) {
+const SmallSlick = ({ children, autoplay }: Props) => {
   const body: any = useRef();
   const wrap: any = useRef();
   const handleRight = () => {
@@ -37,7 +36,6 @@ function SmallSlick({ children, autoplay }: Props) {
       clearInterval(id);
     };
   }, []);
-  useEffect(() => {}, []);
 
   return (
     <div className={styles.container}>
@@ -60,6 +58,6 @@ function SmallSlick({ children, autoplay }: Props) {
       </span>
     </div>
   );
-}
+};
 
 export default SmallSlick;

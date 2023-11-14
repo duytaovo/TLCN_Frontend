@@ -9,8 +9,6 @@ import { toast } from "react-toastify";
 import { AppContext } from "src/contexts/app.context";
 import noproduct from "src/assets/images/no-product.png";
 import { useAppDispatch, useAppSelector } from "src/hooks/useRedux";
-import { buyPurchases, getPurchases } from "src/store/order/orderSlice";
-import { unwrapResult } from "@reduxjs/toolkit";
 import QuantityController from "./QuantityController";
 import Button from "../Auth/Button";
 import {

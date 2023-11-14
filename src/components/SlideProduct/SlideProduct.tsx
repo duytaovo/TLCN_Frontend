@@ -21,7 +21,7 @@ const SlideProduct = (props: Props) => {
           {products.map((product: any) => (
             <div className="w-full" key={product.title}>
               <div className="mx-4">
-                <ProductCard key={product.title} {...product} />
+                <ProductCard key={product.title} product={product} />
               </div>
             </div>
           ))}

@@ -7,8 +7,8 @@ import ListPhone from "./ListPhone";
 import { useAppDispatch, useAppSelector } from "src/hooks/useRedux";
 import { getSmartPhones } from "src/store/product/smartPhoneSlice";
 import useQueryConfig from "src/hooks/useQueryConfig";
-import Pagination from "src/components/Pagination";
 import path from "src/constants/path";
+import { Pagination } from "antd";
 
 const Phone = () => {
   const [choose, setChoose] = useState<string>("");
@@ -16,15 +16,19 @@ const Phone = () => {
   const dispatch = useAppDispatch();
   const queryConfig = useQueryConfig();
   const { smartPhone, filter } = useAppSelector((state) => state.smartphone);
+  const [currentPage, setCurrentPage] = useState(0); // Trang hiện tại
+  const pageSize = 10; // Số phần tử trên mỗi trang
 
   useEffect(() => {
-    dispatch(getSmartPhones(queryConfig));
-  }, []);
+    dispatch(getSmartPhones({ pageNumber: currentPage }));
+  }, [currentPage]);
 
   const handle = (boolean: boolean) => {
     setisOpen(boolean);
   };
-
+  const handlePageChange = (page: number) => {
+    setCurrentPage(page - 1);
+  };
   const handleSetChoose = (text: string) => {
     setChoose(text);
   };
@@ -40,9 +44,10 @@ const Phone = () => {
       <ListPhone choose={choose} isOpen={isOpen} />
       <div className="mb-5">
         <Pagination
-          path={path.phone}
-          queryConfig={queryConfig}
-          pageSize={smartPhone.totalElements}
+          current={currentPage + 1}
+          pageSize={pageSize}
+          total={smartPhone?.totalElements}
+          onChange={handlePageChange}
         />
       </div>
     </div>

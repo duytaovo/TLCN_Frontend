@@ -6,20 +6,25 @@ import ProductCard from "src/components/ProductCard/ProductCard";
 import Section from "src/components/Section/Section";
 import { useAppDispatch, useAppSelector } from "src/hooks/useRedux";
 import { getSmartPhones } from "src/store/product/smartPhoneSlice";
-import Pagination from "src/components/Pagination";
 import useQueryConfig from "src/hooks/useQueryConfig";
 import path from "src/constants/path";
+import ListProduct from "src/components/ListProduct/ListProduct";
+import { Pagination } from "antd";
 
 const PromoFirst = () => {
   const { banner } = useAppSelector((state) => state.banner.promo.firstpromo);
   const dispatch = useAppDispatch();
   const queryConfig = useQueryConfig();
-
   const { smartPhone } = useAppSelector((state) => state.smartphone);
-  useEffect(() => {
-    dispatch(getSmartPhones(queryConfig));
-  }, []);
+  const [currentPage, setCurrentPage] = useState(0); // Trang hiện tại
+  const pageSize = 10; // Số phần tử trên mỗi trang
 
+  useEffect(() => {
+    dispatch(getSmartPhones({ pageNumber: currentPage }));
+  }, [currentPage]);
+  const handlePageChange = (page: number) => {
+    setCurrentPage(page - 1);
+  };
   return (
     <Section styles={`rounded-xl overflow-hidden `}>
       <>
@@ -27,9 +32,14 @@ const PromoFirst = () => {
           <img src={banner} className="w-full object-cover" />
         </div>
         <div className="w-full mt-16 ">
-          <Slider
+          <ListProduct
+            products={smartPhone.data}
+            isSlide={true}
+            category={smartPhone.data[0]?.slug}
+          />
+          {/* <Slider
             slidesToShow={5}
-            slidesToScroll={5}
+            slidesToScroll={1}
             nextArrow={<NextArrow />}
             prevArrow={<PrevArrow />}
           >
@@ -45,12 +55,13 @@ const PromoFirst = () => {
                   </div>
                 </div>
               ))}
-          </Slider>
+          </Slider> */}
         </div>
         <Pagination
-          path={path.home}
-          queryConfig={queryConfig}
-          pageSize={smartPhone.totalElements}
+          current={currentPage + 1}
+          pageSize={pageSize}
+          total={smartPhone?.totalElements}
+          onChange={handlePageChange}
         />
       </>
     </Section>

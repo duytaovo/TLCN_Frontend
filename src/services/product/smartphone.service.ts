@@ -6,11 +6,7 @@ export const smartphoneService = {
     return http.get(`/products/?_page=${page}&_limit=${limit}`);
   },
   getAllProducts(params: ProductListConfig) {
-    const paramsNew = {
-      ...params,
-      pageNumber: Number(params.pageNumber) - 1 || "0",
-    };
-    return httpNew.get(`/product/smartphone`, { params: paramsNew });
+    return httpNew.get(`/product/smartphone`, { params });
   },
   getProduct(id: string) {
     return httpNew.get(`/product/smartphone/${id}`);
