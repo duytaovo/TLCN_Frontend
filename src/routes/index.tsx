@@ -12,7 +12,6 @@ const CodeValidatorActiveAccount = lazy(
 const ActiveAccount = lazy(() => import("src/pages/Auth/AcctiveAccount"));
 const ForgotPassword = lazy(() => import("src/pages/Auth/ForgotPasword"));
 const Accessory = lazy(() => import("src/pages/Accessory/Accessory"));
-const Cart = lazy(() => import("src/pages/Cart/Cart"));
 const History = lazy(() => import("src/pages/History/History"));
 const LapTop = lazy(() => import("src/pages/Laptop/LapTop"));
 const Maycu = lazy(() => import("src/pages/Maycu/Maycu"));
@@ -34,9 +33,6 @@ const Profile = lazy(() => import("src/pages/User/pages/Profile"));
 const CartNew = lazy(() => import("src/pages/CartNew"));
 const ChangePassword = lazy(
   () => import("src/pages/User/pages/ChangePassword")
-);
-const HistoryPurchase = lazy(
-  () => import("src/pages/User/pages/HistoryPurchase")
 );
 
 export const routeMain = [
@@ -68,10 +64,7 @@ export const routeMain = [
     path: path.accessory,
     Component: Accessory,
   },
-  {
-    path: path.cart,
-    Component: Cart,
-  },
+
   {
     path: path.samsung,
     Component: Samsung,

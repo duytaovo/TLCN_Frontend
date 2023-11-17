@@ -1,7 +1,12 @@
 import { useState } from "react";
 import PurchaseHistory from "./PurchaseHistory";
 import clsx from "clsx";
+import { Button } from "antd";
+import path from "src/constants/path";
+import { useNavigate } from "react-router-dom";
 const Info = () => {
+  const navigate = useNavigate();
+
   return (
     <div className="min-h-[100vh]">
       <div className="w-full max-w-[1200px] mx-auto py-8">
@@ -18,6 +23,9 @@ const Info = () => {
             <p className="text-2xl font-medium ml-4">
               Danh sách đơn hàng đã mua
             </p>
+            <Button type="link" onClick={() => navigate(path.home)}>
+              Về trang chủ
+            </Button>
           </div>
         </div>
         <div className="">

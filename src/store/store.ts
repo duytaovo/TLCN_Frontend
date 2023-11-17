@@ -8,8 +8,6 @@ import appReducer from "src/app.slice";
 import productModalReducer from "./product-modal/productModalSlice";
 import userReducer from "./user/userSlice";
 import searchSlice from "./search/searchSlice";
-import historyOrdersSlice from "./history/historyOrdersSlice";
-import orderSlice from "./order/orderSlice";
 import cartItemsReducer from "./shopping-cart/cartItemsSlide";
 import bannerReducer from "./banner/bannerSlice";
 import commentsReducer from "./comment/commentsSlice";
@@ -28,7 +26,6 @@ export const store = configureStore({
     smartphone: smartPhoneReducer,
     laptop: laptopReducer,
     search: searchSlice,
-    order: orderSlice,
     banner: bannerReducer,
     comments: commentsReducer,
     historyOrders: historyReducer,

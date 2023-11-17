@@ -5,6 +5,8 @@ import { Table } from "flowbite-react";
 import numberWithCommas from "src/utils/numberWithCommas";
 import { useAppSelector } from "src/hooks/useRedux";
 import { Button } from "antd";
+import path from "src/constants/path";
+import { useNavigate } from "react-router-dom";
 
 const OrderTable = () => {
   const { historyOrder } = useAppSelector((state) => state.historyOrders);
@@ -35,6 +37,7 @@ const OrderTable = () => {
           };
     });
   };
+
   return (
     <Table hoverable={true} className="text-black/50 bg-transparent">
       <caption className="text-left p-4 font-semibold text-2xl">

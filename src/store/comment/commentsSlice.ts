@@ -42,13 +42,22 @@ const CommentDetail = {
   },
 };
 
-interface IState {
-  commentByProduct: [];
-  commentById: {};
-}
-
 const initialState = {
-  commentByProduct: [],
+  commentByProduct: {
+    code: 200,
+    data: [
+      {
+        id: 12,
+        userId: 2,
+        username: "ADMIN",
+        userAvatar: "test",
+        star: 3,
+        comment: "abc",
+        feedbackFilesUrl: [],
+      },
+    ],
+    message: "",
+  },
   commentById: CommentDetail,
 };
 export const comments = createSlice({

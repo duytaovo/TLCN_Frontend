@@ -54,7 +54,6 @@ const OrderDetail = ({ order, index, setOrderDetail }: Props) => {
         return "text-gray-400";
     }
   };
-  console.log(commentById);
   const handlePayment = () => {
     navigate(path.payment);
   };

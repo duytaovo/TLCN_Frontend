@@ -20,6 +20,8 @@ import {
   getProductByProductSlugId,
 } from "src/store/shopping-cart/cartItemsSlide";
 import path from "src/constants/path";
+import { getCommentByProductId } from "src/store/comment/commentsSlice";
+import RatingFeedback from "./Rating";
 
 type SmartphoneTranslationKeys =
   | "smartphone.monitor"
@@ -38,11 +40,13 @@ export default function SmartPhoneDetail() {
   const { productSlug } = useParams();
   const dispatch = useAppDispatch();
   const location = useLocation();
+
   const [productData, setProductData] = useState<any>();
   const pathParts = location.pathname.split("/");
   const _id = getIdFromNameId(productSlug as string);
   const [currentIndexImages, setCurrentIndexImages] = useState([0, 5]);
   const [activeImage, setActiveImage] = useState("");
+
   const imageRef = useRef<HTMLImageElement>(null);
   const [productDataPrivateArray, setProductDataPrivateArray] =
     useState<string[]>();
@@ -84,7 +88,6 @@ export default function SmartPhoneDetail() {
       setActiveImage(productData?.productInfo?.lstProductImageUrl[0]);
     }
   }, [productData]);
-
   useEffect(() => {
     const getData = async () => {
       const res = await dispatch(
@@ -92,13 +95,13 @@ export default function SmartPhoneDetail() {
       );
       unwrapResult(res);
       setProductData(res.payload.data.data);
-      console.log(productData);
       if (productData) {
         const { productInfo, id, ...productDetailsWithoutInfo } = productData;
         const productDetailsArray: string[] = Object.keys(
           productDetailsWithoutInfo
         );
         setProductDataPrivateArray(productDetailsArray);
+        await dispatch(getCommentByProductId(productInfo?.productId));
       }
     };
     getData();
@@ -530,7 +533,12 @@ export default function SmartPhoneDetail() {
           </div>
         </div>
       </div>
-
+      <div className="px-20 py-10">
+        <div className="">
+          <div className="uppercase text-gray-400">Đánh giá sản phẩm</div>
+          <RatingFeedback />
+        </div>
+      </div>
       {/* <div className="mt-8">
         <div className="container">
           <div className="uppercase text-gray-400">CÓ THỂ BẠN CŨNG THÍCH</div>
