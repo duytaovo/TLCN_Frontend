@@ -4,7 +4,6 @@ const path = {
   logout: "/logout",
   forgotPassword: "/forgotPassword",
   sendCode: "/sendCode",
-
   register: "/register",
   phone: "/smartphone",
   laptop: "/laptop",
@@ -34,6 +33,7 @@ const path = {
   sendCodeActive: "/user/sendCodeActive",
   activeAccount: "/user/activeAccount",
   payment: "/user/payment",
+  comment: "/user/comment",
 } as const;
 
 export default path;

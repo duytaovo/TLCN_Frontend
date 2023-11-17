@@ -76,10 +76,7 @@ export const routeMain = [
     path: path.samsung,
     Component: Samsung,
   },
-  {
-    path: path.history,
-    Component: History,
-  },
+
   {
     path: path.lenovo,
     Component: Lenovo,

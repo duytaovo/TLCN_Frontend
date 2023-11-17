@@ -79,6 +79,12 @@ export const schema = yup.object({
   confirm_password: handleConfirmPasswordYup("password"),
 });
 
+export const schemaFeedback = yup.object({
+  star: yup.number(),
+  comment: yup.string(),
+  feedbackFilesUrl: yup.array(),
+});
+
 export const schemaAddUser = yup.object({
   gender: yup.string(),
   password: yup.string(),

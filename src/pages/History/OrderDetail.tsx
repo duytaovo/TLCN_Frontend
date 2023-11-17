@@ -1,28 +1,46 @@
-import { Button } from "antd";
+import { yupResolver } from "@hookform/resolvers/yup";
+import { unwrapResult } from "@reduxjs/toolkit";
+import { Button, Form, Modal, Rate } from "antd";
+import { useEffect, useState } from "react";
 import { CheckCircleFill } from "react-bootstrap-icons";
-import { useDispatch } from "react-redux";
+import { useForm } from "react-hook-form";
 import { Link, useNavigate } from "react-router-dom";
-import { useAppDispatch } from "src/hooks/useRedux";
+import { toast } from "react-toastify";
+import Input from "src/components/Input";
+import InputFile from "src/components/InputFile";
+import path from "src/constants/path";
+import { useAppDispatch, useAppSelector } from "src/hooks/useRedux";
+import {
+  getCommentById,
+  postComments,
+  uploadManyImages,
+} from "src/store/comment/commentsSlice";
+import { ErrorResponse } from "src/types/utils.type";
 import numberWithCommas from "src/utils/numberWithCommas";
+import { schemaFeedback } from "src/utils/rules";
+import { isAxiosUnprocessableEntityError } from "src/utils/utils";
 
+const normFile = (e: any) => {
+  if (Array.isArray(e)) {
+    return e;
+  }
+  return e?.fileList;
+};
 interface Props {
   order: any;
   displayDetail: any;
   setOrderDetail: any;
   index: number;
 }
-
-const OrderDetail = ({
-  order,
-  displayDetail,
-  index,
-  setOrderDetail,
-}: Props) => {
-  console.log(order);
-
-  const dispatch = useAppDispatch();
+interface FormData {
+  comment: string;
+  star: string;
+}
+const OrderDetail = ({ order, index, setOrderDetail }: Props) => {
   const navigate = useNavigate();
-
+  const [valueStart, setValueStart] = useState(3);
+  const { commentById } = useAppSelector((state) => state.comments);
+  console.log(commentById);
   const style = (text: string) => {
     switch (text) {
       case "Đã đặt hàng":
@@ -36,16 +54,114 @@ const OrderDetail = ({
         return "text-gray-400";
     }
   };
-
+  console.log(commentById);
   const handlePayment = () => {
-    // dispatch(postOrder(props));
-    navigate("/order");
+    navigate(path.payment);
+  };
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const showModal = () => {
+    setIsModalOpen(true);
   };
 
-  const checkPayment =
-    (order.orderStatusString != "Đã hủy" && order?.payment?.paid == false) ||
-    false;
+  const showModalRated = async (id: string) => {
+    await dispatch(getCommentById(id));
+    setIsModalOpen(true);
+  };
 
+  const handleOk = () => {
+    setValue("comment", "");
+    setValue("feedbackFilesUrl", []);
+    setIsModalOpen(false);
+  };
+
+  const handleCancel = () => {
+    setValue("comment", "");
+    setValue("feedbackFilesUrl", []);
+    setIsModalOpen(false);
+  };
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const {
+    handleSubmit,
+    formState: { errors },
+    setError,
+    register,
+    setValue,
+    watch,
+  } = useForm({
+    resolver: yupResolver(schemaFeedback),
+  });
+  const dispatch = useAppDispatch();
+  const [file, setFile] = useState<File[]>();
+  const imageArray = file || []; // Mảng chứa các đối tượng ảnh (File hoặc Blob)
+
+  // Tạo một mảng chứa các URL tạm thời cho ảnh
+  const imageUrls: string[] = [];
+
+  for (const image of imageArray) {
+    const imageUrl = URL.createObjectURL(image);
+    imageUrls.push(imageUrl);
+  }
+  useEffect(() => {
+    setValue("comment", commentById?.data?.comment);
+    setValue("feedbackFilesUrl", []);
+    setValue("star", commentById?.data?.star);
+    setValueStart(commentById?.data?.star);
+  }, [commentById]);
+
+  const onSubmit = handleSubmit(async (data) => {
+    let images: any = [];
+
+    if (file) {
+      const form = new FormData();
+      for (let i = 0; i < file.length; i++) {
+        form.append("files", file[i]);
+      }
+      const res = await dispatch(uploadManyImages(form));
+      unwrapResult(res);
+      const d = res?.payload?.data?.data;
+      for (let i = 0; i < d.length; i++) {
+        images.push(d[i]?.fileUrl);
+      }
+    }
+    const body = JSON.stringify({
+      orderProductId: order?.id || null,
+      comment: data.comment,
+      star: Number(valueStart),
+      feedbackFilesUrl: images || [],
+    });
+
+    try {
+      setIsSubmitting(true);
+      const res = await dispatch(postComments(body));
+      unwrapResult(res);
+      const d = res?.payload?.data;
+      if (d?.code !== 200) return toast.error(d?.message);
+      await toast.success("Đánh giá sản phẩm thành công ");
+      await navigate(path.historyPurchase);
+      setIsModalOpen(false);
+    } catch (error: any) {
+      if (isAxiosUnprocessableEntityError<ErrorResponse<FormData>>(error)) {
+        const formError = error.response?.data.data;
+        if (formError) {
+          Object.keys(formError).forEach((key) => {
+            setError(key as keyof FormData, {
+              message: formError[key as keyof FormData],
+              type: "Server",
+            });
+          });
+        }
+      }
+    } finally {
+      setIsSubmitting(false);
+    }
+  });
+
+  const handleChangeFile = (file?: File[]) => {
+    setFile(file);
+  };
+  const desc = ["Rất tệ", "Tệ", "Bình thường", "Tốt", "Rất tốt"];
+  const checkPayment = order?.paymentStatusString === "Unpaid" ? false : true;
   return (
     <div>
       <div className="py-8 border-b">
@@ -54,13 +170,10 @@ const OrderDetail = ({
           <p className="text-2xl">
             Trạng thái:{" "}
             <span className={style(order.orderStatusString)}>{"Đã đặt"}</span>
-            {checkPayment && (
-              <p
-                className="cursor-pointer text-blue-400"
-                onClick={handlePayment}
-              >
+            {checkPayment === false && (
+              <Button type="link" onClick={handlePayment}>
                 Tiến hành thanh toán
-              </p>
+              </Button>
             )}
           </p>
         </div>
@@ -85,6 +198,25 @@ const OrderDetail = ({
                   Bộ nhớ trong: {item.storageCapacity}
                 </p>
                 <p className="font-medium text-xl">Số lượng: {item.quantity}</p>
+                {item.feedbackId == null ? (
+                  <div className="">
+                    <Button
+                      className="ml-0 p-0"
+                      onClick={showModal}
+                      type="link"
+                    >
+                      Đánh giá sản phẩm
+                    </Button>
+                  </div>
+                ) : (
+                  <Button
+                    className="ml-0 p-0"
+                    onClick={() => showModalRated(item.feedbackId)}
+                    type="link"
+                  >
+                    Xem đánh giá
+                  </Button>
+                )}
               </div>
             </div>
 
@@ -116,15 +248,17 @@ const OrderDetail = ({
         <p>
           <CheckCircleFill className="text-blue-500" />
           <span className="font-bold"> Số tiền đã thanh toán: </span>
-          {true && (
+          {checkPayment && (
             <span className="text-red-400">
               {numberWithCommas(order?.finalPrice)}₫
             </span>
           )}
-          {checkPayment && (
+          {checkPayment === false && (
             <>
               <span>Chưa thanh toán</span>{" "}
-              <a className="text-blue-400">Tiến hành thanh toán</a>
+              <Button type="link" onClick={handlePayment}>
+                Tiến hành thanh toán
+              </Button>
             </>
           )}
         </p>
@@ -140,6 +274,83 @@ const OrderDetail = ({
           <li>Địa chỉ nhận hàng {order.addressReceiver}</li>
         </ul>
       </div>
+      <Modal
+        title="Đánh giá sản phẩm"
+        open={isModalOpen}
+        onOk={handleOk}
+        onCancel={handleCancel}
+        centered
+      >
+        <Form
+          labelCol={{ span: 4 }}
+          wrapperCol={{ span: 14 }}
+          layout="horizontal"
+          style={{ maxWidth: 700, padding: 6 }}
+          autoComplete="off"
+          noValidate
+          onSubmitCapture={onSubmit}
+        >
+          <Form.Item label="Đánh giá" name="name" rules={[{ required: true }]}>
+            <Rate tooltips={desc} onChange={setValueStart} value={valueStart} />
+            {valueStart ? (
+              <span className="ant-rate-text">{desc[valueStart - 1]}</span>
+            ) : (
+              ""
+            )}
+          </Form.Item>
+          <Form.Item label="Bình luận" name="name" rules={[{ required: true }]}>
+            <Input
+              defaultValue={commentById?.data?.comment || ""}
+              classNameInput="p-3 w-full text-black outline-none border border-gray-300 focus:border-gray-500 rounded-sm focus:shadow-sm"
+              placeholder="Sản phẩm dùng rất tốt..."
+              name="comment"
+              register={register}
+              type="text"
+              className="rounded-md"
+              errorMessage={errors.comment?.message}
+            />
+          </Form.Item>
+
+          <Form.Item
+            name="files"
+            label="Hình ảnh"
+            valuePropName="fileList"
+            getValueFromEvent={normFile}
+          >
+            <div className="flex flex-col items-start ">
+              <div className=" w-24 justify-between items-center">
+                {imageUrls.map((imageUrl, index) => {
+                  return (
+                    <img
+                      key={index}
+                      src={imageUrl}
+                      className="h-full rounded-md w-full  object-cover"
+                      alt="avatar"
+                    />
+                  );
+                })}
+              </div>
+              <InputFile
+                label="Upload ảnh"
+                onChange={handleChangeFile}
+                id="files"
+              />
+              <div className="mt-3  flex flex-col items-center text-red-500">
+                <div>Dụng lượng file tối đa 2 MB</div>
+                <div>Định dạng:.JPEG, .PNG</div>
+              </div>
+              {/* {errors.images?.message} */}
+            </div>
+          </Form.Item>
+          <div className="flex justify-start">
+            <Form.Item label="" className=" mb-2">
+              <Button className="w-[100px]" onClick={onSubmit} type="dashed">
+                Đánh giá
+              </Button>
+            </Form.Item>
+          </div>
+        </Form>
+      </Modal>
       <div className="flex justify-center py-4">
         <Button
           type="link"

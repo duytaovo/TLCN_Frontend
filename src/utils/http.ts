@@ -87,8 +87,7 @@ export class Http {
         ) {
           const config: any = error.response?.config || {};
           const { url } = config;
-          // Trường hợp Token hết hạn và request đó không phải là của request refresh token
-          // thì chúng ta mới tiến hành gọi refresh token
+
           if (
             url !== URL_REFRESH_TOKEN &&
             error.response?.status == HttpStatusCode.InternalServerError

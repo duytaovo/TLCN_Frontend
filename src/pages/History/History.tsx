@@ -1,10 +1,10 @@
 import { useEffect, useState } from "react";
-import PurchaseHistory from "./PurchaseHistory";
 import Info from "./Info";
 import { Helmet } from "react-helmet-async";
 import { getHistoryOrders } from "src/store/history/historyOrdersSlice";
 import { useAppDispatch, useAppSelector } from "src/hooks/useRedux";
 import { Pagination } from "antd";
+
 const History = () => {
   const dispatch = useAppDispatch();
   const [currentPage, setCurrentPage] = useState(0); // Trang hiện tại

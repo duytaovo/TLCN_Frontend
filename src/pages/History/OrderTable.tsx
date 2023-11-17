@@ -70,11 +70,11 @@ const OrderTable = () => {
                   {numberWithCommas(order?.finalPrice)}₫
                 </Table.Cell>
                 <Table.Cell>
-                  <p className="">{order?.buyDate}</p>
+                  <p className="">{order?.buyDate.substring(0, 10)}</p>
                 </Table.Cell>
                 <Table.Cell className={styleStatus}>
                   <span className="mr-4">{"Đã đặt hàng"}</span>
-                  {order.orderStatusString ? (
+                  {order.paymentStatusString === "Payment success" ? (
                     <span className="text-white text-xl bg-green-500 p-2 rounded-lg">
                       Đã thanh toán
                     </span>
