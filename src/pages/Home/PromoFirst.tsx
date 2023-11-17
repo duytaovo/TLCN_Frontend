@@ -14,7 +14,7 @@ import { Pagination } from "antd";
 const PromoFirst = () => {
   const { banner } = useAppSelector((state) => state.banner.promo.firstpromo);
   const dispatch = useAppDispatch();
-  const queryConfig = useQueryConfig();
+
   const { smartPhone } = useAppSelector((state) => state.smartphone);
   const [currentPage, setCurrentPage] = useState(0); // Trang hiện tại
   const pageSize = 10; // Số phần tử trên mỗi trang
@@ -33,9 +33,9 @@ const PromoFirst = () => {
         </div>
         <div className="w-full mt-16 ">
           <ListProduct
-            products={smartPhone.data}
-            isSlide={true}
-            category={smartPhone.data[0]?.slug}
+            products={smartPhone?.data}
+            isSlide={false}
+            category={"smartphone"}
           />
           {/* <Slider
             slidesToShow={5}

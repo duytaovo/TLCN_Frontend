@@ -8,6 +8,7 @@ import { useAppDispatch, useAppSelector } from "src/hooks/useRedux";
 import { productService } from "src/services";
 import { ListSmartPhone } from "src/types/allProductsType.interface";
 import { getSmartPhones } from "src/store/product/smartPhoneSlice";
+import { getLaptop } from "src/store/product/laptopSlice ";
 export interface DataListPhone {
   title: string;
   link: string;
@@ -137,18 +138,18 @@ const ListPhone = ({ choose, isOpen }: Props) => {
         category="Điện thoại"
       />
       <div className="phone__content">
-        <div className="listcontent">
+        <div className="">
           {isOpen === false ? (
             <ListProduct
               products={getDataFilter}
               isSlide={false}
-              category={smartPhone.data[0]?.slug}
+              category={"smartphone"}
             />
           ) : (
             <ListProduct
               products={dataAfter}
               isSlide={false}
-              category={smartPhone.data[0]?.slug}
+              category={"smartphone"}
             />
           )}
         </div>

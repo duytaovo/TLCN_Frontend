@@ -41,20 +41,20 @@ const ProductCard = ({ product, category }: Props) => {
             <div className="max-w-[50%] truncate text-gray-500 line-through">
               <span className="text-xs">₫</span>
               <span className="text-xl">
-                {formatCurrency(product.lstProductTypeAndPrice[0].price)}
+                {formatCurrency(product?.lstProductTypeAndPrice[0]?.price)}
               </span>
             </div>
             <div className="ml-1 truncate text-black">
               <span className="text-xl">₫</span>
               <span className="text-3xl">
-                {formatCurrency(product.lstProductTypeAndPrice[0].salePrice)}
+                {formatCurrency(product?.lstProductTypeAndPrice[0]?.salePrice)}
               </span>
             </div>
           </div>
           <div className="mt-3 flex items-center justify-start">
             <Rate
               allowHalf
-              value={product.star}
+              value={product?.star}
               style={{
                 fontSize: "15px",
               }}
@@ -62,7 +62,7 @@ const ProductCard = ({ product, category }: Props) => {
 
             <div className="ml-2 text-sm">
               <span>
-                {formatNumberToSocialStyle(product.totalReview || 1500)}
+                {formatNumberToSocialStyle(product?.totalReview || 1500)}
               </span>
               <span className="ml-1">Review</span>
             </div>

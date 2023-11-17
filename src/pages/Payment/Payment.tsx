@@ -1,12 +1,10 @@
 import { yupResolver } from "@hookform/resolvers/yup";
 import { unwrapResult } from "@reduxjs/toolkit";
-import { Button, Form } from "antd";
 import { useEffect, useMemo, useState } from "react";
 import { useForm } from "react-hook-form";
 import { Link, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import Input from "src/components/Input";
-import path from "src/constants/path";
 import { useAppDispatch, useAppSelector } from "src/hooks/useRedux";
 import { ErrorResponse } from "src/types/utils.type";
 import { schemaPayment } from "src/utils/rules";
@@ -19,7 +17,6 @@ import { buyPurchases } from "src/store/order/orderSlice";
 import { getUser } from "src/store/user/userSlice";
 import { ChevronLeft } from "@mui/icons-material";
 import moment from "moment";
-import { ChevronDown, TicketPerforated } from "react-bootstrap-icons";
 
 interface FormData {}
 
@@ -51,14 +48,15 @@ const Payment: React.FC = () => {
   const totalPurchasePrice = useMemo(
     () =>
       valueBuy.reduce((result, current) => {
-        return result + current.price * current.quantity;
+        return result + current.salePrice * current.quantity;
       }, 0),
     [valueBuy]
   );
   const onSubmit = handleSubmit(async (data) => {
     const deliveryPrice = 30000;
-    const discount = 20000;
-    const finalPrice = totalPurchasePrice - deliveryPrice - discount;
+    const discount = 0;
+
+    const finalPrice = totalPurchasePrice + deliveryPrice - discount;
     const body = JSON.stringify({
       nameReceiver: data.nameReceiver,
       phoneReceiver: data.phoneReceiver,
@@ -83,7 +81,6 @@ const Payment: React.FC = () => {
       unwrapResult(res);
       const d = res?.payload?.data;
       if (d?.code !== 200) return toast.error(d?.message);
-      console.log(d);
       localStorage.removeItem("cartItemsBuy");
       window.location.href = d.data.paymentUrl;
     } catch (error: any) {
@@ -112,154 +109,6 @@ const Payment: React.FC = () => {
 
   return (
     <div className=" bg-mainBackGroundColor/30 ">
-      {/* <Form
-        labelCol={{ span: 4 }}
-        wrapperCol={{ span: 8 }}
-        layout="horizontal"
-        style={{ maxWidth: 1100, padding: 2 }}
-        autoComplete="off"
-        noValidate
-        onSubmitCapture={onSubmit}
-      >
-        <Form.Item
-          label="Phương thức thanh toán"
-          name="paymentMethod"
-          rules={[{ required: true }]}
-        >
-          <SelectCustom
-            className={"flex-1 text-black"}
-            id="paymentMethod"
-            placeholder="Vui lòng chọn"
-            options={[
-              { id: 1, name: "Thanh toán khi nhận hàng" },
-              { id: 2, name: "Thanh toán qua VNPay" },
-            ]}
-            register={register}
-            isBrand={true}
-          >
-            {errors.paymentMethod?.message}
-          </SelectCustom>
-        </Form.Item>
-
-        <Form.Item
-          label="Tên người nhận"
-          name="nameReceiver"
-          rules={[{ required: true }]}
-        >
-          <Input
-            placeholder="Nguyen Van A"
-            name="nameReceiver"
-            register={register}
-            type="text"
-            className=""
-            errorMessage={errors.nameReceiver?.message}
-          />
-        </Form.Item>
-        <Form.Item
-          label="Địa chỉ nhận hàng"
-          name="addressReceiver"
-          rules={[{ required: true }]}
-        >
-          <Input
-            placeholder="76/3 đường số 7 phường Linh Trung, TPHCM"
-            name="addressReceiver"
-            register={register}
-            type="text"
-            className=""
-            errorMessage={errors.addressReceiver?.message}
-          />
-        </Form.Item>
-        <Form.Item
-          label="Số điện thoại nhận hàng"
-          name="phoneReceiver"
-          rules={[{ required: true }]}
-        >
-          <Input
-            placeholder="0367119876"
-            name="phoneReceiver"
-            register={register}
-            type="text"
-            className=""
-            errorMessage={errors.phoneReceiver?.message}
-          />
-        </Form.Item>
-        <Form.Item label="Ghi chú" name="message">
-          <Input
-            placeholder="Giao nhanh ..."
-            name="message"
-            register={register}
-            type="text"
-            className=""
-            errorMessage={errors.message?.message}
-          />
-        </Form.Item>
-        <Form.Item label="Phí vận chuyển" name="deliveryPrice">
-          <Input
-            placeholder="30.000đ"
-            name="deliveryPrice"
-            register={register}
-            type="text"
-            className=""
-            value={30000}
-            // errorMessage={errors.deliveryPrice?.message}
-            disabled
-          />
-        </Form.Item>
-        <Form.Item label="Giảm giá" name="discount">
-          <Input
-            placeholder="20.000đ"
-            name="discount"
-            register={register}
-            type="text"
-            className=""
-            value={20000}
-            // errorMessage={errors.message?.message}
-            disabled
-          />
-        </Form.Item>
-        <div className="flex items-center sm:justify-end">
-          <div>
-            Tổng thanh toán trước khi giảm giá và phí ship ({valueBuy.length}{" "}
-            sản phẩm):
-          </div>
-          <div className="ml-2 text-2xl text-orange-600">
-            ₫{formatCurrency(totalPurchasePrice)}
-          </div>
-        </div>
-        <div className="flex items-center sm:justify-end">
-          <div>Tổng thanh toán ({valueBuy.length} sản phẩm):</div>
-          <div className="ml-2 text-2xl text-orange-600">
-            ₫{formatCurrency(totalPurchasePrice - 30000 - 20000)}
-          </div>
-        </div>
-        <div className="flex justify-start">
-          <Form.Item label="" className="ml-[135px] mb-2 bg-green-300">
-            <Button className="w-[100px]" onClick={onSubmit} type="default">
-              Thanh toán
-            </Button>
-          </Form.Item>
-          <Form.Item label="" className="ml-[70px] mb-2">
-            <Button
-              className="w-[100px] bg-blue-300"
-              onClick={onClickHuy}
-              type="dashed"
-              color="red"
-            >
-              Đặt lại
-            </Button>
-          </Form.Item>
-          <Form.Item label="" className="ml-[70px] mb-2 bg-red-300">
-            <Button
-              className="w-[100px]"
-              onClick={() => {
-                navigate(path.home);
-              }}
-            >
-              Hủy
-            </Button>
-          </Form.Item>
-        </div>
-      </Form> */}
       <div className="w-1/2 m-auto">
         <div className="flex justify-between py-4">
           <Link to="/" className="text-blue-500">
@@ -396,7 +245,7 @@ const Payment: React.FC = () => {
           </div>
 
           <div>
-            <div className=" border-b ">
+            {/* <div className=" border-b ">
               <button className="p-4 border rounded-lg my-4">
                 <i>
                   <TicketPerforated />
@@ -420,12 +269,12 @@ const Payment: React.FC = () => {
                   Áp dụng
                 </button>
               </div>
-            </div>
+            </div> */}
 
             <div className="flex justify-between my-4">
               <strong>Tổng tiền:</strong>
               <strong className="text-red-600 text-3xl">
-                ₫{formatCurrency(totalPurchasePrice - 30000 - 20000)}
+                ₫{formatCurrency(totalPurchasePrice - 30000 - 0)}
               </strong>
             </div>
             <button

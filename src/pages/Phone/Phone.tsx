@@ -14,8 +14,7 @@ const Phone = () => {
   const [choose, setChoose] = useState<string>("");
   const [isOpen, setisOpen] = useState<boolean>(false);
   const dispatch = useAppDispatch();
-  const queryConfig = useQueryConfig();
-  const { smartPhone, filter } = useAppSelector((state) => state.smartphone);
+  const { smartPhone } = useAppSelector((state) => state.smartphone);
   const [currentPage, setCurrentPage] = useState(0); // Trang hiện tại
   const pageSize = 10; // Số phần tử trên mỗi trang
 

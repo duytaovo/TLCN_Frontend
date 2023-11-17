@@ -3,10 +3,13 @@ import "./laptop.scss";
 import { useEffect, useState } from "react";
 import DealMain from "src/components/DealMain/DealMain";
 import ListProduct from "src/components/ListProduct/ListProduct";
-import axios from "axios";
-import { useAppSelector } from "src/hooks/useRedux";
+import { useAppDispatch, useAppSelector } from "src/hooks/useRedux";
+import { getLaptop } from "src/store/product/laptopSlice ";
+import { unwrapResult } from "@reduxjs/toolkit";
 const LapTopDeal = () => {
-  const { data } = useAppSelector((state) => state.products.allProducts);
+  const { laptop } = useAppSelector((state) => state.laptop);
+  const dispatch = useAppDispatch();
+  const [currentPage, setCurrentPage] = useState(0); // Trang hiện tại
 
   return (
     <div className="blocklist" id="dealsoc">
@@ -16,7 +19,7 @@ const LapTopDeal = () => {
           discount="Giảm Tới 10.000.000đ"
           isDealMain={true}
         />
-        <ListProduct products={data} isSlide={true} />
+        <ListProduct products={laptop?.data?.data} isSlide={false} />
       </div>
     </div>
   );

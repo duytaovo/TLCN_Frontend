@@ -12,20 +12,19 @@ const EmptyOrder = () => {
       ></img>
 
       <p>Bạn chưa có đơn hàng nào</p>
-      <Link className="" to="/">
+      <Link className="text-blue-400" to="/">
         Về trang chủ
       </Link>
       <div>
-        Khi cần hỗ trợ vui lòng gọi <a href="tel:18001060">1800.1060</a> (7h30 -
+        Khi cần hỗ trợ vui lòng gọi <a href="tel:18001060">1800.1234</a> (7h30 -
         22h)
       </div>
     </div>
   );
 };
 const PurchaseHistory = () => {
-  const loadHistoryOrder = useAppSelector((state) => state);
-  // const check = loadHistoryOrder?.length === 0;
-  const check = false;
-  return <div>{check ? <EmptyOrder /> : <OrderTable data={[]} />}</div>;
+  const { historyOrder } = useAppSelector((state) => state.historyOrders);
+  const check = historyOrder?.data?.data?.length === 0;
+  return <div>{check ? <EmptyOrder /> : <OrderTable />}</div>;
 };
 export default PurchaseHistory;

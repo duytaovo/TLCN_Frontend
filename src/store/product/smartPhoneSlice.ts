@@ -98,18 +98,20 @@ const dataDetail: SmartPhoneDetail = {
     slug: "",
   },
 };
+
 const initialState: IProduct = {
   smartPhone: data,
   smartPhoneDetail: dataDetail,
   filter: [],
 };
+
 const smartPhoneSlice = createSlice({
   name: "smartPhone",
   initialState,
   reducers: {},
   extraReducers: (builder) => {
     builder.addCase(getSmartPhones.fulfilled, (state, { payload }) => {
-      state.smartPhone = payload.data.data;
+      state.smartPhone = payload.data;
     });
     builder.addCase(getDetailPhone.fulfilled, (state, { payload }) => {
       state.smartPhoneDetail = payload.data.data;

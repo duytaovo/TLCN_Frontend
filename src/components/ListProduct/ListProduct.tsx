@@ -3,7 +3,7 @@ import ProductCard from "../ProductCard";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import SlideProduct from "../SlideProduct/SlideProduct";
-import { ListSmartPhone } from "src/types/allProductsType.interface";
+import { Col, Row } from "antd";
 
 type Props = {
   isSlide: boolean;
@@ -20,11 +20,24 @@ const ListProduct = ({ isSlide, products, category }: Props) => {
         </div>
       ) : (
         <div className="listproduct">
-          {products?.map((product: ListSmartPhone, index: number) => (
-            <div key={index}>
-              <ProductCard product={product} category={category} />
-            </div>
-          ))}
+          <div className="mt-6 grid grid-cols-6 gap-3 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5">
+            {products?.data &&
+              products?.data?.map((product: any, index: number) => (
+                <div className="col-span-1" key={product.id}>
+                  <ProductCard product={product} category={category} />
+                </div>
+              ))}
+          </div>
+          {/* <Row gutter={{ xs: 8, sm: 16 }}>
+            {products?.data &&
+              products?.data?.map((product: any, index: number) => (
+                <Col className="gutter-row" span={6} key={index}>
+                  <div>
+                    <ProductCard product={product} category={category} />
+                  </div>
+                </Col>
+              ))}
+          </Row> */}
         </div>
       )}
 

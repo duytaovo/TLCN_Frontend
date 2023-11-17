@@ -12,16 +12,29 @@ import Office from "./Office";
 import Trademark from "./Trademark";
 import { Helmet } from "react-helmet-async";
 import { useAppDispatch, useAppSelector } from "src/hooks/useRedux";
-import { useEffect } from "react";
-import { getAllProductByCategory } from "src/store/product/productsSlice";
+import { useEffect, useState } from "react";
+import { getLaptop } from "src/store/product/laptopSlice ";
+import { Pagination } from "antd";
 
 const LapTop = () => {
   const dispatch = useAppDispatch();
-  const category = "laptop";
+  const [currentPage, setCurrentPage] = useState(0); // Trang hiện tại
+  const pageSize = 10; // Số phần tử trên mỗi trang
+  const [choose, setChoose] = useState<string>("");
+  const { laptop } = useAppSelector((state) => state.laptop);
+  console.log(laptop);
   useEffect(() => {
-    dispatch(getAllProductByCategory(category));
-  }, [category]);
-
+    dispatch(getLaptop({ pageNumber: currentPage }));
+  }, [currentPage, dispatch]);
+  useEffect(() => {
+    dispatch(getLaptop({ pageNumber: currentPage }));
+  }, []);
+  const handleSetChoose = (text: string) => {
+    setChoose(text);
+  };
+  const handlePageChange = (page: number) => {
+    setCurrentPage(page - 1);
+  };
   return (
     <div>
       <Helmet>
@@ -29,17 +42,25 @@ const LapTop = () => {
         <meta name="description" content="Trang laptop" />
       </Helmet>
       <BigBannerLapTop />
-      <LapTopQuickLink />
+      <LapTopQuickLink handleSetChoose={handleSetChoose} />
       <MenuTopLapTop />
       <LapTopDeal />
-      <Gaming />
+      {/* <Gaming />
       <MacBook />
       <StudyLaptop />
       <GraphicLaptop />
-      <ThinLaptop></ThinLaptop>
-      <LuxuryLaptop></LuxuryLaptop>
-      <Office></Office>
-      <Trademark></Trademark>
+      <ThinLaptop />
+      <LuxuryLaptop />
+      <Office />
+      <Trademark /> */}
+      <div className="mb-5">
+        <Pagination
+          current={currentPage + 1}
+          pageSize={pageSize}
+          total={laptop?.data?.totalElements}
+          onChange={handlePageChange}
+        />
+      </div>
     </div>
   );
 };

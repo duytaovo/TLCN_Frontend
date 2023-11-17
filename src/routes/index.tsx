@@ -158,6 +158,6 @@ export const routeUser = [
 
   {
     path: path.historyPurchase,
-    Component: HistoryPurchase,
+    Component: History,
   },
 ];

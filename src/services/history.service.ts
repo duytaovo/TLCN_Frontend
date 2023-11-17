@@ -1,8 +1,8 @@
-import http from "src/utils/http";
+import http, { httpNew } from "src/utils/http";
 
 export const historyService = {
-  getHistoryOrderByPhone(value: string) {
-    return http.get(`/orders?customer.phone=${value}`);
+  getHistoryOrder(params: any) {
+    return httpNew.get(`/order`, { params });
   },
   updateHistoryOrder(id: string, data: string) {
     return http.patch(`/orders/${id}`, data);

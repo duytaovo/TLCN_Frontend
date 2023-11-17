@@ -58,13 +58,17 @@ const data: Data[] = [
     link: "//cdn.tgdd.vn/Brand/1/logo-itel-149x40.png",
   },
 ];
-const LapTopQuickLink = () => {
+
+interface Props {
+  handleSetChoose: (text: string) => void;
+}
+const LapTopQuickLink = ({ handleSetChoose }: Props) => {
   return (
     <div className="container__quicklink w-full ">
       <div className="quicklink flex space-x-4 m-4 justify-around">
         {data.map((item) => (
           <QuickLink
-            handleSetChoose={() => {}}
+            handleSetChoose={handleSetChoose}
             type={item.type}
             link={item.link}
             isImg={true}

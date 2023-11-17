@@ -4,28 +4,32 @@ import { payloadCreator } from "src/utils/utils";
 
 export const getHistoryOrders = createAsyncThunk(
   "historyOrders/getHistoryOrders",
-  payloadCreator(historyService.getHistoryOrderByPhone)
+  payloadCreator(historyService.getHistoryOrder)
 );
+const datamau = {
+  code: 0,
+  message: "",
+  data: {
+    pageNumber: 0,
+    pageSize: 10,
+    totalPages: 1,
+    totalElements: 2,
+    data: [],
+  },
+};
 
 export const historyOrders = createSlice({
   name: "historyOrders",
   initialState: {
-    historyOrder: {
-      data: [],
-    },
+    historyOrder: datamau,
   },
 
-  reducers: {
-    // getHistoryOrder: (state, action) => {
-    //   state.historyOrder.data = action.payload;
-    // },
-  },
+  reducers: {},
   extraReducers: (builder) => {
     builder.addCase(getHistoryOrders.fulfilled, (state, { payload }) => {
-      state.historyOrder.data = payload;
+      state.historyOrder = payload.data;
     });
   },
 });
-// export const { getHistoryOrder } = historyOrders.actions;
 const historyReducer = historyOrders.reducer;
 export default historyReducer;

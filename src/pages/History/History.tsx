@@ -1,18 +1,23 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import PurchaseHistory from "./PurchaseHistory";
-import DangNhap from "./DangNhap";
-import { useDispatch } from "react-redux";
 import Info from "./Info";
 import { Helmet } from "react-helmet-async";
+import { getHistoryOrders } from "src/store/history/historyOrdersSlice";
+import { useAppDispatch, useAppSelector } from "src/hooks/useRedux";
+import { Pagination } from "antd";
 const History = () => {
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
+  const [currentPage, setCurrentPage] = useState(0); // Trang hiện tại
+  const pageSize = 10; // Số phần tử trên mỗi trang
+  const { historyOrder } = useAppSelector((state) => state.historyOrders);
+
   useEffect(() => {
-    try {
-      const customer = JSON.parse(localStorage.getItem("customerInfo") || "");
-      let phoneNumber = customer?.phone;
-    } catch (error) {}
-    // getHistoryOrders(dispatch, phoneNumber);
-  }, []);
+    dispatch(getHistoryOrders({ pageNumber: currentPage }));
+  }, [currentPage]);
+
+  const handlePageChange = (page: number) => {
+    setCurrentPage(page - 1);
+  };
 
   return (
     <div>
@@ -22,7 +27,14 @@ const History = () => {
         <meta name="description" content="Trang lịch sử mua hàng" />
       </Helmet>
       <Info />
-      <DangNhap />
+      <div className="mb-5">
+        <Pagination
+          current={currentPage + 1}
+          pageSize={pageSize}
+          total={historyOrder?.data?.totalElements}
+          onChange={handlePageChange}
+        />
+      </div>
     </div>
   );
 };

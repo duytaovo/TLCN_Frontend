@@ -5,7 +5,7 @@ import NextArrow from "../Slick/NextArrow";
 import PrevArrow from "../Slick/PrevArrow";
 
 interface Props {
-  products: any[];
+  products: any;
 }
 const SlideProduct = (props: Props) => {
   const products = props.products;
@@ -18,10 +18,14 @@ const SlideProduct = (props: Props) => {
           nextArrow={<NextArrow />}
           prevArrow={<PrevArrow />}
         >
-          {products.map((product: any) => (
+          {products?.data?.data?.map((product: any) => (
             <div className="w-full" key={product.title}>
               <div className="mx-4">
-                <ProductCard key={product.title} product={product} />
+                <ProductCard
+                  category={product[0]?.slug}
+                  key={product?.title}
+                  product={product}
+                />
               </div>
             </div>
           ))}
