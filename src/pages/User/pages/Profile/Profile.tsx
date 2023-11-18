@@ -265,7 +265,7 @@ export default function Profile() {
                 className="h-full w-full rounded-full object-cover"
               />
             </div>
-            <InputFile onChange={handleChangeFile} />
+            <InputFile id="" label="" onChange={handleChangeFile} />
             <div className="mt-3 text-gray-400">
               <div>Dụng lượng file tối đa 1 MB</div>
               <div>Định dạng:.JPEG, .PNG</div>

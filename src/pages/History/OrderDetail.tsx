@@ -40,7 +40,6 @@ const OrderDetail = ({ order, index, setOrderDetail }: Props) => {
   const navigate = useNavigate();
   const [valueStart, setValueStart] = useState(3);
   const { commentById } = useAppSelector((state) => state.comments);
-  console.log(commentById);
   const style = (text: string) => {
     switch (text) {
       case "Đã đặt hàng":

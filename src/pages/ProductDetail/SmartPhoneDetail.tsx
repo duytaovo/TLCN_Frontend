@@ -438,7 +438,7 @@ export default function SmartPhoneDetail() {
           centered
         >
           <div className="block space-y-2">
-            {productDataPrivateArray?.map((item: string, index: number) => {
+            {/* {productDataPrivateArray?.map((item: string, index: number) => {
               const translationKey =
                 `${productData.productInfo.slug}.${item}` as SmartphoneTranslationKeys;
 
@@ -450,8 +450,8 @@ export default function SmartPhoneDetail() {
                   </div>
                 </div>
               );
-            })}
-            {/* <div className="flex justify-start align-baseline space-x-4">
+            })} */}
+            <div className="flex justify-start align-baseline space-x-4">
               <h4 className="font-bold">Hệ điều hành :</h4>
               <h5>{productData.operatingSystem}</h5>
             </div>
@@ -511,7 +511,7 @@ export default function SmartPhoneDetail() {
                     .storageCapacity
                 }
               </h5>
-            </div> */}
+            </div>
           </div>
         </Modal>
       </div>

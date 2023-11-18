@@ -65,7 +65,7 @@ const RatingFeedback: React.FC = () => {
       loadMore={loadMore}
       dataSource={list}
       renderItem={(item) => (
-        <List.Item actions={[<Rate value={item?.star} />]}>
+        <List.Item actions={[<Rate value={item?.star} disabled />]}>
           <Skeleton avatar title={false} loading={item?.loading} active>
             <List.Item.Meta
               avatar={<Avatar src={item.userAvatar} />}
