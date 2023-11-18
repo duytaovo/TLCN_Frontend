@@ -1,6 +1,5 @@
-import { Purchase, PurchaseListStatus } from "src/types/purchase.type";
 import { SuccessResponse } from "src/types/utils.type";
-import http, { httpNew } from "src/utils/http";
+import { httpNew } from "src/utils/http";
 
 const URL = "/order";
 

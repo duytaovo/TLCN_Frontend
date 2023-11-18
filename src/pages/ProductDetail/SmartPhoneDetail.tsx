@@ -7,6 +7,8 @@ import {
   getIdFromNameId,
   rateSale,
 } from "src/utils/utils";
+import ShoppingCartCheckoutIcon from "@mui/icons-material/ShoppingCartCheckout";
+import AddShoppingCartIcon from "@mui/icons-material/AddShoppingCart";
 import { useTranslation } from "react-i18next";
 import { Helmet } from "react-helmet-async";
 import { convert } from "html-to-text";
@@ -22,6 +24,7 @@ import {
 import path from "src/constants/path";
 import { getCommentByProductId } from "src/store/comment/commentsSlice";
 import RatingFeedback from "./Rating";
+import Tag from "./Tag";
 
 type SmartphoneTranslationKeys =
   | "smartphone.monitor"
@@ -46,17 +49,17 @@ export default function SmartPhoneDetail() {
   const _id = getIdFromNameId(productSlug as string);
   const [currentIndexImages, setCurrentIndexImages] = useState([0, 5]);
   const [activeImage, setActiveImage] = useState("");
-
   const imageRef = useRef<HTMLImageElement>(null);
   const [productDataPrivateArray, setProductDataPrivateArray] =
     useState<string[]>();
+
   const [price, setPrice] = useState(
-    productData?.productInfo?.lstProductTypeAndPrice[0].salePrice
-  );
-  const [salePrice, setSalePrice] = useState(
     productData?.productInfo?.lstProductTypeAndPrice[0].price
   );
-
+  console.log(productData);
+  const [salePrice, setSalePrice] = useState(
+    productData?.productInfo?.lstProductTypeAndPrice[0].salePrice
+  );
   const currentImages = useMemo(
     () =>
       productData?.productInfo?.lstProductImageUrl
@@ -107,12 +110,6 @@ export default function SmartPhoneDetail() {
     getData();
   }, [_id, pathParts[1], dispatch, activeImage]);
 
-  useEffect(() => {
-    setPrice(productData?.productInfo?.lstProductTypeAndPrice[0]?.price);
-    setSalePrice(
-      productData?.productInfo?.lstProductTypeAndPrice[0]?.salePrice
-    );
-  }, [productData]);
   const next = () => {
     if (
       currentIndexImages[1] < productData?.productInfo.lstProductImageUrl.length
@@ -129,25 +126,6 @@ export default function SmartPhoneDetail() {
 
   const chooseActive = (img: string) => {
     setActiveImage(img);
-  };
-
-  const onClickChangeColor = (ram: string, rom: string, color: string) => {
-    if (
-      ram === productData?.productInfo?.lstProductTypeAndPrice[0]?.ram &&
-      rom ===
-        productData?.productInfo?.lstProductTypeAndPrice[0]?.storageCapacity &&
-      color === productData?.productInfo?.lstProductTypeAndPrice[0]?.color
-    ) {
-      setPrice(productData?.productInfo?.lstProductTypeAndPrice[0]?.price);
-      setSalePrice(
-        productData?.productInfo?.lstProductTypeAndPrice[0]?.salePrice
-      );
-    } else {
-      setPrice(productData?.productInfo?.lstProductTypeAndPrice[1]?.price);
-      setSalePrice(
-        productData?.productInfo?.lstProductTypeAndPrice[1]?.salePrice
-      );
-    }
   };
 
   const handleZoom = (event: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
@@ -189,8 +167,8 @@ export default function SmartPhoneDetail() {
         productData?.productInfo?.lstProductTypeAndPrice[0]?.quantity,
       image: productData.productInfo.lstProductImageUrl[0],
     };
-    const res = await dispatch(addItem(body));
-    // await dispatch(getCartPurchases()).then(unwrapResult);
+    await dispatch(addItem(body));
+
     toast.success("Thêm sản phẩm thành công", {
       // position: "top-center",
       autoClose: 4000,
@@ -220,8 +198,21 @@ export default function SmartPhoneDetail() {
       },
     });
   };
+  const [showFullDescription, setShowFullDescription] = useState(false);
+  const shortDescriptionLength = 2500;
+  const displayDescription = showFullDescription
+    ? productData?.productInfo?.description
+    : productData?.productInfo?.description.slice(0, shortDescriptionLength);
+
+  const getData = ({ price, salePrice }: any) => {
+    console.log(price);
+    console.log(salePrice);
+    setPrice(price);
+    setSalePrice(salePrice);
+  };
 
   if (!productData) return null;
+
   return (
     <div className="bg-gray-200 py-6">
       <Helmet>
@@ -317,44 +308,31 @@ export default function SmartPhoneDetail() {
               </h1>
               <div className="mt-8 flex items-center">
                 <div className="flex items-center">
-                  <span className="mr-1 border-b border-b-orange text-orange">
-                    {productData?.productInfo.star}
+                  <span className="mr-1 ">
+                    <Rate
+                      allowHalf
+                      defaultValue={
+                        Number(productData?.productInfo.star) || 4.5
+                      }
+                      disabled
+                    />
                   </span>
-                  <Rate
-                    allowHalf
-                    defaultValue={Number(productData?.productInfo.star) || 4.5}
-                    disabled
-                  />
-                  ;
                 </div>
                 <div className="mx-4 h-4 w-[1px] bg-gray-300"></div>
                 <div className="text-black">
                   <span>
                     {formatNumberToSocialStyle(
-                      Number(productData?.productInfo.totalReview) || 1520
+                      Number(productData?.productInfo.totalReview)
                     )}
                   </span>
-                  <span className="ml-1 text-gray-500">Đã xem</span>
+                  <span className="ml-1 text-gray-500"> Đã xem</span>
                 </div>
               </div>
-              <div className="mt-8 flex items-center bg-gray-50 px-5 py-4">
-                <div className="text-gray-500 line-through">
-                  ₫{formatCurrency(salePrice)}
-                </div>
-                <div className="ml-3 text-4xl font-medium text-mainColor">
-                  ₫{}
-                  {formatCurrency(price)}
-                </div>
-                <div className="ml-4 rounded-sm bg-orange-300 px-1 py-[2px] text-lg font-semibold uppercase text-black">
-                  {rateSale(
-                    productData?.productInfo?.lstProductTypeAndPrice[0]
-                      .salePrice,
-                    productData?.productInfo?.lstProductTypeAndPrice[0].price
-                  )}{" "}
-                  giảm
-                </div>
+              {/* Giá sản phẩm và lựa chọn */}
+              <div className="space-x-3 mt-4 flex justify-start align-baseline">
+                <Tag productData={productData} onClick={getData} />
               </div>
-              <div className="mt-8 flex items-center">
+              <div className="my-6 flex items-center">
                 <div className="capitalize text-gray-500">Số lượng</div>
                 <QuantityController
                   onDecrease={handleBuyCount}
@@ -374,55 +352,28 @@ export default function SmartPhoneDetail() {
                   sản phẩm có sẵn
                 </div>
               </div>
-              <div className="mt-8 flex items-center text-black">
+
+              <div className="mt-4 flex items-center text-black/60">
                 <button
                   onClick={addToCart}
-                  className="flex h-12 items-center justify-center rounded-sm border border-orange bg-mainColor/50 px-5 capitalize text-orange shadow-sm hover:bg-orange/5"
+                  className="flex h-16 items-center justify-center rounded-sm border border-orange bg-mainColor/50 px-5 capitalize text-orange shadow-sm hover:bg-orange/5"
                 >
+                  <AddShoppingCartIcon
+                    className="text-mainColor mr-2"
+                    fontSize="large"
+                  />
                   Thêm vào giỏ hàng
                 </button>
                 <button
                   onClick={buyNow}
-                  className="fkex ml-4 h-12 min-w-[5rem] items-center justify-center rounded-sm  px-5 capitalize text-black shadow-sm outline-none bg-yellow-400"
+                  className="fkex ml-4 h-16 min-w-[5rem] items-center justify-center rounded-sm  px-5 capitalize  shadow-sm outline-none bg-yellow-400"
                 >
+                  <ShoppingCartCheckoutIcon
+                    className="text-mainColor mr-2"
+                    fontSize="large"
+                  />
                   Mua ngay
                 </button>
-              </div>
-              <div className="space-x-3 mt-4 flex justify-start align-baseline">
-                <Button
-                  className="w-fit "
-                  onClick={() =>
-                    onClickChangeColor(
-                      productData?.productInfo?.lstProductTypeAndPrice[0]?.ram,
-                      productData?.productInfo?.lstProductTypeAndPrice[0]
-                        ?.storageCapacity,
-                      productData?.productInfo?.lstProductTypeAndPrice[0]?.color
-                    )
-                  }
-                  type="default"
-                  color="red"
-                >
-                  {productData?.productInfo?.lstProductTypeAndPrice[0]?.color}
-                </Button>
-                {productData?.productInfo?.lstProductTypeAndPrice[1]?.color && (
-                  <Button
-                    className="w-fit bg-black/30"
-                    onClick={() =>
-                      onClickChangeColor(
-                        productData?.productInfo?.lstProductTypeAndPrice[1]
-                          ?.ram,
-                        productData?.productInfo?.lstProductTypeAndPrice[1]
-                          ?.storageCapacity,
-                        productData?.productInfo?.lstProductTypeAndPrice[1]
-                          ?.color
-                      )
-                    }
-                    type="dashed"
-                    color="red"
-                  >
-                    {productData?.productInfo?.lstProductTypeAndPrice[1]?.color}
-                  </Button>
-                )}
               </div>
             </div>
           </div>
@@ -524,12 +475,17 @@ export default function SmartPhoneDetail() {
             <div className="mx-4 mb-4 mt-12 text-2xl leading-loose text-black">
               <div
                 dangerouslySetInnerHTML={{
-                  __html: DOMPurify.sanitize(
-                    productData?.productInfo?.description
-                  ),
+                  __html: DOMPurify.sanitize(displayDescription),
                 }}
               />
             </div>
+            {!showFullDescription &&
+              productData?.productInfo?.description.length >
+                shortDescriptionLength && (
+                <Button onClick={() => setShowFullDescription(true)}>
+                  Xem thêm
+                </Button>
+              )}
           </div>
         </div>
       </div>

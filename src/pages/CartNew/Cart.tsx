@@ -68,7 +68,7 @@ export default function CartNew() {
   const totalCheckedPurchasePrice = useMemo(
     () =>
       checkedPurchases.reduce((result, current) => {
-        return result + current.price * current.quantity;
+        return result + current.salePrice * current.quantity;
       }, 0),
     [checkedPurchases]
   );
@@ -76,7 +76,7 @@ export default function CartNew() {
   const totalCheckedPurchaseSavingPrice = useMemo(
     () =>
       checkedPurchases.reduce((result, current) => {
-        return result + (current.salePrice - current.price) * current.quantity;
+        return result + (current.price - current.salePrice) * current.quantity;
       }, 0),
     [checkedPurchases]
   );
@@ -276,10 +276,10 @@ export default function CartNew() {
                             <div className="col-span-2">
                               <div className="flex items-center justify-center">
                                 <span className="text-gray-300 line-through">
-                                  ₫{formatCurrency(purchase.salePrice)}
+                                  ₫{formatCurrency(purchase.price)}
                                 </span>
                                 <span className="ml-3">
-                                  ₫{formatCurrency(purchase.price)}
+                                  ₫{formatCurrency(purchase.salePrice)}
                                 </span>
                               </div>
                             </div>
@@ -320,7 +320,7 @@ export default function CartNew() {
                               <span className="text-red-600">
                                 ₫
                                 {formatCurrency(
-                                  purchase.price * purchase.quantity
+                                  purchase.salePrice * purchase.quantity
                                 )}
                               </span>
                             </div>

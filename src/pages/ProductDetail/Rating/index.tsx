@@ -44,18 +44,20 @@ const RatingFeedback: React.FC = () => {
     window.dispatchEvent(new Event("resize"));
   };
   const loadMore =
-    !initLoading && !loading ? (
-      <div
-        style={{
-          textAlign: "center",
-          marginTop: 12,
-          height: 32,
-          lineHeight: "32px",
-        }}
-      >
-        <Button onClick={onLoadMore}>Xem thêm</Button>
-      </div>
-    ) : null;
+    !initLoading && !loading
+      ? list.length > 0 && (
+          <div
+            style={{
+              textAlign: "center",
+              marginTop: 12,
+              height: 32,
+              lineHeight: "32px",
+            }}
+          >
+            <Button onClick={onLoadMore}>Xem thêm</Button>
+          </div>
+        )
+      : null;
 
   return (
     <List

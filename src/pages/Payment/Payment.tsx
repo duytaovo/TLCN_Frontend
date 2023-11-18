@@ -13,10 +13,10 @@ import {
   isAxiosUnprocessableEntityError,
 } from "src/utils/utils";
 import SelectCustom from "src/components/Select";
-import { buyPurchases } from "src/store/order/orderSlice";
 import { getUser } from "src/store/user/userSlice";
 import { ChevronLeft } from "@mui/icons-material";
 import moment from "moment";
+import { buyPurchases } from "src/store/order/ordersSlice";
 
 interface FormData {}
 
@@ -35,6 +35,7 @@ const Payment: React.FC = () => {
   const navigate = useNavigate();
   const { profile } = useAppSelector((state) => state.user);
   const { valueBuy } = useAppSelector((state) => state.cartItems);
+  console.log(valueBuy);
   useEffect(() => {
     setValue("addressReceiver", "");
     setValue("message", "");
@@ -129,7 +130,7 @@ const Payment: React.FC = () => {
           ))} */}
           <div className="flex justify-between py-4">
             <span>Tạm tính ({valueBuy.length})sản phẩm):</span>
-            <span> {formatCurrency(totalPurchasePrice - 30000 - 20000)}₫</span>
+            <span> {formatCurrency(totalPurchasePrice + 30000 - 0)}₫</span>
           </div>
           <div className=" border-t py-4">
             <h4>THÔNG TIN KHÁCH HÀNG</h4>
@@ -215,7 +216,7 @@ const Payment: React.FC = () => {
                       Giao trước 20h hôm nay ({moment().format("DD/MM/YYYY")})
                     </span>
                   </div>
-                  <p className="text-green-600 mt-6">Miễn phí giao hàng</p>
+                  <p className="text-green-600 mt-6">Phí giao hàng: 30.000đ</p>
                 </div>
               </div>
             </div>
@@ -274,7 +275,7 @@ const Payment: React.FC = () => {
             <div className="flex justify-between my-4">
               <strong>Tổng tiền:</strong>
               <strong className="text-red-600 text-3xl">
-                ₫{formatCurrency(totalPurchasePrice - 30000 - 0)}
+                {formatCurrency(totalPurchasePrice + 30000 - 0)}₫
               </strong>
             </div>
             <button

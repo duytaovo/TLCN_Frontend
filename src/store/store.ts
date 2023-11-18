@@ -15,6 +15,7 @@ import historyReducer from "./history/historyOrdersSlice";
 import productsReducer from "./product/productsSlice";
 import smartPhoneReducer from "./product/smartPhoneSlice";
 import laptopReducer from "./product/laptopSlice ";
+import ordersSlice from "./order/ordersSlice";
 
 export const store = configureStore({
   reducer: {
@@ -29,6 +30,7 @@ export const store = configureStore({
     banner: bannerReducer,
     comments: commentsReducer,
     historyOrders: historyReducer,
+    order: ordersSlice,
   },
   devTools: process.env.NODE_ENV === "development",
   middleware: (getDefaultMiddleware) => [

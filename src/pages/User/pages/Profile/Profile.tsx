@@ -49,9 +49,10 @@ export default function Profile() {
     resolver: yupResolver(schemaAddUser),
   });
 
-  const { profile } = useAppSelector((state) => state.user);
+  const { profile, userWithId } = useAppSelector((state) => state.user);
   const avatar = watch("imageUrl");
   const [_data, setData] = useState<any>();
+
   useEffect(() => {
     const _getData = async () => {
       const res = await dispatch(getUser(""));
@@ -62,22 +63,22 @@ export default function Profile() {
     _getData();
   }, []);
 
-  // useEffect(() => {
-  //   if (profile) {
-  //     setValue("fullName", profile.fullName);
-  //     setValue("phoneNumber", profile.phoneNumber);
-  //     setValue("address", profile.address);
-  //     setValue("imageUrl", profile.imageUrl);
-  //     setValue("email", profile.email);
-  //     setValue("gender", profile.gender?.toString());
-  //   }
-  // }, [profile, setValue]);
+  useEffect(() => {
+    if (profile) {
+      setValue("fullName", userWithId.fullName);
+      setValue("phoneNumber", userWithId.phoneNumber);
+      setValue("address", userWithId.address);
+      setValue("imageUrl", userWithId.imageUrl);
+      setValue("email", userWithId.email);
+      setValue("gender", userWithId.gender?.toString());
+    }
+  }, [userWithId, setValue]);
   const onSubmit = handleSubmit(async (data) => {
     const body = {
       fullName: data.fullName,
       phoneNumber: data.phoneNumber,
       // password: "",
-      email: profile.email,
+      email: userWithId.email,
       gender: Number(data.gender),
       address: data.address,
       imageUrl: data.imageUrl,
