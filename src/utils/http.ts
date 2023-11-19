@@ -63,6 +63,7 @@ export class Http {
           this.refreshToken = "";
           clearLS();
         }
+        console.log(response);
         return response;
       },
       (error: AxiosError) => {
@@ -135,9 +136,9 @@ export class Http {
         return accessToken;
       })
       .catch((error) => {
-        // clearLS();
-        // this.accessToken = "";
-        // this.refreshToken = "";
+        clearLS();
+        this.accessToken = "";
+        this.refreshToken = "";
         throw error;
       });
   }

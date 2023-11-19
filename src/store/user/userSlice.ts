@@ -95,6 +95,7 @@ const userSlice = createSlice({
   reducers: {},
   extraReducers: (builder) => {
     builder.addCase(login.fulfilled, (state, { payload }) => {
+      console.log(payload);
       state.accessToken = payload.data.data.accessToken;
       state.token = payload.data.data.token;
     });

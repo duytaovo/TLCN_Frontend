@@ -35,16 +35,21 @@ const Login = () => {
   });
 
   const onSubmit = handleSubmit(async (data) => {
+    console.log(data);
     const body = {
       phoneNumber: data.phone,
       password: data.password,
     };
     try {
-      await setIsSubmitting(true);
+      setIsSubmitting(true);
       const res = await dispatch(login(body));
       unwrapResult(res);
+      console.log("first");
+      console.log(res);
       const d = res?.payload.data;
-      if (d?.code !== 200) return toast.error("Lỗi đăng nhập");
+      console.log(d);
+      if (d?.code !== 200)
+        return toast.error("Số điện thoại hoặc mật khẩu sai");
       toast.success("Đăng nhập thành công");
       await setAccessTokenToLS(d?.data.accessToken);
       await setRefreshTokenToLS(d?.data.token);

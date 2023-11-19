@@ -58,6 +58,7 @@ const PromoFirst = () => {
           </Slider> */}
         </div>
         <Pagination
+          className="text-white"
           current={currentPage + 1}
           pageSize={pageSize}
           total={smartPhone?.totalElements}

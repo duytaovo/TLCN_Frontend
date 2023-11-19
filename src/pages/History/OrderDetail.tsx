@@ -38,7 +38,7 @@ interface FormData {
 }
 const OrderDetail = ({ order, index, setOrderDetail }: Props) => {
   const navigate = useNavigate();
-  const [valueStart, setValueStart] = useState(3);
+  const [valueStar, setValueStart] = useState(3);
   const { commentById } = useAppSelector((state) => state.comments);
   const style = (text: string) => {
     switch (text) {
@@ -125,7 +125,7 @@ const OrderDetail = ({ order, index, setOrderDetail }: Props) => {
     const body = JSON.stringify({
       orderProductId: order?.id || null,
       comment: data.comment,
-      star: Number(valueStart),
+      star: Number(valueStar),
       feedbackFilesUrl: images || [],
     });
 
@@ -137,6 +137,7 @@ const OrderDetail = ({ order, index, setOrderDetail }: Props) => {
       if (d?.code !== 200) return toast.error(d?.message);
       await toast.success("Đánh giá sản phẩm thành công ");
       await navigate(path.historyPurchase);
+      window.location.reload();
       setIsModalOpen(false);
     } catch (error: any) {
       if (isAxiosUnprocessableEntityError<ErrorResponse<FormData>>(error)) {
@@ -289,9 +290,9 @@ const OrderDetail = ({ order, index, setOrderDetail }: Props) => {
           onSubmitCapture={onSubmit}
         >
           <Form.Item label="Đánh giá" name="name" rules={[{ required: true }]}>
-            <Rate tooltips={desc} onChange={setValueStart} value={valueStart} />
-            {valueStart ? (
-              <span className="ant-rate-text">{desc[valueStart - 1]}</span>
+            <Rate tooltips={desc} onChange={setValueStart} value={valueStar} />
+            {valueStar ? (
+              <span className="ant-rate-text">{desc[valueStar - 1]}</span>
             ) : (
               ""
             )}
