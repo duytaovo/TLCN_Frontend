@@ -1,9 +1,4 @@
 import { Link } from "react-router-dom";
-import clsx from "clsx";
-import { StarFill } from "react-bootstrap-icons";
-import styles from "./card.module.scss";
-import { useState } from "react";
-import numberWithCommas from "src/utils/numberWithCommas";
 import {
   formatCurrency,
   formatNumberToSocialStyle,
@@ -18,6 +13,7 @@ interface Props {
 }
 
 const ProductCard = ({ product, category }: Props) => {
+  console.log(product);
   return (
     <Link
       to={`${`/${category}/detail`}/${generateNameId({
@@ -34,37 +30,34 @@ const ProductCard = ({ product, category }: Props) => {
           />
         </div>
         <div className="overflow-hidden p-2">
-          <div className="min-h-[2rem] text-xl line-clamp-1 text-black/80">
+          <div className="min-h-[2rem] text-2xl line-clamp-2 text-black">
             {product.name}
           </div>
           <div className="mt-3 flex items-center">
-            <div className="max-w-[50%] truncate text-gray-500 line-through">
-              <span className="text-xs">₫</span>
+            <div className="max-w-[50%] truncate text-blue-500 line-through">
               <span className="text-xl">
-                {formatCurrency(product?.lstProductTypeAndPrice[0]?.price)}
+                đ{formatCurrency(product.lstProductTypeAndPrice[0]?.price)}
               </span>
             </div>
-            <div className="ml-1 truncate text-black">
-              <span className="text-xl">₫</span>
-              <span className="text-3xl">
-                {formatCurrency(product?.lstProductTypeAndPrice[0]?.salePrice)}
+            <div className="ml-1 truncate text-orange-500">
+              <span className="text-2xl">
+                đ{formatCurrency(product.lstProductTypeAndPrice[0]?.salePrice)}
               </span>
             </div>
           </div>
           <div className="mt-3 flex items-center justify-start">
             <Rate
               allowHalf
-              value={product?.star}
+              defaultValue={product.star}
               style={{
                 fontSize: "15px",
               }}
             />
 
-            <div className="ml-2 text-sm">
+            <div className="ml-2 text-lg">
               <span>
-                {formatNumberToSocialStyle(product?.totalReview || 1500)}
+                {formatNumberToSocialStyle(product.totalReview)} Review
               </span>
-              <span className="ml-1">Review</span>
             </div>
           </div>
         </div>

@@ -87,7 +87,6 @@ export const schemaFeedback = yup.object({
 
 export const schemaAddUser = yup.object({
   gender: yup.string(),
-  password: yup.string(),
   phoneNumber: yup
     .string()
     .required("Số điện thoại là bắt buộc")
@@ -96,9 +95,10 @@ export const schemaAddUser = yup.object({
       /(84|0[3|5|7|8|9])+([0-9]{8})\b/g,
       "Số điện thoại không đúng định dạng"
     ),
-  fullName: yup.string(),
-  email: yup.string(),
-  address: yup.string(),
+  fullName: yup.string().required("Họ Tên là bắt buộc"),
+  email: yup.string().required("Email là bắt buộc"),
+  password: yup.string().required("Password là bắt buộc"),
+  address: yup.string().required("Địa chỉ là bắt buộc"),
   imageUrl: yup.string(),
 });
 
@@ -135,12 +135,14 @@ export const schemaForgot = yup.object({
 export const userSchema = yup.object({
   name: yup.string().max(160, "Độ dài tối đa là 160 ký tự"),
   phone: yup.string().max(20, "Độ dài tối đa là 20 ký tự"),
-  address: yup.string().max(160, "Độ dài tối đa là 160 ký tự"),
   avatar: yup.string().max(1000, "Độ dài tối đa là 1000 ký tự"),
-  date_of_birth: yup.date().max(new Date(), "Hãy chọn một ngày trong quá khứ"),
-  password: schema.fields["password"],
-  new_password: schema.fields["password"],
-  confirm_password: handleConfirmPasswordYup("new_password"),
+  password: yup.string(),
+  gender: yup.string(),
+  phoneNumber: yup.string(),
+  fullName: yup.string(),
+  email: yup.string(),
+  address: yup.string(),
+  imageUrl: yup.string(),
 });
 export const schemaPayment = yup.object({
   nameReceiver: yup.string().required("Trường này là bắt buộc"),
@@ -151,7 +153,7 @@ export const schemaPayment = yup.object({
   deliveryPrice: yup.string(),
   discount: yup.string(),
 });
-export type UserSchema = yup.InferType<typeof userSchema>;
+export type UserSchema = yup.InferType<typeof schemaAddUser>;
 
 export type Schema = yup.InferType<typeof schema>;
 export type SchemaForGot = yup.InferType<typeof schemaForgot>;

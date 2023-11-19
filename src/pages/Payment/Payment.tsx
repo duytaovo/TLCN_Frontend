@@ -35,7 +35,6 @@ const Payment: React.FC = () => {
   const navigate = useNavigate();
   const { profile } = useAppSelector((state) => state.user);
   const { valueBuy } = useAppSelector((state) => state.cartItems);
-  console.log(valueBuy);
   useEffect(() => {
     setValue("addressReceiver", "");
     setValue("message", "");
@@ -128,9 +127,12 @@ const Payment: React.FC = () => {
           {/* {cartItems.map((product, index) => (
             <ProductItem key={index} {...product} />
           ))} */}
-          <div className="flex justify-between py-4">
-            <span>Tạm tính ({valueBuy.length})sản phẩm):</span>
-            <span> {formatCurrency(totalPurchasePrice + 30000 - 0)}₫</span>
+          <div className="flex justify-between py-4  font-bold">
+            <span>Tạm tính ({valueBuy.length}) sản phẩm:</span>
+            <span className="text-red-500 text-2xl">
+              {" "}
+              {formatCurrency(totalPurchasePrice)}₫
+            </span>
           </div>
           <div className=" border-t py-4">
             <h4>THÔNG TIN KHÁCH HÀNG</h4>
@@ -153,6 +155,7 @@ const Payment: React.FC = () => {
             <div className="flex gap-4 ">
               <Input
                 placeholder="Nguyen Van A"
+                classNameInput="p-3 w-full text-black outline-none border border-gray-300 focus:border-gray-500 rounded-sm focus:shadow-sm"
                 name="nameReceiver"
                 register={register}
                 type="text"
@@ -163,6 +166,7 @@ const Payment: React.FC = () => {
               <Input
                 placeholder="0367119876"
                 name="phoneReceiver"
+                classNameInput="p-3 w-full text-black outline-none border border-gray-300 focus:border-gray-500 rounded-sm focus:shadow-sm"
                 register={register}
                 type="text"
                 className="w-1/2"
@@ -195,15 +199,16 @@ const Payment: React.FC = () => {
               </SelectCustom>
             </div>
             <div className="mt-5">
-              <div className="border border-gray-300 p-4 rounded-xl">
+              <div className="border border-gray-300 p-4 rounded-xl space-y-3">
                 <p>
-                  Chọn địa chỉ để biết thời gian nhận hàng và phí vận chuyển
+                  Nhập địa chỉ để biết thời gian nhận hàng và phí vận chuyển
                   (nếu có)
                 </p>
 
                 <Input
                   placeholder="76/3 đường số 7 phường Linh Trung, TPHCM"
                   name="addressReceiver"
+                  classNameInput="p-3 w-full text-black outline-none border border-gray-300 focus:border-gray-500 rounded-sm focus:shadow-sm"
                   register={register}
                   type="text"
                   className=""
@@ -225,6 +230,7 @@ const Payment: React.FC = () => {
             <div className="mt-8">
               <Input
                 placeholder="Ghi chú (không bắt buộc)"
+                classNameInput="p-3 w-full text-black outline-none border border-gray-300 focus:border-gray-500 rounded-sm focus:shadow-sm"
                 name="message"
                 register={register}
                 type="text"
@@ -274,13 +280,13 @@ const Payment: React.FC = () => {
 
             <div className="flex justify-between my-4">
               <strong>Tổng tiền:</strong>
-              <strong className="text-red-600 text-3xl">
+              <strong className="text-red-600 text-2xl">
                 {formatCurrency(totalPurchasePrice + 30000 - 0)}₫
               </strong>
             </div>
             <button
               type="submit"
-              className="h-20 my-8 bg-yellow-300 rounded-lg w-full text-white font-bold"
+              className="h-20 my-8 bg-yellow-300 rounded-lg w-full text-black/50 text-2xl hover:bg-mainColor hover:text-white transition-all duration-500 font-bold"
             >
               ĐẶT HÀNG
             </button>
@@ -291,7 +297,7 @@ const Payment: React.FC = () => {
         </form>
         <small className="text-center text-gray-600 w-full h-24 flex justify-center items-center">
           Bằng cách đặt hàng, bạn đồng ý với Điều khoản sử dụng của
-          thegioicongnghe.com
+          docongnghe.com
         </small>
       </div>
     </div>

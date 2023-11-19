@@ -56,7 +56,6 @@ export default function SmartPhoneDetail() {
   const [price, setPrice] = useState(
     productData?.productInfo?.lstProductTypeAndPrice[0].price
   );
-  console.log(productData);
   const [salePrice, setSalePrice] = useState(
     productData?.productInfo?.lstProductTypeAndPrice[0].salePrice
   );
@@ -205,8 +204,6 @@ export default function SmartPhoneDetail() {
     : productData?.productInfo?.description.slice(0, shortDescriptionLength);
 
   const getData = ({ price, salePrice }: any) => {
-    console.log(price);
-    console.log(salePrice);
     setPrice(price);
     setSalePrice(salePrice);
   };

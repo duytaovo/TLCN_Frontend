@@ -26,7 +26,6 @@ const RatingFeedback: React.FC = () => {
     setData(commentByProduct?.data);
     setInitLoading(false);
   }, [commentByProduct]);
-
   const onLoadMore = () => {
     setLoading(true);
     setList(
@@ -70,7 +69,11 @@ const RatingFeedback: React.FC = () => {
         <List.Item actions={[<Rate value={item?.star} disabled />]}>
           <Skeleton avatar title={false} loading={item?.loading} active>
             <List.Item.Meta
-              avatar={<Avatar src={item.userAvatar} />}
+              avatar={
+                <Avatar style={{ backgroundColor: "#f56a00" }}>
+                  {item?.username?.substring(0, 1)}
+                </Avatar>
+              }
               title={<a href="https://ant.design">{item?.username}</a>}
               description={item?.comment}
             />

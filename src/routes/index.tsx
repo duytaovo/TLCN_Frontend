@@ -31,9 +31,9 @@ const Register = lazy(() => import("src/pages/Auth/Register"));
 
 const Profile = lazy(() => import("src/pages/User/pages/Profile"));
 const CartNew = lazy(() => import("src/pages/CartNew"));
-const ChangePassword = lazy(
-  () => import("src/pages/User/pages/ChangePassword")
-);
+// const ChangePassword = lazy(
+//   () => import("src/pages/User/pages/ChangePassword")
+// );
 
 export const routeMain = [
   {
@@ -118,6 +118,10 @@ export const routeAuth = [
     path: path.sendCode,
     Component: CodeValidator,
   },
+  // {
+  //   path: path.profile,
+  //   Component: ProfileNew,
+  // },
 ];
 
 export const routeUser = [
@@ -141,10 +145,10 @@ export const routeUser = [
     path: path.sendCodeActive,
     Component: CodeValidatorActiveAccount,
   },
-  {
-    path: path.changePassword,
-    Component: ChangePassword,
-  },
+  // {
+  //   path: path.changePassword,
+  //   Component: ChangePassword,
+  // },
 
   {
     path: path.historyPurchase,

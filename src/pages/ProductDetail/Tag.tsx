@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import clsx from "clsx";
 import { formatCurrency, rateSale } from "src/utils/utils";
+import { Button } from "antd";
 
 const Tag = ({ productData, onClick }: any) => {
   const [indexTagRam, setIndexTagRam] = useState(0);
@@ -59,12 +60,13 @@ const Tag = ({ productData, onClick }: any) => {
             const active = tag?.ram === tagRam;
             const className = clsx(
               "border border-gray-400 px-10 py-4 text-xl rounded",
-              active && "text-blue-400 border border-blue-400"
+              active && "text-blue-400 border-blue-400 "
             );
 
             return (
-              <button
+              <Button
                 className={className}
+                type={active ? "primary" : "default"}
                 key={index}
                 onClick={() => {
                   setTagRam(tag?.ram);
@@ -72,7 +74,7 @@ const Tag = ({ productData, onClick }: any) => {
                 }}
               >
                 {tag?.ram}
-              </button>
+              </Button>
             );
           }
         )}
@@ -83,19 +85,20 @@ const Tag = ({ productData, onClick }: any) => {
             const active = tag?.color === tagColor;
             const className = clsx(
               "border border-gray-400 px-10 py-4 text-xl rounded",
-              active && "text-blue-400 border-blue-400"
+              active && "text-blue-400 border-blue-400 "
             );
             return (
-              <button
+              <Button
                 className={className}
                 key={index}
+                type={active ? "primary" : "default"}
                 onClick={() => {
                   setTagColor(tag?.color);
                   setIndexTagColor(index);
                 }}
               >
                 {tag?.color}
-              </button>
+              </Button>
             );
           }
         )}

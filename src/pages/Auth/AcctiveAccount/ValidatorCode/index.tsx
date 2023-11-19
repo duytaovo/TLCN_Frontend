@@ -62,7 +62,7 @@ const CodeValidatorActiveAccount = () => {
   });
 
   return (
-    <div className=" container items-start bg-white  flex justify-center  h-screen">
+    <div className=" container px-52 items-start  flex justify-center  h-screen">
       <Helmet>
         <title>Lấy mã xác nhận</title>
         <meta name="description" content="Trang đăng nhập" />

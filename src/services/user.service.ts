@@ -24,8 +24,9 @@ export const userService = {
     return httpNew.get(`/user/profile/${id}`);
   },
 
-  updateProfile({ id, body }: { id: number; body: BodyUpdateProfile }) {
-    return httpNew.put<SuccessResponse<User>>(
+  updateProfile({ id, body }: any) {
+    console.log(id, body);
+    return httpNew.put<SuccessResponse<any>>(
       `/user/update-profile/${id}`,
       body
     );

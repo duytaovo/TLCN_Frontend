@@ -40,7 +40,7 @@ const ActiveAccount = () => {
       const d = res?.payload.data;
       if (d?.code !== 200) return toast.error("Lỗi kích hoạt tài khoản");
       toast.success("Kích hoạt tài khoản thành công");
-      navigate(path.user);
+      navigate(path.profile);
     } catch (error: any) {
       if (isAxiosUnprocessableEntityError<ErrorResponse<SchemaForGot>>(error)) {
         const formError = error.response?.data.data;
@@ -59,7 +59,7 @@ const ActiveAccount = () => {
   });
 
   return (
-    <div className=" items-start bg-white   mb-5 flex justify-center  h-screen">
+    <div className="container px-52 items-start  flex justify-center  h-screen">
       <Helmet>
         <title>Kích hoạt tài khoản </title>
         <meta name="description" content="Trang đăng nhập" />
