@@ -13,7 +13,6 @@ interface Props {
 }
 
 const ProductCard = ({ product, category }: Props) => {
-  console.log(product);
   return (
     <Link
       to={`${`/${category}/detail`}/${generateNameId({

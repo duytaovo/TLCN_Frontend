@@ -6,7 +6,7 @@ import Loading from "src/components/Loading";
 function CommonLayout({ children }: any) {
   return (
     <div className="bg pt-[110px] w-full">
-      <Loading />
+      {/* <Loading /> */}
       <Header />
       <main role="main" className="wrapper h-full">
         <div className="content bg ">

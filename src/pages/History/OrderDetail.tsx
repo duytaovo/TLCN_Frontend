@@ -57,8 +57,10 @@ const OrderDetail = ({ order, index, setOrderDetail }: Props) => {
     navigate(path.payment);
   };
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [idProduct, setIdProduct] = useState<string>();
 
-  const showModal = () => {
+  const showModal = (id: string) => {
+    setIdProduct(id);
     setIsModalOpen(true);
   };
 
@@ -122,8 +124,9 @@ const OrderDetail = ({ order, index, setOrderDetail }: Props) => {
         images.push(d[i]?.fileUrl);
       }
     }
+    console.log(idProduct);
     const body = JSON.stringify({
-      orderProductId: order?.id || null,
+      orderProductId: order.id,
       comment: data.comment,
       star: Number(valueStar),
       feedbackFilesUrl: images || [],
@@ -136,8 +139,8 @@ const OrderDetail = ({ order, index, setOrderDetail }: Props) => {
       const d = res?.payload?.data;
       if (d?.code !== 200) return toast.error(d?.message);
       await toast.success("Đánh giá sản phẩm thành công ");
-      await navigate(path.historyPurchase);
-      window.location.reload();
+      await navigate(path.home);
+      // window.location.reload();
       setIsModalOpen(false);
     } catch (error: any) {
       if (isAxiosUnprocessableEntityError<ErrorResponse<FormData>>(error)) {
@@ -201,7 +204,7 @@ const OrderDetail = ({ order, index, setOrderDetail }: Props) => {
                   <div className="">
                     <Button
                       className="ml-0 p-0"
-                      onClick={showModal}
+                      onClick={() => showModal(item.productId)}
                       type="link"
                     >
                       Đánh giá sản phẩm

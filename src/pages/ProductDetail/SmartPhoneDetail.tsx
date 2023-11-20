@@ -35,7 +35,23 @@ type SmartphoneTranslationKeys =
   | "smartphone.sim"
   | "smartphone.battery"
   | "smartphone.charging"
-  | "smartphone.networkSupport";
+  | "smartphone.networkSupport"
+  | "smartphone.dimension"
+  | "smartphone.mass"
+  | "smartphone.launchTime"
+  | "smartphone.accessories";
+
+type LaptopTranslationKeys =
+  | "laptop.monitor"
+  | "laptop.operatingSystem"
+  | "laptop.gateway"
+  | "laptop.frontCamera"
+  | "laptop.special"
+  | "laptop.processorName"
+  | "laptop.romName"
+  | "laptop.ramName"
+  | "laptop.networkSupport"
+  | "laptop.graphicsCardName";
 
 export default function SmartPhoneDetail() {
   const { t } = useTranslation(["product"]);
@@ -98,7 +114,15 @@ export default function SmartPhoneDetail() {
       unwrapResult(res);
       setProductData(res.payload.data.data);
       if (productData) {
-        const { productInfo, id, ...productDetailsWithoutInfo } = productData;
+        const {
+          productInfo,
+          id,
+          processorId,
+          ramId,
+          romId,
+          graphicsCardId,
+          ...productDetailsWithoutInfo
+        } = productData;
         const productDetailsArray: string[] = Object.keys(
           productDetailsWithoutInfo
         );
@@ -386,10 +410,10 @@ export default function SmartPhoneDetail() {
           centered
         >
           <div className="block space-y-2">
-            {/* {productDataPrivateArray?.map((item: string, index: number) => {
+            {productDataPrivateArray?.map((item: string, index: number) => {
               const translationKey =
-                `${productData.productInfo.slug}.${item}` as SmartphoneTranslationKeys;
-
+                `${productData.productInfo.slug}.${item}` as SmartphoneTranslationKeys &
+                  LaptopTranslationKeys;
               return (
                 <div key={index}>
                   <div className="flex justify-start align-baseline space-x-4">
@@ -398,8 +422,8 @@ export default function SmartPhoneDetail() {
                   </div>
                 </div>
               );
-            })} */}
-            <div className="flex justify-start align-baseline space-x-4">
+            })}
+            {/* <div className="flex justify-start align-baseline space-x-4">
               <h4 className="font-bold">Hệ điều hành :</h4>
               <h5>{productData.operatingSystem}</h5>
             </div>
@@ -459,7 +483,7 @@ export default function SmartPhoneDetail() {
                     .storageCapacity
                 }
               </h5>
-            </div>
+            </div> */}
           </div>
         </Modal>
       </div>

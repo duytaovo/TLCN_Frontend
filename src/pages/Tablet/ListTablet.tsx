@@ -5,6 +5,7 @@ import ListProduct from "src/components/ListProduct/ListProduct";
 import { useAppSelector } from "src/hooks/useRedux";
 import handleData from "src/components/Filter/handleData";
 import { productService } from "src/services";
+import { ListSmartPhone } from "src/types/allProductsType.interface";
 
 interface Data {
   title: string;
@@ -52,36 +53,36 @@ interface Props {
   isOpen?: boolean;
 }
 const ListTablet = ({ choose, isOpen }: Props) => {
-  const [data, setData] = useState([]);
+  const [dataLocal, setDataLocal] = useState<any>();
+
   const [selected, setSelected] = useState(false);
   const [checked, setChecked] = useState<any>([]);
   const [chooseBoxSort, setChooseBoxSort] = useState<number>(0);
-  const dataFilter = useAppSelector((state) => state.products.allProducts.data);
-  const filter = useAppSelector((state) => state.products.filter.data);
-
-  let dataAfter = dataFilter;
-
+  const { tablet, filter } = useAppSelector((state) => state.tablet);
+  let dataAfter = tablet;
   if (filter?.length !== 0) {
-    dataAfter = handleData(dataFilter, filter);
+    dataAfter = handleData(tablet, filter);
   }
-  let getDataFilter = data;
-
+  let getDataFilter: any = dataLocal;
+  useEffect(() => {
+    setDataLocal(tablet.data);
+  }, [tablet]);
   useEffect(() => {
     const getProduct = async () => {
-      if (choose === "") {
-        let res: any = await productService.getProductByPolicy(
-          "tablet",
-          checked.map((item: any) => "&" + item + "=true").join("")
-        );
-        setData(res.data);
-      } else if (choose !== "") {
-        let res: any = await productService.getProductByBrand(
-          "tablet",
-          choose.toLowerCase() +
-            checked.map((item: any) => "&" + item + "=true").join("")
-        );
-        setData(res.data);
-      }
+      // if (choose === "") {
+      //   let res: any = await productService.getProductByPolicy(
+      //     "tablet",
+      //     checked.map((item: any) => "&" + item + "=true").join("")
+      //   );
+      //   setData(res.data);
+      // } else if (choose !== "") {
+      //   let res: any = await productService.getProductByBrand(
+      //     "tablet",
+      //     choose.toLowerCase() +
+      //       checked.map((item: any) => "&" + item + "=true").join("")
+      //   );
+      //   setData(res.data);
+      // }
     };
     getProduct();
   }, [choose, checked]);
@@ -118,19 +119,29 @@ const ListTablet = ({ choose, isOpen }: Props) => {
         setSelected={setSelected}
         choose={choose}
         countProduct={
-          isOpen === false ? getDataFilter.length : dataAfter.length
+          isOpen === false
+            ? getDataFilter?.length
+            : dataAfter.data?.data?.length
         }
         title={choose}
         checked={checked}
         setChecked={setChecked}
         category={"Máy tính bảng"}
       />
-      <div className="tablet__content container__phone">
-        <div className="listcontent">
+      <div className=" tablet__content">
+        <div className="">
           {isOpen === false ? (
-            <ListProduct products={getDataFilter} isSlide={false} />
+            <ListProduct
+              products={getDataFilter}
+              isSlide={false}
+              category={"tablet"}
+            />
           ) : (
-            <ListProduct products={dataAfter} isSlide={false} />
+            <ListProduct
+              products={dataAfter}
+              isSlide={false}
+              category={"tablet"}
+            />
           )}
         </div>
       </div>

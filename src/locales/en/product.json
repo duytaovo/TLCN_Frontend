@@ -17,5 +17,17 @@
     "ram": "RAM",
     "storageCapacity": "Storage Capacity",
     "color": "Color"
+  },
+  "laptop": {
+    "monitor": "Monitor",
+    "operatingSystem": "Operating System",
+    "gateway": "Gateway",
+    "frontCamera": "Front Camera",
+    "chip": "Chip",
+    "special": "Special",
+    "processorName": "Processor Name",
+    "ramName": "Ram Name",
+    "romName": "Rom Name",
+    "graphicsCardName": "Graphics Card Name"
   }
 }

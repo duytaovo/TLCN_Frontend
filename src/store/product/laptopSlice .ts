@@ -13,7 +13,7 @@ export const getDetailLaptop = createAsyncThunk(
   payloadCreator(laptopService.getDetailLaptop)
 );
 
-interface IProudct {
+interface IProuduct {
   laptop: any;
   laptopDetail: LaptopDetail;
 }

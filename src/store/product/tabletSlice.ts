@@ -1,19 +1,19 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import { smartphoneService } from "src/services/product/smartphone.service";
+import { tabletService } from "src/services/product/tablet.service";
 import {
   ListSmartPhone,
   SmartPhoneDetail,
 } from "src/types/allProductsType.interface";
 import { payloadCreator } from "src/utils/utils";
 
-export const getSmartPhones = createAsyncThunk(
-  "smartPhone/getSmartPhones",
-  payloadCreator(smartphoneService.getAllProducts)
+export const getTablets = createAsyncThunk(
+  "tablet/getTablets",
+  payloadCreator(tabletService.getAllProducts)
 );
 
-export const getDetailPhone = createAsyncThunk(
-  "smartPhone/getDetailPhone",
-  payloadCreator(smartphoneService.getProduct)
+export const getDetailTablet = createAsyncThunk(
+  "tablet/getDetailTablet",
+  payloadCreator(tabletService.getProduct)
 );
 const data = {
   data: [],
@@ -22,8 +22,18 @@ const data = {
   totalElements: 1,
   totalPages: 1,
 };
-
-type SmartPhone = {
+const datamau = {
+  code: 0,
+  message: "",
+  data: {
+    pageNumber: 0,
+    pageSize: 10,
+    totalPages: 1,
+    totalElements: 2,
+    data: [],
+  },
+};
+type tablet = {
   data: ListSmartPhone[];
   pageNumber: number;
   pageSize: number;
@@ -31,8 +41,8 @@ type SmartPhone = {
   totalPages: number;
 };
 interface IProduct {
-  smartPhone: SmartPhone;
-  smartPhoneDetail: SmartPhoneDetail;
+  tablet: tablet;
+  tabletDetail: SmartPhoneDetail;
   filter: ListSmartPhone[];
 }
 const dataDetail: SmartPhoneDetail = {
@@ -89,25 +99,25 @@ const dataDetail: SmartPhoneDetail = {
   },
 };
 
-const initialState: IProduct = {
-  smartPhone: data,
-  smartPhoneDetail: dataDetail,
+const initialState = {
+  tablet: datamau,
+  tabletDetail: dataDetail,
   filter: [],
 };
 
-const smartPhoneSlice = createSlice({
-  name: "smartPhone",
+const tabletSlice = createSlice({
+  name: "tablet",
   initialState,
   reducers: {},
   extraReducers: (builder) => {
-    builder.addCase(getSmartPhones.fulfilled, (state, { payload }) => {
-      state.smartPhone = payload.data;
+    builder.addCase(getTablets.fulfilled, (state, { payload }) => {
+      state.tablet = payload.data;
     });
-    builder.addCase(getDetailPhone.fulfilled, (state, { payload }) => {
-      state.smartPhoneDetail = payload.data.data;
+    builder.addCase(getDetailTablet.fulfilled, (state, { payload }) => {
+      state.tabletDetail = payload.data.data;
     });
   },
 });
 
-const smartPhoneReducer = smartPhoneSlice.reducer;
-export default smartPhoneReducer;
+const tabletReducer = tabletSlice.reducer;
+export default tabletReducer;

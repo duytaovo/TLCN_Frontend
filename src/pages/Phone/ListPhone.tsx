@@ -4,11 +4,8 @@ import { useEffect, useState } from "react";
 import BoxSort from "src/components/BoxSort/BoxSort";
 import handleData from "src/components/Filter/handleData";
 import ListProduct from "src/components/ListProduct/ListProduct";
-import { useAppDispatch, useAppSelector } from "src/hooks/useRedux";
-import { productService } from "src/services";
+import { useAppSelector } from "src/hooks/useRedux";
 import { ListSmartPhone } from "src/types/allProductsType.interface";
-import { getSmartPhones } from "src/store/product/smartPhoneSlice";
-import { getLaptop } from "src/store/product/laptopSlice ";
 export interface DataListPhone {
   title: string;
   link: string;

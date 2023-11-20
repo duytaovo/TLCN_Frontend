@@ -1,8 +1,6 @@
 import DealMain from "src/components/DealMain";
 import "./laptop.scss";
-import { useEffect, useState } from "react";
 import ListProduct from "src/components/ListProduct/ListProduct";
-import axios from "axios";
 import { useAppSelector } from "src/hooks/useRedux";
 
 const GraphicLaptop = () => {

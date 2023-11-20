@@ -17,6 +17,7 @@ import { getUser } from "src/store/user/userSlice";
 import { ChevronLeft } from "@mui/icons-material";
 import moment from "moment";
 import { buyPurchases } from "src/store/order/ordersSlice";
+import path from "src/constants/path";
 
 interface FormData {}
 
@@ -82,6 +83,10 @@ const Payment: React.FC = () => {
       const d = res?.payload?.data;
       if (d?.code !== 200) return toast.error(d?.message);
       localStorage.removeItem("cartItemsBuy");
+      if (Number(data.paymentMethod) === 1) {
+        navigate(path.home);
+        return;
+      }
       window.location.href = d.data.paymentUrl;
     } catch (error: any) {
       if (isAxiosUnprocessableEntityError<ErrorResponse<FormData>>(error)) {

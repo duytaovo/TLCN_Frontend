@@ -17,5 +17,17 @@
     "ram": "RAM",
     "storageCapacity": "Bộ nhớ trong",
     "color": "Màu"
+  },
+  "laptop": {
+    "monitor": "Màn hình",
+    "operatingSystem": "Hệ điều hành",
+    "gateway": "Cổng kết nối",
+    "frontCamera": "Camera",
+    "chip": "Chip",
+    "special": "Tính năng ",
+    "processorName": "Processor Name",
+    "ramName": "Ram Name",
+    "romName": "Rom Name",
+    "graphicsCardName": "Graphics Card Name"
   }
 }

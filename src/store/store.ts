@@ -16,6 +16,7 @@ import productsReducer from "./product/productsSlice";
 import smartPhoneReducer from "./product/smartPhoneSlice";
 import laptopReducer from "./product/laptopSlice ";
 import ordersSlice from "./order/ordersSlice";
+import tabletReducer from "./product/tabletSlice";
 
 export const store = configureStore({
   reducer: {
@@ -25,6 +26,7 @@ export const store = configureStore({
     user: userReducer,
     products: productsReducer,
     smartphone: smartPhoneReducer,
+    tablet: tabletReducer,
     laptop: laptopReducer,
     search: searchSlice,
     banner: bannerReducer,

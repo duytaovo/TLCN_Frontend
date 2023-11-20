@@ -28,17 +28,15 @@ export const uploadManyImages = createAsyncThunk(
 
 const CommentDetail = {
   code: 200,
-  message: "Requested completed!",
+  message: "",
   data: {
     id: 12,
     userId: 2,
-    username: "ADMIN",
-    userAvatar: "test",
+    username: "",
+    userAvatar: "",
     star: 3,
-    comment: "abc",
-    feedbackFilesUrl: [
-      "https://techstore2023.s3.ap-southeast-1.amazonaws.com/1700214917749e6e163c1-5037-4cbb-a30d-2156e2a0df46-aaa.jpeg",
-    ],
+    comment: "",
+    feedbackFilesUrl: [],
   },
 };
 

@@ -13,15 +13,23 @@ import { useAppDispatch } from "src/hooks/useRedux";
 import { getAllProductByCategory } from "src/store/product/productsSlice";
 
 const SmartWatch = () => {
+  const dispatch = useAppDispatch();
+  const [currentPage, setCurrentPage] = useState(0); // Trang hiện tại
+  const pageSize = 10; // Số phần tử trên mỗi trang
   const [choose, setChoose] = useState<string>("");
+  const { laptop } = useAppSelector((state) => state.laptop);
+  useEffect(() => {
+    dispatch(getLaptop({ pageNumber: currentPage }));
+  }, [currentPage, dispatch]);
+  useEffect(() => {
+    dispatch(getLaptop({ pageNumber: currentPage }));
+  }, []);
   const handleSetChoose = (text: string) => {
     setChoose(text);
   };
-  const dispatch = useAppDispatch();
-
-  useEffect(() => {
-    dispatch(getAllProductByCategory("smartwatch"));
-  }, []);
+  const handlePageChange = (page: number) => {
+    setCurrentPage(page - 1);
+  };
   return (
     <>
       <Banner />
