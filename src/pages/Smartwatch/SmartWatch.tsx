@@ -9,21 +9,20 @@ import SmartWatchChildren from "./SmartWatchChildren";
 import SmartWatchAccessory from "./SmartWatchAccessory";
 import "./smartwatchhotdeal.scss";
 import { useEffect, useState } from "react";
-import { useAppDispatch } from "src/hooks/useRedux";
+import { useAppDispatch, useAppSelector } from "src/hooks/useRedux";
 import { getAllProductByCategory } from "src/store/product/productsSlice";
+import { getSmartwatchs } from "src/store/product/smartwatchSlice";
 
 const SmartWatch = () => {
   const dispatch = useAppDispatch();
   const [currentPage, setCurrentPage] = useState(0); // Trang hiện tại
   const pageSize = 10; // Số phần tử trên mỗi trang
   const [choose, setChoose] = useState<string>("");
-  const { laptop } = useAppSelector((state) => state.laptop);
+  const { smartWatch } = useAppSelector((state) => state.smartwatch);
   useEffect(() => {
-    dispatch(getLaptop({ pageNumber: currentPage }));
+    dispatch(getSmartwatchs({ pageNumber: currentPage }));
   }, [currentPage, dispatch]);
-  useEffect(() => {
-    dispatch(getLaptop({ pageNumber: currentPage }));
-  }, []);
+
   const handleSetChoose = (text: string) => {
     setChoose(text);
   };

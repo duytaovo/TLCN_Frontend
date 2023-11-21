@@ -17,6 +17,7 @@ import smartPhoneReducer from "./product/smartPhoneSlice";
 import laptopReducer from "./product/laptopSlice ";
 import ordersSlice from "./order/ordersSlice";
 import tabletReducer from "./product/tabletSlice";
+import smartWatchReducer from "./product/smartwatchSlice";
 
 export const store = configureStore({
   reducer: {
@@ -28,6 +29,7 @@ export const store = configureStore({
     smartphone: smartPhoneReducer,
     tablet: tabletReducer,
     laptop: laptopReducer,
+    smartwatch: smartWatchReducer,
     search: searchSlice,
     banner: bannerReducer,
     comments: commentsReducer,

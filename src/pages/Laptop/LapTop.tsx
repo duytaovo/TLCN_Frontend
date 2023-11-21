@@ -25,9 +25,7 @@ const LapTop = () => {
   useEffect(() => {
     dispatch(getLaptop({ pageNumber: currentPage }));
   }, [currentPage, dispatch]);
-  useEffect(() => {
-    dispatch(getLaptop({ pageNumber: currentPage }));
-  }, []);
+
   const handleSetChoose = (text: string) => {
     setChoose(text);
   };
