@@ -124,7 +124,6 @@ const OrderDetail = ({ order, index, setOrderDetail }: Props) => {
         images.push(d[i]?.fileUrl);
       }
     }
-    console.log(idProduct);
     const body = JSON.stringify({
       orderProductId: order.id,
       comment: data.comment,
@@ -171,7 +170,9 @@ const OrderDetail = ({ order, index, setOrderDetail }: Props) => {
           <h2 className="font-bold text-3xl">Chi tiết đơn hàng: #{order.id}</h2>
           <p className="text-2xl">
             Trạng thái:{" "}
-            <span className={style(order.orderStatusString)}>{"Đã đặt"}</span>
+            <span className={style(order.orderStatusString)}>
+              {"Đã đặt hàng"}
+            </span>
             {checkPayment === false && (
               <Button type="link" onClick={handlePayment}>
                 Tiến hành thanh toán
@@ -257,7 +258,7 @@ const OrderDetail = ({ order, index, setOrderDetail }: Props) => {
           )}
           {checkPayment === false && (
             <>
-              <span>Chưa thanh toán</span>{" "}
+              <span className="text-red-400">Chưa thanh toán</span>{" "}
               <Button type="link" onClick={handlePayment}>
                 Tiến hành thanh toán
               </Button>

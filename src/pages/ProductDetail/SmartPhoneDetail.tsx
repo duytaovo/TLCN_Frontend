@@ -25,6 +25,8 @@ import path from "src/constants/path";
 import { getCommentByProductId } from "src/store/comment/commentsSlice";
 import RatingFeedback from "./Rating";
 import Tag from "./Tag";
+import Head from "./Head";
+import clsx from "clsx";
 
 type SmartphoneTranslationKeys =
   | "smartphone.monitor"
@@ -97,6 +99,21 @@ export default function SmartPhoneDetail() {
   const handleCancel = () => {
     setIsModalOpen(false);
   };
+
+  const [isModalOpenDetail, setIsModalOpenDetail] = useState(false);
+
+  const showModalDetail = () => {
+    setIsModalOpenDetail(true);
+  };
+
+  const handleOkDetail = () => {
+    setIsModalOpenDetail(false);
+  };
+
+  const handleCancelDetail = () => {
+    setIsModalOpenDetail(false);
+  };
+
   const navigate = useNavigate();
   useEffect(() => {
     if (
@@ -222,7 +239,7 @@ export default function SmartPhoneDetail() {
     });
   };
   const [showFullDescription, setShowFullDescription] = useState(false);
-  const shortDescriptionLength = 2500;
+  const shortDescriptionLength = 350;
   const displayDescription = showFullDescription
     ? productData?.productInfo?.description
     : productData?.productInfo?.description.slice(0, shortDescriptionLength);
@@ -231,7 +248,6 @@ export default function SmartPhoneDetail() {
     setPrice(price);
     setSalePrice(salePrice);
   };
-
   if (!productData) return null;
 
   return (
@@ -336,6 +352,7 @@ export default function SmartPhoneDetail() {
                         Number(productData?.productInfo.star) || 4.5
                       }
                       disabled
+                      className="text-2xl"
                     />
                   </span>
                 </div>
@@ -377,7 +394,7 @@ export default function SmartPhoneDetail() {
               <div className="mt-4 flex items-center text-black/60">
                 <button
                   onClick={addToCart}
-                  className="flex h-16 items-center justify-center rounded-sm border border-orange bg-mainColor/50 px-5 capitalize text-orange shadow-sm hover:bg-orange/5"
+                  className="flex h-16 items-center justify-center rounded-sm border border-orange bg-green-300 px-5 capitalize text-orange shadow-sm hover:bg-orange/5"
                 >
                   <AddShoppingCartIcon
                     className="text-mainColor mr-2"
@@ -403,87 +420,64 @@ export default function SmartPhoneDetail() {
           Xem thông số kỹ thuật
         </Button>
         <Modal
-          title="Thông số kỹ thuật"
+          // title="Thông số kỹ thuật"
           open={isModalOpen}
           onOk={handleOk}
           onCancel={handleCancel}
           centered
         >
           <div className="block space-y-2">
-            {productDataPrivateArray?.map((item: string, index: number) => {
-              const translationKey =
-                `${productData.productInfo.slug}.${item}` as SmartphoneTranslationKeys &
-                  LaptopTranslationKeys;
-              return (
-                <div key={index}>
-                  <div className="flex justify-start align-baseline space-x-4">
-                    <h4 className="font-bold">{t(translationKey)}</h4>
-                    <h5>{productData[item]}</h5>
-                  </div>
-                </div>
-              );
-            })}
-            {/* <div className="flex justify-start align-baseline space-x-4">
-              <h4 className="font-bold">Hệ điều hành :</h4>
-              <h5>{productData.operatingSystem}</h5>
-            </div>
-            <div className="flex justify-start align-baseline space-x-4">
-              <h4 className="font-bold">Camera chính :</h4>
-              <h5>{productData.rearCamera}</h5>
-            </div>
-            <div className="flex justify-start align-baseline space-x-4">
-              <h4 className="font-bold">Camera trước :</h4>
-              <h5>{productData.frontCamera}</h5>
-            </div>
-            <div className="flex justify-start align-baseline space-x-4">
-              <h4 className="font-bold">Chip :</h4>
-              <h5>{productData.chip}</h5>
-            </div>
-            <div className="flex justify-start align-baseline space-x-4">
-              <h4 className="font-bold">Sim :</h4>
-              <h5>{productData.sim}</h5>
-            </div>
-            <div className="flex justify-start align-baseline space-x-4">
-              <h4 className="font-bold">Pin :</h4>
-              <h5>{productData.monitor}</h5>
-            </div>
-            <div className="flex justify-start align-baseline space-x-4">
-              <h4 className="font-bold">Sạc nhanh:</h4>
-              <h5>{productData.charging}</h5>
-            </div>
-            <div className="flex justify-start align-baseline space-x-4">
-              <h4 className="font-bold">Hỗ trợ mạng:</h4>
-              <h5>{productData.networkSupport}</h5>
-            </div>
-            <div className="flex justify-start align-baseline space-x-4">
-              <h4 className="font-bold">Phụ kiện:</h4>
-              <h5>{productData.productInfo.accessories}</h5>
-            </div>
-            <div className="flex justify-start align-baseline space-x-4">
-              <h4 className="font-bold">Năm ra mắt:</h4>
-              <h5>{productData.productInfo.launchTime}</h5>
-            </div>
-            <div className="flex justify-start align-baseline space-x-4">
-              <h4 className="font-bold">Thiết kế:</h4>
-              <h5>{productData.productInfo.design}</h5>
-            </div>
-            <div className="flex justify-start align-baseline space-x-4">
-              <h4 className="font-bold">Khối lượng:</h4>
-              <h5>{productData.productInfo.mass}</h5>
-            </div>
-            <div className="flex justify-start align-baseline space-x-4">
-              <h4 className="font-bold">Ram:</h4>
-              <h5>{productData.productInfo.lstProductTypeAndPrice[0].ram}</h5>
-            </div>
-            <div className="flex justify-start align-baseline space-x-4">
-              <h4 className="font-bold">Bộ nhớ trong:</h4>
-              <h5>
-                {
-                  productData.productInfo.lstProductTypeAndPrice[0]
-                    .storageCapacity
-                }
-              </h5>
-            </div> */}
+            <p className="font-bold text-3xl text-gray-800 mb-4">
+              Cấu hình {productData?.productInfo?.name}
+            </p>
+            <table className="w-full">
+              <tbody className="space-y-4">
+                {productDataPrivateArray ? (
+                  productDataPrivateArray?.map(
+                    (item: string, index: number) => {
+                      const translationKey =
+                        `${productData.productInfo.slug}.${item}` as SmartphoneTranslationKeys &
+                          LaptopTranslationKeys;
+                      if (index != 0) {
+                        return (
+                          <tr
+                            className={clsx(index % 2 === 0 && "bg-gray-100")}
+                            key={index}
+                          >
+                            <td colSpan={4} className="my-4">
+                              {t(translationKey)}
+                            </td>
+                            <td colSpan={6}>{productData[item]}</td>
+                          </tr>
+                        );
+                      }
+                    }
+                  )
+                ) : (
+                  <tr></tr>
+                )}
+                <tr className={""}>
+                  <td colSpan={4}>Năm ra mắt</td>
+                  <td colSpan={6}>{productData?.productInfo?.launchTime}</td>
+                </tr>
+                <tr className={""}>
+                  <td colSpan={4}>Phụ kiện</td>
+                  <td colSpan={6}>{productData?.productInfo?.accessories}</td>
+                </tr>
+                <tr className={"bg-gray-100"}>
+                  <td colSpan={4}>Thiết kế</td>
+                  <td colSpan={6}>{productData?.productInfo?.design}</td>
+                </tr>
+                <tr className={""}>
+                  <td colSpan={4}>Kích thước</td>
+                  <td colSpan={6}>{productData?.productInfo?.dimension}</td>
+                </tr>
+                <tr className={"bg-gray-100"}>
+                  <td colSpan={4}>Khối lượng</td>
+                  <td colSpan={6}>{productData?.productInfo?.mass}</td>
+                </tr>
+              </tbody>
+            </table>
           </div>
         </Modal>
       </div>
@@ -493,20 +487,37 @@ export default function SmartPhoneDetail() {
             <div className="rounded bg-gray-50 p-4 text-4xl capitalize text-slate-700">
               Mô tả sản phẩm
             </div>
-            <div className="mx-4 mb-4 mt-12 text-2xl leading-loose text-black">
+            <div className="mx-4 mb-4 mt-12 text-2xl leading-loose text-black flex justify-center">
               <div
+                className="flex justify-center"
                 dangerouslySetInnerHTML={{
                   __html: DOMPurify.sanitize(displayDescription),
                 }}
               />
             </div>
-            {!showFullDescription &&
-              productData?.productInfo?.description.length >
-                shortDescriptionLength && (
-                <Button onClick={() => setShowFullDescription(true)}>
-                  Xem thêm
-                </Button>
-              )}
+            <div className="text-center">
+              {!showFullDescription &&
+                productData?.productInfo?.description.length >
+                  shortDescriptionLength && (
+                  <Button onClick={showModalDetail}>Xem thêm</Button>
+                )}
+              <Modal
+                title="Chi tiết sản phẩm"
+                open={isModalOpenDetail}
+                onOk={handleOkDetail}
+                onCancel={handleCancelDetail}
+                centered
+                width={800}
+              >
+                <div
+                  dangerouslySetInnerHTML={{
+                    __html: DOMPurify.sanitize(
+                      productData.productInfo.description
+                    ),
+                  }}
+                />
+              </Modal>
+            </div>
           </div>
         </div>
       </div>

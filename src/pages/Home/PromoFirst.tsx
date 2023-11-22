@@ -57,12 +57,14 @@ const PromoFirst = () => {
               ))}
           </Slider> */}
         </div>
-        <Pagination
-          current={currentPage + 1}
-          pageSize={pageSize}
-          total={smartPhone?.totalElements}
-          onChange={handlePageChange}
-        />
+        <div className="mb-5 bg-white m-auto w-fit text-white flex justify-center">
+          <Pagination
+            current={currentPage + 1}
+            pageSize={pageSize}
+            total={smartPhone?.totalElements}
+            onChange={handlePageChange}
+          />
+        </div>
       </>
     </Section>
   );

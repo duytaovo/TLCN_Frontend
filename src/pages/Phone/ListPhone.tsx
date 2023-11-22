@@ -6,6 +6,7 @@ import handleData from "src/components/Filter/handleData";
 import ListProduct from "src/components/ListProduct/ListProduct";
 import { useAppSelector } from "src/hooks/useRedux";
 import { ListSmartPhone } from "src/types/allProductsType.interface";
+import { Pagination } from "antd";
 export interface DataListPhone {
   title: string;
   link: string;
@@ -63,6 +64,8 @@ const ListPhone = ({ choose, isOpen }: Props) => {
   const [chooseBoxSort, setChooseBoxSort] = useState<number>(0);
   const [checked, setChecked] = useState<any[]>([]);
   const { smartPhone, filter } = useAppSelector((state) => state.smartphone);
+  const [currentPage, setCurrentPage] = useState(0); // Trang hiện tại
+  const pageSize = 10; // Số phần tử trên mỗi trang
 
   // const dataFilter = useAppSelector((state) => state.products.allProducts.data);
   let dataAfter = smartPhone;
@@ -116,7 +119,9 @@ const ListPhone = ({ choose, isOpen }: Props) => {
       (item: any) => item.promotion === "Trả góp 0%"
     );
   }
-
+  const handlePageChange = (page: number) => {
+    setCurrentPage(page - 1);
+  };
   return (
     <>
       <BoxSort
@@ -150,6 +155,14 @@ const ListPhone = ({ choose, isOpen }: Props) => {
             />
           )}
         </div>
+      </div>
+      <div className="mb-5 bg-white m-auto w-fit text-white flex justify-center">
+        <Pagination
+          current={currentPage + 1}
+          pageSize={pageSize}
+          total={smartPhone?.totalElements}
+          onChange={handlePageChange}
+        />
       </div>
     </>
   );

@@ -13,11 +13,12 @@ import {
   isAxiosUnprocessableEntityError,
 } from "src/utils/utils";
 import SelectCustom from "src/components/Select";
-import { getUser } from "src/store/user/userSlice";
+import { getUser, getUserById } from "src/store/user/userSlice";
 import { ChevronLeft } from "@mui/icons-material";
 import moment from "moment";
 import { buyPurchases } from "src/store/order/ordersSlice";
 import path from "src/constants/path";
+import { LocationForm } from "src/components/LocationForm";
 
 interface FormData {}
 
@@ -34,17 +35,31 @@ const Payment: React.FC = () => {
   });
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
-  const { profile } = useAppSelector((state) => state.user);
   const { valueBuy } = useAppSelector((state) => state.cartItems);
+  const { profile, userWithId } = useAppSelector((state) => state.user);
+  const [addressOption, setAddresOption] = useState<any>();
+  const addressSelect =
+    addressOption?.city +
+    " " +
+    addressOption?.district +
+    " " +
+    addressOption?.ward;
+  console.log(addressSelect);
   useEffect(() => {
-    setValue("addressReceiver", "");
+    setValue("addressReceiver", userWithId.address);
     setValue("message", "");
-    setValue("nameReceiver", "");
+    setValue("nameReceiver", userWithId.fullName);
     setValue("paymentMethod", "");
-    setValue("phoneReceiver", "");
-  }, []);
+    setValue("phoneReceiver", userWithId.phoneNumber);
+  }, [userWithId]);
+
   useEffect(() => {
-    dispatch(getUser(""));
+    const _getData = async () => {
+      const res = await dispatch(getUser(""));
+      await unwrapResult(res);
+      await dispatch(getUserById(res?.payload?.data.data.id));
+    };
+    _getData();
   }, []);
   const totalPurchasePrice = useMemo(
     () =>
@@ -61,7 +76,7 @@ const Payment: React.FC = () => {
     const body = JSON.stringify({
       nameReceiver: data.nameReceiver,
       phoneReceiver: data.phoneReceiver,
-      addressReceiver: data.addressReceiver,
+      addressReceiver: data.addressReceiver + " " + addressSelect,
       message: data.message,
       orderPrice: Number(totalPurchasePrice),
       deliveryPrice,
@@ -83,6 +98,7 @@ const Payment: React.FC = () => {
       const d = res?.payload?.data;
       if (d?.code !== 200) return toast.error(d?.message);
       localStorage.removeItem("cartItemsBuy");
+      // localStorage.removeItem("cartItems");
       if (Number(data.paymentMethod) === 1) {
         navigate(path.home);
         return;
@@ -211,7 +227,7 @@ const Payment: React.FC = () => {
                 </p>
 
                 <Input
-                  placeholder="76/3 đường số 7 phường Linh Trung, TPHCM"
+                  placeholder="Số nhà, tên đường"
                   name="addressReceiver"
                   classNameInput="p-3 w-full text-black outline-none border border-gray-300 focus:border-gray-500 rounded-sm focus:shadow-sm"
                   register={register}
@@ -219,7 +235,11 @@ const Payment: React.FC = () => {
                   className=""
                   errorMessage={errors.addressReceiver?.message}
                 />
-
+                <LocationForm
+                  onChange={(e: any) => {
+                    setAddresOption(e);
+                  }}
+                />
                 <div>
                   <div className="flex justify-between mb-4">
                     <span>

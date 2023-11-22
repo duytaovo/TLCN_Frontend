@@ -2,7 +2,8 @@ import useLocationForm from "./useLocationForm";
 import Select from "react-select";
 
 function LocationForm({ onChange }: any) {
-  const { state, onDistrictSelect, onWardSelect } = useLocationForm(false);
+  const { state, onCitySelect, onDistrictSelect, onWardSelect } =
+    useLocationForm(false);
 
   const {
     cityOptions,
@@ -15,20 +16,20 @@ function LocationForm({ onChange }: any) {
 
   return (
     <div className="form-container my-8">
-      <div className="select-container flex">
+      <div className="select-container flex space-x-4">
         <Select
           name="cityId"
-          // key={`cityId_${selectedCity?.value}`}
+          key={`cityId_${selectedCity?.value}`}
           isDisabled={cityOptions.length === 0}
           options={cityOptions}
-          // onChange={(option) => onCitySelect(option)}
+          onChange={(option) => onCitySelect(option)}
           placeholder="Tỉnh/Thành"
           defaultValue={selectedCity}
         />
 
         <Select
           name="districtId"
-          //   key={`districtId_${selectedDistrict?.value}`}
+          key={`districtId_${selectedDistrict?.value}`}
           isDisabled={districtOptions.length === 0}
           options={districtOptions}
           onChange={(option) => onDistrictSelect(option)}
@@ -38,17 +39,17 @@ function LocationForm({ onChange }: any) {
 
         <Select
           name="wardId"
-          //   key={`wardId_${selectedWard?.value}`}
+          key={`wardId_${selectedWard?.value}`}
           isDisabled={wardOptions.length === 0}
           options={wardOptions}
           placeholder="Phường/Xã"
           onChange={(option) => {
             onWardSelect(option);
-            // onChange({
-            //   ward: option.label,
-            //   district: selectedDistrict.label,
-            //   city: selectedCity.label,
-            // });
+            onChange({
+              ward: option.label,
+              district: selectedDistrict.label,
+              city: selectedCity.label,
+            });
           }}
           defaultValue={selectedWard}
         />

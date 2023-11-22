@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { Avatar, Button, List, Rate, Skeleton } from "antd";
 import { useAppSelector } from "src/hooks/useRedux";
+import ImageList from "@mui/material/ImageList";
+import ImageListItem from "@mui/material/ImageListItem";
 
 interface DataType {
   comment: string;
@@ -26,6 +28,7 @@ const RatingFeedback: React.FC = () => {
     setData(commentByProduct?.data);
     setInitLoading(false);
   }, [commentByProduct]);
+
   const onLoadMore = () => {
     setLoading(true);
     setList(
@@ -57,7 +60,7 @@ const RatingFeedback: React.FC = () => {
           </div>
         )
       : null;
-
+  console.log(commentByProduct);
   return (
     <List
       className="demo-loadmore-list"
@@ -77,6 +80,16 @@ const RatingFeedback: React.FC = () => {
               title={<a href="https://ant.design">{item?.username}</a>}
               description={item?.comment}
             />
+            {/* <div>
+              {item.feedbackFilesUrl?.map(
+                (_item: string, index: number): any => {
+                  console.log(_item);
+                  return (
+                    <img className="w-10 h-10" key={index} src={_item} alt="" />
+                  );
+                }
+              )}
+            </div> */}
           </Skeleton>
         </List.Item>
       )}

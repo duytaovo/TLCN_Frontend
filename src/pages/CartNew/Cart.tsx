@@ -22,7 +22,6 @@ export default function CartNew() {
   const [purchasesInCartData, setPurchasesInCartData] = useState<[]>([]);
   const dispatch = useAppDispatch();
   const product_add: any = useAppSelector((state) => state.cartItems.value);
-  const [buyCount, setBuyCount] = useState(1);
   const navigate = useNavigate();
   // useEffect(() => {
   //   async function fetchProductData() {

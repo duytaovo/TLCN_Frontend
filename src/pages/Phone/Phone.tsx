@@ -41,14 +41,6 @@ const Phone = () => {
       <FilterPhone handle={handle} />
       <QuickLinkPhone handleSetChoose={handleSetChoose} />
       <ListPhone choose={choose} isOpen={isOpen} />
-      <div className="mb-5 text-white">
-        <Pagination
-          current={currentPage + 1}
-          pageSize={pageSize}
-          total={smartPhone?.totalElements}
-          onChange={handlePageChange}
-        />
-      </div>
     </div>
   );
 };
