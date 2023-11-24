@@ -68,6 +68,7 @@ export const getAvatarUrl = (avatarName?: string) =>
   avatarName ? `${config.baseUrl}images/${avatarName}` : userImage;
 
 export function formatCurrency(currency: number) {
+  console.log(currency);
   return new Intl.NumberFormat("de-DE").format(currency);
 }
 

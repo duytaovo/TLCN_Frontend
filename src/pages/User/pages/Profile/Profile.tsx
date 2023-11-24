@@ -16,6 +16,7 @@ import { Helmet } from "react-helmet-async";
 import { setProfileToLS } from "src/utils/auth";
 import Button from "./Button";
 import { uploadManyImages } from "src/store/comment/commentsSlice";
+import { LocationForm } from "src/components/LocationForm";
 
 interface FormData {
   gender: string | undefined;
@@ -34,7 +35,13 @@ export default function Profile() {
   const imageArray = file || []; // Mảng chứa các đối tượng ảnh (File hoặc Blob)
   const [imageUrls, setImages] = useState<string[]>([]);
   // Tạo một mảng chứa các URL tạm thời cho ảnh
-
+  const [addressOption, setAddresOption] = useState<any>();
+  const addressSelect =
+    addressOption?.city.name +
+    " " +
+    addressOption?.district.name +
+    " " +
+    addressOption?.ward.name;
   for (const image of imageArray) {
     const imageUrl = URL.createObjectURL(image);
     imageUrls.push(imageUrl);
@@ -82,7 +89,7 @@ export default function Profile() {
       password: data.password,
       email: data.email,
       gender: Number(data.gender),
-      address: data.address,
+      address: data.address + " " + addressSelect,
       imageUrl: data.imageUrl,
       isEnable: true,
     };
@@ -244,8 +251,13 @@ export default function Profile() {
                 register={register}
                 name="address"
                 type="text"
-                placeholder="Địa chỉ"
+                placeholder="Số nhà, tên đường..."
                 errorMessage={errors.address?.message}
+              />
+              <LocationForm
+                onChange={(e: any) => {
+                  setAddresOption(e);
+                }}
               />
             </div>
           </div>

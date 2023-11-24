@@ -56,15 +56,21 @@ const dataSelected: { type: string }[] = [
 interface Props {
   choose?: ConcatArray<never> | string | any;
   isOpen: boolean;
+  handlePageChange: any;
+  currentPage: number;
 }
 
-const ListPhone = ({ choose, isOpen }: Props) => {
+const ListPhone = ({
+  choose,
+  isOpen,
+  handlePageChange,
+  currentPage,
+}: Props) => {
   const [dataLocal, setDataLocal] = useState<ListSmartPhone[]>();
   const [selected, setSelected] = useState<boolean>(false);
   const [chooseBoxSort, setChooseBoxSort] = useState<number>(0);
   const [checked, setChecked] = useState<any[]>([]);
   const { smartPhone, filter } = useAppSelector((state) => state.smartphone);
-  const [currentPage, setCurrentPage] = useState(0); // Trang hiện tại
   const pageSize = 10; // Số phần tử trên mỗi trang
 
   // const dataFilter = useAppSelector((state) => state.products.allProducts.data);
@@ -119,9 +125,7 @@ const ListPhone = ({ choose, isOpen }: Props) => {
       (item: any) => item.promotion === "Trả góp 0%"
     );
   }
-  const handlePageChange = (page: number) => {
-    setCurrentPage(page - 1);
-  };
+
   return (
     <>
       <BoxSort
@@ -146,23 +150,19 @@ const ListPhone = ({ choose, isOpen }: Props) => {
               products={getDataFilter}
               isSlide={false}
               category={"smartphone"}
+              handlePageChange={handlePageChange}
+              currentPage={currentPage}
             />
           ) : (
             <ListProduct
+              handlePageChange={handlePageChange}
               products={dataAfter}
               isSlide={false}
               category={"smartphone"}
+              currentPage={currentPage}
             />
           )}
         </div>
-      </div>
-      <div className="mb-5 bg-white m-auto w-fit text-white flex justify-center">
-        <Pagination
-          current={currentPage + 1}
-          pageSize={pageSize}
-          total={smartPhone?.totalElements}
-          onChange={handlePageChange}
-        />
       </div>
     </>
   );

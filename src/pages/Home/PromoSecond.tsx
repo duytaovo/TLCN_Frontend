@@ -1,86 +1,63 @@
 import { useState, useEffect } from "react";
+
+import Section from "src/components/Section/Section";
+import { useAppDispatch, useAppSelector } from "src/hooks/useRedux";
+import { getSmartPhones } from "src/store/product/smartPhoneSlice";
+import ListProduct from "src/components/ListProduct/ListProduct";
+import { Pagination } from "antd";
 import Slider from "react-slick";
 import NextArrow from "src/components/Slick/NextArrow";
 import PrevArrow from "src/components/Slick/PrevArrow";
 import ProductCard from "src/components/ProductCard/ProductCard";
-import Section from "src/components/Section/Section";
-import { useAppSelector } from "src/hooks/useRedux";
-import Pagination from "src/components/Pagination";
-import useQueryConfig from "src/hooks/useQueryConfig";
-import path from "src/constants/path";
 
-const PromoSecond = () => {
-  const [products, setProducts] = useState<[]>([]);
-  const { query, slider, title, value } = useAppSelector(
-    (state) => state.banner.promo.secondpromo
-  );
-  const queryConfig = useQueryConfig();
+const PromoFirst = () => {
+  const { banner } = useAppSelector((state) => state.banner.promo.firstpromo);
+  const dispatch = useAppDispatch();
 
-  // const dispatch = useAppDispatch();
-  const { smartPhone } = useAppSelector((state) => state.smartphone);
+  const { smartPhone } = useAppSelector<any>((state) => state.smartphone);
+  const [currentPage, setCurrentPage] = useState(0); // Trang hiện tại
+  const pageSize = 10; // Số phần tử trên mỗi trang
 
-  // useEffect(() => {
-  //   dispatch(getSmartPhones(queryConfig));
-  // }, []);
-
+  useEffect(() => {
+    dispatch(getSmartPhones({ pageNumber: currentPage }));
+  }, [currentPage]);
+  const handlePageChange = (page: number) => {
+    setCurrentPage(page - 1);
+  };
   return (
-    <Section styles={""}>
+    <Section styles={`rounded-xl overflow-hidden `}>
       <>
-        <p className="uppercase text-5xl py-10 font-bold text-textWhiteMain text-center w-full">
-          {title}
-        </p>
-        <div className="w-full">
-          <Slider
-            slidesToShow={3}
-            slidesToScroll={3}
-            autoplay={true}
-            autoplaySpeed={2000}
-            nextArrow={<NextArrow />}
-            prevArrow={<PrevArrow />}
-          >
-            {slider.map((src, index) => (
-              <div className="w-full" key={index}>
-                <div className="mx-4">
-                  <a href="https://google.com">
-                    <img
-                      src={src}
-                      alt=""
-                      className="w-full object-cover rounded-xl"
-                    />
-                  </a>
-                </div>
-              </div>
-            ))}
-          </Slider>
-        </div>
-
-        <div className="w-full">
+        <div>{/* <img src={banner} className="w-full object-cover" /> */}</div>
+        <div className="w-full mt-16 ">
+          {/* <ListProduct
+            products={smartPhone?.data}
+            isSlide={false}
+            category={"smartphone"}
+          /> */}
           <Slider
             slidesToShow={5}
-            slidesToScroll={5}
+            slidesToScroll={1}
             nextArrow={<NextArrow />}
             prevArrow={<PrevArrow />}
           >
-            {smartPhone.data?.map((product: any) => (
-              <div
-                className="w-full rounded-xl overflow-hidden"
-                key={product.id}
-              >
-                <div className="mx-4  rounded-xl overflow-hidden">
-                  <ProductCard product={product} category="smartphone" />
+            {smartPhone &&
+              smartPhone?.data?.data?.map((product: any) => (
+                <div className="w-full" key={""}>
+                  <div className="mx-4">
+                    <ProductCard
+                      docquyen
+                      key={product.id}
+                      category="smartphone"
+                      product={product}
+                    />
+                  </div>
                 </div>
-              </div>
-            ))}
+              ))}
           </Slider>
         </div>
-        <Pagination
-          path={path.home}
-          queryConfig={queryConfig}
-          pageSize={smartPhone.totalPages}
-        />
       </>
     </Section>
   );
 };
 
-export default PromoSecond;
+export default PromoFirst;

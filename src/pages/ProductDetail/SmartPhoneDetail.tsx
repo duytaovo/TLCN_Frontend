@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useRef, useState } from "react";
-import { useLocation, useNavigate, useParams } from "react-router-dom";
+import { Link, useLocation, useNavigate, useParams } from "react-router-dom";
 import { toast } from "react-toastify";
 import {
   formatCurrency,
@@ -7,6 +7,8 @@ import {
   getIdFromNameId,
   rateSale,
 } from "src/utils/utils";
+import styles from "./productdetail.module.scss";
+
 import ShoppingCartCheckoutIcon from "@mui/icons-material/ShoppingCartCheckout";
 import AddShoppingCartIcon from "@mui/icons-material/AddShoppingCart";
 import { useTranslation } from "react-i18next";
@@ -27,6 +29,9 @@ import RatingFeedback from "./Rating";
 import Tag from "./Tag";
 import Head from "./Head";
 import clsx from "clsx";
+import Policy from "./Policy";
+import DiscountBox from "./DiscountBox";
+import PayInfo from "./PayInfo";
 
 type SmartphoneTranslationKeys =
   | "smartphone.monitor"
@@ -366,6 +371,9 @@ export default function SmartPhoneDetail() {
                   <span className="ml-1 text-gray-500"> Đã xem</span>
                 </div>
               </div>
+              <Link to="/" className="text-blue-500">
+                Xem Điện thoại {""} cũ giá từ 24.660.000₫ Tiết kiệm đến 27%
+              </Link>
               {/* Giá sản phẩm và lựa chọn */}
               <div className="space-x-3 mt-4 flex justify-start align-baseline">
                 <Tag productData={productData} onClick={getData} />
@@ -413,114 +421,202 @@ export default function SmartPhoneDetail() {
                   Mua ngay
                 </button>
               </div>
+              {/* <Policy /> */}
+              <div className="space-y-3 mt-5">
+                <DiscountBox />
+              </div>
+              {/* <PayInfo
+                initProductDetail={productData}
+                handleClickPay={buyNow}
+              /> */}
             </div>
           </div>
         </div>
-        <Button type="link" onClick={showModal} className="bg-gray-300 mt-5">
-          Xem thông số kỹ thuật
-        </Button>
-        <Modal
-          // title="Thông số kỹ thuật"
-          open={isModalOpen}
-          onOk={handleOk}
-          onCancel={handleCancel}
-          centered
-        >
-          <div className="block space-y-2">
-            <p className="font-bold text-3xl text-gray-800 mb-4">
-              Cấu hình {productData?.productInfo?.name}
-            </p>
-            <table className="w-full">
-              <tbody className="space-y-4">
-                {productDataPrivateArray ? (
-                  productDataPrivateArray?.map(
-                    (item: string, index: number) => {
-                      const translationKey =
-                        `${productData.productInfo.slug}.${item}` as SmartphoneTranslationKeys &
-                          LaptopTranslationKeys;
-                      if (index != 0) {
-                        return (
-                          <tr
-                            className={clsx(index % 2 === 0 && "bg-gray-100")}
-                            key={index}
-                          >
-                            <td colSpan={4} className="my-4">
-                              {t(translationKey)}
-                            </td>
-                            <td colSpan={6}>{productData[item]}</td>
-                          </tr>
-                        );
-                      }
-                    }
-                  )
-                ) : (
-                  <tr></tr>
-                )}
-                <tr className={""}>
-                  <td colSpan={4}>Năm ra mắt</td>
-                  <td colSpan={6}>{productData?.productInfo?.launchTime}</td>
-                </tr>
-                <tr className={""}>
-                  <td colSpan={4}>Phụ kiện</td>
-                  <td colSpan={6}>{productData?.productInfo?.accessories}</td>
-                </tr>
-                <tr className={"bg-gray-100"}>
-                  <td colSpan={4}>Thiết kế</td>
-                  <td colSpan={6}>{productData?.productInfo?.design}</td>
-                </tr>
-                <tr className={""}>
-                  <td colSpan={4}>Kích thước</td>
-                  <td colSpan={6}>{productData?.productInfo?.dimension}</td>
-                </tr>
-                <tr className={"bg-gray-100"}>
-                  <td colSpan={4}>Khối lượng</td>
-                  <td colSpan={6}>{productData?.productInfo?.mass}</td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
-        </Modal>
-      </div>
-      <div className="mt-8">
-        <div className="px-20 py-10">
-          <div className=" bg-white p-4 shadow">
-            <div className="rounded bg-gray-50 p-4 text-4xl capitalize text-slate-700">
-              Mô tả sản phẩm
+        <div className="max-w-8xl m-auto">
+          <div className="flex gap-8">
+            <div className={clsx(styles.left, "w-3/5")}>
+              <div className="mt-8">
+                <div className=" py-10">
+                  <div className=" bg-white p-4 shadow">
+                    <div className="rounded bg-gray-50 p-4 text-4xl capitalize text-slate-700 font-bold">
+                      Mô tả sản phẩm
+                    </div>
+                    <div className="mx-4 mb-4 mt-12 text-2xl leading-loose text-black flex justify-center">
+                      <div
+                        className="flex justify-center"
+                        dangerouslySetInnerHTML={{
+                          __html: DOMPurify.sanitize(displayDescription),
+                        }}
+                      />
+                    </div>
+                    <div className="text-center">
+                      {!showFullDescription &&
+                        productData?.productInfo?.description.length >
+                          shortDescriptionLength && (
+                          <Button onClick={showModalDetail}>Xem thêm</Button>
+                        )}
+                      <Modal
+                        title="Chi tiết sản phẩm"
+                        open={isModalOpenDetail}
+                        onOk={handleOkDetail}
+                        onCancel={handleCancelDetail}
+                        centered
+                        width={800}
+                      >
+                        <div
+                          dangerouslySetInnerHTML={{
+                            __html: DOMPurify.sanitize(
+                              productData.productInfo.description
+                            ),
+                          }}
+                        />
+                      </Modal>
+                    </div>
+                  </div>
+                </div>
+              </div>
             </div>
-            <div className="mx-4 mb-4 mt-12 text-2xl leading-loose text-black flex justify-center">
-              <div
-                className="flex justify-center"
-                dangerouslySetInnerHTML={{
-                  __html: DOMPurify.sanitize(displayDescription),
-                }}
-              />
-            </div>
-            <div className="text-center">
-              {!showFullDescription &&
-                productData?.productInfo?.description.length >
-                  shortDescriptionLength && (
-                  <Button onClick={showModalDetail}>Xem thêm</Button>
-                )}
-              <Modal
-                title="Chi tiết sản phẩm"
-                open={isModalOpenDetail}
-                onOk={handleOkDetail}
-                onCancel={handleCancelDetail}
-                centered
-                width={800}
+            <div className={clsx(styles.right, "w-2/5  py-16")}>
+              <div className="block space-y-2">
+                <p className="font-bold text-3xl text-gray-800 mb-4">
+                  Cấu hình {productData?.productInfo?.name}
+                </p>
+                <table className="w-full">
+                  <tbody className="space-y-4">
+                    {productDataPrivateArray ? (
+                      productDataPrivateArray?.map(
+                        (item: string, index: number) => {
+                          const translationKey =
+                            `${productData.productInfo.slug}.${item}` as SmartphoneTranslationKeys &
+                              LaptopTranslationKeys;
+                          if (index != 0) {
+                            return (
+                              <tr
+                                className={clsx(
+                                  index % 2 === 0 && "bg-gray-100"
+                                )}
+                                key={index}
+                              >
+                                <td colSpan={4} className="my-4">
+                                  {t(translationKey)}
+                                </td>
+                                <td colSpan={6}>{productData[item]}</td>
+                              </tr>
+                            );
+                          }
+                        }
+                      )
+                    ) : (
+                      <tr></tr>
+                    )}
+                    <tr className={""}>
+                      <td colSpan={4}>Năm ra mắt</td>
+                      <td colSpan={6}>
+                        {productData?.productInfo?.launchTime}
+                      </td>
+                    </tr>
+                    <tr className={""}>
+                      <td colSpan={4}>Phụ kiện</td>
+                      <td colSpan={6}>
+                        {productData?.productInfo?.accessories}
+                      </td>
+                    </tr>
+                    <tr className={"bg-gray-100"}>
+                      <td colSpan={4}>Thiết kế</td>
+                      <td colSpan={6}>{productData?.productInfo?.design}</td>
+                    </tr>
+                    <tr className={""}>
+                      <td colSpan={4}>Kích thước</td>
+                      <td colSpan={6}>{productData?.productInfo?.dimension}</td>
+                    </tr>
+                    <tr className={"bg-gray-100"}>
+                      <td colSpan={4}>Khối lượng</td>
+                      <td colSpan={6}>{productData?.productInfo?.mass}</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+              <Button
+                type="link"
+                onClick={showModal}
+                className="bg-gray-300 mt-5"
               >
-                <div
-                  dangerouslySetInnerHTML={{
-                    __html: DOMPurify.sanitize(
-                      productData.productInfo.description
-                    ),
-                  }}
-                />
+                Xem thông số kỹ thuật
+              </Button>
+              <Modal
+                // title="Thông số kỹ thuật"
+                open={isModalOpen}
+                onOk={handleOk}
+                onCancel={handleCancel}
+                centered
+              >
+                <div className="block space-y-2">
+                  <p className="font-bold text-3xl text-gray-800 mb-4">
+                    Cấu hình {productData?.productInfo?.name}
+                  </p>
+                  <table className="w-full">
+                    <tbody className="space-y-4">
+                      {productDataPrivateArray ? (
+                        productDataPrivateArray?.map(
+                          (item: string, index: number) => {
+                            const translationKey =
+                              `${productData.productInfo.slug}.${item}` as SmartphoneTranslationKeys &
+                                LaptopTranslationKeys;
+                            if (index != 0) {
+                              return (
+                                <tr
+                                  className={clsx(
+                                    index % 2 === 0 && "bg-gray-100"
+                                  )}
+                                  key={index}
+                                >
+                                  <td colSpan={4} className="my-4">
+                                    {t(translationKey)}
+                                  </td>
+                                  <td colSpan={6}>{productData[item]}</td>
+                                </tr>
+                              );
+                            }
+                          }
+                        )
+                      ) : (
+                        <tr></tr>
+                      )}
+                      <tr className={""}>
+                        <td colSpan={4}>Năm ra mắt</td>
+                        <td colSpan={6}>
+                          {productData?.productInfo?.launchTime}
+                        </td>
+                      </tr>
+                      <tr className={""}>
+                        <td colSpan={4}>Phụ kiện</td>
+                        <td colSpan={6}>
+                          {productData?.productInfo?.accessories}
+                        </td>
+                      </tr>
+                      <tr className={"bg-gray-100"}>
+                        <td colSpan={4}>Thiết kế</td>
+                        <td colSpan={6}>{productData?.productInfo?.design}</td>
+                      </tr>
+                      <tr className={""}>
+                        <td colSpan={4}>Kích thước</td>
+                        <td colSpan={6}>
+                          {productData?.productInfo?.dimension}
+                        </td>
+                      </tr>
+                      <tr className={"bg-gray-100"}>
+                        <td colSpan={4}>Khối lượng</td>
+                        <td colSpan={6}>{productData?.productInfo?.mass}</td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
               </Modal>
             </div>
           </div>
         </div>
       </div>
+
       <div className="px-20 py-10">
         <div className="">
           <div className="uppercase text-gray-400">Đánh giá sản phẩm</div>

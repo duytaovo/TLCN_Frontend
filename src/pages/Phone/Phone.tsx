@@ -6,9 +6,6 @@ import QuickLinkPhone from "./QuickLinkPhone";
 import ListPhone from "./ListPhone";
 import { useAppDispatch, useAppSelector } from "src/hooks/useRedux";
 import { getSmartPhones } from "src/store/product/smartPhoneSlice";
-import useQueryConfig from "src/hooks/useQueryConfig";
-import path from "src/constants/path";
-import { Pagination } from "antd";
 
 const Phone = () => {
   const [choose, setChoose] = useState<string>("");
@@ -16,17 +13,16 @@ const Phone = () => {
   const dispatch = useAppDispatch();
   const { smartPhone } = useAppSelector((state) => state.smartphone);
   const [currentPage, setCurrentPage] = useState(0); // Trang hiện tại
-  const pageSize = 10; // Số phần tử trên mỗi trang
 
   useEffect(() => {
-    dispatch(getSmartPhones({ pageNumber: currentPage }));
+    dispatch(getSmartPhones({ pageNumber: currentPage, pageSize: 12 }));
   }, [currentPage]);
 
   const handle = (boolean: boolean) => {
     setisOpen(boolean);
   };
   const handlePageChange = (page: number) => {
-    setCurrentPage(page - 1);
+    setCurrentPage(page);
   };
   const handleSetChoose = (text: string) => {
     setChoose(text);
@@ -40,7 +36,12 @@ const Phone = () => {
       <BigBannerPhone />
       <FilterPhone handle={handle} />
       <QuickLinkPhone handleSetChoose={handleSetChoose} />
-      <ListPhone choose={choose} isOpen={isOpen} />
+      <ListPhone
+        choose={choose}
+        isOpen={isOpen}
+        handlePageChange={handlePageChange}
+        currentPage={currentPage}
+      />
     </div>
   );
 };

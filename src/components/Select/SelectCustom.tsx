@@ -37,7 +37,7 @@ export default function SelectCustom({
   };
 
   const handleChange = (id: number | string) => {
-    // props.onChange && props.onChange(id);
+    props.onChange && props.onChange(id);
   };
 
   return (

@@ -1,6 +1,7 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { PATHS } from "./paths";
+import config from "src/constants/configApi";
 
 const FETCH_TYPES = {
   CITIES: "FETCH_CITIES",
@@ -8,38 +9,141 @@ const FETCH_TYPES = {
   WARDS: "FETCH_WARDS",
 };
 
-async function fetchLocationOptions(fetchType: string, locationId?: string) {
+async function fetchLocationProvinceOptions(fetchType: string) {
   let url;
+  let params;
   switch (fetchType) {
     case FETCH_TYPES.CITIES: {
       url = PATHS.CITIES;
-      break;
-    }
-    case FETCH_TYPES.DISTRICTS: {
-      url = `${PATHS.DISTRICTS}/${locationId}.json`;
-      break;
-    }
-    case FETCH_TYPES.WARDS: {
-      url = `${PATHS.WARDS}/${locationId}.json`;
+      params = {};
       break;
     }
     default: {
       return [];
     }
   }
-  const locations = (await axios.get(url)).data["data"];
-  return locations.map(({ id, name }: { id: any; name: string }) => ({
-    value: id,
-    label: name,
-  }));
+
+  const locations = (
+    await axios.get(url, {
+      params: params,
+      headers: {
+        "Content-Type": "application/json",
+        token: config.tokenStore,
+      },
+    })
+  ).data["data"];
+  return locations.map(
+    ({
+      ProvinceID,
+      ProvinceName,
+    }: {
+      ProvinceID: number;
+      ProvinceName: string;
+    }) => ({
+      value: ProvinceID,
+      label: ProvinceName,
+    })
+  );
+}
+async function fetchLocationDistrictOptions(
+  fetchType: string,
+  locationId?: string
+) {
+  let url;
+  let params;
+  switch (fetchType) {
+    case FETCH_TYPES.CITIES: {
+      url = PATHS.CITIES;
+      params = {};
+      break;
+    }
+    case FETCH_TYPES.DISTRICTS: {
+      url = `${PATHS.DISTRICTS}`;
+      params = { province_id: locationId };
+      break;
+    }
+    case FETCH_TYPES.WARDS: {
+      url = `${PATHS.WARDS}`;
+      params = { district_id: locationId };
+      break;
+    }
+    default: {
+      return [];
+    }
+  }
+
+  const locations = (
+    await axios.get(url, {
+      params: params,
+      headers: {
+        "Content-Type": "application/json",
+        token: config.tokenStore,
+      },
+    })
+  ).data["data"];
+  return locations.map(
+    ({
+      DistrictID,
+      DistrictName,
+    }: {
+      DistrictID: number;
+      DistrictName: string;
+    }) => ({
+      value: DistrictID,
+      label: DistrictName,
+    })
+  );
+}
+async function fetchLocationWardOptions(
+  fetchType: string,
+  locationId?: string
+) {
+  let url;
+  let params;
+  switch (fetchType) {
+    case FETCH_TYPES.CITIES: {
+      url = PATHS.CITIES;
+      params = {};
+      break;
+    }
+    case FETCH_TYPES.DISTRICTS: {
+      url = `${PATHS.DISTRICTS}`;
+      params = { province_id: locationId };
+      break;
+    }
+    case FETCH_TYPES.WARDS: {
+      url = `${PATHS.WARDS}`;
+      params = { district_id: locationId };
+      break;
+    }
+    default: {
+      return [];
+    }
+  }
+
+  const locations = (
+    await axios.get(url, {
+      params: params,
+      headers: {
+        "Content-Type": "application/json",
+        token: config.tokenStore,
+      },
+    })
+  ).data["data"];
+  return locations.map(
+    ({ WardCode, WardName }: { WardCode: number; WardName: string }) => ({
+      value: WardCode,
+      label: WardName,
+    })
+  );
 }
 
 export async function fetchInitialData() {
   const { cityId, districtId, wardId } = (await axios.get(PATHS.LOCATION)).data;
   const [cities, districts, wards] = await Promise.all([
-    fetchLocationOptions(FETCH_TYPES.CITIES),
-    fetchLocationOptions(FETCH_TYPES.DISTRICTS, cityId),
-    fetchLocationOptions(FETCH_TYPES.WARDS, districtId),
+    fetchLocationProvinceOptions(FETCH_TYPES.CITIES),
+    fetchLocationDistrictOptions(FETCH_TYPES.DISTRICTS, cityId),
+    fetchLocationWardOptions(FETCH_TYPES.WARDS, districtId),
   ]);
   return {
     cityOptions: cities,
@@ -51,7 +155,7 @@ export async function fetchInitialData() {
   };
 }
 
-function useLocationForm(shouldFetchInitialLocation: any) {
+function useLocationForm(shouldFetchInitialLocation: boolean) {
   const [state, setState] = useState<any>({
     cityOptions: [],
     districtOptions: [],
@@ -69,7 +173,7 @@ function useLocationForm(shouldFetchInitialLocation: any) {
         const initialData = await fetchInitialData();
         setState(initialData);
       } else {
-        const options = await fetchLocationOptions(FETCH_TYPES.CITIES);
+        const options = await fetchLocationProvinceOptions(FETCH_TYPES.CITIES);
         setState({ ...state, cityOptions: options });
       }
     })();
@@ -78,7 +182,7 @@ function useLocationForm(shouldFetchInitialLocation: any) {
   useEffect(() => {
     (async function () {
       if (!selectedCity) return;
-      const options = await fetchLocationOptions(
+      const options = await fetchLocationDistrictOptions(
         FETCH_TYPES.DISTRICTS,
         selectedCity.value
       );
@@ -89,7 +193,7 @@ function useLocationForm(shouldFetchInitialLocation: any) {
   useEffect(() => {
     (async function () {
       if (!selectedDistrict) return;
-      const options = await fetchLocationOptions(
+      const options = await fetchLocationWardOptions(
         FETCH_TYPES.WARDS,
         selectedDistrict.value
       );
@@ -127,12 +231,21 @@ function useLocationForm(shouldFetchInitialLocation: any) {
 
   function onSubmit(e: any) {
     e.preventDefault();
-    const city = state.selectedCity?.label;
-    const district = state.selectedDistrict?.label;
-    const ward = state.selectedWard?.label;
-    localStorage.setItem("city", city);
-    localStorage.setItem("district", district);
-    localStorage.setItem("ward", ward);
+    const city = {
+      name: state.selectedCity?.label,
+      id: state.selectedCity?.value,
+    };
+    const district = {
+      name: state.selectedDistrict?.label,
+      id: state.selectedDistrict?.value,
+    };
+    const ward = {
+      name: state.selectedWard?.label,
+      id: state.selectedWard?.value,
+    };
+    localStorage.setItem("city", JSON.stringify(city));
+    localStorage.setItem("district", JSON.stringify(district));
+    localStorage.setItem("ward", JSON.stringify(ward));
   }
 
   return { state, onCitySelect, onDistrictSelect, onWardSelect, onSubmit };

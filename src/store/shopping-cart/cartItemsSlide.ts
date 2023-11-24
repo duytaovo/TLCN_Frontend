@@ -15,6 +15,10 @@ export const getProductByProductSlugId = createAsyncThunk(
   "cartItems/getProductByProductSlugId",
   payloadCreator(cartService.getProductByProductSlugId)
 );
+export const getProductByProductSlug = createAsyncThunk(
+  "cartItems/getProductByProductSlugId",
+  payloadCreator(cartService.getProductByProductSlug)
+);
 
 interface Cart {
   value: any[];

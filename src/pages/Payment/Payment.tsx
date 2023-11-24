@@ -19,11 +19,16 @@ import moment from "moment";
 import { buyPurchases } from "src/store/order/ordersSlice";
 import path from "src/constants/path";
 import { LocationForm } from "src/components/LocationForm";
+import axios from "axios";
+import config from "src/constants/configApi";
 
 interface FormData {}
 
 const Payment: React.FC = () => {
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [idMethod, setIdMethod] = useState<number>(0);
+  const [fee, setFee] = useState<number>(0);
+
   const {
     handleSubmit,
     formState: { errors },
@@ -38,13 +43,87 @@ const Payment: React.FC = () => {
   const { valueBuy } = useAppSelector((state) => state.cartItems);
   const { profile, userWithId } = useAppSelector((state) => state.user);
   const [addressOption, setAddresOption] = useState<any>();
+  const [methodTransport, setMethodTransport] = useState<any>();
   const addressSelect =
-    addressOption?.city +
+    addressOption?.city.name +
     " " +
-    addressOption?.district +
+    addressOption?.district.name +
     " " +
-    addressOption?.ward;
-  console.log(addressSelect);
+    addressOption?.ward.name;
+  useEffect(() => {
+    axios
+      .get(
+        "https://online-gateway.ghn.vn/shiip/public-api/v2/shipping-order/available-services",
+        {
+          params: {
+            shop_id: config.shopId,
+            from_district: 1442,
+            to_district: addressOption?.district.id,
+          },
+          headers: {
+            "Content-Type": "application/json",
+            token: "9c800251-8994-11ee-b394-8ac29577e80e",
+          },
+        }
+      )
+      .then(function (response) {
+        const method = response.data.data.map(
+          ({
+            service_id,
+            short_name,
+          }: {
+            service_id: number;
+            short_name: string;
+          }) => ({
+            id: service_id,
+            name: short_name,
+          })
+        );
+        setMethodTransport(method);
+      })
+      .catch(function (error) {
+        // toast.error(error.message);
+      })
+      .finally(function () {
+        // always executed
+      });
+  }, [addressOption]);
+
+  useEffect(() => {
+    axios
+      .get(
+        "https://online-gateway.ghn.vn/shiip/public-api/v2/shipping-order/fee",
+        {
+          params: {
+            from_district_id: 1442,
+            to_district_id: addressOption?.district.id,
+            service_id: idMethod,
+            insurance_value: "",
+            coupon: "",
+            to_ward_code: addressOption?.ward.id,
+            weight: 1000,
+            length: 20,
+            width: 20,
+            height: 20,
+          },
+          headers: {
+            "Content-Type": "application/json",
+            token: "9c800251-8994-11ee-b394-8ac29577e80e",
+            shop_id: config.shopId,
+          },
+        }
+      )
+      .then(function (response) {
+        setFee(Math.ceil(response.data.data.total));
+      })
+      .catch(function (error) {
+        // toast.error(error.message);
+      })
+      .finally(function () {
+        // always executed
+      });
+  }, [idMethod, addressOption]);
+
   useEffect(() => {
     setValue("addressReceiver", userWithId.address);
     setValue("message", "");
@@ -69,7 +148,7 @@ const Payment: React.FC = () => {
     [valueBuy]
   );
   const onSubmit = handleSubmit(async (data) => {
-    const deliveryPrice = 30000;
+    const deliveryPrice = fee;
     const discount = 0;
 
     const finalPrice = totalPurchasePrice + deliveryPrice - discount;
@@ -120,13 +199,9 @@ const Payment: React.FC = () => {
       setIsSubmitting(false);
     }
   });
-  const onClickHuy = () => {
-    setValue("addressReceiver", "");
-    setValue("message", "");
-    setValue("nameReceiver", "");
-    setValue("paymentMethod", "");
-    setValue("phoneReceiver", "");
-  };
+
+  const onChange = (value: number) => setIdMethod(value);
+  console.log(idMethod);
 
   return (
     <div className=" bg-mainBackGroundColor/30 ">
@@ -196,30 +271,7 @@ const Payment: React.FC = () => {
             </div>
           </div>
           <div className="">
-            <h4>CHỌN CÁCH THỨC NHẬN HÀNG</h4>
-            <div className="my-4">
-              <input id="site" type="radio" name="destination" />
-              &nbsp;
-              <label htmlFor="site">Giao tận nơi</label>
-              &emsp;
-            </div>
-            <h4>CHỌN PHƯƠNG THỨC THANH TOÁN</h4>
-            <div className="mt-8">
-              <SelectCustom
-                className={"flex-1 text-black"}
-                id="paymentMethod"
-                placeholder="Vui lòng chọn"
-                options={[
-                  { id: 1, name: "Thanh toán khi nhận hàng" },
-                  { id: 2, name: "Thanh toán qua VNPay" },
-                ]}
-                register={register}
-                isBrand={true}
-              >
-                {errors.paymentMethod?.message}
-              </SelectCustom>
-            </div>
-            <div className="mt-5">
+            <div className="">
               <div className="border border-gray-300 p-4 rounded-xl space-y-3">
                 <p>
                   Nhập địa chỉ để biết thời gian nhận hàng và phí vận chuyển
@@ -241,12 +293,44 @@ const Payment: React.FC = () => {
                   }}
                 />
                 <div>
-                  <div className="flex justify-between mb-4">
+                  {/* <div className="flex justify-between mb-4">
                     <span>
                       Giao trước 20h hôm nay ({moment().format("DD/MM/YYYY")})
                     </span>
-                  </div>
-                  <p className="text-green-600 mt-6">Phí giao hàng: 30.000đ</p>
+                  </div> */}
+                </div>
+                <h4>CHỌN CÁCH THỨC NHẬN HÀNG</h4>
+                <div className="mt-8">
+                  <SelectCustom
+                    className={"flex-1 text-black"}
+                    id="methodTransport"
+                    placeholder="Vui lòng chọn"
+                    options={methodTransport}
+                    register={register}
+                    isBrand={true}
+                    onChange={onChange}
+                  >
+                    {/* {errors.paymentMethod?.message} */}
+                  </SelectCustom>
+                </div>
+                <p className="text-green-600 mt-6">
+                  Phí giao hàng: {formatCurrency(fee)}₫
+                </p>
+                <h4>CHỌN PHƯƠNG THỨC THANH TOÁN</h4>
+                <div className="mt-8">
+                  <SelectCustom
+                    className={"flex-1 text-black"}
+                    id="paymentMethod"
+                    placeholder="Vui lòng chọn"
+                    options={[
+                      { id: 1, name: "Thanh toán khi nhận hàng" },
+                      { id: 2, name: "Thanh toán qua VNPay" },
+                    ]}
+                    register={register}
+                    isBrand={true}
+                  >
+                    {errors.paymentMethod?.message}
+                  </SelectCustom>
                 </div>
               </div>
             </div>
@@ -306,7 +390,7 @@ const Payment: React.FC = () => {
             <div className="flex justify-between my-4">
               <strong>Tổng tiền:</strong>
               <strong className="text-red-600 text-2xl">
-                {formatCurrency(totalPurchasePrice + 30000 - 0)}₫
+                {formatCurrency(totalPurchasePrice + fee - 0)}₫
               </strong>
             </div>
             <button

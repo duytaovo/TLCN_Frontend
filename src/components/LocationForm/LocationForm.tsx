@@ -1,10 +1,13 @@
 import useLocationForm from "./useLocationForm";
 import Select from "react-select";
 
-function LocationForm({ onChange }: any) {
+interface Props {
+  onChange: (value: any) => void;
+}
+
+const LocationForm = ({ onChange }: Props) => {
   const { state, onCitySelect, onDistrictSelect, onWardSelect } =
     useLocationForm(false);
-
   const {
     cityOptions,
     districtOptions,
@@ -13,7 +16,6 @@ function LocationForm({ onChange }: any) {
     selectedDistrict,
     selectedWard,
   } = state;
-
   return (
     <div className="form-container my-8">
       <div className="select-container flex space-x-4">
@@ -46,9 +48,18 @@ function LocationForm({ onChange }: any) {
           onChange={(option) => {
             onWardSelect(option);
             onChange({
-              ward: option.label,
-              district: selectedDistrict.label,
-              city: selectedCity.label,
+              ward: {
+                name: option.label,
+                id: option.value,
+              },
+              district: {
+                name: selectedDistrict.label,
+                id: selectedDistrict.value,
+              },
+              city: {
+                name: selectedCity.label,
+                id: selectedCity.value,
+              },
             });
           }}
           defaultValue={selectedWard}
@@ -56,6 +67,6 @@ function LocationForm({ onChange }: any) {
       </div>
     </div>
   );
-}
+};
 
 export default LocationForm;
