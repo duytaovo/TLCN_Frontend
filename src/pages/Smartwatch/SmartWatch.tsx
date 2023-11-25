@@ -10,7 +10,6 @@ import SmartWatchAccessory from "./SmartWatchAccessory";
 import "./smartwatchhotdeal.scss";
 import { useEffect, useState } from "react";
 import { useAppDispatch, useAppSelector } from "src/hooks/useRedux";
-import { getAllProductByCategory } from "src/store/product/productsSlice";
 import { getSmartwatchs } from "src/store/product/smartwatchSlice";
 
 const SmartWatch = () => {

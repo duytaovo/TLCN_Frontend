@@ -5,7 +5,6 @@ import "slick-carousel/slick/slick-theme.css";
 import SlideProduct from "../SlideProduct/SlideProduct";
 import { Pagination } from "antd";
 import { useAppDispatch, useAppSelector } from "src/hooks/useRedux";
-import { useEffect, useState } from "react";
 import {
   getProductByProductSlug,
   getProductByProductSlugId,
@@ -15,18 +14,16 @@ type Props = {
   isSlide: boolean;
   products: any;
   category?: string;
-  handlePageChange: any;
-  currentPage: number;
+  handlePageChange?: any;
+  currentPage?: number;
 };
 const ListProduct = ({
   isSlide,
   products,
   category,
   handlePageChange,
-  currentPage,
+  currentPage = 0,
 }: Props) => {
-  console.log(products);
-  const dispatch = useAppDispatch();
   const pageSize = 10; // Số phần tử trên mỗi trang
   // useEffect(() => {
   //   dispatch(

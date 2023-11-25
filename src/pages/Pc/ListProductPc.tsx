@@ -16,7 +16,7 @@ function ListProductPc({}) {
   return (
     <div className="pc__content">
       <div className="listcontent">
-        <ListProduct products={data} isSlide={false}></ListProduct>
+        {/* <ListProduct products={data} isSlide={false}></ListProduct> */}
       </div>
     </div>
   );
