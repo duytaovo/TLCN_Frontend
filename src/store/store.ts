@@ -18,6 +18,7 @@ import laptopReducer from "./product/laptopSlice ";
 import ordersSlice from "./order/ordersSlice";
 import tabletReducer from "./product/tabletSlice";
 import smartWatchReducer from "./product/smartwatchSlice";
+import brandsSlice from "./brand/brandsSlice";
 
 export const store = configureStore({
   reducer: {
@@ -35,6 +36,7 @@ export const store = configureStore({
     comments: commentsReducer,
     historyOrders: historyReducer,
     order: ordersSlice,
+    brand: brandsSlice,
   },
   devTools: process.env.NODE_ENV === "development",
   middleware: (getDefaultMiddleware) => [

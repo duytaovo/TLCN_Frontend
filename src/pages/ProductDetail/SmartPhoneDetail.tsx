@@ -32,6 +32,7 @@ import clsx from "clsx";
 import Policy from "./Policy";
 import DiscountBox from "./DiscountBox";
 import PayInfo from "./PayInfo";
+import { getDetailBrand } from "src/store/brand/brandsSlice";
 
 type SmartphoneTranslationKeys =
   | "smartphone.monitor"
@@ -66,7 +67,7 @@ export default function SmartPhoneDetail() {
   const { productSlug } = useParams();
   const dispatch = useAppDispatch();
   const location = useLocation();
-
+  const { brand } = useAppSelector((state) => state.brand);
   const [productData, setProductData] = useState<any>();
   const pathParts = location.pathname.split("/");
   const _id = getIdFromNameId(productSlug as string);
@@ -150,6 +151,7 @@ export default function SmartPhoneDetail() {
         );
         setProductDataPrivateArray(productDetailsArray);
         await dispatch(getCommentByProductId(productInfo?.productId));
+        await dispatch(getDetailBrand(productInfo?.brandId));
       }
     };
     getData();
@@ -511,6 +513,10 @@ export default function SmartPhoneDetail() {
                       <tr></tr>
                     )}
                     <tr className={""}>
+                      <td colSpan={4}>Hãng sản xuất</td>
+                      <td colSpan={6}>{brand?.name}</td>
+                    </tr>
+                    <tr className={""}>
                       <td colSpan={4}>Năm ra mắt</td>
                       <td colSpan={6}>
                         {productData?.productInfo?.launchTime}
@@ -550,6 +556,7 @@ export default function SmartPhoneDetail() {
                 onOk={handleOk}
                 onCancel={handleCancel}
                 centered
+                className="p-5"
               >
                 <div className="block space-y-2">
                   <p className="font-bold text-3xl text-gray-800 mb-4">
@@ -583,6 +590,10 @@ export default function SmartPhoneDetail() {
                       ) : (
                         <tr></tr>
                       )}
+                      <tr className={""}>
+                        <td colSpan={4}>Hãng sản xuất</td>
+                        <td colSpan={6}>{brand?.name}</td>
+                      </tr>
                       <tr className={""}>
                         <td colSpan={4}>Năm ra mắt</td>
                         <td colSpan={6}>

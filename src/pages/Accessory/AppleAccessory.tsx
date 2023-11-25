@@ -20,11 +20,11 @@ const AppleAccessory = () => {
         <div className="listcontent">
           <DealMain linkImg="//cdn.tgdd.vn/2022/03/banner/DESKTOPTagline8-1200x150.png"></DealMain>
           <ProductTab productTab={productTab}></ProductTab>
-          <ListProduct
+          {/* <ListProduct
             products={products}
             isSlide={false}
             category=""
-          ></ListProduct>
+          ></ListProduct> */}
         </div>
       </div>
     </>

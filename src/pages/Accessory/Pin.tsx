@@ -26,7 +26,7 @@ const Pin = () => {
         <div className="listcontent ">
           <DealMain linkImg="https://cdn.tgdd.vn/2022/03/banner/DESKTOPTagline2-1200x150-3.png" />
           <ProductTab productTab={productTab} />
-          <ListProduct products={products} isSlide={false} category="" />
+          {/* <ListProduct products={products} isSlide={false} category="" /> */}
         </div>
       </div>
     </>

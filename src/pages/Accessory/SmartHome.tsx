@@ -22,7 +22,7 @@ const SmartHome = () => {
         <div className="listcontent">
           <DealMain linkImg="https://cdn.tgdd.vn/2022/03/banner/DESKTOPTagline6-1200x150.png" />
           <ProductTab productTab={productTab} />
-          <ListProduct products={data} isSlide={false} category="" />
+          {/* <ListProduct products={data} isSlide={false} category="" /> */}
         </div>
       </div>
     </>
