@@ -25,9 +25,47 @@ const Tag = ({ productData, onClick }: any) => {
     productData?.productInfo?.lstProductTypeAndPrice[0].salePrice
   );
 
+  const [selectedRam, setSelectedRam] = useState<string | null>(null);
+  const [selectedColor, setSelectedColor] = useState<string | null>(null);
+  // const [price, setPrice] = useState<number | null>(null);
+  // const [salePrice, setSalePrice] = useState<number | null>(null);
   useEffect(() => {
-    onClick && onClick({ price, salePrice });
-  }, [price, salePrice]);
+    if (selectedRam !== null) {
+      // Lấy danh sách màu sắc tương ứng với loại RAM đã chọn
+      const colorsForSelectedRam =
+        productData?.productInfo?.lstProductTypeAndPrice
+          .filter((item: any) => item.ram === selectedRam)
+          .map((item: any) => item.color);
+
+      // Nếu danh sách không rỗng, chọn màu đầu tiên làm màu mặc định
+      if (colorsForSelectedRam && colorsForSelectedRam.length > 0) {
+        setSelectedColor(colorsForSelectedRam[0]);
+      }
+    }
+  }, [selectedRam, productData]);
+  useEffect(() => {
+    if (selectedRam !== null && selectedColor !== null) {
+      const selectedProduct =
+        productData?.productInfo?.lstProductTypeAndPrice.find(
+          (item: any) =>
+            item.ram === selectedRam && item.color === selectedColor
+        );
+
+      if (selectedProduct) {
+        setPrice(selectedProduct.price);
+        setSalePrice(selectedProduct.salePrice);
+        onClick &&
+          onClick({
+            price: selectedProduct.price,
+            salePrice: selectedProduct.salePrice,
+          });
+      }
+    }
+  }, [selectedRam, selectedColor, productData, onClick]);
+
+  // useEffect(() => {
+  //   onClick && onClick({ price, salePrice });
+  // }, [price, salePrice]);
 
   useEffect(() => {
     if (indexTagColor === indexTagRam) {
@@ -74,9 +112,9 @@ const Tag = ({ productData, onClick }: any) => {
             )
           ),
         ].map((ram: any, index) => {
-          const active = ram === tagRam;
+          const active = ram === selectedRam;
           const className = clsx(
-            "border border-gray-400 px-10 py-4 text-xl rounded",
+            "border  px-10 py-4 text-xl rounded",
             active && "text-blue-400 border-blue-400 "
           );
 
@@ -86,8 +124,8 @@ const Tag = ({ productData, onClick }: any) => {
               type={active ? "primary" : "default"}
               key={index}
               onClick={() => {
-                setTagRam(ram);
-                setIndexTagRam(index);
+                setSelectedRam(ram);
+                setSelectedColor(null); // Đặt màu sắc về null khi chọn loại RAM mới
               }}
             >
               {ram}
@@ -98,7 +136,7 @@ const Tag = ({ productData, onClick }: any) => {
           (tag: any, index: number) => {
             const active = tag?.ram === tagRam;
             const className = clsx(
-              "border border-gray-400 px-10 py-4 text-xl rounded",
+              "border  px-10 py-4 text-xl rounded",
               active && "text-blue-400 border-blue-400 "
             );
 
@@ -128,7 +166,7 @@ const Tag = ({ productData, onClick }: any) => {
         ].map((color: any, index) => {
           const active = color === tagColor;
           const className = clsx(
-            "border border-gray-400 px-10 py-4 text-xl rounded",
+            "border  px-10 py-4 text-xl rounded",
             active && "text-blue-400 border-blue-400 "
           );
           return (
@@ -147,28 +185,29 @@ const Tag = ({ productData, onClick }: any) => {
         })}
       </div> */}
       <div className="flex flex-wrap gap-4 ">
-        {filteredColors.map((color: any, index) => {
-          const active = color === tagColor;
-          const className = clsx(
-            "border border-gray-400 px-10 py-4 text-xl rounded",
-            active && "text-blue-400 border-blue-400 "
-          );
+        {productData?.productInfo?.lstProductTypeAndPrice
+          .filter((item: any) => item.ram === selectedRam)
+          .map((product: any, index: number) => {
+            const active = product.color === selectedColor;
+            const className = clsx(
+              "border  px-10 py-4 text-xl rounded",
+              active && "text-blue-400 border-blue-400 "
+            );
 
-          return (
-            <Button
-              className={className}
-              key={index}
-              type={active ? "primary" : "default"}
-              onClick={() => {
-                setTagColor(color);
-                setIndexTagColor(index);
-              }}
-              disabled={!filteredData.some((item: any) => item.color === color)}
-            >
-              {color}
-            </Button>
-          );
-        })}
+            return (
+              <Button
+                className={className}
+                type={active ? "primary" : "default"}
+                key={index}
+                onClick={() => {
+                  setSelectedColor(product.color);
+                }}
+                disabled={product.quantity === 0} // Ví dụ: Disable nút nếu hết hàng
+              >
+                {product.color}
+              </Button>
+            );
+          })}
       </div>
     </div>
   );
