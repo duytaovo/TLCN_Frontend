@@ -1,9 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { Avatar, Button, List, Rate, Skeleton } from "antd";
 import { useAppSelector } from "src/hooks/useRedux";
-import ImageList from "@mui/material/ImageList";
-import ImageListItem from "@mui/material/ImageListItem";
 
+import Commentmini from "../Comment/commentmini";
 interface DataType {
   comment: string;
   feedbackFilesUrl?: string[];
@@ -60,36 +59,17 @@ const RatingFeedback: React.FC = () => {
           </div>
         )
       : null;
-  console.log(commentByProduct);
   return (
     <List
-      className="demo-loadmore-list"
+      className="demo-loadmore-list bg-white rounded-md"
       loading={initLoading}
       itemLayout="horizontal"
       loadMore={loadMore}
       dataSource={list}
       renderItem={(item) => (
-        <List.Item actions={[<Rate value={item?.star} disabled />]}>
+        <List.Item actions={[]}>
           <Skeleton avatar title={false} loading={item?.loading} active>
-            <List.Item.Meta
-              avatar={
-                <Avatar style={{ backgroundColor: "#f56a00" }}>
-                  {item?.username?.substring(0, 1)}
-                </Avatar>
-              }
-              title={<a href="https://ant.design">{item?.username}</a>}
-              description={item?.comment}
-            />
-            {/* <div>
-              {item.feedbackFilesUrl?.map(
-                (_item: string, index: number): any => {
-                  console.log(_item);
-                  return (
-                    <img className="w-10 h-10" key={index} src={_item} alt="" />
-                  );
-                }
-              )}
-            </div> */}
+            <Commentmini comment={item} />
           </Skeleton>
         </List.Item>
       )}

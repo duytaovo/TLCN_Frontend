@@ -492,9 +492,10 @@ export default function SmartPhoneDetail() {
                           if (index != 0) {
                             return (
                               <tr
-                                className={clsx(
-                                  index % 2 === 0 && "bg-gray-100"
-                                )}
+                                className={`bg-white + ${
+                                  index % 2 === 0 && "bg-gray-300"
+                                }
+                                `}
                                 key={index}
                               >
                                 <td colSpan={4} className="my-4">
@@ -619,7 +620,9 @@ export default function SmartPhoneDetail() {
 
       <div className="px-20 py-10">
         <div className="">
-          <div className="uppercase text-gray-400">Đánh giá sản phẩm</div>
+          <div className="uppercase text-gray-500 font-bold">
+            Đánh giá sản phẩm
+          </div>
           <RatingFeedback />
         </div>
       </div>
