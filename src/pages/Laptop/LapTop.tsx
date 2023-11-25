@@ -41,8 +41,11 @@ const LapTop = () => {
       <BigBannerLapTop />
       <LapTopQuickLink handleSetChoose={handleSetChoose} />
       <MenuTopLapTop />
-      <LapTopDeal />
-      <Gaming />
+      <LapTopDeal
+        handlePageChange={handlePageChange}
+        currentPage={currentPage}
+      />
+      <Gaming handlePageChange={handlePageChange} currentPage={currentPage} />
       <MacBook />
       <StudyLaptop />
       <GraphicLaptop />
@@ -50,14 +53,14 @@ const LapTop = () => {
       <LuxuryLaptop />
       <Office />
       <Trademark />
-      <div className="mb-5">
+      {/* <div className="mb-5">
         <Pagination
           current={currentPage + 1}
           pageSize={pageSize}
           total={laptop?.data?.totalElements}
           onChange={handlePageChange}
         />
-      </div>
+      </div> */}
     </div>
   );
 };

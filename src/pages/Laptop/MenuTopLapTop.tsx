@@ -40,7 +40,7 @@ const data: Data[] = [
   },
 ];
 
-const MenuTopLapTop = () => {
+const MenuTopLapTop = ({ handlePageChange, currentPage }: any) => {
   const [menuTop, setMenuTop] = useState(true);
   useEffect(() => {
     const handleScroll = () => {

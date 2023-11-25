@@ -38,15 +38,20 @@ const Tablet = () => {
       <BigBannerTablet />
       <FilterTablet handle={handle} />
       <QuickLinkTablet handleSetChoose={handleSetChoose} />
-      <ListTablet choose={choose} isOpen={isOpen} />
-      <div className="mb-5 text-white">
+      <ListTablet
+        choose={choose}
+        isOpen={isOpen}
+        handlePageChange={handlePageChange}
+        currentPage={currentPage}
+      />
+      {/* <div className="mb-5 text-white">
         <Pagination
           current={currentPage + 1}
           pageSize={pageSize}
           total={tablet?.data?.totalElements}
           onChange={handlePageChange}
         />
-      </div>
+      </div> */}
     </div>
   );
 };

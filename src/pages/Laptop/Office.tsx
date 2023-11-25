@@ -12,11 +12,7 @@ const Office = () => {
     <div id="office" className="blocklist">
       <div className="listcontent">
         <DealMain linkImg="https://cdn.tgdd.vn/2022/05/banner/banner-phan-mem-1200x200-1200x200.png"></DealMain>
-        <ListProduct
-          category=""
-          products={laptop?.data}
-          isSlide={false}
-        ></ListProduct>
+        {/* <ListProduct category="" products={laptop?.data} isSlide={false} /> */}
       </div>
     </div>
   );

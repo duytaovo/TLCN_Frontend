@@ -10,7 +10,7 @@ const ThinLaptop = () => {
     <div id="mongnhe" className="blocklist">
       <div className="listcontent">
         <DealMain linkImg="https://cdn.tgdd.vn/2021/08/banner/mongnhedes-1200x200.jpg"></DealMain>
-        <ListProduct products={laptop?.data} isSlide={false}></ListProduct>
+        {/* <ListProduct products={laptop?.data} isSlide={false}></ListProduct> */}
       </div>
     </div>
   );

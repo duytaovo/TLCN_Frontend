@@ -51,8 +51,15 @@ const dataSelected: { type: string }[] = [
 interface Props {
   choose?: ConcatArray<never> | string | any;
   isOpen?: boolean;
+  handlePageChange: any;
+  currentPage: number;
 }
-const ListTablet = ({ choose, isOpen }: Props) => {
+const ListTablet = ({
+  choose,
+  isOpen,
+  handlePageChange,
+  currentPage,
+}: Props) => {
   const [dataLocal, setDataLocal] = useState<any>();
 
   const [selected, setSelected] = useState(false);
@@ -132,6 +139,8 @@ const ListTablet = ({ choose, isOpen }: Props) => {
         <div className="">
           {isOpen === false ? (
             <ListProduct
+              handlePageChange={handlePageChange}
+              currentPage={currentPage}
               products={getDataFilter}
               isSlide={false}
               category={"tablet"}
@@ -141,6 +150,8 @@ const ListTablet = ({ choose, isOpen }: Props) => {
               products={dataAfter}
               isSlide={false}
               category={"tablet"}
+              handlePageChange={handlePageChange}
+              currentPage={currentPage}
             />
           )}
         </div>

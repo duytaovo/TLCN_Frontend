@@ -3,7 +3,7 @@ import DealMain from "src/components/DealMain/DealMain";
 import ListProduct from "src/components/ListProduct/ListProduct";
 import { useAppSelector } from "src/hooks/useRedux";
 
-const LapTopDeal = () => {
+const LapTopDeal = ({ handlePageChange, currentPage }: any) => {
   const { laptop } = useAppSelector((state) => state.laptop);
   return (
     <div className="blocklist" id="dealsoc">
@@ -14,6 +14,8 @@ const LapTopDeal = () => {
           isDealMain={true}
         />
         <ListProduct
+          handlePageChange={handlePageChange}
+          currentPage={currentPage}
           category="laptop"
           products={laptop?.data}
           isSlide={false}

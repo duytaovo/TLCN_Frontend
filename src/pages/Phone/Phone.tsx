@@ -11,7 +11,6 @@ const Phone = () => {
   const [choose, setChoose] = useState<string>("");
   const [isOpen, setisOpen] = useState<boolean>(false);
   const dispatch = useAppDispatch();
-  const { smartPhone } = useAppSelector((state) => state.smartphone);
   const [currentPage, setCurrentPage] = useState(0); // Trang hiện tại
 
   useEffect(() => {
