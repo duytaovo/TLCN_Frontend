@@ -5,19 +5,20 @@ import CartButton from "./CartButton";
 import FilterButton from "./FilterButton";
 import styles from "./header.module.scss";
 import "./header.module.scss";
-import { MenuProps } from "antd";
+import { Avatar, MenuProps } from "antd";
 import { useContext, useEffect, useState } from "react";
 import path from "src/constants/path";
 import { useTranslation } from "react-i18next";
 import CustomDropDown from "../Dropdown/Dropdown";
 import { AppContext } from "src/contexts/app.context";
 import SentimentSatisfiedAltRoundedIcon from "@mui/icons-material/SentimentSatisfiedAltRounded";
-import logo from "src/assets/images/logonew.jpg";
+import logo from "src/assets/images/logotechstore.jpg";
 import { clearLS } from "src/utils/auth";
 import { logoutUser } from "src/store/user/userSlice";
 import { useAppDispatch } from "src/hooks/useRedux";
 import { unwrapResult } from "@reduxjs/toolkit";
 import { toast } from "react-toastify";
+import { UserOutlined } from "@ant-design/icons";
 
 const customDropdownStyle = {
   arrow: false,
@@ -150,7 +151,8 @@ const Header = () => {
             children={
               <div className="flex items-center justify-around cursor-pointer ">
                 {true ? (
-                  <SentimentSatisfiedAltRoundedIcon />
+                  // <SentimentSatisfiedAltRoundedIcon />
+                  <Avatar size="large" icon={<UserOutlined />} />
                 ) : (
                   <div onClick={handleOpenModal}>Tài khoản</div>
                   // <AccountCircleIcon

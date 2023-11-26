@@ -33,6 +33,7 @@ import Policy from "./Policy";
 import DiscountBox from "./DiscountBox";
 import PayInfo from "./PayInfo";
 import { getDetailBrand } from "src/store/brand/brandsSlice";
+import BasicTabs from "./Tabs";
 
 type SmartphoneTranslationKeys =
   | "smartphone.monitor"
@@ -71,7 +72,7 @@ export default function SmartPhoneDetail() {
   const [productData, setProductData] = useState<any>();
   const pathParts = location.pathname.split("/");
   const _id = getIdFromNameId(productSlug as string);
-  const [currentIndexImages, setCurrentIndexImages] = useState([0, 5]);
+  const [currentIndexImages, setCurrentIndexImages] = useState([0, 6]);
   const [activeImage, setActiveImage] = useState("");
   const imageRef = useRef<HTMLImageElement>(null);
   const [productDataPrivateArray, setProductDataPrivateArray] =
@@ -150,12 +151,35 @@ export default function SmartPhoneDetail() {
           productDetailsWithoutInfo
         );
         setProductDataPrivateArray(productDetailsArray);
+        // await dispatch(getCommentByProductId(productInfo?.productId));
+        // await dispatch(getDetailBrand(productInfo?.brandId));
+      }
+    };
+    getData();
+  }, [_id, pathParts[1], dispatch]);
+
+  useEffect(() => {
+    const getData = async () => {
+      if (productData) {
+        const {
+          productInfo,
+          id,
+          processorId,
+          ramId,
+          romId,
+          graphicsCardId,
+          ...productDetailsWithoutInfo
+        } = productData;
+        const productDetailsArray: string[] = Object.keys(
+          productDetailsWithoutInfo
+        );
+        setProductDataPrivateArray(productDetailsArray);
         await dispatch(getCommentByProductId(productInfo?.productId));
         await dispatch(getDetailBrand(productInfo?.brandId));
       }
     };
     getData();
-  }, [_id, pathParts[1], dispatch, activeImage]);
+  }, [activeImage, productData]);
 
   const next = () => {
     if (
@@ -265,7 +289,7 @@ export default function SmartPhoneDetail() {
           name="description"
           content={convert(productData?.productInfo?.description, {
             limits: {
-              maxInputLength: 50000,
+              maxInputLength: 3000,
             },
           })}
         />
@@ -273,10 +297,10 @@ export default function SmartPhoneDetail() {
       <div className="content wrapper px-20 py-5 rounded-md">
         <div className="bg-white p-4 shadow rounded-md text-black">
           <div className="grid grid-cols-12 gap-9">
-            <div className="col-span-5">
+            <div className="col-span-7">
               <div
-                className="relative w-full cursor-zoom-in overflow-hidden pt-[100%] shadow"
-                onMouseMove={handleZoom}
+                className="relative w-full  overflow-hidden pt-[84%] shadow"
+                // onMouseMove={handleZoom}
                 onMouseLeave={handleRemoveZoom}
               >
                 <img
@@ -286,7 +310,7 @@ export default function SmartPhoneDetail() {
                   ref={imageRef}
                 />
               </div>
-              <div className="relative mt-4 grid grid-cols-5 gap-1">
+              <div className="relative mt-4 grid grid-cols-6 gap-1">
                 <button
                   className="absolute left-0 top-1/2 z-10 h-9 w-5 -translate-y-1/2 bg-black/20 text-white"
                   onClick={prev}
@@ -320,7 +344,7 @@ export default function SmartPhoneDetail() {
                         className="absolute left-0 top-0 h-full w-full cursor-pointer bg-white object-cover"
                       />
                       {isActive && (
-                        <div className="absolute inset-0 border-2 border-orange" />
+                        <div className="absolute inset-0 border-2 border-red-600" />
                       )}
                     </div>
                   );
@@ -346,7 +370,7 @@ export default function SmartPhoneDetail() {
                 </button>
               </div>
             </div>
-            <div className="col-span-7">
+            <div className="col-span-5">
               <h1 className="text-4xl font-medium uppercase">
                 {productData?.productInfo?.name}
               </h1>
@@ -380,8 +404,15 @@ export default function SmartPhoneDetail() {
               <div className="space-x-3 mt-4 flex justify-start align-baseline">
                 <Tag productData={productData} onClick={getData} />
               </div>
+              <div className="space-y-3 mt-5">
+                <DiscountBox />
+              </div>
+              <PayInfo
+                initProductDetail={productData}
+                handleClickPay={buyNow}
+              />
               <div className="my-6 flex items-center">
-                <div className="capitalize text-gray-500">Số lượng</div>
+                <div className="capitalize text-gray-600">Chọn số lượng</div>
                 <QuantityController
                   onDecrease={handleBuyCount}
                   onIncrease={handleBuyCount}
@@ -401,36 +432,29 @@ export default function SmartPhoneDetail() {
                 </div>
               </div>
 
-              <div className="mt-4 flex items-center text-black/60">
+              <div className="mt-4 flex flex-col w-full items-center text-black/60">
                 <button
                   onClick={addToCart}
-                  className="flex h-16 items-center justify-center rounded-sm border border-orange bg-green-300 px-5 capitalize text-orange shadow-sm hover:bg-orange/5"
+                  className="flex h-20 items-center w-full justify-center rounded-sm border border-orange bg-mainColor px-5 capitalize text-white shadow-sm hover:bg-orange-500"
                 >
                   <AddShoppingCartIcon
-                    className="text-mainColor mr-2"
+                    className="text-white mr-2"
                     fontSize="large"
                   />
                   Thêm vào giỏ hàng
                 </button>
                 <button
                   onClick={buyNow}
-                  className="fkex ml-4 h-16 min-w-[5rem] items-center justify-center rounded-sm  px-5 capitalize  shadow-sm outline-none bg-yellow-400"
+                  className="fkex mt-4 h-20 min-w-[5rem] w-full items-center justify-center rounded-sm  px-5 capitalize text-white  shadow-sm outline-none bg-yellow-400"
                 >
                   <ShoppingCartCheckoutIcon
-                    className="text-mainColor mr-2"
+                    className="text-white mr-2"
                     fontSize="large"
                   />
                   Mua ngay
                 </button>
               </div>
               {/* <Policy /> */}
-              <div className="space-y-3 mt-5">
-                <DiscountBox />
-              </div>
-              {/* <PayInfo
-                initProductDetail={productData}
-                handleClickPay={buyNow}
-              /> */}
             </div>
           </div>
         </div>
@@ -478,13 +502,13 @@ export default function SmartPhoneDetail() {
                 </div>
               </div>
             </div>
-            <div className={clsx(styles.right, "w-2/5  py-16")}>
+            <div className={clsx(styles.right, "w-2/5  py-16 ")}>
               <div className="block space-y-2">
                 <p className="font-bold text-3xl text-gray-800 mb-4">
                   Cấu hình {productData?.productInfo?.name}
                 </p>
-                <table className="w-full">
-                  <tbody className="space-y-4">
+                <table className="w-full bg-white/80 border border-">
+                  <tbody className="space-y-4 bg-white/80">
                     {productDataPrivateArray ? (
                       productDataPrivateArray?.map(
                         (item: string, index: number) => {
@@ -494,9 +518,7 @@ export default function SmartPhoneDetail() {
                           if (index != 0) {
                             return (
                               <tr
-                                className={`bg-white + ${
-                                  index % 2 === 0 && "bg-gray-300"
-                                }
+                                className={` ${index % 2 === 0 && "bg-gray-200"}
                                 `}
                                 key={index}
                               >
@@ -516,7 +538,7 @@ export default function SmartPhoneDetail() {
                       <td colSpan={4}>Hãng sản xuất</td>
                       <td colSpan={6}>{brand?.name}</td>
                     </tr>
-                    <tr className={""}>
+                    <tr className={"bg-gray-200"}>
                       <td colSpan={4}>Năm ra mắt</td>
                       <td colSpan={6}>
                         {productData?.productInfo?.launchTime}
@@ -528,7 +550,7 @@ export default function SmartPhoneDetail() {
                         {productData?.productInfo?.accessories}
                       </td>
                     </tr>
-                    <tr className={"bg-gray-100"}>
+                    <tr className={"bg-gray-200"}>
                       <td colSpan={4}>Thiết kế</td>
                       <td colSpan={6}>{productData?.productInfo?.design}</td>
                     </tr>
@@ -536,7 +558,7 @@ export default function SmartPhoneDetail() {
                       <td colSpan={4}>Kích thước</td>
                       <td colSpan={6}>{productData?.productInfo?.dimension}</td>
                     </tr>
-                    <tr className={"bg-gray-100"}>
+                    <tr className={"bg-gray-200 border-b-[1px] border-white"}>
                       <td colSpan={4}>Khối lượng</td>
                       <td colSpan={6}>{productData?.productInfo?.mass}</td>
                     </tr>
@@ -557,82 +579,100 @@ export default function SmartPhoneDetail() {
                 onCancel={handleCancel}
                 centered
                 className="p-5"
+                width={700}
               >
-                <div className="block space-y-2">
-                  <p className="font-bold text-3xl text-gray-800 mb-4">
-                    Cấu hình {productData?.productInfo?.name}
-                  </p>
-                  <table className="w-full">
-                    <tbody className="space-y-4">
-                      {productDataPrivateArray ? (
-                        productDataPrivateArray?.map(
-                          (item: string, index: number) => {
-                            const translationKey =
-                              `${productData.productInfo.slug}.${item}` as SmartphoneTranslationKeys &
-                                LaptopTranslationKeys;
-                            if (index != 0) {
-                              return (
-                                <tr
-                                  className={clsx(
-                                    index % 2 === 0 && "bg-gray-100"
-                                  )}
-                                  key={index}
-                                >
-                                  <td colSpan={4} className="my-4">
-                                    {t(translationKey)}
-                                  </td>
-                                  <td colSpan={6}>{productData[item]}</td>
-                                </tr>
-                              );
-                            }
-                          }
-                        )
-                      ) : (
-                        <tr></tr>
-                      )}
-                      <tr className={""}>
-                        <td colSpan={4}>Hãng sản xuất</td>
-                        <td colSpan={6}>{brand?.name}</td>
-                      </tr>
-                      <tr className={""}>
-                        <td colSpan={4}>Năm ra mắt</td>
-                        <td colSpan={6}>
-                          {productData?.productInfo?.launchTime}
-                        </td>
-                      </tr>
-                      <tr className={""}>
-                        <td colSpan={4}>Phụ kiện</td>
-                        <td colSpan={6}>
-                          {productData?.productInfo?.accessories}
-                        </td>
-                      </tr>
-                      <tr className={"bg-gray-100"}>
-                        <td colSpan={4}>Thiết kế</td>
-                        <td colSpan={6}>{productData?.productInfo?.design}</td>
-                      </tr>
-                      <tr className={""}>
-                        <td colSpan={4}>Kích thước</td>
-                        <td colSpan={6}>
-                          {productData?.productInfo?.dimension}
-                        </td>
-                      </tr>
-                      <tr className={"bg-gray-100"}>
-                        <td colSpan={4}>Khối lượng</td>
-                        <td colSpan={6}>{productData?.productInfo?.mass}</td>
-                      </tr>
-                    </tbody>
-                  </table>
-                </div>
+                <BasicTabs
+                  children1={
+                    <div
+                      dangerouslySetInnerHTML={{
+                        __html: DOMPurify.sanitize(
+                          productData.productInfo.description
+                        ),
+                      }}
+                    />
+                  }
+                  children2={
+                    <div className="block space-y-2">
+                      <p className="font-bold text-3xl text-gray-800 mb-4">
+                        Cấu hình {productData?.productInfo?.name}
+                      </p>
+                      <table className="w-full">
+                        <tbody className="space-y-4 p-5">
+                          {productDataPrivateArray ? (
+                            productDataPrivateArray?.map(
+                              (item: string, index: number) => {
+                                const translationKey =
+                                  `${productData.productInfo.slug}.${item}` as SmartphoneTranslationKeys &
+                                    LaptopTranslationKeys;
+                                if (index != 0) {
+                                  return (
+                                    <tr
+                                      className={clsx(
+                                        index % 2 === 0 && "bg-gray-100 p-5"
+                                      )}
+                                      key={index}
+                                    >
+                                      <td colSpan={4} className="my-4">
+                                        {t(translationKey)}
+                                      </td>
+                                      <td colSpan={6}>{productData[item]}</td>
+                                    </tr>
+                                  );
+                                }
+                              }
+                            )
+                          ) : (
+                            <tr></tr>
+                          )}
+                          <tr className={""}>
+                            <td colSpan={4}>Hãng sản xuất</td>
+                            <td colSpan={6}>{brand?.name}</td>
+                          </tr>
+                          <tr className={"bg-gray-200"}>
+                            <td colSpan={4}>Năm ra mắt</td>
+                            <td colSpan={6}>
+                              {productData?.productInfo?.launchTime}
+                            </td>
+                          </tr>
+                          <tr className={""}>
+                            <td colSpan={4}>Phụ kiện</td>
+                            <td colSpan={6}>
+                              {productData?.productInfo?.accessories}
+                            </td>
+                          </tr>
+                          <tr className={"bg-gray-100"}>
+                            <td colSpan={4}>Thiết kế</td>
+                            <td colSpan={6}>
+                              {productData?.productInfo?.design}
+                            </td>
+                          </tr>
+                          <tr className={""}>
+                            <td colSpan={4}>Kích thước</td>
+                            <td colSpan={6}>
+                              {productData?.productInfo?.dimension}
+                            </td>
+                          </tr>
+                          <tr className={"bg-gray-100"}>
+                            <td colSpan={4}>Khối lượng</td>
+                            <td colSpan={6}>
+                              {productData?.productInfo?.mass}
+                            </td>
+                          </tr>
+                        </tbody>
+                      </table>
+                    </div>
+                  }
+                ></BasicTabs>
               </Modal>
             </div>
           </div>
         </div>
       </div>
 
-      <div className="px-20 py-10">
+      <div className="px-20 py-10 ">
         <div className="">
-          <div className="uppercase text-gray-500 font-bold">
-            Đánh giá sản phẩm
+          <div className="uppercase text-gray-700 font-bold text-4xl mb-3 ">
+            Đánh giá {productData?.productInfo?.name}
           </div>
           <RatingFeedback />
         </div>

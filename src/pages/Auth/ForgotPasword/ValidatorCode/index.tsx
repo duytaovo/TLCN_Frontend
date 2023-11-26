@@ -12,7 +12,9 @@ import { unwrapResult } from "@reduxjs/toolkit";
 import { getCodeValidator, updatePassword } from "src/store/user/userSlice";
 import { isAxiosUnprocessableEntityError } from "src/utils/utils";
 import { Helmet } from "react-helmet-async";
-import logo from "./logo-main.png";
+// import logo from "./logo-main.png";
+import logo from "src/assets/images/logotechstore.jpg";
+
 import Button from "../../Button";
 import path from "src/constants/path";
 

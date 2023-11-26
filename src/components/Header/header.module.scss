@@ -10,7 +10,7 @@
     flex-wrap: wrap;
   }
   .logo {
-    background-image: url("public/images/logonew.jpg");
+    background-image: url("public/images/logotechstore.jpg");
     background-size: cover;
     border-radius: 3px;
     width: 160px;
@@ -29,7 +29,7 @@
   }
   .bottom {
     display: flex;
-    height: 72px;
+    height: 67px;
     nav {
       @include d-flex;
       justify-content: space-between;

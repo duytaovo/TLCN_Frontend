@@ -41,7 +41,7 @@ const ListProduct = ({
         </div>
       ) : (
         <div className="">
-          <div className="mt-6 grid grid-cols-6 gap-3 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5">
+          <div className="mt-6 grid grid-cols-5 gap-7 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5">
             {products?.data &&
               products?.data?.map((product: any, index: number) => (
                 <div className="col-span-1" key={product.id}>

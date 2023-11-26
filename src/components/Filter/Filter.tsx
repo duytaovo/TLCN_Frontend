@@ -11,10 +11,21 @@ interface FilterItem {
 }
 
 const Filter = ({ handle, data }: FilterItem) => {
-  const contain: any = useRef();
+  const contain = useRef<any>();
   const dispatch = useAppDispatch();
   const scroll = () => {
-    contain.current?.scrollIntoView({ behavior: "smooth" });
+    const offset = 40; // Điều chỉnh giá trị offset tùy ý
+    // contain.current?.scrollIntoView({
+    //   behavior: "smooth",
+    //   block: "start",
+    //   inline: "nearest",
+    // });
+    // window.scrollBy(0, -offset); // Điều chỉnh vị trí cuộn xuống
+    window.scroll({
+      top: 210,
+      left: 100,
+      behavior: "smooth",
+    });
   };
   useEffect(() => {
     dispatch(handleFilterStore(data));

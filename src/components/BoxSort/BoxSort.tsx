@@ -1,9 +1,7 @@
 import styles from "./boxsort.module.scss";
 import { clsx } from "clsx";
-import { useState } from "react";
 import { Link } from "react-router-dom";
 import { DataListPhone } from "src/pages/Phone/ListPhone";
-import SelectCustom from "../Select";
 
 type Props = {
   data: any;
@@ -48,9 +46,9 @@ const BoxSort = ({
         <p className={styles.boxsort__total}>
           <b>{countProduct}</b>
           <> </>
-          <strong>{category}</strong>
+          <strong className="text-white/90">{category}</strong>
           <> </>
-          <b>{title.toUpperCase()}</b>
+          <b className="text-white/90">{title.toUpperCase()}</b>
         </p>
         <div className={styles.checkbox}>
           {data.map((item: DataListPhone, index: number) => (

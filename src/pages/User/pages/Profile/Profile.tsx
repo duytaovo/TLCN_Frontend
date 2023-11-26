@@ -264,7 +264,7 @@ export default function Profile() {
           <SelectCustom
             className={"flex-1 text-black"}
             id="gender"
-            placeholder="Vui lòng chọn"
+            placeholder="Giới tính"
             options={[
               { id: 1, name: "Nam" },
               { id: 2, name: "Nữ" },

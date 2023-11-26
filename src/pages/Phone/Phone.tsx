@@ -14,7 +14,7 @@ const Phone = () => {
   const [currentPage, setCurrentPage] = useState(0); // Trang hiện tại
 
   useEffect(() => {
-    dispatch(getSmartPhones({ pageNumber: currentPage, pageSize: 12 }));
+    dispatch(getSmartPhones({ pageNumber: currentPage, pageSize: 10 }));
   }, [currentPage]);
 
   const handle = (boolean: boolean) => {

@@ -17,7 +17,7 @@ const QuickLink = ({ handleSetChoose, type, demand, link, isImg }: Props) => {
       {demand}
       {isImg == true && (
         <img
-          className="w-[90px] h-[25px] rounded-xl   "
+          className="w-[90px] h-[25px] rounded-xl  bg-white "
           src={`https:` + link}
           alt={type}
         />

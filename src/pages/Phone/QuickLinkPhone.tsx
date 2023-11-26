@@ -78,7 +78,7 @@ const QuickLinkPhone = ({ handleSetChoose }: Props) => {
     <>
       <div className="container__phone space-y-4 mt-4">
         <div className="">
-          <div className="flex justify-between    flex-wrap gap-3">
+          <div className="flex justify-between flex-wrap gap-3">
             {data.map((item: Data, index: number) => (
               <div key={index}>
                 <QuickLink

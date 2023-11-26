@@ -13,7 +13,8 @@ import { login } from "src/store/user/userSlice";
 import { isAxiosUnprocessableEntityError } from "src/utils/utils";
 import { setAccessTokenToLS, setRefreshTokenToLS } from "src/utils/auth";
 import { Helmet } from "react-helmet-async";
-import logo from "./logo-main.png";
+import logo from "src/assets/images/logotechstore.jpg";
+
 import Button from "../Button";
 import path from "src/constants/path";
 
@@ -81,7 +82,11 @@ const Login = () => {
       </Helmet>
       <div className="lg:col-span-2 lg:col-start-4  bg-mainColor/30 w-1/4 md:w-full justify-center m-10 rounded-2xl">
         <div className="flex items-center justify-center rounded-2xl mt-3">
-          <img src={logo} alt="logo" className="w-30 h-20 md:hidden"></img>
+          <img
+            src={logo}
+            alt="logo"
+            className="w-52 h-32 rounded-md md:hidden"
+          ></img>
         </div>
         <form
           className="rounded p-10 md:p-2 shadow-sm"

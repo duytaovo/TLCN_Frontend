@@ -22,7 +22,7 @@ const PayInfo = (props: any) => {
     handleClickPay,
   } = props.initProductDetail;
 
-  const pays = [{ bank: "vnpay" }, { bank: "tpbank" }, { bank: "eximbank" }];
+  const pays = [{ bank: "vnpay" }];
   const [modalShow, setModalShow] = useState(false);
 
   const [alertMess, setAlertMess] = useState({});
@@ -71,11 +71,7 @@ const PayInfo = (props: any) => {
           0.5%, 1%)
         </p>
       </div>
-      <div>
-        <p>Giao tới Thị trấn Cái Dầu, Huyện Châu Phú, An Giang Đổi</p>
-        <p>Giao hàng Từ 10h - 12h hôm nay (21/07)</p>
-        <p>Phí giao hàng: 45.000₫</p>
-      </div>
+
       <div className="m-4">
         <strong>Ưu đãi khi thanh toán</strong>
         <div className="overflow-scroll no-scrollbar ">
@@ -83,10 +79,10 @@ const PayInfo = (props: any) => {
             {pays.map((item) => {
               return (
                 <div
-                  className="rounded-lg text-xl border rounded border-gray-300 p-4 w-96"
+                  className="rounded-lg text-xl border border-gray-300 p-4 w-96"
                   key={item.bank}
                 >
-                  <input type="radio" name="pay" />
+                  {/* <div disabled name="pay" /> */}
                   &nbsp;
                   <img
                     className="inline-block w-16 object-cover"
@@ -103,8 +99,40 @@ const PayInfo = (props: any) => {
           </div>
         </div>
       </div>
+      {/* <div>
+        <button
+          className="bg-yellow-300  w-full mb-4 block p-6 rounded-lg text-white font-bold"
+          onClick={() => setModalShow(true)}
+        >
+          MUA NGAY
+        </button>
+        <Modal show={modalShow} onClose={() => setModalShow(false)} size="4xl">
+          <Modal.Header>
+            <div className="p-4 text-2xl">
+              <p className="">{title}</p>
+              <strong className="text-red-400">
+                {numberWithCommas(price * (1 - discount))}₫
+              </strong>
+              <span className="line-through">{numberWithCommas(price)}₫</span>
+              <div className="flex-1 w-60 mt-2">
+                <img src={img} alt="" />
+              </div>
+            </div>
+          </Modal.Header>
+        </Modal>
 
-      <p className="text-center">Gọi đặt mua 1800.1060 (7:30 - 22:00)</p>
+        <div className="flex gap-2 text-xl">
+          <button className="bg-blue-500 p-4 w-1/2 rounded-lg text-white">
+            <p>MUA TRẢ GÓP 0%</p>
+            <p>Duyệt hồ sơ trong 5 phút</p>
+          </button>
+          <button className="bg-blue-500 p-4 w-1/2 rounded-lg text-white">
+            <p>TRẢ GÓP QUA THẺ</p>
+            <p>Visa, Mastercard, JCB, Amex</p>
+          </button>
+        </div>
+      </div> */}
+      {/* <p className="text-center">Gọi đặt mua 1800.1060 (7:30 - 22:00)</p>
       <div className="border border-gray-400 text-2xl">
         <div className="bg-gray-100 p-4 border-b border-gray-400">
           <p>
@@ -124,7 +152,7 @@ const PayInfo = (props: any) => {
             );
           })}
         </ul>
-      </div>
+      </div> */}
     </div>
   );
 };
