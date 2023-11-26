@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { CameraFill, PersonFill, CaretUpFill } from "react-bootstrap-icons";
+import { useDispatch } from "react-redux";
+import { CameraFill } from "react-bootstrap-icons";
 import styles from "./comment.module.scss";
 import { useAppSelector } from "src/hooks/useRedux";
 interface DataType {
