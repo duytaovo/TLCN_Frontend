@@ -6,6 +6,8 @@ import CommonLayout from "./layouts/CommonLayout";
 import AuthLayout from "./layouts/AuthLayout";
 import Loading from "./components/Loading";
 import UserLayout from "./pages/User/layouts/UserLayout";
+import UnAuthenticatedGuard from "./guards/UnAuthenticatedGuard";
+import AuthenticatedGuard from "./guards/AuthenticatedGuard";
 
 export default function useRouteElements() {
   const renderRouter = useMemo(() => {
@@ -78,10 +80,24 @@ export default function useRouteElements() {
       <Route path="/" element={<CommonLayout />}>
         {renderRouterDetail}
       </Route>
-      <Route path="" element={<AuthLayout />}>
+      <Route
+        path=""
+        element={
+          <AuthenticatedGuard>
+            <AuthLayout />
+          </AuthenticatedGuard>
+        }
+      >
         {renderRouterAuth}
       </Route>
-      <Route path="/user" element={<UserLayout />}>
+      <Route
+        path="/user"
+        element={
+          <UnAuthenticatedGuard>
+            <UserLayout />
+          </UnAuthenticatedGuard>
+        }
+      >
         {renderRouterUser}
       </Route>
     </Routes>
