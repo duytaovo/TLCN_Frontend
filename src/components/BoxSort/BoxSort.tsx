@@ -9,9 +9,8 @@ type Props = {
   dataSelected: { type: string }[];
   selected: boolean;
   setSelected: (value: boolean) => void;
-  choose: number;
+  choose: any;
   countProduct?: number;
-  title: string;
   checked: any;
   setChecked: any;
   category: string;
@@ -28,7 +27,6 @@ const BoxSort = ({
   selected,
   setChecked,
   setSelected,
-  title,
 }: Props) => {
   const handleChecked = (id: any) => {
     setChecked((prev: any) => {
@@ -48,7 +46,7 @@ const BoxSort = ({
           <> </>
           <strong className="text-white/90">{category}</strong>
           <> </>
-          <b className="text-white/90">{title.toUpperCase()}</b>
+          <b className="text-white/90">{choose?.type?.toUpperCase()}</b>
         </p>
         <div className={styles.checkbox}>
           {data.map((item: DataListPhone, index: number) => (

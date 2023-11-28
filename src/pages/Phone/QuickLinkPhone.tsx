@@ -1,52 +1,65 @@
 import QuickLink from "src/components/QuickLink/ButtonQuickLink";
 import "./quicklinkphone-module.scss";
+import { Link } from "react-router-dom";
 
 interface Data {
+  id: number;
   type: string;
   link: string;
   demand?: string;
 }
 interface Data2 {
   demand?: string;
+  id: number;
 }
 const data: Data[] = [
   {
-    type: "apple",
+    id: 1,
+    type: "Apple",
     link: "//cdn.tgdd.vn/Brand/1/logo-iphone-220x48.png",
   },
   {
+    id: 9,
     type: "Samsung",
     link: "//cdn.tgdd.vn/Brand/1/samsungnew-220x48-1.png",
   },
   {
+    id: 10,
     type: "Oppo",
     link: "//cdn.tgdd.vn/Brand/1/OPPO42-b_5.jpg",
   },
   {
+    id: 11,
     type: "Xiaomi",
     link: "//cdn.tgdd.vn/Brand/1/logo-xiaomi-220x48-5.png",
   },
   {
+    id: 12,
     type: "Vivo",
     link: "//cdn.tgdd.vn/Brand/1/vivo-logo-220-220x48-3.png",
   },
   {
+    id: 13,
     type: "Realme",
     link: "//cdn.tgdd.vn/Brand/1/Realme42-b_37.png",
   },
   {
+    id: 14,
     type: "Nokia",
     link: "//cdn.tgdd.vn/Brand/1/Nokia42-b_21.jpg",
   },
   {
+    id: 15,
     type: "Mobell",
     link: "//cdn.tgdd.vn/Brand/1/Mobell42-b_19.jpg",
   },
   {
+    id: 16,
     type: "itel",
     link: "//cdn.tgdd.vn/Brand/1/Itel42-b_54.jpg",
   },
   {
+    id: 17,
     type: "Masstel",
     link: "//cdn.tgdd.vn/Brand/1/Masstel42-b_0.png",
   },
@@ -54,26 +67,32 @@ const data: Data[] = [
 
 const data2: Data2[] = [
   {
+    id: 1,
     demand: "Chơi game/Cấu hình cao",
   },
   {
+    id: 2,
     demand: "Chụp ảnh, quay phim",
   },
   {
+    id: 6,
     demand: "Mỏng nhẹ",
   },
   {
-    demand: "Nhỏ gọn dễ cầm",
+    id: 7,
+    demand: "Cao cấp, sang trọng",
   },
   {
-    demand: "Chơi game/Cấu hình cao",
+    id: 8,
+    demand: "Nhỏ gọn dễ cầm",
   },
 ];
 
 interface Props {
-  handleSetChoose: (text: string) => void;
+  handleSetChoose: (text: any) => void;
+  handleSetChooseCharac: (text: any) => void;
 }
-const QuickLinkPhone = ({ handleSetChoose }: Props) => {
+const QuickLinkPhone = ({ handleSetChooseCharac, handleSetChoose }: Props) => {
   return (
     <>
       <div className="container__phone space-y-4 mt-4">
@@ -83,6 +102,7 @@ const QuickLinkPhone = ({ handleSetChoose }: Props) => {
               <div key={index}>
                 <QuickLink
                   type={item.type}
+                  id={item.id}
                   link={item.link}
                   handleSetChoose={handleSetChoose}
                   isImg={true}
@@ -91,7 +111,7 @@ const QuickLinkPhone = ({ handleSetChoose }: Props) => {
             ))}
           </div>
         </div>
-        {/* <div className="container__quicklink-demand">
+        <div className="container__quicklink-demand">
           <div className="">
             <div className=" space-y-4">
               <h4 className="text-[14px] ">Chọn điện thoại theo nhu cầu:</h4>
@@ -100,7 +120,7 @@ const QuickLinkPhone = ({ handleSetChoose }: Props) => {
                   <div key={index}>
                     <Link
                       to={""}
-                      // onClick={() => handleSetChoose(item.type)}
+                      onClick={() => handleSetChooseCharac(item.id)}
                       className="rounded-xl border-solid border-[1px] m-[0px_8px_10px_0px] p-[6px_13px]"
                     >
                       {item.demand}
@@ -110,7 +130,7 @@ const QuickLinkPhone = ({ handleSetChoose }: Props) => {
               </div>
             </div>
           </div>
-        </div> */}
+        </div>
       </div>
     </>
   );

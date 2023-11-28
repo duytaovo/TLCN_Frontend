@@ -3,12 +3,12 @@ const handleData = (_data: any, filter: any) => {
   let gia: any = 0;
   let price: any = 0;
   // Lọc qua từng product trong mảng
-  const dataAfter = data?.filter((ele: any) => {
+  const dataAfter = data?.data?.filter((ele: any) => {
     if (ele.parameter) {
       // Lọc qua từng cặp key value trong parameter
       for (const [key, value] of Object?.entries(ele?.parameter)) {
         // Lọc qua từng phần tử trong
-        const checkTitle = filter.some((element: any) => {
+        const checkTitle = filter?.data.some((element: any) => {
           let keyM = Object.keys(element);
           let valueM: number[] = Object.values(element);
 
@@ -43,7 +43,7 @@ const handleData = (_data: any, filter: any) => {
             if (typeof valueM[0] === "string" && valueM[0] === value)
               return true;
             else {
-              //   if (value.includes(valueM[0])) return true;
+              // if (value.includes(valueM[0])) return true;
             }
           }
           return false;

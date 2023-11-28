@@ -2,7 +2,7 @@ import styles from "./sliderPrice.module.scss";
 
 import { useState, useRef, useEffect } from "react";
 import { useAppDispatch, useAppSelector } from "src/hooks/useRedux";
-import { handleFilterStore } from "src/store/product/productsSlice";
+import { handleFilterStore } from "src/store/product/smartPhoneSlice";
 
 const SliderPrice = ({ Apper }: any) => {
   //css
@@ -15,7 +15,7 @@ const SliderPrice = ({ Apper }: any) => {
   const minVal: any = useRef();
   const maxVal: any = useRef();
   //redux + logic
-  const filter = useAppSelector((state) => state.products.filter.data); // Lấy tất cả
+  const filter = useAppSelector((state) => state.smartphone.filter.data); // Lấy tất cả
 
   const dispatch = useAppDispatch();
 

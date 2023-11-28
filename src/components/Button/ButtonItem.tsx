@@ -13,7 +13,7 @@ function ButtonItem(props: Props) {
       title={props.name}
     >
       {props.img ? (
-        <img src={props.img} className={styles.text}></img>
+        <img src={`https:` + props?.img} className={styles.text}></img>
       ) : (
         <span className={styles.text}>{props.title}</span>
       )}

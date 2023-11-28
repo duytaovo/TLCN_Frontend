@@ -47,7 +47,7 @@ function Commentmini({ comment, replies, handleReply }: any) {
         ))}
       {/* {item?.creator?.replyforId !== null && commen.map(item2 => {if(item.creator.replyforId===item2.id){
             commen.sort((a,b)=>a.creator.replyforId - b.creator.replyforId)
-            console.log(commen)
+            (commen)
             return (
                 <div className="admin bg-gray-100 p-4 my-4 border border-gray-200 relative">
                     <i className="absolute top-0 -translate-y-3/4 text-gray-100">

@@ -1,12 +1,11 @@
 import styles from "./filteritemtotal.module.scss";
-
 import { useState, useRef, useEffect } from "react";
 import { Link } from "react-router-dom";
 import ButtonFilterTotal from "src/components/Button/ButtonFilterTotal";
 import ButtonItem from "src/components/Button/ButtonItem";
 import path from "src/constants/path";
 import { useAppDispatch, useAppSelector } from "src/hooks/useRedux";
-import { handleFilterStore } from "src/store/product/productsSlice";
+import { handleFilterStore } from "src/store/product/smartPhoneSlice";
 
 interface Props {
   data: any;
@@ -23,7 +22,7 @@ const FilterItemTotal = ({ data, handle, scroll }: Props) => {
   const itemHiden: any = useRef<HTMLDivElement>(null);
   const before: any = useRef<HTMLDivElement>(null);
 
-  const filter = useAppSelector((state) => state.products.filter.data); // Lấy tất cả
+  const filter = useAppSelector((state) => state.smartphone.filter.data); // Lấy tất cả
   const dispatch = useAppDispatch();
   //const navigate = useNavigate();
   // Tạo thẻ để css thêm
@@ -150,9 +149,9 @@ const FilterItemTotal = ({ data, handle, scroll }: Props) => {
                       <div className="" onClick={handleAppear} key={index}>
                         {src.title === "Hãng" ? (
                           <ButtonItem
-                            title={btn}
-                            name={src.title}
-                            img={src.img[index]}
+                            title={btn?.title}
+                            name={src?.title}
+                            img={btn.link}
                           />
                         ) : (
                           <ButtonItem title={btn} name={src.title} />

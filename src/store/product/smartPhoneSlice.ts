@@ -23,7 +23,7 @@ const data = {
   totalPages: 1,
 };
 
-type SmartPhone = {
+export type SmartPhone = {
   data: ListSmartPhone[];
   pageNumber: number;
   pageSize: number;
@@ -33,7 +33,7 @@ type SmartPhone = {
 interface IProduct {
   smartPhone: SmartPhone;
   smartPhoneDetail: SmartPhoneDetail;
-  filter: ListSmartPhone[];
+  filter: SmartPhone;
 }
 const dataDetail: SmartPhoneDetail = {
   id: 3,
@@ -92,13 +92,17 @@ const dataDetail: SmartPhoneDetail = {
 const initialState: IProduct = {
   smartPhone: data,
   smartPhoneDetail: dataDetail,
-  filter: [],
+  filter: data,
 };
 
 const smartPhoneSlice = createSlice({
   name: "smartPhone",
   initialState,
-  reducers: {},
+  reducers: {
+    handleFilterStore: (state, action) => {
+      state.filter.data = action.payload;
+    },
+  },
   extraReducers: (builder) => {
     builder.addCase(getSmartPhones.fulfilled, (state, { payload }) => {
       state.smartPhone = payload.data;
@@ -108,6 +112,6 @@ const smartPhoneSlice = createSlice({
     });
   },
 });
-
+export const { handleFilterStore } = smartPhoneSlice.actions;
 const smartPhoneReducer = smartPhoneSlice.reducer;
 export default smartPhoneReducer;

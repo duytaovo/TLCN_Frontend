@@ -2,12 +2,12 @@ import styles from "./filteritem.module.scss";
 import { useState, useRef, useEffect, useCallback } from "react";
 import SliderPrice from "./SliderPrice";
 import { useAppDispatch, useAppSelector } from "src/hooks/useRedux";
-import { HandleFilter } from "src/store/product/productsApi";
 import ButtonFilter from "src/components/Button/ButtonFilter";
 import ButtonItem from "src/components/Button/ButtonItem";
 import path from "src/constants/path";
 import { Link } from "react-router-dom";
 import { DataPropsPhone } from "src/pages/Phone/FilterPhone";
+import { handleFilterStore } from "src/store/product/smartPhoneSlice";
 
 interface Props {
   data: DataPropsPhone;
@@ -25,7 +25,8 @@ const FilterItem = ({ data, handle, scroll }: Props) => {
   const before: any = useRef<HTMLDivElement>(null);
 
   //redux + logic
-  const filter = useAppSelector((state) => state.products.filter.data); // Lấy tất cả
+  const filter = useAppSelector((state) => state.smartphone.filter.data); // Lấy tất cả
+
   const [arrayTemp, setArrayTemp] = useState([]); // Lấy giá trị trong một khung
   const dispatch = useAppDispatch();
   //const navigate = useNavigate();
@@ -122,7 +123,7 @@ const FilterItem = ({ data, handle, scroll }: Props) => {
           return element;
         }
       });
-      HandleFilter(dispatch, temp);
+      dispatch(handleFilterStore(temp));
     }
     // Nếu chưa thì thêm vào filter
     else {
@@ -131,7 +132,7 @@ const FilterItem = ({ data, handle, scroll }: Props) => {
           curent.style = "border-color: #498fef;color: #498fef;";
       });
       const temp = [...filter, newKeyword];
-      HandleFilter(dispatch, temp);
+      dispatch(handleFilterStore(temp));
     }
     // Hiện nút filter
     itemHiden.current.style.display = "block";
@@ -207,9 +208,9 @@ const FilterItem = ({ data, handle, scroll }: Props) => {
               >
                 {data.title === "Hãng" ? (
                   <ButtonItem
-                    title={src}
-                    name={data.title}
-                    // img={data.img[index] || ""}
+                    title={src?.title}
+                    name={data?.title}
+                    img={src.link}
                   />
                 ) : (
                   <ButtonItem title={src} name={data.title} />

@@ -63,7 +63,7 @@ export class Http {
           this.refreshToken = "";
           clearLS();
         }
-        // console.log(response);
+        // (response);
         return response;
       },
       (error: AxiosError) => {
