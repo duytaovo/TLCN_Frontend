@@ -1,7 +1,6 @@
 import { lazy } from "react";
 import path from "src/constants/path";
 import KhongTimThay from "src/pages/KhongTimThay/NotFound";
-// import NotFound from "src/pages/Notfound";
 
 const CodeValidator = lazy(
   () => import("src/pages/Auth/ForgotPasword/ValidatorCode")

@@ -47,7 +47,7 @@ const Phone = () => {
     Giá: Gia,
     "Màn hình": ManHinh,
   } = separatedArrays;
-  console.log(NhuCau);
+  console.log(Hãng);
   const getMinMaxPrices = () => {
     if (Gia === undefined || Gia.length === 0) {
       return null;
@@ -86,25 +86,12 @@ const Phone = () => {
   };
 
   const minMaxPrices = getMinMaxPrices();
-  useEffect(() => {
-    const body = {
-      slug: "smartphone",
-      brandId: choose?.id ? [choose?.id] : null,
-      characteristicId: chooseCharac ? [chooseCharac] : null,
-    };
-    dispatch(
-      getSmartPhones({
-        body: body,
-        params: { pageNumber: currentPage, pageSize: 10 },
-      })
-    );
-  }, [currentPage, choose, chooseCharac]);
 
   useEffect(() => {
     const body = {
       slug: "smartphone",
-      brandId: Hãng ? Hãng : null,
-      characteristicId: NhuCau ? NhuCau : null,
+      brandId: choose?.id ? [choose?.id] : Hãng ? Hãng : null,
+      characteristicId: chooseCharac ? [chooseCharac] : NhuCau ? NhuCau : null,
       priceFrom: minMaxPrices?.minPrice ? Number(minMaxPrices?.minPrice) : null,
       priceTo: minMaxPrices?.maxPrice ? Number(minMaxPrices?.maxPrice) : null,
       specialFeatures: TinhNangDacBiet ? TinhNangDacBiet : [],
@@ -121,6 +108,20 @@ const Phone = () => {
       })
     );
   }, [filter, currentPage, separatedArrays]);
+
+  // useEffect(() => {
+  //   const body = {
+  //     slug: "smartphone",
+  //     brandId: choose?.id ? [choose?.id] : null,
+  //     characteristicId: chooseCharac ? [chooseCharac] : null,
+  //   };
+  //   dispatch(
+  //     getSmartPhones({
+  //       body: body,
+  //       params: { pageNumber: currentPage, pageSize: 10 },
+  //     })
+  //   );
+  // }, [currentPage, choose, chooseCharac]);
 
   const handle = (boolean: boolean) => {
     setisOpen(boolean);
