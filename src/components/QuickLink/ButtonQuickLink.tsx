@@ -3,7 +3,7 @@ import "./buttonquicklink-module.scss";
 interface Props {
   handleSetChoose: (text: any) => void;
   type: string;
-  id: number;
+  id?: number;
   demand?: string;
   link?: string;
   isImg: boolean;
