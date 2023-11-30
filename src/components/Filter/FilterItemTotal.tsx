@@ -22,11 +22,9 @@ const FilterItemTotal = ({ data, handle, scroll }: Props) => {
   const itemHiden: any = useRef<HTMLDivElement>(null);
   const before: any = useRef<HTMLDivElement>(null);
 
-  const filter = useAppSelector((state) => state.smartphone.filter.data); // Lấy tất cả
+  let filter = useAppSelector((state) => state.smartphone.filter.data); // Lấy tất cả
+  const { smartPhone } = useAppSelector<any>((state) => state.smartphone); // Lấy tất cả
   const dispatch = useAppDispatch();
-  //const navigate = useNavigate();
-  // Tạo thẻ để css thêm
-  // const styleElem = document.head.appendChild(document.createElement("style"));
 
   // Xử lý đóng mở nút
   const handleOpen = () => {
@@ -112,6 +110,13 @@ const FilterItemTotal = ({ data, handle, scroll }: Props) => {
   };
 
   const handleFilterLocal = () => {
+    // filter.splice(0, filter.length);
+    handle(true);
+    item.current.style.display = "none";
+    setisOpen(false);
+  };
+  const handleCancel = () => {
+    filter.splice(0, filter.length);
     handle(true);
     item.current.style.display = "none";
     setisOpen(false);
@@ -126,7 +131,6 @@ const FilterItemTotal = ({ data, handle, scroll }: Props) => {
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [handleAppear]);
-
   return (
     <div className={styles.bound} ref={bound}>
       {/* Nút chính */}
@@ -149,9 +153,15 @@ const FilterItemTotal = ({ data, handle, scroll }: Props) => {
                       <div className="" onClick={handleAppear} key={index}>
                         {src.title === "Hãng" ? (
                           <ButtonItem
-                            title={btn?.title}
+                            title={btn?.id}
                             name={src?.title}
                             img={btn.link}
+                          />
+                        ) : src.title === "Nhu cầu" ? (
+                          <ButtonItem
+                            nhucau={btn?.title}
+                            title={btn?.id}
+                            name={src?.title}
                           />
                         ) : (
                           <ButtonItem title={btn} name={src.title} />
@@ -167,15 +177,11 @@ const FilterItemTotal = ({ data, handle, scroll }: Props) => {
 
         {/* Kết quả */}
         <div className={styles.itemHiden} ref={itemHiden}>
-          <Link
-            to={path.phone}
-            className={styles.close}
-            onClick={handleFilterLocal}
-          >
+          <Link to={path.phone} className={styles.close} onClick={handleCancel}>
             Bỏ chọn
           </Link>
           <div className={styles.open} onClick={handleFilterLocal}>
-            Xem kết quả
+            Xem {smartPhone.data.totalElements} kết quả
           </div>
         </div>
       </div>

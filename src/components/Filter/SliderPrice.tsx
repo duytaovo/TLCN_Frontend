@@ -1,5 +1,4 @@
 import styles from "./sliderPrice.module.scss";
-
 import { useState, useRef, useEffect } from "react";
 import { useAppDispatch, useAppSelector } from "src/hooks/useRedux";
 import { handleFilterStore } from "src/store/product/smartPhoneSlice";
@@ -7,16 +6,15 @@ import { handleFilterStore } from "src/store/product/smartPhoneSlice";
 const SliderPrice = ({ Apper }: any) => {
   //css
   const [min, setMin] = useState<number>(0);
-  const [max, setMax] = useState<number>(100000);
+  const [max, setMax] = useState<number>(100);
   const [commaMin, setCommaMin] = useState<string>("0");
-  const [commaMax, setCommaMax] = useState<string>("100.000");
+  const [commaMax, setCommaMax] = useState<string>("100");
 
   const progress: any = useRef();
   const minVal: any = useRef();
   const maxVal: any = useRef();
   //redux + logic
   const filter = useAppSelector((state) => state.smartphone.filter.data); // Lấy tất cả
-
   const dispatch = useAppDispatch();
 
   const handleInputMin = (e: any) => {
@@ -32,9 +30,9 @@ const SliderPrice = ({ Apper }: any) => {
       setMin(commas);
     }
     if (max - min < 100) {
-      minVal.current.value = max - 100;
+      // minVal.current.value = max - 100;
     } else {
-      const temp = (min / 100000) * 100 + "%";
+      const temp = (min / 100) * 100 + "%";
       progress.current.style.left = `${temp}`;
     }
   };
@@ -53,38 +51,38 @@ const SliderPrice = ({ Apper }: any) => {
       setMax(commas);
     }
     if (max - min < 100) {
-      // maxVal.current.min= min+100
+      // maxVal.current.min = min + 100;
     } else {
-      const temp = 100 - (max / 100000) * 100 + "%";
+      const temp = 100 - (max / 100) * 100 + "%";
       progress.current.style.right = `${temp}`;
     }
   };
 
   useEffect(() => {
-    if (min != 0 || max != 100000) Apper(true);
-    const temp = (min / 100000) * 100 + "%";
+    if (min != 0 || max != 100) Apper(true);
+    const temp = (min / 100) * 100 + "%";
     progress.current.style.left = `${temp}`;
-    const temp1 = 100 - (max / 100000) * 100 + "%";
+    const temp1 = 100 - (max / 100) * 100 + "%";
     progress.current.style.right = `${temp1}`;
 
     const string = `${min}-${max}`;
     // Lấy keyword
-    if (min != 0 || max != 100000) {
+    if (min != 0 || max != 100) {
       let newKeyword = {
-        price: string,
+        Giá: string,
       };
 
       // kiểm tra có tồn tại chưa trong filter chưa
       const checkInFilter = filter.some((element) => {
         let key = Object.keys(element);
 
-        if (key[0] == "price") return true;
+        if (key[0] == "Giá") return true;
       });
 
       // Nếu có thì bỏ ra khỏi filter
       if (checkInFilter) {
         const temp = filter.map((obj: any) => {
-          if (obj.price) {
+          if (obj.Giá) {
             return newKeyword;
           }
 
@@ -93,7 +91,7 @@ const SliderPrice = ({ Apper }: any) => {
 
         dispatch(handleFilterStore(temp));
       } else {
-        const temp = [...filter, newKeyword];
+        const temp = [newKeyword];
         dispatch(handleFilterStore(temp));
       }
     }
@@ -112,12 +110,12 @@ const SliderPrice = ({ Apper }: any) => {
               maxLength={8}
               name="price-min-value"
               min="0"
-              max="100000"
+              max="100"
               value={commaMin}
               onChange={(e) => handleInputMin(e)}
             />
 
-            <label className={styles.placeHolder}>.000đ</label>
+            <label className={styles.placeHolder}>.000.000đ</label>
           </span>
           <span className={styles.right}>
             <input
@@ -126,12 +124,12 @@ const SliderPrice = ({ Apper }: any) => {
               maxLength={8}
               name="price-max-value"
               min="0"
-              max="100000"
+              max="100"
               value={commaMax}
               onChange={(e) => handleInputMax(e)}
             />
 
-            <label className={styles.placeHolder}>.000đ</label>
+            <label className={styles.placeHolder}>.000.000đ</label>
           </span>
         </form>
       </div>
@@ -143,7 +141,7 @@ const SliderPrice = ({ Apper }: any) => {
           type="range"
           className={styles.rangeMin}
           min="0"
-          max="100000"
+          max="100"
           value={min}
           onChange={(e) => handleInputMin(e)}
           ref={minVal}
@@ -152,7 +150,7 @@ const SliderPrice = ({ Apper }: any) => {
           type="range"
           className={styles.rangeMax}
           min="0"
-          max="100000"
+          max="100"
           value={max}
           onChange={(e) => handleInputMax(e)}
           ref={maxVal}

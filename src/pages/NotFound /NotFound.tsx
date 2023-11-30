@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 
-export default function NotFound() {
+const NotFound = () => {
   return (
     <main className="flex h-screen w-full flex-col items-center justify-center">
       <h1 className="text-9xl font-extrabold tracking-widest text-gray-900">
@@ -22,4 +22,5 @@ export default function NotFound() {
       </button>
     </main>
   );
-}
+};
+export default NotFound;

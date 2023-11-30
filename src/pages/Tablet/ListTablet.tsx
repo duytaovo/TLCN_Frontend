@@ -118,7 +118,7 @@ const ListTablet = ({
 
   return (
     <div className="space-y-8">
-      <BoxSort
+      {/* <BoxSort
         data={dataFake}
         onclick={handleClick}
         dataSelected={dataSelected}
@@ -134,7 +134,7 @@ const ListTablet = ({
         checked={checked}
         setChecked={setChecked}
         category={"Máy tính bảng"}
-      />
+      /> */}
       <div className=" tablet__content">
         <div className="">
           {isOpen === false ? (

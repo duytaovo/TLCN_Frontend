@@ -26,6 +26,7 @@ const FilterItem = ({ data, handle, scroll }: Props) => {
 
   //redux + logic
   const filter = useAppSelector((state) => state.smartphone.filter.data); // Lấy tất cả
+  const { smartPhone } = useAppSelector<any>((state) => state.smartphone); // Lấy tất cả
 
   const [arrayTemp, setArrayTemp] = useState([]); // Lấy giá trị trong một khung
   const dispatch = useAppDispatch();
@@ -139,6 +140,7 @@ const FilterItem = ({ data, handle, scroll }: Props) => {
   };
 
   const handleFilter = () => {
+    // filter.splice(0, filter.length);
     handle(true);
     item.current.style.display = "none";
     setIsOpen(false);
@@ -151,7 +153,12 @@ const FilterItem = ({ data, handle, scroll }: Props) => {
   if (isApper) {
     itemHiden.current.style.display = "block";
   }
-
+  const handleCancel = () => {
+    filter.splice(0, filter.length);
+    handle(true);
+    item.current.style.display = "none";
+    setIsOpen(false);
+  };
   const checkTurnOn = useCallback(
     () =>
       filter.some((element) => {
@@ -171,7 +178,6 @@ const FilterItem = ({ data, handle, scroll }: Props) => {
     if (filter.length === 0) setArrayTemp([]);
     if (arrayTemp.length > 0 || (filter.length > 0 && checkTurnOn())) {
       button.current.style.borderColor = "#498fef";
-      // const number = Array.from(document.getElementsByClassName("number"));
       // number[0].display = "inline";
     } else {
       button.current.style.borderColor = "#e1e1e1";
@@ -187,7 +193,6 @@ const FilterItem = ({ data, handle, scroll }: Props) => {
       // number[0].style.display = "inline";
     }
   }, [checkTurnOn1]);
-
   return (
     <div className={styles.bound} ref={bound}>
       {/* Nút chính */}
@@ -208,9 +213,15 @@ const FilterItem = ({ data, handle, scroll }: Props) => {
               >
                 {data.title === "Hãng" ? (
                   <ButtonItem
-                    title={src?.title}
+                    title={src?.id}
                     name={data?.title}
                     img={src.link}
+                  />
+                ) : data.title === "Nhu cầu" ? (
+                  <ButtonItem
+                    nhucau={src?.title}
+                    title={src?.id}
+                    name={data?.title}
                   />
                 ) : (
                   <ButtonItem title={src} name={data.title} />
@@ -222,11 +233,11 @@ const FilterItem = ({ data, handle, scroll }: Props) => {
         {data.title == "Giá" ? <SliderPrice Apper={Apper} /> : ""}
 
         <div className={styles.itemHiden} ref={itemHiden}>
-          <Link to={path.phone} className={styles.close} onClick={handleFilter}>
+          <Link to={path.phone} className={styles.close} onClick={handleCancel}>
             Bỏ chọn
           </Link>
           <div className={styles.open} onClick={handleFilter}>
-            Xem kết quả
+            Xem {smartPhone.data.totalElements} kết quả
           </div>
         </div>
       </div>

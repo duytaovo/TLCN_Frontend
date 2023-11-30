@@ -59,6 +59,28 @@ const dataBrand = [
     link: "//cdn.tgdd.vn/Brand/1/Masstel42-b_0.png",
   },
 ];
+const data2: any[] = [
+  {
+    id: 1,
+    title: "Chơi game/Cấu hình cao",
+  },
+  {
+    id: 2,
+    title: "Chụp ảnh, quay phim",
+  },
+  {
+    id: 6,
+    title: "Mỏng nhẹ",
+  },
+  {
+    id: 7,
+    title: "Cao cấp, sang trọng",
+  },
+  {
+    id: 8,
+    title: "Nhỏ gọn dễ cầm",
+  },
+];
 const data: DataPropsPhone[] = [
   {
     id: 0,
@@ -80,17 +102,13 @@ const data: DataPropsPhone[] = [
   {
     id: 2,
     title: "Loại điện thoại",
-    detail: ["Android", "Iphone(IOS)", "Điện thoại phổ thông"],
+    detail: ["Android", "IOS"],
   },
+
   {
     id: 3,
     title: "Nhu cầu",
-    detail: [
-      "Chơi game/Cấu hình cao",
-      "Chụp ảnh, quay phim",
-      "Mỏng nhẹ",
-      "Nhỏ gọn dễ cầm",
-    ],
+    detail: data2,
   },
   {
     id: 4,
@@ -105,22 +123,17 @@ const data: DataPropsPhone[] = [
   {
     id: 6,
     title: "Pin&Sạc",
-    detail: [
-      "Pin khủng 5000 mAh",
-      "Sạc nhanh(từ 18W)",
-      "Sạc siêu nhanh(từ 33W)",
-      "Sạc không dây",
-    ],
+    detail: ["Sạc nhanh 20W", "Sạc siêu nhanh 60W", "Sạc không dây"],
   },
   {
     id: 7,
     title: "Tính năng đặc biệt",
-    detail: [
-      "Kháng nước, bụi",
-      "Hỗ trợ 5G",
-      "Bảo mật khuôn mặt 3D",
-      "Chống rung quang học(OIS)",
-    ],
+    detail: ["Kháng nước", "Kháng bụi", "Hỗ trợ 5G", "Bảo mật khuôn mặt 3D"],
+  },
+  {
+    id: 8,
+    title: "Màn hình",
+    detail: ["OLED", "LCD", "Amoled"],
   },
 ];
 

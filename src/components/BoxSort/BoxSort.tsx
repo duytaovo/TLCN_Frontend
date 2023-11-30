@@ -14,6 +14,7 @@ type Props = {
   checked: any;
   setChecked: any;
   category: string;
+  chooseBoxSort: number;
 };
 
 const BoxSort = ({
@@ -27,6 +28,7 @@ const BoxSort = ({
   selected,
   setChecked,
   setSelected,
+  chooseBoxSort,
 }: Props) => {
   const handleChecked = (id: any) => {
     setChecked((prev: any) => {
@@ -48,38 +50,36 @@ const BoxSort = ({
           <> </>
           <b className="text-white/90">{choose?.type?.toUpperCase()}</b>
         </p>
-        <div className={styles.checkbox}>
+        {/* <div className={styles.checkbox}>
           {data.map((item: DataListPhone, index: number) => (
             <div
               className={styles.checkboxItem}
               key={index}
-              onClick={() => handleChecked(item.type)}
+              onClick={() => handleChecked(item.id)}
             >
               <span
                 className={clsx(
                   styles.tickCheckbox,
-                  checked.includes(item.type) && styles.active
+                  checked.includes(item.id) && styles.active
                 )}
               ></span>
-              <i>
-                <img src={item.link} alt="" />
-              </i>
+
               <span className={styles.itemTitle}>{item.title}</span>
             </div>
           ))}
-        </div>
+        </div> */}
       </div>
       <p className={styles.click} onClick={() => setSelected(!selected)}>
-        <span>Xếp theo: {dataSelected[choose]?.type}</span>
+        <span>Xếp theo: {dataSelected[chooseBoxSort - 1]?.type}</span>
         {selected && (
           <div className={styles.select}>
             {dataSelected.map((item: any, index: number) => (
               <p>
                 <Link
                   to={""}
-                  className={`${choose === index && styles.check}`}
+                  className={`${chooseBoxSort - 1 === index && styles.check}`}
                   onClick={() => {
-                    onclick(index);
+                    onclick(item.id);
                   }}
                 >
                   <i className="text-black text-xl">{item.type}</i>

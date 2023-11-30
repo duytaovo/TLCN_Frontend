@@ -4,6 +4,8 @@ type Props = {
   title: string;
   name: string;
   img?: string;
+  id?: number;
+  nhucau?: string;
 };
 function ButtonItem(props: Props) {
   return (
@@ -15,7 +17,9 @@ function ButtonItem(props: Props) {
       {props.img ? (
         <img src={`https:` + props?.img} className={styles.text}></img>
       ) : (
-        <span className={styles.text}>{props.title}</span>
+        <span className={styles.text}>
+          {props.name === "Nhu cầu" ? props.nhucau : props.title}
+        </span>
       )}
     </div>
   );
