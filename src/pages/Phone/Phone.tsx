@@ -90,8 +90,8 @@ const Phone = () => {
   useEffect(() => {
     const body = {
       slug: "smartphone",
-      brandId: choose?.id ? [choose?.id] : Hãng ? Hãng : null,
-      characteristicId: chooseCharac ? [chooseCharac] : NhuCau ? NhuCau : null,
+      brandId: Hãng ? Hãng : null,
+      characteristicId: NhuCau ? NhuCau : null,
       priceFrom: minMaxPrices?.minPrice ? Number(minMaxPrices?.minPrice) : null,
       priceTo: minMaxPrices?.maxPrice ? Number(minMaxPrices?.maxPrice) : null,
       specialFeatures: TinhNangDacBiet ? TinhNangDacBiet : [],
@@ -107,21 +107,32 @@ const Phone = () => {
         params: { pageNumber: currentPage, pageSize: 10, sort: chooseBox },
       })
     );
-  }, [filter, currentPage, separatedArrays]);
+  }, [
+    currentPage,
+    Hãng,
+    NhuCau,
+    minMaxPrices,
+    TinhNangDacBiet,
+    LoaiDienThoai,
+    RAM,
+    ROM,
+    PinSạc,
+    ManHinh,
+  ]);
 
-  // useEffect(() => {
-  //   const body = {
-  //     slug: "smartphone",
-  //     brandId: choose?.id ? [choose?.id] : null,
-  //     characteristicId: chooseCharac ? [chooseCharac] : null,
-  //   };
-  //   dispatch(
-  //     getSmartPhones({
-  //       body: body,
-  //       params: { pageNumber: currentPage, pageSize: 10 },
-  //     })
-  //   );
-  // }, [currentPage, choose, chooseCharac]);
+  useEffect(() => {
+    const body = {
+      slug: "smartphone",
+      brandId: choose?.id ? [choose?.id] : null,
+      characteristicId: chooseCharac ? [chooseCharac] : null,
+    };
+    dispatch(
+      getSmartPhones({
+        body: body,
+        params: { pageNumber: currentPage, pageSize: 10 },
+      })
+    );
+  }, [currentPage, choose, chooseCharac]);
 
   const handle = (boolean: boolean) => {
     setisOpen(boolean);
