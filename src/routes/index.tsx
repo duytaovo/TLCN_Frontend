@@ -1,5 +1,6 @@
 import { lazy } from "react";
 import path from "src/constants/path";
+// import NotFound from "src/pages/Notfound";
 
 const CodeValidator = lazy(
   () => import("src/pages/Auth/ForgotPasword/ValidatorCode")
@@ -15,7 +16,6 @@ const Accessory = lazy(() => import("src/pages/Accessory/Accessory"));
 const History = lazy(() => import("src/pages/History/History"));
 const LapTop = lazy(() => import("src/pages/Laptop/LapTop"));
 const Maycu = lazy(() => import("src/pages/Maycu/Maycu"));
-const NotFound = lazy(() => import("src/pages/NotFound "));
 const Phone = lazy(() => import("src/pages/Phone/Phone"));
 const ProductDetail = lazy(
   () => import("src/pages/ProductDetail/SmartPhoneDetail")
@@ -73,10 +73,10 @@ export const routeMain = [
     path: path.pc,
     Component: Pc,
   },
-  {
-    path: "*",
-    Component: NotFound,
-  },
+  // {
+  //   path: "*",
+  //   Component: NotFound,
+  // },
 ];
 
 const urls: string[] = [
