@@ -1,5 +1,6 @@
 import { lazy } from "react";
 import path from "src/constants/path";
+import KhongTimThay from "src/pages/KhongTimThay/NotFound";
 // import NotFound from "src/pages/Notfound";
 
 const CodeValidator = lazy(
@@ -73,10 +74,10 @@ export const routeMain = [
     path: path.pc,
     Component: Pc,
   },
-  // {
-  //   path: "*",
-  //   Component: NotFound,
-  // },
+  {
+    path: "*",
+    Component: KhongTimThay,
+  },
 ];
 
 const urls: string[] = [
