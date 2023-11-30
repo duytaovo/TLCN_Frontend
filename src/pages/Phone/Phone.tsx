@@ -15,38 +15,46 @@ const Phone = () => {
   const dispatch = useAppDispatch();
   const [currentPage, setCurrentPage] = useState(0); // Trang hiện tại
   const filter = useAppSelector((state) => state.smartphone.filter.data); // Lấy tất cả
+
+  const [dataFilterLocal, setDataFilterLocal] = useState<any>();
   // Hàm tách mảng
-  const separateArrays = (data: any) => {
-    const result: any = {};
+  useEffect(() => {
+    const separateArrays = (data: any) => {
+      const result: any = {};
 
-    data.forEach((item: any) => {
-      const key = Object.keys(item)[0]; // Lấy tên thuộc tính (ví dụ: 'Hãng', 'Giá', ...)
+      data.forEach((item: any) => {
+        const key = Object.keys(item)[0]; // Lấy tên thuộc tính (ví dụ: 'Hãng', 'Giá', ...)
 
-      if (!result[key]) {
-        result[key] = [];
-      }
+        if (!result[key]) {
+          result[key] = [];
+        }
 
-      result[key].push(item[key]);
-    });
+        result[key].push(item[key]);
+      });
 
-    return result;
-  };
+      return result;
+    };
 
-  // Gọi hàm tách mảng
-  const separatedArrays = separateArrays(filter);
+    // Gọi hàm tách mảng
+    const separatedArrays = separateArrays(filter);
+    setDataFilterLocal(separatedArrays);
+  }, [filter]);
 
   // Kết quả
-  const {
-    Hãng,
-    "Loại điện thoại": LoaiDienThoai,
-    "Nhu cầu": NhuCau,
-    RAM,
-    ROM,
-    "Pin&Sạc": PinSạc,
-    "Tính năng đặc biệt": TinhNangDacBiet,
-    Giá: Gia,
-    "Màn hình": ManHinh,
-  } = separatedArrays;
+  if (dataFilterLocal) {
+    var {
+      Hãng,
+      "Loại điện thoại": LoaiDienThoai,
+      "Nhu cầu": NhuCau,
+      RAM,
+      ROM,
+      "Pin&Sạc": PinSạc,
+      "Tính năng đặc biệt": TinhNangDacBiet,
+      Giá: Gia,
+      "Màn hình": ManHinh,
+    } = dataFilterLocal;
+  }
+
   console.log(Hãng);
   const getMinMaxPrices = () => {
     if (Gia === undefined || Gia.length === 0) {
