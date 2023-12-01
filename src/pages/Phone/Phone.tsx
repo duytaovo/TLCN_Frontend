@@ -23,6 +23,7 @@ const Phone = () => {
   const { characteristic } = useAppSelector<any>(
     (state) => state.characteristic
   );
+  console.log(filter);
   const [dataFilterLocal, setDataFilterLocal] = useState<any>();
   // Hàm tách mảng
   useEffect(() => {
@@ -67,18 +68,26 @@ const Phone = () => {
     }
 
     const numericRanges = Gia.map((priceString: any) => {
-      let temp = [0, 1000000000];
-      if (priceString.search("Dưới") != -1) {
-        let split_str = priceString.match(/[0-9]+/)[0];
-        temp[1] = Number(split_str + "000000");
-      } else if (priceString.search("Trên") != -1) {
-        let split_str = priceString.match(/[0-9]+/)[0];
-        temp[0] = Number(split_str + "000000");
-      }
+      console.log(priceString);
       const matches = priceString.match(/(\d+) - (\d+)/);
+      let startPrice;
+      let endPrice;
+      // if (priceString.search("Dưới") != -1) {
+      //   startPrice = 0;
+      //   endPrice = 2;
+      //   if (!isNaN(startPrice) && !isNaN(endPrice)) {
+      //     return { startPrice, endPrice };
+      //   }
+      // } else if (priceString.search("Trên") != -1) {
+      //   startPrice = 2;
+      //   endPrice = 10;
+      //   if (!isNaN(startPrice) && !isNaN(endPrice)) {
+      //     return { startPrice, endPrice };
+      //   }
+      // } else
       if (matches && matches.length === 3) {
-        const startPrice = parseInt(matches[1], 10);
-        const endPrice = parseInt(matches[2], 10);
+        startPrice = parseInt(matches[1], 10);
+        endPrice = parseInt(matches[2], 10);
 
         if (!isNaN(startPrice) && !isNaN(endPrice)) {
           return { startPrice, endPrice };

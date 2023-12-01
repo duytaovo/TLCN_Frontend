@@ -12,52 +12,52 @@ const dataBrand = [
   {
     id: 1,
     title: "Apple",
-    link: "//cdn.tgdd.vn/Brand/1/logo-iphone-220x48.png",
+    link: "https//cdn.tgdd.vn/Brand/1/logo-iphone-220x48.png",
   },
   {
     id: 9,
     title: "Samsung",
-    link: "//cdn.tgdd.vn/Brand/1/samsungnew-220x48-1.png",
+    link: "https//cdn.tgdd.vn/Brand/1/samsungnew-220x48-1.png",
   },
   {
     id: 10,
     title: "Oppo",
-    link: "//cdn.tgdd.vn/Brand/1/OPPO42-b_5.jpg",
+    link: "https//cdn.tgdd.vn/Brand/1/OPPO42-b_5.jpg",
   },
   {
     id: 11,
     title: "Xiaomi",
-    link: "//cdn.tgdd.vn/Brand/1/logo-xiaomi-220x48-5.png",
+    link: "https//cdn.tgdd.vn/Brand/1/logo-xiaomi-220x48-5.png",
   },
   {
     id: 12,
     title: "Vivo",
-    link: "//cdn.tgdd.vn/Brand/1/vivo-logo-220-220x48-3.png",
+    link: "https//cdn.tgdd.vn/Brand/1/vivo-logo-220-220x48-3.png",
   },
   {
     id: 13,
     title: "Realme",
-    link: "//cdn.tgdd.vn/Brand/1/Realme42-b_37.png",
+    link: "https//cdn.tgdd.vn/Brand/1/Realme42-b_37.png",
   },
   {
     id: 14,
     title: "Nokia",
-    link: "//cdn.tgdd.vn/Brand/1/Nokia42-b_21.jpg",
+    link: "https//cdn.tgdd.vn/Brand/1/Nokia42-b_21.jpg",
   },
   {
     id: 15,
     title: "Mobell",
-    link: "//cdn.tgdd.vn/Brand/1/Mobell42-b_19.jpg",
+    link: "https//cdn.tgdd.vn/Brand/1/Mobell42-b_19.jpg",
   },
   {
     id: 16,
     title: "itel",
-    link: "//cdn.tgdd.vn/Brand/1/Itel42-b_54.jpg",
+    link: "https//cdn.tgdd.vn/Brand/1/Itel42-b_54.jpg",
   },
   {
     id: 17,
     title: "Masstel",
-    link: "//cdn.tgdd.vn/Brand/1/Masstel42-b_0.png",
+    link: "https//cdn.tgdd.vn/Brand/1/Masstel42-b_0.png",
   },
 ];
 const data2: any[] = [
@@ -158,6 +158,7 @@ const FilterPhone = ({ handle, brand, characteristic }: Props) => {
     '{"ram": ["2GB", "3GB", "4GB", "6GB", "8GB", "12GB"], "brand": null, "price": ["Dưới 2 triệu", "Từ 2 - 4 triệu", "Từ 4 - 7 triệu", "Từ 7 - 13 triệu", "Từ 13 - 20 triệu", "Trên 20 triệu"], "screen": ["OLED", "LCD", "Amoled"], "special": ["Kháng nước, kháng bụi", "Hỗ trợ 5G", "Bảo mật khuôn mặt 3D"], "charging": ["Sạc nhanh 20W", "Sạc siêu nhanh 60W", "Sạc không dây"], "characteristic": null, "smartphoneType": [{"name": "Android", "image": "https://cdn.tgdd.vn/ValueIcons/android.jpg"}, {"name": "IOS", "image": "https://cdn.tgdd.vn/ValueIcons/iphone.jpg"}], "storageCapacity": ["32GB", "64GB", "128GB", "256GB", "512GB", "1TB"]}';
 
   const filterData = JSON.parse(jsonString);
+
   const data: DataPropsPhone[] = [
     {
       id: 0,
