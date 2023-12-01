@@ -2,8 +2,6 @@ import { ProductListConfig } from "src/types/product.type";
 import http, { httpCategory, httpNew } from "src/utils/http";
 
 export const smartphoneService = {
-
-  
   getProducts(page: string, limit: string) {
     return http.get(`/products/?_page=${page}&_limit=${limit}`);
   },
