@@ -37,7 +37,7 @@ const QuickLink = ({
       {isImg == true && (
         <div className={className}>
           <img
-            className={`w-[90px] h-[25px] rounded-xl  bg-white `}
+            className={`w-[90px] h-[25px] rounded-md  bg-white object-contain`}
             src={`https:` + link}
             alt={type}
           />

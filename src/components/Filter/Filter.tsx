@@ -17,7 +17,6 @@ const Filter = ({ handle, data }: FilterItem) => {
       behavior: "smooth",
     });
   };
-
   return (
     <div className="w-[1200px] h-full mt-[10px]" ref={contain}>
       <div className="w-[1200px] flex flex-wrap p-[5px_0px]">

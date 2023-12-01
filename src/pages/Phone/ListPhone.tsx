@@ -104,7 +104,13 @@ const ListPhone = ({
               currentPage={currentPage}
             />
           ) : (
-            <ListProduct products={dataAfter} isSlide={false}></ListProduct>
+            <ListProduct
+              products={dataAfter}
+              category={"smartphone"}
+              isSlide={false}
+              handlePageChange={handlePageChange}
+              currentPage={currentPage}
+            ></ListProduct>
           )}
         </div>
       </div>

@@ -1,9 +1,6 @@
 import { Dispatch, SetStateAction, useEffect, useState } from "react";
 import Filter from "src/components/Filter/Filter";
 import { useAppDispatch, useAppSelector } from "src/hooks/useRedux";
-import { getBrand } from "src/store/brand/brandsSlice";
-import { getCharacteristic } from "src/store/characteristic/characteristicSlice";
-import { getFilter, getSort } from "src/store/product/filterSlice";
 
 export interface DataPropsPhone {
   id: number;
@@ -143,21 +140,14 @@ const data3: DataPropsPhone[] = [
 
 interface Props {
   handle: (boolean: boolean) => void;
+  brand: any;
+  characteristic: any;
 }
 
-const FilterPhone = ({ handle }: Props) => {
+const FilterPhone = ({ handle, brand, characteristic }: Props) => {
   const dispatch = useAppDispatch();
   const { sort, filter } = useAppSelector<any>((state) => state.filter);
-  const { brand } = useAppSelector<any>((state) => state.brand);
-  const { characteristic } = useAppSelector<any>(
-    (state) => state.characteristic
-  );
-  useEffect(() => {
-    dispatch(getSort(""));
-    dispatch(getFilter({ slug: "smartphone" }));
-    dispatch(getBrand({ slug: "smartphone" }));
-    dispatch(getCharacteristic({ slug: "smartphone" }));
-  }, []);
+
   interface DataPropsPhone {
     id: number;
     title: string;
@@ -168,12 +158,11 @@ const FilterPhone = ({ handle }: Props) => {
     '{"ram": ["2GB", "3GB", "4GB", "6GB", "8GB", "12GB"], "brand": null, "price": ["Dưới 2 triệu", "Từ 2 - 4 triệu", "Từ 4 - 7 triệu", "Từ 7 - 13 triệu", "Từ 13 - 20 triệu", "Trên 20 triệu"], "screen": ["OLED", "LCD", "Amoled"], "special": ["Kháng nước, kháng bụi", "Hỗ trợ 5G", "Bảo mật khuôn mặt 3D"], "charging": ["Sạc nhanh 20W", "Sạc siêu nhanh 60W", "Sạc không dây"], "characteristic": null, "smartphoneType": [{"name": "Android", "image": "https://cdn.tgdd.vn/ValueIcons/android.jpg"}, {"name": "IOS", "image": "https://cdn.tgdd.vn/ValueIcons/iphone.jpg"}], "storageCapacity": ["32GB", "64GB", "128GB", "256GB", "512GB", "1TB"]}';
 
   const filterData = JSON.parse(jsonString);
-
   const data: DataPropsPhone[] = [
     {
       id: 0,
       title: "Hãng",
-      detail: dataBrand,
+      detail: brand?.data?.data,
     },
     {
       id: 1,
@@ -188,7 +177,7 @@ const FilterPhone = ({ handle }: Props) => {
     {
       id: 3,
       title: "Nhu cầu",
-      detail: data2,
+      detail: characteristic?.data,
     },
     {
       id: 4,

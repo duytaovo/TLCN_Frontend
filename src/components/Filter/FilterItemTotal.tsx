@@ -143,23 +143,23 @@ const FilterItemTotal = ({ data, handle, scroll }: Props) => {
       <div className={styles.item} ref={item}>
         {/* Các nút con */}
         <div className={styles.wrap}>
-          {data.map((src: any, index: number) => {
+          {data?.map((src: any, index: number) => {
             return (
               <div className={styles.show} key={index}>
                 <p className={styles.text}>{src.title}</p>
                 <span className={styles.click}>
-                  {src.detail.map((btn: any, index: number) => {
+                  {src?.detail?.map((btn: any, index: number) => {
                     return (
                       <div className="" onClick={handleAppear} key={index}>
                         {src.title === "Hãng" ? (
                           <ButtonItem
                             title={btn?.id}
                             name={src?.title}
-                            img={btn.link}
+                            img={btn?.imageUrl?.substring("https://".length)}
                           />
                         ) : src.title === "Nhu cầu" ? (
                           <ButtonItem
-                            nhucau={btn?.title}
+                            nhucau={btn?.name}
                             title={btn?.id}
                             name={src?.title}
                           />

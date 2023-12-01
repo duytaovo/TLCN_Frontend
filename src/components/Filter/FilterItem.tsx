@@ -203,7 +203,7 @@ const FilterItem = ({ data, handle, scroll }: Props) => {
       <div className={styles.item} ref={item}>
         {/* Các nút con */}
         <div className={styles.wrap}>
-          {data.detail.map((src: any, index: number) => {
+          {data?.detail?.map((src: any, index: number) => {
             return (
               <span
                 className={styles.click}
@@ -215,11 +215,11 @@ const FilterItem = ({ data, handle, scroll }: Props) => {
                   <ButtonItem
                     title={src?.id}
                     name={data?.title}
-                    img={src.link}
+                    img={src?.imageUrl?.substring("https://".length)}
                   />
                 ) : data.title === "Nhu cầu" ? (
                   <ButtonItem
-                    nhucau={src?.title}
+                    nhucau={src?.name}
                     title={src?.id}
                     name={data?.title}
                   />

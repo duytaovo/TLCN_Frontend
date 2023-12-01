@@ -6,6 +6,9 @@ import QuickLinkPhone from "./QuickLinkPhone";
 import ListPhone from "./ListPhone";
 import { useAppDispatch, useAppSelector } from "src/hooks/useRedux";
 import { getSmartPhones } from "src/store/product/smartPhoneSlice";
+import { getBrand } from "src/store/brand/brandsSlice";
+import { getCharacteristic } from "src/store/characteristic/characteristicSlice";
+import { getFilter, getSort } from "src/store/product/filterSlice";
 
 const Phone = () => {
   const [choose, setChoose] = useState<any>();
@@ -15,7 +18,11 @@ const Phone = () => {
   const dispatch = useAppDispatch();
   const [currentPage, setCurrentPage] = useState(0); // Trang hiện tại
   const filter = useAppSelector((state) => state.smartphone.filter.data); // Lấy tất cả
-
+  const { sort } = useAppSelector<any>((state) => state.filter);
+  const { brand } = useAppSelector<any>((state) => state.brand);
+  const { characteristic } = useAppSelector<any>(
+    (state) => state.characteristic
+  );
   const [dataFilterLocal, setDataFilterLocal] = useState<any>();
   // Hàm tách mảng
   useEffect(() => {
@@ -139,7 +146,12 @@ const Phone = () => {
       })
     );
   }, [currentPage, choose, chooseCharac]);
-
+  useEffect(() => {
+    dispatch(getSort(""));
+    dispatch(getFilter({ slug: "smartphone" }));
+    dispatch(getBrand({ slug: "smartphone" }));
+    dispatch(getCharacteristic({ categorySlug: "smartphone" }));
+  }, []);
   const handle = (boolean: boolean) => {
     setisOpen(boolean);
   };
@@ -164,12 +176,18 @@ const Phone = () => {
         <meta name="description" content="Trang điện thoại" />
       </Helmet>
       <BigBannerPhone />
-      <FilterPhone handle={handle} />
+      <FilterPhone
+        handle={handle}
+        brand={brand}
+        characteristic={characteristic}
+      />
       <QuickLinkPhone
         handleSetChoose={handleSetChoose}
         choose={choose}
         handleSetChooseCharac={handleSetChooseCharac}
         chooseCharac={chooseCharac}
+        brand={brand}
+        characteristic={characteristic}
       />
       <ListPhone
         handleSetChooseBox={handleSetChooseBox}

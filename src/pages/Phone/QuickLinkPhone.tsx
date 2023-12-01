@@ -94,28 +94,32 @@ interface Props {
   handleSetChooseCharac: (text: any) => void;
   choose: any;
   chooseCharac: any;
+  brand: any;
+  characteristic: any;
 }
 const QuickLinkPhone = ({
   handleSetChooseCharac,
   handleSetChoose,
   chooseCharac,
   choose,
+  brand,
+  characteristic,
 }: Props) => {
   return (
     <>
       <div className="container__phone space-y-4 mt-4">
         <div className="">
           <div className="flex justify-between flex-wrap gap-3">
-            {data.map((item: Data, index: number) => {
+            {brand?.data?.data?.map((item: any, index: number) => {
               const active = item?.id === choose?.id;
 
               return (
                 <div key={index}>
                   <QuickLink
                     active={active}
-                    type={item.type}
+                    type={item.name}
                     id={item.id}
-                    link={item.link}
+                    link={item.imageUrl.substring("https://".length)}
                     handleSetChoose={handleSetChoose}
                     isImg={true}
                   />
@@ -129,7 +133,7 @@ const QuickLinkPhone = ({
             <div className=" space-y-4">
               <h4 className="text-[14px] ">Chọn điện thoại theo nhu cầu:</h4>
               <div className="flex justify-between items-center flex-wrap gap-3">
-                {data2.map((item: Data2, index: number) => {
+                {characteristic?.data?.map((item: any, index: number) => {
                   const active = item?.id === chooseCharac;
                   const className = clsx(
                     active && "border-[1px] rounded-xl border-blue-700  "
@@ -141,7 +145,7 @@ const QuickLinkPhone = ({
                         onClick={() => handleSetChooseCharac(item.id)}
                         className={`rounded-xl border-solid border-[1px] m-[0px_8px_10px_0px] p-[6px_13px] ${className}`}
                       >
-                        {item.demand}
+                        {item.name}
                       </Link>
                     </div>
                   );
