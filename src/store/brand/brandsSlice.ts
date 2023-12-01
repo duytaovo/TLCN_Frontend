@@ -11,24 +11,22 @@ export const getDetailBrand = createAsyncThunk(
   "brand/getDetailBrand",
   payloadCreator(brandService.getDetailBrand)
 );
-
+const initialState = {
+  brand: [],
+  brandDetail: {},
+};
 export const brand = createSlice({
   name: "brand",
-  initialState: {
-    brand: {
-      id: 0,
-      name: "",
-      address: "",
-      imageUrl: "",
-    },
-  },
+  initialState,
   reducers: {
     postOrder: (state, action) => {},
   },
   extraReducers: (builder) => {
+    builder.addCase(getBrand.fulfilled, (state, { payload }) => {
+      state.brand = payload.data;
+    });
     builder.addCase(getDetailBrand.fulfilled, (state, { payload }) => {
-      console.log(payload.data);
-      state.brand = payload.data.data;
+      state.brandDetail = payload.data.data;
     });
   },
 });

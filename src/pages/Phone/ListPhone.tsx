@@ -69,7 +69,6 @@ const ListPhone = ({
     (state) => state.smartphone
   );
   let dataAfter = smartPhone?.data;
-  console.log(smartPhone);
   // if (filter?.data?.length !== 0) {
   //   dataAfter = handleData(smartPhone, filter?.data);
   // }

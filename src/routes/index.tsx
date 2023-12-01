@@ -74,6 +74,10 @@ export const routeMain = [
     Component: Pc,
   },
   {
+    path: path.cartNew,
+    Component: CartNew,
+  },
+  {
     path: "*",
     Component: KhongTimThay,
   },
@@ -128,10 +132,7 @@ export const routeUser = [
     path: path.payment,
     Component: Payment,
   },
-  {
-    path: path.cartNew,
-    Component: CartNew,
-  },
+
   {
     path: path.activeAccount,
     Component: ActiveAccount,

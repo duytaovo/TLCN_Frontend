@@ -87,7 +87,7 @@ const RatingFeedback: React.FC = () => {
             </span>
           </div>
         }
-        className="demo-loadmore-list bg-white rounded-md border border-gray-400 w-[59%]"
+        className="demo-loadmore-list bg-white rounded-md border border-gray-400 w-full"
         loading={initLoading}
         itemLayout="horizontal"
         loadMore={loadMore}

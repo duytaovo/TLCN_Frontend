@@ -1,5 +1,9 @@
-import { Dispatch, SetStateAction, useState } from "react";
+import { Dispatch, SetStateAction, useEffect, useState } from "react";
 import Filter from "src/components/Filter/Filter";
+import { useAppDispatch, useAppSelector } from "src/hooks/useRedux";
+import { getBrand } from "src/store/brand/brandsSlice";
+import { getCharacteristic } from "src/store/characteristic/characteristicSlice";
+import { getFilter, getSort } from "src/store/product/filterSlice";
 
 export interface DataPropsPhone {
   id: number;
@@ -81,7 +85,7 @@ const data2: any[] = [
     title: "Nhỏ gọn dễ cầm",
   },
 ];
-const data: DataPropsPhone[] = [
+const data3: DataPropsPhone[] = [
   {
     id: 0,
     title: "Hãng",
@@ -92,10 +96,10 @@ const data: DataPropsPhone[] = [
     title: "Giá",
     detail: [
       "Dưới 2 triệu",
-      "Từ 2-4 triệu",
-      "Từ 4-7 triệu",
-      "Từ 7-13 triệu",
-      "Từ 13-20 triệu",
+      "Từ 2 - 4 triệu",
+      "Từ 4 - 7 triệu",
+      "Từ 7 - 13 triệu",
+      "Từ 13 - 20 triệu",
       "Trên 20 triệu",
     ],
   },
@@ -142,6 +146,77 @@ interface Props {
 }
 
 const FilterPhone = ({ handle }: Props) => {
+  const dispatch = useAppDispatch();
+  const { sort, filter } = useAppSelector<any>((state) => state.filter);
+  const { brand } = useAppSelector<any>((state) => state.brand);
+  const { characteristic } = useAppSelector<any>(
+    (state) => state.characteristic
+  );
+  useEffect(() => {
+    dispatch(getSort(""));
+    dispatch(getFilter({ slug: "smartphone" }));
+    dispatch(getBrand({ slug: "smartphone" }));
+    dispatch(getCharacteristic({ slug: "smartphone" }));
+  }, []);
+  interface DataPropsPhone {
+    id: number;
+    title: string;
+    detail: string[] | { name: string; image: string }[];
+  }
+
+  const jsonString =
+    '{"ram": ["2GB", "3GB", "4GB", "6GB", "8GB", "12GB"], "brand": null, "price": ["Dưới 2 triệu", "Từ 2 - 4 triệu", "Từ 4 - 7 triệu", "Từ 7 - 13 triệu", "Từ 13 - 20 triệu", "Trên 20 triệu"], "screen": ["OLED", "LCD", "Amoled"], "special": ["Kháng nước, kháng bụi", "Hỗ trợ 5G", "Bảo mật khuôn mặt 3D"], "charging": ["Sạc nhanh 20W", "Sạc siêu nhanh 60W", "Sạc không dây"], "characteristic": null, "smartphoneType": [{"name": "Android", "image": "https://cdn.tgdd.vn/ValueIcons/android.jpg"}, {"name": "IOS", "image": "https://cdn.tgdd.vn/ValueIcons/iphone.jpg"}], "storageCapacity": ["32GB", "64GB", "128GB", "256GB", "512GB", "1TB"]}';
+
+  const filterData = JSON.parse(jsonString);
+
+  const data: DataPropsPhone[] = [
+    {
+      id: 0,
+      title: "Hãng",
+      detail: dataBrand,
+    },
+    {
+      id: 1,
+      title: "Giá",
+      detail: filterData.price,
+    },
+    {
+      id: 2,
+      title: "Loại điện thoại",
+      detail: ["Android", "IOS"],
+    },
+    {
+      id: 3,
+      title: "Nhu cầu",
+      detail: data2,
+    },
+    {
+      id: 4,
+      title: "RAM",
+      detail: filterData.ram,
+    },
+    {
+      id: 5,
+      title: "ROM",
+      detail: filterData.storageCapacity,
+    },
+    {
+      id: 6,
+      title: "Pin&Sạc",
+      detail: filterData.charging,
+    },
+    {
+      id: 7,
+      title: "Tính năng đặc biệt",
+      detail: filterData.special,
+    },
+    {
+      id: 8,
+      title: "Màn hình",
+      detail: filterData.screen,
+    },
+  ];
+
   return (
     <div className="text-textWhiteMain max-w-[1200px] m-auto">
       <Filter handle={handle} data={data} />

@@ -34,7 +34,6 @@ const Phone = () => {
 
       return result;
     };
-
     // Gọi hàm tách mảng
     const separatedArrays = separateArrays(filter);
     setDataFilterLocal(separatedArrays);
@@ -55,15 +54,14 @@ const Phone = () => {
     } = dataFilterLocal;
   }
 
-  console.log(Hãng);
   const getMinMaxPrices = () => {
     if (Gia === undefined || Gia.length === 0) {
       return null;
     }
 
     const numericRanges = Gia.map((priceString: any) => {
-      const matches = priceString.match(/(\d+)-(\d+)/);
-
+      const matches = priceString.match(/(\d+) - (\d+)/);
+      // const matches = priceString.match(/Từ (\d+) - (\d+) triệu/);
       if (matches && matches.length === 3) {
         const startPrice = parseInt(matches[1], 10);
         const endPrice = parseInt(matches[2], 10);
@@ -169,7 +167,9 @@ const Phone = () => {
       <FilterPhone handle={handle} />
       <QuickLinkPhone
         handleSetChoose={handleSetChoose}
+        choose={choose}
         handleSetChooseCharac={handleSetChooseCharac}
+        chooseCharac={chooseCharac}
       />
       <ListPhone
         handleSetChooseBox={handleSetChooseBox}

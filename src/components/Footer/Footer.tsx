@@ -37,9 +37,9 @@ function Footer() {
               <Youtube />
               &ensp;<span>846k Đăng ký</span>
             </i>
-            <img src="/images/ct.png" />
+            {/* <img src="/images/ct.png" /> */}
             <p>Website cùng tập đoàn</p>
-            <img src="/images/vl.png" />
+            {/* <img src="/images/vl.png" /> */}
           </div>
         </div>
       </div>

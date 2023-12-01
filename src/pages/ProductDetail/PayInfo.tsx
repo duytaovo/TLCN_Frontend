@@ -9,7 +9,6 @@ import { CounterQuantity, SelectColor } from "src/components/Selector";
 import QuantityController from "../CartNew/QuantityController";
 
 const PayInfo = (props: any) => {
-  console.log(props);
   const {
     price,
     discount,
@@ -72,7 +71,7 @@ const PayInfo = (props: any) => {
         </p>
       </div>
 
-      <div className="m-4">
+      <div className="m-4 ml-0">
         <strong>Ưu đãi khi thanh toán</strong>
         <div className="overflow-scroll no-scrollbar ">
           <div className="flex gap-4 w-fit">

@@ -19,6 +19,8 @@ import ordersSlice from "./order/ordersSlice";
 import tabletReducer from "./product/tabletSlice";
 import smartWatchReducer from "./product/smartwatchSlice";
 import brandsSlice from "./brand/brandsSlice";
+import filterReducer from "./product/filterSlice";
+import characteristicSlice from "./characteristic/characteristicSlice";
 
 export const store = configureStore({
   reducer: {
@@ -28,6 +30,7 @@ export const store = configureStore({
     user: userReducer,
     products: productsReducer,
     smartphone: smartPhoneReducer,
+    filter: filterReducer,
     tablet: tabletReducer,
     laptop: laptopReducer,
     smartwatch: smartWatchReducer,
@@ -37,6 +40,7 @@ export const store = configureStore({
     historyOrders: historyReducer,
     order: ordersSlice,
     brand: brandsSlice,
+    characteristic: characteristicSlice,
   },
   devTools: process.env.NODE_ENV === "development",
   middleware: (getDefaultMiddleware) => [

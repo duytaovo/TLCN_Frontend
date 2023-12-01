@@ -28,6 +28,7 @@ module.exports = {
       },
       backgroundImage: {
         mainColor: "linear-gradient(70deg,#44c5e5,#276dc1)",
+        buyColor: "linear-gradient(70deg,#FF9209,#FF6C22)",
       },
       colors: {
         mainColor: "#3699d3",

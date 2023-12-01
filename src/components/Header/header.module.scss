@@ -18,7 +18,7 @@
     cursor: pointer;
   }
   .top {
-    height: 55px;
+    height: 63px;
     @include d-flex;
     .wrap {
       width: 1200px;
@@ -29,7 +29,7 @@
   }
   .bottom {
     display: flex;
-    height: 67px;
+    height: 70px;
     nav {
       @include d-flex;
       justify-content: space-between;

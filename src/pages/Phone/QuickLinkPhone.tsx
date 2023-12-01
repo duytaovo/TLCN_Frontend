@@ -1,6 +1,7 @@
 import QuickLink from "src/components/QuickLink/ButtonQuickLink";
 import "./quicklinkphone-module.scss";
 import { Link } from "react-router-dom";
+import clsx from "clsx";
 
 interface Data {
   id: number;
@@ -91,24 +92,36 @@ const data2: Data2[] = [
 interface Props {
   handleSetChoose: (text: any) => void;
   handleSetChooseCharac: (text: any) => void;
+  choose: any;
+  chooseCharac: any;
 }
-const QuickLinkPhone = ({ handleSetChooseCharac, handleSetChoose }: Props) => {
+const QuickLinkPhone = ({
+  handleSetChooseCharac,
+  handleSetChoose,
+  chooseCharac,
+  choose,
+}: Props) => {
   return (
     <>
       <div className="container__phone space-y-4 mt-4">
         <div className="">
           <div className="flex justify-between flex-wrap gap-3">
-            {data.map((item: Data, index: number) => (
-              <div key={index}>
-                <QuickLink
-                  type={item.type}
-                  id={item.id}
-                  link={item.link}
-                  handleSetChoose={handleSetChoose}
-                  isImg={true}
-                />
-              </div>
-            ))}
+            {data.map((item: Data, index: number) => {
+              const active = item?.id === choose?.id;
+
+              return (
+                <div key={index}>
+                  <QuickLink
+                    active={active}
+                    type={item.type}
+                    id={item.id}
+                    link={item.link}
+                    handleSetChoose={handleSetChoose}
+                    isImg={true}
+                  />
+                </div>
+              );
+            })}
           </div>
         </div>
         <div className="container__quicklink-demand">
@@ -116,17 +129,23 @@ const QuickLinkPhone = ({ handleSetChooseCharac, handleSetChoose }: Props) => {
             <div className=" space-y-4">
               <h4 className="text-[14px] ">Chọn điện thoại theo nhu cầu:</h4>
               <div className="flex justify-between items-center flex-wrap gap-3">
-                {data2.map((item: Data2, index: number) => (
-                  <div key={index}>
-                    <Link
-                      to={""}
-                      onClick={() => handleSetChooseCharac(item.id)}
-                      className="rounded-xl border-solid border-[1px] m-[0px_8px_10px_0px] p-[6px_13px]"
-                    >
-                      {item.demand}
-                    </Link>
-                  </div>
-                ))}
+                {data2.map((item: Data2, index: number) => {
+                  const active = item?.id === chooseCharac;
+                  const className = clsx(
+                    active && "border-[1px] rounded-xl border-blue-700  "
+                  );
+                  return (
+                    <div key={index}>
+                      <Link
+                        to={""}
+                        onClick={() => handleSetChooseCharac(item.id)}
+                        className={`rounded-xl border-solid border-[1px] m-[0px_8px_10px_0px] p-[6px_13px] ${className}`}
+                      >
+                        {item.demand}
+                      </Link>
+                    </div>
+                  );
+                })}
               </div>
             </div>
           </div>

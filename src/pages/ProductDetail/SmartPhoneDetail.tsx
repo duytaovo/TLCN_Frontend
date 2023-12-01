@@ -404,9 +404,7 @@ export default function SmartPhoneDetail() {
               <div className="space-x-3 mt-4 flex justify-start align-baseline">
                 <Tag productData={productData} onClick={getData} />
               </div>
-              <div className="space-y-3 mt-5">
-                <DiscountBox />
-              </div>
+              <div className="space-y-3 mt-5">{/* <DiscountBox /> */}</div>
               <PayInfo
                 initProductDetail={productData}
                 handleClickPay={buyNow}
@@ -435,7 +433,7 @@ export default function SmartPhoneDetail() {
               <div className="mt-4 flex flex-col w-full items-center text-black/60">
                 <button
                   onClick={addToCart}
-                  className="flex h-20 items-center w-full justify-center rounded-sm border border-orange bg-mainColor px-5 capitalize text-white shadow-sm hover:bg-orange-500"
+                  className="flex h-20 items-center w-full justify-center rounded-sm border bg-mainColor px-5 capitalize text-white shadow-sm hover:bg-orange-500"
                 >
                   <AddShoppingCartIcon
                     className="text-white mr-2"
@@ -445,7 +443,7 @@ export default function SmartPhoneDetail() {
                 </button>
                 <button
                   onClick={buyNow}
-                  className="fkex mt-4 h-20 min-w-[5rem] w-full items-center justify-center rounded-sm  px-5 capitalize text-white  shadow-sm outline-none bg-yellow-400"
+                  className="fkex mt-4 h-20 min-w-[5rem] w-full items-center justify-center rounded-sm  px-5 capitalize text-white  shadow-sm outline-none bg-buyColor"
                 >
                   <ShoppingCartCheckoutIcon
                     className="text-white mr-2"
@@ -479,7 +477,14 @@ export default function SmartPhoneDetail() {
                       {!showFullDescription &&
                         productData?.productInfo?.description.length >
                           shortDescriptionLength && (
-                          <Button onClick={showModalDetail}>Xem thêm</Button>
+                          <Button
+                            type="default"
+                            className="border-[1.5px] text-blue-400 border-blue-400 w-1/2 h-16 mt-3"
+                            onClick={showModalDetail}
+                          >
+                            {" "}
+                            Xem thêm
+                          </Button>
                         )}
                       <Modal
                         title="Chi tiết sản phẩm"
@@ -487,16 +492,103 @@ export default function SmartPhoneDetail() {
                         onOk={handleOkDetail}
                         onCancel={handleCancelDetail}
                         centered
-                        width={800}
+                        width={1200}
                       >
-                        <div
-                          dangerouslySetInnerHTML={{
-                            __html: DOMPurify.sanitize(
-                              productData.productInfo.description
-                            ),
-                          }}
-                        />
+                        <BasicTabs
+                          tabDefault={"1"}
+                          children1={
+                            <div
+                              dangerouslySetInnerHTML={{
+                                __html: DOMPurify.sanitize(
+                                  productData.productInfo.description
+                                ),
+                              }}
+                            />
+                          }
+                          children2={
+                            <div className="block space-y-2">
+                              <p className="font-bold text-3xl text-gray-800 mb-4">
+                                Cấu hình {productData?.productInfo?.name}
+                              </p>
+                              <table className="w-full">
+                                <tbody className="space-y-4 p-5">
+                                  {productDataPrivateArray ? (
+                                    productDataPrivateArray?.map(
+                                      (item: string, index: number) => {
+                                        const translationKey =
+                                          `${productData.productInfo.slug}.${item}` as SmartphoneTranslationKeys &
+                                            LaptopTranslationKeys;
+                                        if (index != 0) {
+                                          return (
+                                            <tr
+                                              className={clsx(
+                                                index % 2 === 0 &&
+                                                  "bg-gray-100 p-5"
+                                              )}
+                                              key={index}
+                                            >
+                                              <td colSpan={4} className="my-4">
+                                                {t(translationKey)}
+                                              </td>
+                                              <td colSpan={6}>
+                                                {productData[item]}
+                                              </td>
+                                            </tr>
+                                          );
+                                        }
+                                      }
+                                    )
+                                  ) : (
+                                    <tr></tr>
+                                  )}
+                                  <tr className={""}>
+                                    <td colSpan={4}>Hãng sản xuất</td>
+                                    <td colSpan={6}>{brand?.name}</td>
+                                  </tr>
+                                  <tr className={"bg-gray-200"}>
+                                    <td colSpan={4}>Năm ra mắt</td>
+                                    <td colSpan={6}>
+                                      {productData?.productInfo?.launchTime}
+                                    </td>
+                                  </tr>
+                                  <tr className={""}>
+                                    <td colSpan={4}>Phụ kiện</td>
+                                    <td colSpan={6}>
+                                      {productData?.productInfo?.accessories}
+                                    </td>
+                                  </tr>
+                                  <tr className={"bg-gray-100"}>
+                                    <td colSpan={4}>Thiết kế</td>
+                                    <td colSpan={6}>
+                                      {productData?.productInfo?.design}
+                                    </td>
+                                  </tr>
+                                  <tr className={""}>
+                                    <td colSpan={4}>Kích thước</td>
+                                    <td colSpan={6}>
+                                      {productData?.productInfo?.dimension}
+                                    </td>
+                                  </tr>
+                                  <tr className={"bg-gray-100"}>
+                                    <td colSpan={4}>Khối lượng</td>
+                                    <td colSpan={6}>
+                                      {productData?.productInfo?.mass}
+                                    </td>
+                                  </tr>
+                                </tbody>
+                              </table>
+                            </div>
+                          }
+                        ></BasicTabs>
                       </Modal>
+                    </div>
+                    <div className="px-10 py-10 ">
+                      <div className="">
+                        <div className="uppercase text-gray-700 font-bold text-4xl mb-3 ">
+                          Đánh giá {productData?.productInfo?.name}
+                        </div>
+                        <RatingFeedback />
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -566,12 +658,20 @@ export default function SmartPhoneDetail() {
                 </table>
               </div>
               <Button
+                type="default"
+                className="border-[1.5px] text-blue-400 border-blue-400 w-full h-16 mt-3"
+                onClick={showModal}
+              >
+                {" "}
+                Xem thông số kỹ thuật
+              </Button>
+              {/* <Button
                 type="link"
                 onClick={showModal}
                 className="bg-gray-300 mt-5"
               >
                 Xem thông số kỹ thuật
-              </Button>
+              </Button> */}
               <Modal
                 // title="Thông số kỹ thuật"
                 open={isModalOpen}
@@ -579,9 +679,10 @@ export default function SmartPhoneDetail() {
                 onCancel={handleCancel}
                 centered
                 className="p-5"
-                width={700}
+                width={1200}
               >
                 <BasicTabs
+                  tabDefault={"2"}
                   children1={
                     <div
                       dangerouslySetInnerHTML={{
@@ -669,14 +770,6 @@ export default function SmartPhoneDetail() {
         </div>
       </div>
 
-      <div className="px-20 py-10 ">
-        <div className="">
-          <div className="uppercase text-gray-700 font-bold text-4xl mb-3 ">
-            Đánh giá {productData?.productInfo?.name}
-          </div>
-          <RatingFeedback />
-        </div>
-      </div>
       {/* <div className="mt-8">
         <div className="container">
           <div className="uppercase text-gray-400">CÓ THỂ BẠN CŨNG THÍCH</div>

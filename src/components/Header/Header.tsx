@@ -137,7 +137,7 @@ const Header = () => {
           <Link
             to={path.historyPurchase}
             onClick={handleOrderClick}
-            className="w-32 text-center "
+            className=" text-center "
           >
             Lịch sử đơn hàng
           </Link>
@@ -152,7 +152,11 @@ const Header = () => {
               <div className="flex items-center justify-around cursor-pointer ">
                 {true ? (
                   // <SentimentSatisfiedAltRoundedIcon />
-                  <Avatar size="large" icon={<UserOutlined />} />
+                  <Avatar
+                    className="leading-[28px]"
+                    size="large"
+                    icon={<UserOutlined />}
+                  />
                 ) : (
                   <div onClick={handleOpenModal}>Tài khoản</div>
                   // <AccountCircleIcon

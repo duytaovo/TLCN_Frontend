@@ -191,7 +191,7 @@ export default function CartNew() {
   };
 
   return (
-    <div className="bg-neutral-100 py-16">
+    <div className="bg-neutral-100 py-16 px-28">
       <div className=" text-black">
         {extendedPurchases.length > 0 ? (
           <>

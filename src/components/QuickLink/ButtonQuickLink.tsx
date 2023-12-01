@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom";
 import "./buttonquicklink-module.scss";
+import clsx from "clsx";
 interface Props {
   handleSetChoose: (text: any) => void;
   type: string;
@@ -7,6 +8,7 @@ interface Props {
   demand?: string;
   link?: string;
   isImg: boolean;
+  active: boolean;
 }
 const QuickLink = ({
   handleSetChoose,
@@ -15,7 +17,11 @@ const QuickLink = ({
   link,
   isImg,
   id,
+  active,
 }: Props) => {
+  const className = clsx(
+    active && "border-[2px] rounded-xl text-blue-400 border-blue-700  "
+  );
   return (
     <Link
       to={""}
@@ -25,15 +31,17 @@ const QuickLink = ({
           type,
         })
       }
-      className="rounded-md  border-black  ml-4 "
+      className={` ml-4 `}
     >
       {demand}
       {isImg == true && (
-        <img
-          className="w-[90px] h-[25px] rounded-xl  bg-white "
-          src={`https:` + link}
-          alt={type}
-        />
+        <div className={className}>
+          <img
+            className={`w-[90px] h-[25px] rounded-xl  bg-white `}
+            src={`https:` + link}
+            alt={type}
+          />
+        </div>
       )}
     </Link>
   );

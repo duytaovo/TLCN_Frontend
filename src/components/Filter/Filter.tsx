@@ -12,7 +12,7 @@ const Filter = ({ handle, data }: FilterItem) => {
   const contain = useRef<any>();
   const scroll = () => {
     window.scroll({
-      top: 215,
+      top: 198,
       // left: 100,
       behavior: "smooth",
     });
