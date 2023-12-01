@@ -67,8 +67,15 @@ const Phone = () => {
     }
 
     const numericRanges = Gia.map((priceString: any) => {
+      let temp = [0, 1000000000];
+      if (priceString.search("Dưới") != -1) {
+        let split_str = priceString.match(/[0-9]+/)[0];
+        temp[1] = Number(split_str + "000000");
+      } else if (priceString.search("Trên") != -1) {
+        let split_str = priceString.match(/[0-9]+/)[0];
+        temp[0] = Number(split_str + "000000");
+      }
       const matches = priceString.match(/(\d+) - (\d+)/);
-      // const matches = priceString.match(/Từ (\d+) - (\d+) triệu/);
       if (matches && matches.length === 3) {
         const startPrice = parseInt(matches[1], 10);
         const endPrice = parseInt(matches[2], 10);
