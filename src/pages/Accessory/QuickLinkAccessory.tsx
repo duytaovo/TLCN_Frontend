@@ -64,6 +64,7 @@ const QuickLinkAccessory = () => {
           <div>
             {data.map((item) => (
               <QuickLink
+                
                 handleSetChoose={() => {}}
                 type={item.type}
                 link={`${item.link}`}

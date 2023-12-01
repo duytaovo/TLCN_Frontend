@@ -7,8 +7,8 @@ interface Props {
   id?: number;
   demand?: string;
   link?: string;
-  isImg: boolean;
-  active: boolean;
+  isImg?: boolean;
+  active?: boolean;
 }
 const QuickLink = ({
   handleSetChoose,
