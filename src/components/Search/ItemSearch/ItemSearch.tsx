@@ -11,40 +11,50 @@ const ItemSearch = ({ item, handePopup }: any) => {
     handePopup(false);
   };
   return (
-    <Link
-      onClick={hande}
-      className="flex items-center justify-between gap-5 p-3"
-      to={`${`/${item.slug}/detail`}/${generateNameId({
-        name: item.name,
-        id: item.id.toString(),
-      })}`}
-    >
-      <div className="w-[55px] h-[55px] rounded-lg">
-        <img src={item.lstImageUrl[0]}></img>
-      </div>
+    <div>
+      {item && (
+        <Link
+          onClick={hande}
+          className="flex items-center justify-between gap-5 p-3"
+          to={`${`/${item.slug}/detail`}/${generateNameId({
+            name: item.name,
+            id: item.id.toString(),
+          })}`}
+        >
+          <div className="w-[55px] h-[55px] rounded-lg">
+            <img src={item.lstImageUrl[0]}></img>
+          </div>
 
-      <div className="flex flex-col w-full">
-        <div className="text-[13px] font-semibold align-middle text-black">
-          {item.name}
-        </div>
-        <div className="flex gap-3 items-end">
-          <div className="text-[14px] text-red-400">
-            ₫{formatCurrency(item?.lstProductTypeAndPrice[0]?.salePrice)}
+          <div className="flex flex-col w-full">
+            <div className="text-[13px] font-semibold align-middle text-black">
+              {item.name}
+            </div>
+            <div className="flex gap-3 items-end">
+              {item && (
+                <div className="text-[14px] text-red-400">
+                  đ{formatCurrency(item?.lstProductTypeAndPrice[0]?.salePrice)}
+                </div>
+              )}
+              {item && (
+                <span className="line-through text-[12px] ">
+                  ₫{formatCurrency(item?.lstProductTypeAndPrice[0]?.price)}
+                </span>
+              )}
+              {item && (
+                <div className="ml-4 rounded-sm bg-orange-300 px-1 py-[2px] text-lg font-semibold uppercase text-black">
+                  {rateSale(
+                    item?.lstProductTypeAndPrice[0]?.salePrice,
+                    item?.lstProductTypeAndPrice[0]?.price,
+                  )}{" "}
+                  giảm
+                </div>
+              )}
+            </div>
+            <div className="text-[11px] text-gray-500">Quà 100.000đ</div>
           </div>
-          <span className="line-through text-[12px] ">
-            ₫{formatCurrency(item?.lstProductTypeAndPrice[0]?.price)}
-          </span>
-          <div className="ml-4 rounded-sm bg-orange-300 px-1 py-[2px] text-lg font-semibold uppercase text-black">
-            {rateSale(
-              item?.lstProductTypeAndPrice[0]?.salePrice,
-              item?.lstProductTypeAndPrice[0]?.price,
-            )}{" "}
-            giảm
-          </div>
-        </div>
-        <div className="text-[11px] text-gray-500">Quà 100.000đ</div>
-      </div>
-    </Link>
+        </Link>
+      )}
+    </div>
   );
 };
 
