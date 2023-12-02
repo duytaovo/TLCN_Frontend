@@ -7,61 +7,62 @@ type Data = {
 const data: Data[] = [
   {
     type: "MacBook",
-    link: "https//cdn.tgdd.vn/Brand/1/logo-macbook-149x40.png",
+    link: "//cdn.tgdd.vn/Brand/1/logo-macbook-149x40.png",
   },
   {
     type: "ASSUS",
-    link: "https//cdn.tgdd.vn/Brand/1/logo-asus-149x40.png",
+    link: "//cdn.tgdd.vn/Brand/1/logo-asus-149x40.png",
   },
   {
     type: "HP",
-    link: "https//cdn.tgdd.vn/Brand/1/logo-hp-149x40-1.png",
+    link: "//cdn.tgdd.vn/Brand/1/logo-hp-149x40-1.png",
   },
   {
     type: "LENOVO",
-    link: "https//cdn.tgdd.vn/Brand/1/logo-lenovo-149x40.png",
+    link: "//cdn.tgdd.vn/Brand/1/logo-lenovo-149x40.png",
   },
   {
     type: "ACER",
-    link: "https//cdn.tgdd.vn/Brand/1/logo-acer-149x40.png",
+    link: "//cdn.tgdd.vn/Brand/1/logo-acer-149x40.png",
   },
   {
     type: "DELL",
-    link: "https//cdn.tgdd.vn/Brand/1/logo-dell-149x40.png",
+    link: "//cdn.tgdd.vn/Brand/1/logo-dell-149x40.png",
   },
   {
     type: "MSI",
-    link: "https//cdn.tgdd.vn/Brand/1/logo-msi-149x40.png",
+    link: "//cdn.tgdd.vn/Brand/1/logo-msi-149x40.png",
   },
   {
     type: "SURFACE",
-    link: "https//cdn.tgdd.vn/Brand/1/logo-surface-149x40-1.png",
+    link: "//cdn.tgdd.vn/Brand/1/logo-surface-149x40-1.png",
   },
   {
     type: "LG",
-    link: "https//cdn.tgdd.vn/Brand/1/logo-lg-149x40.png",
+    link: "//cdn.tgdd.vn/Brand/1/logo-lg-149x40.png",
   },
   {
     type: "GIGABYTE",
-    link: "https//cdn.tgdd.vn/Brand/1/logo-gigabyte-149x40.png",
+    link: "//cdn.tgdd.vn/Brand/1/logo-gigabyte-149x40.png",
   },
   {
     type: "INTEL NUC",
-    link: "https//cdn.tgdd.vn/Brand/1/logo-intel-149x40.png",
+    link: "//cdn.tgdd.vn/Brand/1/logo-intel-149x40.png",
   },
   {
     type: "CHUWI",
-    link: "https//cdn.tgdd.vn/Brand/1/logo-chuwi-149x40.png",
+    link: "//cdn.tgdd.vn/Brand/1/logo-chuwi-149x40.png",
   },
   {
     type: "INTEL",
-    link: "https//cdn.tgdd.vn/Brand/1/logo-itel-149x40.png",
+    link: "//cdn.tgdd.vn/Brand/1/logo-itel-149x40.png",
   },
 ];
 
 interface Props {
   handleSetChoose: (text: string) => void;
 }
+
 const LapTopQuickLink = ({ handleSetChoose }: Props) => {
   return (
     <div className="container__quicklink w-full ">
@@ -80,3 +81,4 @@ const LapTopQuickLink = ({ handleSetChoose }: Props) => {
   );
 };
 export default LapTopQuickLink;
+

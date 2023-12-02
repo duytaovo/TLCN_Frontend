@@ -65,3 +65,4 @@ const LapTop = () => {
   );
 };
 export default LapTop;
+
