@@ -165,7 +165,7 @@ const FilterItem = ({ data, handle, scroll }: Props) => {
         let key = Object.keys(element);
         if (key[0] === data.title) return true;
       }),
-    []
+    [],
   );
 
   const checkTurnOn1 = () =>
@@ -215,7 +215,7 @@ const FilterItem = ({ data, handle, scroll }: Props) => {
                   <ButtonItem
                     title={src?.id}
                     name={data?.title}
-                    img={src?.imageUrl?.substring("https://".length)}
+                    img={src?.imageUrl?.substring("https:".length)}
                   />
                 ) : data.title === "Nhu cầu" ? (
                   <ButtonItem
@@ -245,3 +245,4 @@ const FilterItem = ({ data, handle, scroll }: Props) => {
   );
 };
 export default FilterItem;
+

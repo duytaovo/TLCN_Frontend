@@ -155,7 +155,7 @@ const FilterItemTotal = ({ data, handle, scroll }: Props) => {
                           <ButtonItem
                             title={btn?.id}
                             name={src?.title}
-                            img={btn?.imageUrl?.substring("https://".length)}
+                            img={btn?.imageUrl?.substring("https:".length)}
                           />
                         ) : src.title === "Nhu cầu" ? (
                           <ButtonItem
@@ -190,3 +190,4 @@ const FilterItemTotal = ({ data, handle, scroll }: Props) => {
 };
 
 export default FilterItemTotal;
+
