@@ -2,6 +2,7 @@ import { lazy } from "react";
 import Search from "src/pages/Search";
 import path from "src/constants/path";
 import KhongTimThay from "src/pages/KhongTimThay/NotFound";
+import PhuKien from "src/pages/PhuKien";
 
 const CodeValidator = lazy(
   () => import("src/pages/Auth/ForgotPasword/ValidatorCode"),
@@ -99,19 +100,32 @@ const urls: string[] = [
 ];
 
 const urlsAccess: string[] = [
-  "smartphone/detail/:productSlug",
-  "laptop/detail/:productSlug",
-  "tablet/detail/:productSlug",
-  "watch/detail/:productSlug",
-  "man-hinh-may-tinh/detail/:productSlug",
-  "may-tinh-de-ban/detail/:productSlug",
-  "accessory/detail/:productSlug",
-  "smartwatch/detail/:productSlug",
+  "/accessory/ram",
+  "/accessory/rom",
+  "/accessory/processor",
+  "/accessory/graphics-card",
+  "/accessory/mouse",
+  "/accessory/loudspeaker",
+  "/accessory/adapter",
+  "/accessory/backup-charger",
+  "/accessory/microphone",
+  "/accessory/radiator",
+  "/accessory/keyboard",
+  "/accessory/earphone",
+  "/accessory/mainboard",
+  "/accessory/computer-case",
+  "/accessory/monitor",
+  "/accessory/computer-power",
 ];
 
 export const productDetailRoutes = urls.map((url) => ({
   path: url,
   Component: ProductDetail,
+}));
+
+export const accessRoutes = urlsAccess.map((url) => ({
+  path: url,
+  Component: PhuKien,
 }));
 
 export const routeAuth = [

@@ -40,13 +40,13 @@ function HeaderNav() {
     },
     { name: "Máy cũ giá rẻ", path: path.maycu },
     // { name: "Sim, thẻ cào", path: "/sim" },
-    {
-      name: "Dịch vụ tiện ích",
-      path: "/dichvu",
-      secondIcon: Down,
-      // tooltip: true,
-      content: DvContent,
-    },
+    // {
+    //   name: "Dịch vụ tiện ích",
+    //   path: "/dichvu",
+    //   secondIcon: Down,
+    //   // tooltip: true,
+    //   content: DvContent,
+    // },
   ];
   return (
     <nav>
@@ -81,3 +81,4 @@ function HeaderNav() {
 }
 
 export default HeaderNav;
+

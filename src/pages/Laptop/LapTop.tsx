@@ -35,7 +35,7 @@ const LapTop = () => {
   return (
     <div>
       <Helmet>
-        <title>Trang Laptop </title>
+        <title>Trang laptop </title>
         <meta name="description" content="Trang laptop" />
       </Helmet>
       <BigBannerLapTop />

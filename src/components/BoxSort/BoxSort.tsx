@@ -40,13 +40,14 @@ const BoxSort = ({
       }
     });
   };
+  console.log(selected);
   return (
     <div className={styles.boxsort}>
       <div className={styles.boxsort__body}>
         <p className={styles.boxsort__total}>
           <b>{countProduct}</b>
           <> </>
-          <strong className="text-white/90">{category}</strong>
+          <strong className="text-white/90 uppercase">{category}</strong>
           <> </>
           <b className="text-white/90">{choose?.type?.toUpperCase()}</b>
         </p>
@@ -60,7 +61,7 @@ const BoxSort = ({
               <span
                 className={clsx(
                   styles.tickCheckbox,
-                  checked.includes(item.id) && styles.active
+                  checked.includes(item.id) && styles.active,
                 )}
               ></span>
 
@@ -101,3 +102,4 @@ const BoxSort = ({
   );
 };
 export default BoxSort;
+

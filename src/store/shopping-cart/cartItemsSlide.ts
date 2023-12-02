@@ -1,7 +1,13 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { cartService } from "src/services/cart.service";
 import { payloadCreator } from "src/utils/utils";
-
+const data = {
+  data: [],
+  pageNumber: 0,
+  pageSize: 10,
+  totalElements: 1,
+  totalPages: 1,
+};
 const items =
   localStorage.getItem("cartItems") !== null
     ? JSON.parse(localStorage.getItem("cartItems") || "")
@@ -13,21 +19,23 @@ const itemsBuy =
     : [];
 export const getProductByProductSlugId = createAsyncThunk(
   "cartItems/getProductByProductSlugId",
-  payloadCreator(cartService.getProductByProductSlugId)
+  payloadCreator(cartService.getProductByProductSlugId),
 );
 export const getProductByProductSlug = createAsyncThunk(
   "cartItems/getProductByProductSlugId",
-  payloadCreator(cartService.getProductByProductSlug)
+  payloadCreator(cartService.getProductByProductSlug),
 );
 
 interface Cart {
   value: any[];
   valueBuy: any[];
+  productBySlug: any;
 }
 
 const initialState: Cart = {
   value: items,
   valueBuy: itemsBuy,
+  productBySlug: data,
 };
 export const cartItemsSlice = createSlice({
   name: "cartItems",
@@ -36,11 +44,11 @@ export const cartItemsSlice = createSlice({
     addItem: (state, action) => {
       const newItem = action.payload;
       const duplicate = state.value.filter(
-        (e: any) => e.product_id === newItem.product_id
+        (e: any) => e.product_id === newItem.product_id,
       );
       if (duplicate.length > 0) {
         state.value = state.value.filter(
-          (e: any) => e.product_id !== newItem.product_id
+          (e: any) => e.product_id !== newItem.product_id,
         );
 
         state.value = [
@@ -76,9 +84,9 @@ export const cartItemsSlice = createSlice({
         "cartItems",
         JSON.stringify(
           state.value.sort((a: any, b: any) =>
-            a.id > b.id ? 1 : a.id < b.id ? -1 : 0
-          )
-        )
+            a.id > b.id ? 1 : a.id < b.id ? -1 : 0,
+          ),
+        ),
       );
     },
 
@@ -88,20 +96,20 @@ export const cartItemsSlice = createSlice({
         "cartItemsBuy",
         JSON.stringify(
           state.value.sort((a: any, b: any) =>
-            a.id > b.id ? 1 : a.id < b.id ? -1 : 0
-          )
-        )
+            a.id > b.id ? 1 : a.id < b.id ? -1 : 0,
+          ),
+        ),
       );
     },
     updateItem: (state, action) => {
       const newItem = action.payload;
       const item = state.value.filter(
-        (e: any) => e.product_id === newItem.product_id
+        (e: any) => e.product_id === newItem.product_id,
       );
 
       if (item.length > 0) {
         state.value = state.value.filter(
-          (e: any) => e.product_id !== newItem.product_id
+          (e: any) => e.product_id !== newItem.product_id,
         );
 
         state.value = [
@@ -126,24 +134,24 @@ export const cartItemsSlice = createSlice({
         "cartItems",
         JSON.stringify(
           state.value.sort((a: any, b: any) =>
-            a.id > b.id ? 1 : a.id < b.id ? -1 : 0
-          )
-        )
+            a.id > b.id ? 1 : a.id < b.id ? -1 : 0,
+          ),
+        ),
       );
     },
     removeItem: (state, action) => {
       const item = action.payload;
       state.value = state.value.filter(
-        (e: any) => e.product_id !== item.product_id
+        (e: any) => e.product_id !== item.product_id,
       );
 
       localStorage.setItem(
         "cartItems",
         JSON.stringify(
           state.value.sort((a: any, b: any) =>
-            a.id > b.id ? 1 : a.id < b.id ? -1 : 0
-          )
-        )
+            a.id > b.id ? 1 : a.id < b.id ? -1 : 0,
+          ),
+        ),
       );
 
       JSON.parse(localStorage.getItem("cartItems") || "");
@@ -153,6 +161,11 @@ export const cartItemsSlice = createSlice({
       localStorage.removeItem("cartItems");
     },
   },
+  extraReducers: (builder) => {
+    builder.addCase(getProductByProductSlug.fulfilled, (state, { payload }) => {
+      state.productBySlug = payload.data;
+    });
+  },
 });
 
 export const { addItem, removeItem, updateItem, clearCart, addItemBuy } =
@@ -160,3 +173,4 @@ export const { addItem, removeItem, updateItem, clearCart, addItemBuy } =
 
 const cartItemReducer = cartItemsSlice.reducer;
 export default cartItemReducer;
+

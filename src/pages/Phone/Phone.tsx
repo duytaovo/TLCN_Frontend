@@ -170,6 +170,7 @@ const Phone = () => {
     ROM,
     PinSạc,
     ManHinh,
+    chooseBox,
   ]);
 
   useEffect(() => {

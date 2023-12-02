@@ -1,7 +1,13 @@
 import path from "src/constants/path";
 import { Suspense, useMemo } from "react";
 import { Route, Routes } from "react-router-dom";
-import { productDetailRoutes, routeAuth, routeMain, routeUser } from "./routes";
+import {
+  accessRoutes,
+  productDetailRoutes,
+  routeAuth,
+  routeMain,
+  routeUser,
+} from "./routes";
 import CommonLayout from "./layouts/CommonLayout";
 import AuthLayout from "./layouts/AuthLayout";
 import Loading from "./components/Loading";
@@ -28,6 +34,22 @@ export default function useRouteElements() {
 
   const renderRouterDetail = useMemo(() => {
     return productDetailRoutes.map(({ path, Component }, index) => {
+      return (
+        <Route
+          key={index}
+          path={path}
+          element={
+            <Suspense fallback={<Loading />}>
+              <Component />
+            </Suspense>
+          }
+        />
+      );
+    });
+  }, [path]);
+
+  const renderRouterPhuKien = useMemo(() => {
+    return accessRoutes.map(({ path, Component }, index) => {
       return (
         <Route
           key={index}
@@ -80,6 +102,9 @@ export default function useRouteElements() {
       <Route path="/" element={<CommonLayout />}>
         {renderRouterDetail}
       </Route>
+      <Route path={path.accessory} element={<CommonLayout />}>
+        {renderRouterPhuKien}
+      </Route>
       <Route
         path=""
         element={
@@ -105,3 +130,4 @@ export default function useRouteElements() {
 
   return <>{routeElements}</>;
 }
+

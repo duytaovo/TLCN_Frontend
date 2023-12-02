@@ -2,32 +2,46 @@ import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import clsx from "clsx";
 import axios from "axios";
-function AccesContent() {
-  const [items, setItems] = useState([]);
+import { useAppDispatch, useAppSelector } from "src/hooks/useRedux";
+import { getCategory } from "src/store/category/categorysSlice";
+import path from "src/constants/path";
+const AccesContent = () => {
+  const dispatch = useAppDispatch();
+
+  const { category } = useAppSelector<any>((state) => state.category);
+  console.log(category);
   useEffect(() => {
-    axios
-      .get("https://json.msang.repl.co/accessories")
-      .then((response) => response.data)
-      .then((data) => setItems(data));
+    dispatch(getCategory({ categorySlug: "smartphone" }));
   }, []);
   return (
     <div className="grid grid-cols-4 text-gray-800">
-      {items.map((item: any, index: number) => {
+      {category?.data?.map((item: any, index: number) => {
+        if (
+          item?.name === "Smartphone" ||
+          item?.name === "Laptop" ||
+          item?.name === "Computer" ||
+          item?.name === "Tablet" ||
+          item?.name === "Thiết bị mạng"
+        ) {
+          return null;
+        }
         return (
           <ul
             key={index}
             className={clsx(
               index === 0 && "row-start-1 row-end-4",
-              "mx-4 my-2"
+              "mx-4 my-2",
             )}
           >
             <li className="font-bold text-2xl border-b py-2 uppercase">
-              {item.title}
+              {item.name}
             </li>
-            {item.contents.map((content: any, index: number) => {
+            {item?.childCategories?.map((content: any, index: number) => {
               return (
                 <li className="py-2 hover:text-blue-600" key={index}>
-                  <Link to="/">{content.title}</Link>
+                  <Link to={`${path.accessory}/${content?.slug}`}>
+                    {content.name}
+                  </Link>
                 </li>
               );
             })}
@@ -36,6 +50,7 @@ function AccesContent() {
       })}
     </div>
   );
-}
+};
 
 export default AccesContent;
+

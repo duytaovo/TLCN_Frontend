@@ -21,6 +21,7 @@ import smartWatchReducer from "./product/smartwatchSlice";
 import brandsSlice from "./brand/brandsSlice";
 import filterReducer from "./product/filterSlice";
 import characteristicSlice from "./characteristic/characteristicSlice";
+import categorysSlice from "./category/categorysSlice";
 
 export const store = configureStore({
   reducer: {
@@ -40,6 +41,7 @@ export const store = configureStore({
     historyOrders: historyReducer,
     order: ordersSlice,
     brand: brandsSlice,
+    category: categorysSlice,
     characteristic: characteristicSlice,
   },
   devTools: process.env.NODE_ENV === "development",
@@ -63,3 +65,4 @@ export type AppStore = Omit<Store<RootState, AnyAction>, "dispatch"> & {
 };
 
 export default store;
+

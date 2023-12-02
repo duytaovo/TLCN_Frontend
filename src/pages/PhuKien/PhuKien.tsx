@@ -1,23 +1,26 @@
+import BigBannerPhuKien from "./BigBannerPhuKien";
 import { useEffect, useState } from "react";
 import { Helmet } from "react-helmet-async";
+import FilterPhuKien from "./FilterPhuKien";
+import QuickLinkPhuKien from "./QuickLinkPhuKien";
+import ListPhuKien from "./ListPhuKien";
 import { useAppDispatch, useAppSelector } from "src/hooks/useRedux";
 import { getSmartPhones } from "src/store/product/smartPhoneSlice";
 import { getBrand } from "src/store/brand/brandsSlice";
 import { getCharacteristic } from "src/store/characteristic/characteristicSlice";
 import { getFilter, getSort } from "src/store/product/filterSlice";
-import BigBannerTablet from "./BigBannerTablet";
-import FilterTablet from "./FilterTablet";
-import QuickLinkTablet from "./QuickLinkTablet";
-import ListTablet from "./ListTablet";
+import { useLocation, useParams } from "react-router-dom";
+import { getProductByProductSlug } from "src/store/shopping-cart/cartItemsSlide";
 
-const Phone = () => {
+const PhuKien = () => {
   const [choose, setChoose] = useState<any>();
+  const location = useLocation();
   const [chooseCharac, setChooseCharac] = useState<any>();
   const [chooseBox, setChooseBox] = useState<any>();
   const [isOpen, setisOpen] = useState<boolean>(false);
   const dispatch = useAppDispatch();
   const [currentPage, setCurrentPage] = useState(0); // Trang hiện tại
-  const filter = useAppSelector((state) => state.tablet.filter.data); // Lấy tất cả
+  const filter = useAppSelector((state) => state.smartphone.filter.data); // Lấy tất cả
   const { sort } = useAppSelector<any>((state) => state.filter);
   const { brand } = useAppSelector<any>((state) => state.brand);
   const { characteristic } = useAppSelector<any>(
@@ -188,9 +191,20 @@ const Phone = () => {
   useEffect(() => {
     dispatch(getSort(""));
     dispatch(getFilter({ slug: "smartphone" }));
-    dispatch(getBrand({ slug: "smartphone" }));
-    dispatch(getCharacteristic({ categorySlug: "smartphone" }));
-  }, []);
+    dispatch(
+      getBrand({ slug: location.pathname.substring(11) || "smartphone" }),
+    );
+    dispatch(
+      getCharacteristic({
+        categoryslug: location.pathname.substring(11) || "smartphone",
+      }),
+    );
+    dispatch(
+      getProductByProductSlug({
+        slug: location.pathname.substring(11) || "smartphone",
+      }),
+    );
+  }, [location.pathname]);
   const handle = (boolean: boolean) => {
     setisOpen(boolean);
   };
@@ -211,16 +225,16 @@ const Phone = () => {
   return (
     <div className="text-textWhiteMain">
       <Helmet>
-        <title>Trang tablet</title>
+        <title>Trang phụ kiện </title>
         <meta name="description" content="Trang điện thoại" />
       </Helmet>
-      <BigBannerTablet />
-      <FilterTablet
+      <BigBannerPhuKien />
+      <FilterPhuKien
         handle={handle}
         brand={brand}
         characteristic={characteristic}
       />
-      <QuickLinkTablet
+      <QuickLinkPhuKien
         handleSetChoose={handleSetChoose}
         choose={choose}
         handleSetChooseCharac={handleSetChooseCharac}
@@ -228,7 +242,8 @@ const Phone = () => {
         brand={brand}
         characteristic={characteristic}
       />
-      <ListTablet
+      <ListPhuKien
+        category={location.pathname.substring(11)}
         handleSetChooseBox={handleSetChooseBox}
         choose={choose}
         setChooseBox={setChooseBox}
@@ -239,5 +254,5 @@ const Phone = () => {
     </div>
   );
 };
-export default Phone;
+export default PhuKien;
 
