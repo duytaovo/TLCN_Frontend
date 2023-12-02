@@ -119,7 +119,7 @@ const QuickLinkPhone = ({
                     active={active}
                     type={item.name}
                     id={item.id}
-                    link={item.imageUrl.substring("https://".length)}
+                    link={item.imageUrl.substring("https:".length)}
                     handleSetChoose={handleSetChoose}
                     isImg={true}
                   />
@@ -136,7 +136,7 @@ const QuickLinkPhone = ({
                 {characteristic?.data?.map((item: any, index: number) => {
                   const active = item?.id === chooseCharac;
                   const className = clsx(
-                    active && "border-[1px] rounded-xl border-blue-700  "
+                    active && "border-[1px] rounded-xl border-blue-700  ",
                   );
                   return (
                     <div key={index}>
@@ -160,3 +160,4 @@ const QuickLinkPhone = ({
 };
 
 export default QuickLinkPhone;
+
