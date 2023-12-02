@@ -37,7 +37,7 @@ const Search = ({ placeholder, onChange, width, loading }: Props) => {
         />
       </IconButton> */}
       <Input.Search
-        className="mr-5 text-2xl  text-black placeholder:text-2xl focus:outline-none"
+        className=" text-2xl  text-black placeholder:text-2xl focus:outline-none"
         placeholder={`${placeholder}...`}
         loading={loading}
         onChange={getValue}
