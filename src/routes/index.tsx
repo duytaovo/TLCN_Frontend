@@ -4,12 +4,12 @@ import path from "src/constants/path";
 import KhongTimThay from "src/pages/KhongTimThay/NotFound";
 
 const CodeValidator = lazy(
-  () => import("src/pages/Auth/ForgotPasword/ValidatorCode")
+  () => import("src/pages/Auth/ForgotPasword/ValidatorCode"),
 );
 const Home = lazy(() => import("src/pages/Home/Home"));
 const Payment = lazy(() => import("src/pages/Payment/Payment"));
 const CodeValidatorActiveAccount = lazy(
-  () => import("src/pages/Auth/AcctiveAccount/ValidatorCode")
+  () => import("src/pages/Auth/AcctiveAccount/ValidatorCode"),
 );
 const ActiveAccount = lazy(() => import("src/pages/Auth/AcctiveAccount"));
 const ForgotPassword = lazy(() => import("src/pages/Auth/ForgotPasword"));
@@ -19,7 +19,7 @@ const LapTop = lazy(() => import("src/pages/Laptop/LapTop"));
 const Maycu = lazy(() => import("src/pages/Maycu/Maycu"));
 const Phone = lazy(() => import("src/pages/Phone/Phone"));
 const ProductDetail = lazy(
-  () => import("src/pages/ProductDetail/SmartPhoneDetail")
+  () => import("src/pages/ProductDetail/SmartPhoneDetail"),
 );
 const Samsung = lazy(() => import("src/pages/Samsung/Samsung"));
 const SmartWatch = lazy(() => import("src/pages/Smartwatch/SmartWatch"));
@@ -98,6 +98,17 @@ const urls: string[] = [
   "smartwatch/detail/:productSlug",
 ];
 
+const urlsAccess: string[] = [
+  "smartphone/detail/:productSlug",
+  "laptop/detail/:productSlug",
+  "tablet/detail/:productSlug",
+  "watch/detail/:productSlug",
+  "man-hinh-may-tinh/detail/:productSlug",
+  "may-tinh-de-ban/detail/:productSlug",
+  "accessory/detail/:productSlug",
+  "smartwatch/detail/:productSlug",
+];
+
 export const productDetailRoutes = urls.map((url) => ({
   path: url,
   Component: ProductDetail,
@@ -155,3 +166,4 @@ export const routeUser = [
     Component: History,
   },
 ];
+

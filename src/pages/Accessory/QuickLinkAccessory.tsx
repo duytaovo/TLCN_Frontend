@@ -60,11 +60,10 @@ const QuickLinkAccessory = () => {
     <div className="container__quicklink-accessory">
       <div>
         <h3>Chuyên trang thương hiệu</h3>
-        <div className="quicklink">
+        <div className="quicklink m-0">
           <div>
             {data.map((item) => (
               <QuickLink
-                
                 handleSetChoose={() => {}}
                 type={item.type}
                 link={`${item.link}`}
@@ -79,3 +78,4 @@ const QuickLinkAccessory = () => {
 };
 
 export default QuickLinkAccessory;
+

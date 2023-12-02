@@ -21,9 +21,8 @@ const Phone = () => {
   const { sort } = useAppSelector<any>((state) => state.filter);
   const { brand } = useAppSelector<any>((state) => state.brand);
   const { characteristic } = useAppSelector<any>(
-    (state) => state.characteristic
+    (state) => state.characteristic,
   );
-  console.log(filter);
   const [dataFilterLocal, setDataFilterLocal] = useState<any>();
   // Hàm tách mảng
   useEffect(() => {
@@ -117,7 +116,7 @@ const Phone = () => {
     });
 
     const validRanges = numericRanges.filter(
-      (range: any) => range !== null
+      (range: any) => range !== null,
     ) as {
       startPrice: number;
       endPrice: number;
@@ -157,7 +156,7 @@ const Phone = () => {
       getSmartPhones({
         body: body,
         params: { pageNumber: currentPage, pageSize: 10, sort: chooseBox },
-      })
+      }),
     );
   }, [
     currentPage,
@@ -183,7 +182,7 @@ const Phone = () => {
       getSmartPhones({
         body: body,
         params: { pageNumber: currentPage, pageSize: 10 },
-      })
+      }),
     );
   }, [currentPage, choose, chooseCharac]);
   useEffect(() => {
@@ -241,3 +240,4 @@ const Phone = () => {
   );
 };
 export default Phone;
+

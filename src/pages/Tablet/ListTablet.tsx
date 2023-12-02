@@ -1,162 +1,121 @@
-import { useState, useEffect } from "react";
 import "./tablet.scss";
+import { useEffect, useState } from "react";
 import BoxSort from "src/components/BoxSort/BoxSort";
+import handleData from "src/components/Filter/handleData";
 import ListProduct from "src/components/ListProduct/ListProduct";
 import { useAppSelector } from "src/hooks/useRedux";
-import handleData from "src/components/Filter/handleData";
-import { productService } from "src/services";
-import { ListSmartPhone } from "src/types/allProductsType.interface";
-
-interface Data {
+import { SmartPhone } from "src/store/product/smartPhoneSlice";
+export interface DataListPhone {
+  id: number;
   title: string;
   link: string;
   type?: string;
 }
-const dataFake: Data[] = [
+const dataFake: DataListPhone[] = [
   {
-    title: "Giao nhanh",
-    link: "//cdn.tgdd.vn/mwgcart/mwgcore/ContentMwg/images/icon-thunder.png",
-  },
-  {
+    id: 2,
     title: "Giảm giá",
     link: "",
-    type: "giamgia",
+    type: "% Giảm",
   },
+
   {
-    title: "Góp 0%",
-    link: "",
-    type: "tragop",
-  },
-  {
+    id: 3,
     title: "Mới",
     link: "",
-    type: "new",
+    type: "Mới nhất",
   },
 ];
-const dataSelected: { type: string }[] = [
+const dataSelected: { id: number; type: string }[] = [
+  { id: 1, type: "Giá cao đến thấp" },
+  { id: 2, type: "Giá thấp đến cao" },
   {
-    type: "Nổi bật",
+    id: 3,
+    type: "Mới nhất",
   },
   {
-    type: "% Giảm giá cao",
+    id: 4,
+    type: "Bán chạy",
   },
   {
-    type: "Giá cao đến thấp",
-  },
-  {
-    type: "Giá thấp đến cao",
+    id: 5,
+    type: "% Giảm",
   },
 ];
 
 interface Props {
   choose?: ConcatArray<never> | string | any;
-  isOpen?: boolean;
+  isOpen: boolean;
   handlePageChange: any;
   currentPage: number;
+  chooseBox?: any;
+  setChooseBox?: any;
+  handleSetChooseBox: any;
 }
+
 const ListTablet = ({
   choose,
   isOpen,
   handlePageChange,
   currentPage,
+  chooseBox,
+  setChooseBox,
+  handleSetChooseBox,
 }: Props) => {
-  const [dataLocal, setDataLocal] = useState<any>();
-
-  const [selected, setSelected] = useState(false);
-  const [checked, setChecked] = useState<any>([]);
+  const [selected, setSelected] = useState<boolean>(false);
   const [chooseBoxSort, setChooseBoxSort] = useState<number>(0);
-  const { tablet, filter } = useAppSelector((state) => state.tablet);
-  let dataAfter = tablet;
-  if (filter?.length !== 0) {
-    dataAfter = handleData(tablet, filter);
-  }
-  let getDataFilter: any = dataLocal;
-  useEffect(() => {
-    setDataLocal(tablet.data);
-  }, [tablet]);
-  useEffect(() => {
-    const getProduct = async () => {
-      // if (choose === "") {
-      //   let res: any = await productService.getProductByPolicy(
-      //     "tablet",
-      //     checked.map((item: any) => "&" + item + "=true").join("")
-      //   );
-      //   setData(res.data);
-      // } else if (choose !== "") {
-      //   let res: any = await productService.getProductByBrand(
-      //     "tablet",
-      //     choose.toLowerCase() +
-      //       checked.map((item: any) => "&" + item + "=true").join("")
-      //   );
-      //   setData(res.data);
-      // }
-    };
-    getProduct();
-  }, [choose, checked]);
+  const [checked, setChecked] = useState<any[]>([]);
+  const { smartPhone, filter } = useAppSelector<any>(
+    (state) => state.smartphone,
+  );
+  let dataAfter = smartPhone?.data;
+  // if (filter?.data?.length !== 0) {
+  //   dataAfter = handleData(smartPhone, filter?.data);
+  // }
 
   const handleClick = (index: number) => {
     setChooseBoxSort(index);
+    handleSetChooseBox(index);
   };
 
-  if (chooseBoxSort === 3) {
-    getDataFilter = getDataFilter.sort((a: any, b: any) => a.price - b.price);
-  } else if (chooseBoxSort === 2) {
-    getDataFilter = getDataFilter.sort((a: any, b: any) => b.price - a.price);
-  } else if (chooseBoxSort === 1) {
-    getDataFilter = getDataFilter?.sort(
-      (a: any, b: any) => b.discount - a.discount
-    );
-  }
-
-  if (checked.includes("giamgia")) {
-    getDataFilter = getDataFilter.filter((item: any) => item.discount !== 0);
-  } else if (checked.includes("tragop")) {
-    getDataFilter = getDataFilter.filter(
-      (item: any) => item.promotion === "Trả góp 0%"
-    );
-  }
-
   return (
-    <div className="space-y-8">
-      {/* <BoxSort
+    <>
+      <BoxSort
+        chooseBoxSort={chooseBoxSort}
         data={dataFake}
         onclick={handleClick}
         dataSelected={dataSelected}
         selected={selected}
         setSelected={setSelected}
         choose={choose}
-        countProduct={
-          isOpen === false
-            ? getDataFilter?.length
-            : dataAfter.data?.data?.length
-        }
-        title={choose}
         checked={checked}
         setChecked={setChecked}
-        category={"Máy tính bảng"}
-      /> */}
-      <div className=" tablet__content">
+        category="smartphone"
+        countProduct={smartPhone?.data.totalElements}
+      />
+      <div className="phone__content">
         <div className="">
           {isOpen === false ? (
             <ListProduct
+              products={smartPhone?.data}
+              isSlide={false}
+              category={"smartphone"}
               handlePageChange={handlePageChange}
               currentPage={currentPage}
-              products={getDataFilter}
-              isSlide={false}
-              category={"tablet"}
             />
           ) : (
             <ListProduct
               products={dataAfter}
+              category={"smartphone"}
               isSlide={false}
-              category={"tablet"}
               handlePageChange={handlePageChange}
               currentPage={currentPage}
-            />
+            ></ListProduct>
           )}
         </div>
       </div>
-    </div>
+    </>
   );
 };
 export default ListTablet;
+

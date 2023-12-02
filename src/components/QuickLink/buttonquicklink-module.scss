@@ -5,14 +5,15 @@
   margin-top: 0;
 }
 .quicklink {
-  background-color: #e0e0e0;
+  // background-color: #e0e0e0;
   padding: 15px 0;
   max-width: 1200px;
   margin-top: 15px;
   border-radius: 12px;
 
   div {
-    display: grid;
+    display: flex;
+    flex-wrap: wrap;
     grid-auto-rows: minmax(min-content, max-content);
     grid-template-columns: repeat(8, minmax(0, 1fr));
     max-width: 92%;
@@ -39,3 +40,4 @@
     border: 0;
   }
 }
+

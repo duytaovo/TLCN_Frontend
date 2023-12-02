@@ -1,4 +1,5 @@
 import QuickLink from "src/components/QuickLink/ButtonQuickLink";
+import "./laptopquicklink-module.scss";
 
 type Data = {
   type: string;
@@ -61,21 +62,29 @@ const data: Data[] = [
 
 interface Props {
   handleSetChoose: (text: string) => void;
+  choose: any;
 }
 
-const LapTopQuickLink = ({ handleSetChoose }: Props) => {
+const LapTopQuickLink = ({ choose, handleSetChoose }: Props) => {
   return (
-    <div className="container__quicklink w-full ">
-      <div className="quicklink flex space-x-4 m-4 justify-around">
-        {data.map((item) => (
-          <QuickLink
-            handleSetChoose={handleSetChoose}
-            type={item.type}
-            link={item.link}
-            isImg={true}
-            key={item.link}
-          />
-        ))}
+    <div className="container__phone space-y-4 mt-4 w-full ">
+      <div className=" flex  gap-5">
+        {data?.map((item: any, index: number) => {
+          const active = item?.id === choose?.id;
+
+          return (
+            <div key={index}>
+              <QuickLink
+                active={active}
+                type={item.type}
+                id={item.type}
+                link={item.link}
+                handleSetChoose={handleSetChoose}
+                isImg={true}
+              />
+            </div>
+          );
+        })}
       </div>
     </div>
   );

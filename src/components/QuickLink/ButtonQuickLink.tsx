@@ -20,7 +20,7 @@ const QuickLink = ({
   active,
 }: Props) => {
   const className = clsx(
-    active && "border-[2px] rounded-xl text-blue-400 border-blue-700  "
+    active && "border-[2px] rounded-xl text-blue-400 border-blue-700  ",
   );
   return (
     <Link
@@ -47,3 +47,4 @@ const QuickLink = ({
   );
 };
 export default QuickLink;
+

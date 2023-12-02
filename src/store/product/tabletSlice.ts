@@ -8,20 +8,14 @@ import { payloadCreator } from "src/utils/utils";
 
 export const getTablets = createAsyncThunk(
   "tablet/getTablets",
-  payloadCreator(tabletService.getAllProducts)
+  payloadCreator(tabletService.getAllProducts),
 );
 
 export const getDetailTablet = createAsyncThunk(
   "tablet/getDetailTablet",
-  payloadCreator(tabletService.getProduct)
+  payloadCreator(tabletService.getProduct),
 );
-const data = {
-  data: [],
-  pageNumber: 0,
-  pageSize: 10,
-  totalElements: 1,
-  totalPages: 1,
-};
+
 const datamau = {
   code: 0,
   message: "",
@@ -98,17 +92,27 @@ const dataDetail: SmartPhoneDetail = {
     slug: "",
   },
 };
-
+const data = {
+  data: [],
+  pageNumber: 0,
+  pageSize: 10,
+  totalElements: 1,
+  totalPages: 1,
+};
 const initialState = {
   tablet: datamau,
   tabletDetail: dataDetail,
-  filter: [],
+  filter: data,
 };
 
 const tabletSlice = createSlice({
   name: "tablet",
   initialState,
-  reducers: {},
+  reducers: {
+    handleFilterStore: (state, action) => {
+      state.filter.data = action.payload;
+    },
+  },
   extraReducers: (builder) => {
     builder.addCase(getTablets.fulfilled, (state, { payload }) => {
       state.tablet = payload.data;
@@ -118,6 +122,8 @@ const tabletSlice = createSlice({
     });
   },
 });
+export const { handleFilterStore } = tabletSlice.actions;
 
 const tabletReducer = tabletSlice.reducer;
 export default tabletReducer;
+

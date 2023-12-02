@@ -39,7 +39,9 @@ const LapTop = () => {
         <meta name="description" content="Trang laptop" />
       </Helmet>
       <BigBannerLapTop />
-      <LapTopQuickLink handleSetChoose={handleSetChoose} />
+      <div className="mb-7">
+        <LapTopQuickLink choose={choose} handleSetChoose={handleSetChoose} />
+      </div>
       <MenuTopLapTop />
       <LapTopDeal
         handlePageChange={handlePageChange}
