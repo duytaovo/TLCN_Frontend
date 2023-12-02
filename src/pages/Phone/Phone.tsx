@@ -66,26 +66,45 @@ const Phone = () => {
     if (Gia === undefined || Gia.length === 0) {
       return null;
     }
-
     const numericRanges = Gia.map((priceString: any) => {
-      console.log(priceString);
       const matches = priceString.match(/(\d+) - (\d+)/);
       let startPrice;
       let endPrice;
-      // if (priceString.search("Dưới") != -1) {
-      //   startPrice = 0;
-      //   endPrice = 2;
-      //   if (!isNaN(startPrice) && !isNaN(endPrice)) {
-      //     return { startPrice, endPrice };
-      //   }
-      // } else if (priceString.search("Trên") != -1) {
-      //   startPrice = 2;
-      //   endPrice = 10;
-      //   if (!isNaN(startPrice) && !isNaN(endPrice)) {
-      //     return { startPrice, endPrice };
-      //   }
-      // } else
-      if (matches && matches.length === 3) {
+      if (
+        priceString.search("Dưới") != -1 &&
+        priceString.search("Trên") != -1
+      ) {
+        startPrice = 0;
+        endPrice = 100;
+
+        if (!isNaN(startPrice) && !isNaN(endPrice)) {
+          return { startPrice, endPrice };
+        }
+      } else if (priceString.search("Dưới") != -1) {
+        startPrice = 0;
+        endPrice = 2;
+
+        if (matches && matches.length === 3) {
+          // startPrice = parseInt(matches[1], 10);
+          endPrice = parseInt(matches[2], 10);
+        }
+
+        if (!isNaN(startPrice) && !isNaN(endPrice)) {
+          return { startPrice, endPrice };
+        }
+      } else if (priceString.search("Trên") != -1) {
+        startPrice = 20;
+        endPrice = 100;
+        if (matches && matches.length === 3) {
+          startPrice = parseInt(matches[1], 10);
+        }
+        if (priceString.search("Dưới") != -1) {
+          startPrice = 0;
+        }
+        if (!isNaN(startPrice) && !isNaN(endPrice)) {
+          return { startPrice, endPrice };
+        }
+      } else if (matches && matches.length === 3) {
         startPrice = parseInt(matches[1], 10);
         endPrice = parseInt(matches[2], 10);
 
@@ -121,8 +140,12 @@ const Phone = () => {
       slug: "smartphone",
       brandId: Hãng ? Hãng : null,
       characteristicId: NhuCau ? NhuCau : null,
-      priceFrom: minMaxPrices?.minPrice ? Number(minMaxPrices?.minPrice) : null,
-      priceTo: minMaxPrices?.maxPrice ? Number(minMaxPrices?.maxPrice) : null,
+      priceFrom: minMaxPrices?.minPrice
+        ? minMaxPrices?.minPrice
+        : minMaxPrices?.minPrice == 0
+        ? 0
+        : null,
+      priceTo: minMaxPrices?.maxPrice ? minMaxPrices?.maxPrice : null,
       specialFeatures: TinhNangDacBiet ? TinhNangDacBiet : [],
       smartphoneType: LoaiDienThoai ? LoaiDienThoai : [],
       ram: RAM ? RAM : [],
@@ -140,7 +163,8 @@ const Phone = () => {
     currentPage,
     Hãng,
     NhuCau,
-    minMaxPrices,
+    minMaxPrices?.maxPrice,
+    minMaxPrices?.minPrice,
     TinhNangDacBiet,
     LoaiDienThoai,
     RAM,

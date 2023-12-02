@@ -1,7 +1,7 @@
-import http from "src/utils/http";
+import http, { httpNew } from "src/utils/http";
 
 export const searchService = {
-  getResultSearchApi(value: string) {
-    return http.get(`/products?q=${value}`);
+  getResultSearchApi(params: any) {
+    return httpNew.get(`/search`, { params });
   },
 };

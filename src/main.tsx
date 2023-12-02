@@ -11,18 +11,28 @@ import { ConfigProvider } from "antd";
 import { theme } from "./constants/antdConfig";
 import GlobalStyles from "./components/GlobalStyles";
 import { AppProvider } from "./contexts/app.context";
-
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      refetchOnWindowFocus: false,
+      retry: 0,
+    },
+  },
+});
 ReactDOM.createRoot(document.getElementById("root")!).render(
   // <React.StrictMode>
   <BrowserRouter>
     <ConfigProvider theme={theme}>
-      <Provider store={store}>
-        <GlobalStyles>
-          <AppProvider>
-            <App />
-          </AppProvider>
-        </GlobalStyles>
-      </Provider>
+      <QueryClientProvider client={queryClient}>
+        <Provider store={store}>
+          <GlobalStyles>
+            <AppProvider>
+              <App />
+            </AppProvider>
+          </GlobalStyles>
+        </Provider>
+      </QueryClientProvider>
     </ConfigProvider>
   </BrowserRouter>
   // </React.StrictMode>

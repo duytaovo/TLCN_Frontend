@@ -65,7 +65,7 @@ const SliderPrice = ({ Apper }: any) => {
     const temp1 = 100 - (max / 100) * 100 + "%";
     progress.current.style.right = `${temp1}`;
 
-    const string = `${min}-${max}`;
+    const string = `${min} - ${max}`;
     // Lấy keyword
     if (min != 0 || max != 100) {
       let newKeyword = {

@@ -11,7 +11,6 @@ import path from "src/constants/path";
 import { useTranslation } from "react-i18next";
 import CustomDropDown from "../Dropdown/Dropdown";
 import { AppContext } from "src/contexts/app.context";
-import SentimentSatisfiedAltRoundedIcon from "@mui/icons-material/SentimentSatisfiedAltRounded";
 import logo from "src/assets/images/logotechstore.jpg";
 import { clearLS } from "src/utils/auth";
 import { logoutUser } from "src/store/user/userSlice";
@@ -19,6 +18,14 @@ import { useAppDispatch } from "src/hooks/useRedux";
 import { unwrapResult } from "@reduxjs/toolkit";
 import { toast } from "react-toastify";
 import { UserOutlined } from "@ant-design/icons";
+import PopoverSearch from "../Popover";
+import { Box } from "@mui/material";
+import Search from "../Search";
+import { useMutation, useQuery } from "@tanstack/react-query";
+import { useDebounce } from "usehooks-ts";
+import { searchService } from "src/services";
+import ItemSearch from "../Search/ItemSearch";
+import { Input } from "antd";
 
 const customDropdownStyle = {
   arrow: false,
@@ -37,7 +44,7 @@ const Header = () => {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
   const [isScrolled, setIsScrolled] = useState(false);
-
+  const [isLoading, setIsLoading] = useState(false);
   const handleOrderClick = () => {};
   useEffect(() => {
     const handleScroll = () => {
@@ -113,6 +120,28 @@ const Header = () => {
       ),
     },
   ];
+  const [valueSearch, setValueSearch] = useState("");
+  const debouncedValue = useDebounce<string>(valueSearch, 500);
+  const onChange = (value: string) => {
+    setValueSearch(value);
+    if (value == "") {
+      setIsLoading(false);
+    } else {
+      setIsLoading(true);
+    }
+  };
+
+  const { data: dataSearch } = useQuery({
+    queryKey: ["dataSearch", debouncedValue],
+    queryFn: () => {
+      setIsLoading(false);
+      return searchService.getResultSearchApi({ keyword: debouncedValue });
+    },
+
+    enabled: debouncedValue !== "",
+    // keepPreviousData: true,
+    staleTime: 3 * 60 * 1000,
+  });
   return (
     <header
       className={`${
@@ -133,7 +162,53 @@ const Header = () => {
             </div>
           </Link>
           <FilterButton />
-          <SearchInput />
+          {/* <SearchInput /> */}
+
+          <PopoverSearch
+            className="z-[10000]"
+            renderPopover={
+              <Box
+                sx={{
+                  width: 400,
+                  // height: "50vh",
+                  backgroundColor: "white",
+                  borderRadius: "1px",
+                  overflow: "auto",
+                  scrollBehavior: "smooth",
+                  scrollbarColor: "revert",
+                  zIndex: 10000,
+                }}
+                className="h-auto max-h-[50vh]"
+              >
+                <div className="ml-3 text-black">
+                  {dataSearch?.data?.data.length > 0 ? (
+                    <div>
+                      <h6 className=" mt-2 p2">Kết quả tìm kiếm</h6>
+                      {dataSearch?.data?.data?.map(
+                        (item: any, index: number) => (
+                          <div key={index} className="m-2 ml-0">
+                            <ItemSearch item={item} />
+                          </div>
+                        )
+                      )}
+                    </div>
+                  ) : (
+                    <div className="h-10 bg-white"></div>
+                  )}
+                </div>
+              </Box>
+            }
+          >
+            <div>
+              <Search
+                width="400px"
+                placeholder="Tìm kiếm"
+                onChange={onChange}
+                loading={isLoading}
+              />
+            </div>
+          </PopoverSearch>
+
           <Link
             to={path.historyPurchase}
             onClick={handleOrderClick}
