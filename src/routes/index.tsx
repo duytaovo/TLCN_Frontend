@@ -1,4 +1,5 @@
 import { lazy } from "react";
+import Search from "src/pages/Search";
 import path from "src/constants/path";
 import KhongTimThay from "src/pages/KhongTimThay/NotFound";
 
@@ -68,10 +69,13 @@ export const routeMain = [
     path: path.samsung,
     Component: Samsung,
   },
-
   {
     path: path.pc,
     Component: Pc,
+  },
+  {
+    path: path.search,
+    Component: Search,
   },
   {
     path: path.cartNew,

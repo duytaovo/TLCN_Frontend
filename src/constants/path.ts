@@ -34,6 +34,7 @@ const path = {
   activeAccount: "/user/activeAccount",
   payment: "/user/payment",
   comment: "/user/comment",
+  search: "/search",
 } as const;
 
 export default path;

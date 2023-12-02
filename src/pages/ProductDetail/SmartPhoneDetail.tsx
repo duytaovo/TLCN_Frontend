@@ -280,7 +280,6 @@ export default function SmartPhoneDetail() {
     setSalePrice(salePrice);
   };
   if (!productData) return null;
-
   return (
     <div className="bg-gray-200 py-6">
       <Helmet>
@@ -487,17 +486,18 @@ export default function SmartPhoneDetail() {
                           </Button>
                         )}
                       <Modal
-                        title="Chi tiết sản phẩm"
                         open={isModalOpenDetail}
                         onOk={handleOkDetail}
                         onCancel={handleCancelDetail}
                         centered
+                        className="p-5 h-screen flex justify-center items-center"
                         width={1200}
                       >
                         <BasicTabs
                           tabDefault={"1"}
                           children1={
                             <div
+                              className="flex justify-center flex-col"
                               dangerouslySetInnerHTML={{
                                 __html: DOMPurify.sanitize(
                                   productData.productInfo.description
@@ -521,16 +521,20 @@ export default function SmartPhoneDetail() {
                                         if (index != 0) {
                                           return (
                                             <tr
-                                              className={clsx(
-                                                index % 2 === 0 &&
-                                                  "bg-gray-100 p-5"
-                                              )}
+                                              className={`
+                                      p-6  
+                                        ${index % 2 === 0 && "bg-gray-100"}
+                                          
+                                        `}
                                               key={index}
                                             >
-                                              <td colSpan={4} className="my-4">
+                                              <td
+                                                colSpan={6}
+                                                className="my-4 p-6"
+                                              >
                                                 {t(translationKey)}
                                               </td>
-                                              <td colSpan={6}>
+                                              <td colSpan={4}>
                                                 {productData[item]}
                                               </td>
                                             </tr>
@@ -541,36 +545,48 @@ export default function SmartPhoneDetail() {
                                   ) : (
                                     <tr></tr>
                                   )}
-                                  <tr className={""}>
-                                    <td colSpan={4}>Hãng sản xuất</td>
-                                    <td colSpan={6}>{brand?.name}</td>
+                                  <tr className={" p-6 "}>
+                                    <td colSpan={6} className="my-4 p-6">
+                                      Hãng sản xuất
+                                    </td>
+                                    <td colSpan={4}>{brand?.name}</td>
                                   </tr>
-                                  <tr className={"bg-gray-200"}>
-                                    <td colSpan={4}>Năm ra mắt</td>
-                                    <td colSpan={6}>
+                                  <tr className={"bg-gray-100  p-6 "}>
+                                    <td colSpan={6} className="my-4 p-6">
+                                      Năm ra mắt
+                                    </td>
+                                    <td colSpan={4}>
                                       {productData?.productInfo?.launchTime}
                                     </td>
                                   </tr>
-                                  <tr className={""}>
-                                    <td colSpan={4}>Phụ kiện</td>
-                                    <td colSpan={6}>
+                                  <tr className={" p-6 "}>
+                                    <td colSpan={6} className="my-4 p-6">
+                                      Phụ kiện
+                                    </td>
+                                    <td colSpan={4}>
                                       {productData?.productInfo?.accessories}
                                     </td>
                                   </tr>
-                                  <tr className={"bg-gray-100"}>
-                                    <td colSpan={4}>Thiết kế</td>
-                                    <td colSpan={6}>
+                                  <tr className={"bg-gray-100  p-6 "}>
+                                    <td colSpan={6} className="my-4 p-6">
+                                      Thiết kế
+                                    </td>
+                                    <td colSpan={4}>
                                       {productData?.productInfo?.design}
                                     </td>
                                   </tr>
-                                  <tr className={""}>
-                                    <td colSpan={4}>Kích thước</td>
+                                  <tr className={" p-6 "}>
+                                    <td colSpan={4} className="my-4 p-6">
+                                      Kích thước
+                                    </td>
                                     <td colSpan={6}>
                                       {productData?.productInfo?.dimension}
                                     </td>
                                   </tr>
-                                  <tr className={"bg-gray-100"}>
-                                    <td colSpan={4}>Khối lượng</td>
+                                  <tr className={"bg-gray-100  p-6"}>
+                                    <td colSpan={4} className="my-4 p-6">
+                                      Khối lượng
+                                    </td>
                                     <td colSpan={6}>
                                       {productData?.productInfo?.mass}
                                     </td>

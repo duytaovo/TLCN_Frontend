@@ -15,6 +15,7 @@ function Anchor({ name, path, firstIcon, secondIcon }: Props) {
   };
   const FirstIcon = firstIcon || Empty;
   const SecondIcon = secondIcon || Empty;
+  
   return (
     <Link
       to={path}

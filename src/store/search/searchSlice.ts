@@ -9,7 +9,8 @@ export const searchSlice = createSlice({
   },
   reducers: {
     getResultSearch: (state, action) => {
-      state.search.data = action.payload;
+      console.log(action.payload?.data?.data);
+      state.search.data = action.payload?.data?.data;
     },
     removeResultSearch: (state) => {
       state.search.data = [];
@@ -20,3 +21,4 @@ export const searchSlice = createSlice({
 export const { getResultSearch, removeResultSearch } = searchSlice.actions;
 
 export default searchSlice.reducer;
+

@@ -21,11 +21,11 @@ import { UserOutlined } from "@ant-design/icons";
 import PopoverSearch from "../Popover";
 import { Box } from "@mui/material";
 import Search from "../Search";
-import { useMutation, useQuery } from "@tanstack/react-query";
+import { useQuery } from "@tanstack/react-query";
 import { useDebounce } from "usehooks-ts";
 import { searchService } from "src/services";
 import ItemSearch from "../Search/ItemSearch";
-import { Input } from "antd";
+import { getResultSearch } from "src/store/search/searchSlice";
 
 const customDropdownStyle = {
   arrow: false,
@@ -130,7 +130,11 @@ const Header = () => {
       setIsLoading(true);
     }
   };
-
+  useEffect(() => {
+    setTimeout(() => {
+      setIsLoading(false);
+    }, 700);
+  }, [isLoading]);
   const { data: dataSearch } = useQuery({
     queryKey: ["dataSearch", debouncedValue],
     queryFn: () => {
@@ -142,6 +146,15 @@ const Header = () => {
     // keepPreviousData: true,
     staleTime: 3 * 60 * 1000,
   });
+  const [isOpenPopup, setIsOpenPopup] = useState(false);
+  const handle = (boolean: boolean) => {
+    setIsOpenPopup(false);
+  };
+
+  useEffect(() => {
+    dispatch(getResultSearch(dataSearch));
+  }, [dataSearch]);
+
   return (
     <header
       className={`${
@@ -166,6 +179,9 @@ const Header = () => {
 
           <PopoverSearch
             className="z-[10000]"
+            isOpenPopup={isOpenPopup}
+            setIsOpenPopup={setIsOpenPopup}
+            handePopup={handle}
             renderPopover={
               <Box
                 sx={{
@@ -178,7 +194,7 @@ const Header = () => {
                   scrollbarColor: "revert",
                   zIndex: 10000,
                 }}
-                className="h-auto max-h-[50vh]"
+                className="h-auto max-h-[50vh] min-h-auto"
               >
                 <div className="ml-3 text-black">
                   {dataSearch?.data?.data.length > 0 ? (
@@ -187,13 +203,17 @@ const Header = () => {
                       {dataSearch?.data?.data?.map(
                         (item: any, index: number) => (
                           <div key={index} className="m-2 ml-0">
-                            <ItemSearch item={item} />
+                            <ItemSearch item={item} handePopup={handle} />
                           </div>
-                        )
+                        ),
                       )}
                     </div>
                   ) : (
-                    <div className="h-10 bg-white"></div>
+                    <div className="h-10 bg-white">
+                      {dataSearch?.data?.data.length === 0 && (
+                        <h2>Không có sản phẩm trong hệ thống chúng tôi</h2>
+                      )}
+                    </div>
                   )}
                 </div>
               </Box>
@@ -205,6 +225,7 @@ const Header = () => {
                 placeholder="Tìm kiếm"
                 onChange={onChange}
                 loading={isLoading}
+                handePopup={handle}
               />
             </div>
           </PopoverSearch>
@@ -254,3 +275,4 @@ const Header = () => {
 };
 
 export default Header;
+

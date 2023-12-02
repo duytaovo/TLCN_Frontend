@@ -1,4 +1,11 @@
-import { useState, useRef, useId, type ElementType, useContext } from "react";
+import {
+  useState,
+  useRef,
+  useId,
+  type ElementType,
+  useContext,
+  useEffect,
+} from "react";
 import {
   useFloating,
   FloatingPortal,
@@ -17,6 +24,9 @@ interface Props {
   as?: ElementType;
   initialOpen?: boolean;
   placement?: Placement;
+  handePopup: any;
+  isOpenPopup: boolean;
+  setIsOpenPopup: any;
 }
 
 export default function Popover({
@@ -25,9 +35,11 @@ export default function Popover({
   renderPopover,
   as: Element = "div",
   initialOpen,
+  isOpenPopup,
+  setIsOpenPopup,
   placement = "bottom",
+  handePopup,
 }: Props) {
-  const [open, setOpen] = useState(initialOpen || false);
   const arrowRef: any = useRef<HTMLElement>(null);
   const { x, y, reference, floating, context, strategy } = useFloating({
     middleware: [offset(0)],
@@ -37,10 +49,10 @@ export default function Popover({
   const { getReferenceProps, getFloatingProps } = useInteractions([click]);
   const id = useId();
   const showPopover = () => {
-    setOpen(true);
+    setIsOpenPopup(true);
   };
   const hidePopover = () => {
-    setOpen(false);
+    setIsOpenPopup(false);
   };
 
   return (
@@ -54,7 +66,7 @@ export default function Popover({
       {children}
       <FloatingPortal id={id}>
         <AnimatePresence>
-          {open && (
+          {isOpenPopup && (
             <motion.div
               ref={floating}
               style={{
