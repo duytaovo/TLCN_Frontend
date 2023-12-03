@@ -97,6 +97,20 @@ const urls: string[] = [
   "may-tinh-de-ban/detail/:productSlug",
   "accessory/detail/:productSlug",
   "smartwatch/detail/:productSlug",
+  "ram/detail/:productSlug",
+  "rom/detail/:productSlug",
+  "processor/detail/:productSlug",
+  "graphics-card/detail/:productSlug",
+  "mouse/detail/:productSlug",
+  "loudspeaker/detail/:productSlug",
+  "adapter/detail/:productSlug",
+  "microphone/detail/:productSlug",
+  "keyboard/detail/:productSlug",
+  "radiator/detail/:productSlug",
+  "computer-case/detail/:productSlug",
+  "mainboard/detail/:productSlug",
+  "monitor/detail/:productSlug",
+  "computer-power/detail/:productSlug",
 ];
 
 const urlsAccess: string[] = [

@@ -40,7 +40,6 @@ const BoxSort = ({
       }
     });
   };
-  console.log(selected);
   return (
     <div className={styles.boxsort}>
       <div className={styles.boxsort__body}>

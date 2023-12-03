@@ -9,7 +9,6 @@ const AccesContent = () => {
   const dispatch = useAppDispatch();
 
   const { category } = useAppSelector<any>((state) => state.category);
-  console.log(category);
   useEffect(() => {
     dispatch(getCategory({ categorySlug: "smartphone" }));
   }, []);

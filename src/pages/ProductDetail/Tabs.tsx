@@ -24,12 +24,11 @@ const BasicTabs = ({
     },
   ];
 
-  const onChange = (key: string) => {
-    // console.log(key);
-  };
+  const onChange = (key: string) => {};
   return (
     <Tabs defaultActiveKey={tabDefault} items={items} onChange={onChange} />
   );
 };
 
 export default BasicTabs;
+

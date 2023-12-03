@@ -25,10 +25,9 @@ export const userService = {
   },
 
   updateProfile({ id, body }: any) {
-    console.log(id, body);
     return httpNew.put<SuccessResponse<any>>(
       `/user/update-profile/${id}`,
-      body
+      body,
     );
   },
 
@@ -49,3 +48,4 @@ export const userService = {
     });
   },
 };
+

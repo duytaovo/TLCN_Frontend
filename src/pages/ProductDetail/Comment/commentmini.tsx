@@ -2,7 +2,6 @@ import { CameraFill, PersonFill, CaretUpFill } from "react-bootstrap-icons";
 import moment from "moment";
 import { Rate } from "antd";
 const Commentmini = ({ comment, replies, handleReply }: any) => {
-  console.log("comment" + comment);
   return (
     <div className="mx-8">
       {
@@ -22,7 +21,9 @@ const Commentmini = ({ comment, replies, handleReply }: any) => {
             <Rate value={comment?.star} disabled allowHalf />
           </div>
           <span className="text-gray-400">
-            {moment(comment?.createdTime?.substring(0,10)).format("HH:MM-MM/DD/YYYY")}
+            {moment(comment?.createdTime?.substring(0, 10)).format(
+              "HH:MM-MM/DD/YYYY",
+            )}
           </span>
           {/* {comment?.feedbackFilesUrl?.map((item: string) => {
             <img src={item} alt="" />;
@@ -77,3 +78,4 @@ const Commentmini = ({ comment, replies, handleReply }: any) => {
 };
 
 export default Commentmini;
+

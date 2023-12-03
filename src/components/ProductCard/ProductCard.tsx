@@ -89,7 +89,7 @@ const ProductCard = ({ product, category, docquyen }: Props) => {
                 <div className="ml-4 rounded-sm  py-[2px] text-lg font-semibold uppercase text-black">
                   {rateSale(
                     product?.lstProductTypeAndPrice[0]?.salePrice,
-                    product?.lstProductTypeAndPrice[0]?.price
+                    product?.lstProductTypeAndPrice[0]?.price,
                   )}{" "}
                   giảm
                 </div>
@@ -98,7 +98,7 @@ const ProductCard = ({ product, category, docquyen }: Props) => {
                 <span className="text-2xl">
                   đ
                   {formatCurrency(
-                    product?.lstProductTypeAndPrice[0]?.salePrice
+                    product?.lstProductTypeAndPrice[0]?.salePrice,
                   )}
                 </span>
               </div>
@@ -185,3 +185,4 @@ const ProductCard = ({ product, category, docquyen }: Props) => {
 // };
 
 export default ProductCard;
+

@@ -22,7 +22,6 @@ const Search = () => {
   const [fillterLocation, setFillterLocation] = useState(false);
   const [checked, setChecked] = useState(1);
   let resultSearch = useAppSelector((state) => state.search.search.data);
-  console.log(resultSearch);
   //   let products = useSelector((state) => state.products.location.data);
   let product;
   //   if (fillterLocation) {

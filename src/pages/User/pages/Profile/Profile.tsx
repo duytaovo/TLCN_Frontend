@@ -29,7 +29,6 @@ interface FormData {
 }
 
 export default function Profile() {
-  console.log("first");
   const { setProfile } = useContext(AppContext);
   const [file, setFile] = useState<File[]>();
   const imageArray = file || []; // Mảng chứa các đối tượng ảnh (File hoặc Blob)
@@ -109,7 +108,7 @@ export default function Profile() {
         }
       }
       const res = await dispatch(
-        updateProfile({ id: userWithId.id, body })
+        updateProfile({ id: userWithId.id, body }),
       ).then(unwrapResult);
 
       setProfile(res.data.data);
@@ -134,8 +133,6 @@ export default function Profile() {
   const handleChangeFile = (file?: File[]) => {
     setFile(file);
   };
-
-  console.log(userWithId);
 
   return (
     <div className="container rounded-sm bg-white px-2 pl-5 pb-10 shadow md:px-7 md:pb-20">
@@ -323,3 +320,4 @@ export default function Profile() {
     </div>
   );
 }
+

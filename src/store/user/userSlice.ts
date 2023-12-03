@@ -5,46 +5,46 @@ import { payloadCreator } from "src/utils/utils";
 
 export const login = createAsyncThunk(
   "auth/login",
-  payloadCreator(authApi.login)
+  payloadCreator(authApi.login),
 );
 export const registerUser = createAsyncThunk(
   "auth/registerUser",
-  payloadCreator(authApi.register)
+  payloadCreator(authApi.register),
 );
 
 export const logoutUser = createAsyncThunk(
   "auth/logoutUser",
-  payloadCreator(authApi.logout)
+  payloadCreator(authApi.logout),
 );
 
 export const getUserById = createAsyncThunk(
   "auth/getUserById",
-  payloadCreator(userService.getUserById)
+  payloadCreator(userService.getUserById),
 );
 
 export const getUser = createAsyncThunk(
   "auth/getUser",
-  payloadCreator(authApi.getUser)
+  payloadCreator(authApi.getUser),
 );
 
 export const updatePassword = createAsyncThunk(
   "auth/updatePassword",
-  payloadCreator(userService.updatePassword)
+  payloadCreator(userService.updatePassword),
 );
 
 export const updateProfile = createAsyncThunk(
   "auth/updateProfile",
-  payloadCreator(userService.updateProfile)
+  payloadCreator(userService.updateProfile),
 );
 
 export const activeAccount = createAsyncThunk(
   "auth/activeAccount",
-  payloadCreator(userService.activeAccount)
+  payloadCreator(userService.activeAccount),
 );
 
 export const getCodeValidator = createAsyncThunk(
   "auth/getCodeValidator",
-  payloadCreator(userService.sendCode)
+  payloadCreator(userService.sendCode),
 );
 
 type User = {
@@ -95,7 +95,6 @@ const userSlice = createSlice({
   reducers: {},
   extraReducers: (builder) => {
     builder.addCase(login.fulfilled, (state, { payload }) => {
-      console.log(payload);
       state.accessToken = payload.data.data.accessToken;
       state.token = payload.data.data.token;
     });
@@ -112,3 +111,4 @@ const userSlice = createSlice({
 
 const userReducer = userSlice.reducer;
 export default userReducer;
+

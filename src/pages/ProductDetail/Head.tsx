@@ -6,7 +6,6 @@ import {
   HandThumbsUpFill,
 } from "react-bootstrap-icons";
 const Head = (dataDetail: any) => {
-  console.log(dataDetail);
   const { name, slug, star, totalReview } = dataDetail;
 
   const data = {
@@ -82,3 +81,4 @@ const Head = (dataDetail: any) => {
 };
 
 export default Head;
+

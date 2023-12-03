@@ -71,7 +71,6 @@ const ListPhuKien = ({
     (state) => state.smartphone,
   );
   const { productBySlug } = useAppSelector<any>((state) => state.cartItems);
-  console.log(productBySlug);
   let dataAfter = smartPhone?.data;
   // if (filter?.data?.length !== 0) {
   //   dataAfter = handleData(smartPhone, filter?.data);

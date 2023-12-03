@@ -1,7 +1,6 @@
 import { Link as LinkIcon } from "react-bootstrap-icons";
 import clsx from "clsx";
 const Parameter = (productDetail: any) => {
-  console.log(productDetail);
   const { parameter, title } = productDetail;
   return (
     <div className="my-8">
@@ -44,3 +43,4 @@ const Parameter = (productDetail: any) => {
 };
 
 export default Parameter;
+

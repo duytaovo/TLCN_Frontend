@@ -64,7 +64,7 @@ const Payment: React.FC = () => {
             "Content-Type": "application/json",
             token: "9c800251-8994-11ee-b394-8ac29577e80e",
           },
-        }
+        },
       )
       .then(function (response) {
         const method = response.data.data.map(
@@ -77,7 +77,7 @@ const Payment: React.FC = () => {
           }) => ({
             id: service_id,
             name: short_name,
-          })
+          }),
         );
         setMethodTransport(method);
       })
@@ -111,7 +111,7 @@ const Payment: React.FC = () => {
             token: "9c800251-8994-11ee-b394-8ac29577e80e",
             shop_id: config.shopId,
           },
-        }
+        },
       )
       .then(function (response) {
         setFee(Math.ceil(response.data.data.total));
@@ -145,7 +145,7 @@ const Payment: React.FC = () => {
       valueBuy.reduce((result, current) => {
         return result + current.salePrice * current.quantity;
       }, 0),
-    [valueBuy]
+    [valueBuy],
   );
   const onSubmit = handleSubmit(async (data) => {
     const deliveryPrice = fee;
@@ -201,7 +201,6 @@ const Payment: React.FC = () => {
   });
 
   const onChange = (value: number) => setIdMethod(value);
-  console.log(idMethod);
 
   return (
     <div className=" bg-mainBackGroundColor/30 ">
@@ -414,3 +413,4 @@ const Payment: React.FC = () => {
 };
 
 export default () => <Payment />;
+
