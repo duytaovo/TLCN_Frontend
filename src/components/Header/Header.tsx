@@ -1,6 +1,5 @@
 import { Link, useNavigate } from "react-router-dom";
 import HeaderNav from "./HeaderNav";
-import SearchInput from "./SearchInput";
 import CartButton from "./CartButton";
 import FilterButton from "./FilterButton";
 import styles from "./header.module.scss";
