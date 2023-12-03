@@ -57,7 +57,6 @@ const Search = ({
     event.preventDefault();
     const target = event.target as HTMLInputElement;
     const value = target.value;
-    console.log(valueSearch);
     let getValue = value.replace(/\s/g, "");
     let url = match(getValue, config);
     if (url === null) {
