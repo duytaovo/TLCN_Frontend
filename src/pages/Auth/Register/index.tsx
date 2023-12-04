@@ -18,6 +18,7 @@ import logo from "src/assets/images/logotechstore.jpg";
 
 import Button from "../Button";
 import SelectCustom from "src/components/Select";
+import path from "src/constants/path";
 
 const Login = () => {
   const dispatch = useAppDispatch();
@@ -49,8 +50,8 @@ const Login = () => {
       unwrapResult(res);
       const d = res?.payload.data;
       if (d?.code !== 200) return toast.error("Lỗi đăng ký tài khoản");
+      // await setIsAuthenticated(true);
       toast.success("Đăng ký thành công");
-      await setIsAuthenticated(true);
       setTimeout(() => {
         navigate("/login");
       }, 500);
@@ -79,9 +80,21 @@ const Login = () => {
         <title>Đăng ký </title>
         <meta name="description" content="Trang đăng nhập" />
       </Helmet>
-      <div className="lg:col-span-2 lg:col-start-4  bg-mainColor/30 w-1/4 md:w-full justify-center m-10 rounded-2xl">
+      <div className="lg:col-span-2 lg:col-start-4  bg-mainColor/30 w-1/4 md:w-full justify-center m-10 rounded">
+        <div className=" ">
+          <Link
+            to={path.home}
+            className=" mt-2 rounded-[30px] p-4 text-xs  text-blue-400 hover:opacity-80"
+          >
+            <span className="text-2xl mt-4">Trang chủ</span>
+          </Link>
+        </div>
         <div className="flex items-center justify-center rounded-2xl mt-3">
-          <img src={logo} alt="logo" className="w-30 h-20 md:hidden"></img>
+          <img
+            src={logo}
+            alt="logo"
+            className="w-52 h-32 rounded-md md:hidden"
+          ></img>
         </div>
         <form
           className="rounded p-10 md:p-2 shadow-sm"
@@ -105,14 +118,14 @@ const Login = () => {
             name="phoneNumber"
             register={register}
             type="text"
-            className="mt-8"
+            className="mt-2"
             errorMessage={errors.phoneNumber?.message}
             placeholder="Số điện thoại"
           />
           <Input
             name="password"
             register={register}
-            type="text"
+            type="password"
             className="mt-2"
             classNameEye="absolute right-[5px] h-5 w-5 cursor-pointer top-[12px]"
             errorMessage={errors.password?.message}
@@ -141,12 +154,12 @@ const Login = () => {
           />
 
           <SelectCustom
-            className={"flex-1 text-black"}
+            className={" text-black"}
             id="gender"
-            placeholder="Vui lòng chọn"
+            placeholder="Giới tính"
             options={[
-              { id: 0, name: "Nam" },
-              { id: 1, name: "Nữ" },
+              { id: 1, name: "Nam" },
+              { id: 2, name: "Nữ" },
             ]}
             register={register}
           >
@@ -156,13 +169,23 @@ const Login = () => {
             <Button
               // isNext
               type="submit"
-              className="flex w-full items-center justify-center mt-2 rounded-[30px] bg-mainColor py-3 px-2 text-sm uppercase text-white hover:opacity-80"
+              className="flex w-full items-center justify-center mt-2 rounded bg-mainColor py-3 px-2 text-sm uppercase text-white hover:opacity-80"
             >
               {isSubmitting ? (
-                "Loading..."
+                <span className="text-2xl mt-4">Loading...</span>
               ) : (
                 <span className="text-2xl mt-4">Đăng ký</span>
               )}
+            </Button>
+          </div>
+          <div className="mt-3 flex justify-center space-x-2 items-center ">
+            <Button
+              // isNext
+              onClick={() => navigate(path.login)}
+              type="button"
+              className="flex w-full items-center justify-center mt-2 rounded bg-buyColor py-3 px-2 text-sm uppercase text-white hover:opacity-80"
+            >
+              <span className="text-2xl mt-4">Đăng nhập</span>
             </Button>
           </div>
         </form>
@@ -172,3 +195,4 @@ const Login = () => {
 };
 
 export default Login;
+

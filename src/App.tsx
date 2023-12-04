@@ -1,6 +1,6 @@
 import useRouteElements from "./useRouteElements";
-import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { ToastContainer } from "react-toastify";
 import { HelmetProvider } from "react-helmet-async";
 import "./App.css";
 import "normalize.css";
@@ -14,8 +14,6 @@ const theme = createTheme({
   direction: "rtl",
   // other theme properties
 });
-
-
 
 function App() {
   const routeElements = useRouteElements();
@@ -38,3 +36,4 @@ function App() {
 }
 
 export default App;
+

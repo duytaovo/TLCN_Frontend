@@ -42,7 +42,7 @@ const CodeValidatorActiveAccount = () => {
       const d = res?.payload.data;
       if (d?.code !== 200) return toast.error("Lỗi lấy mã xác nhận");
       toast.success(
-        "Thành công, vui lòng kiểm tra email và điền mã xác nhận !!!"
+        "Thành công, vui lòng kiểm tra email và điền mã xác nhận !!!",
       );
       navigate(path.activeAccount);
     } catch (error: any) {
@@ -106,7 +106,7 @@ const CodeValidatorActiveAccount = () => {
               className="flex w-full items-center justify-center mt-2 rounded-[30px] bg-mainColor py-3 px-2 text-sm uppercase text-white hover:opacity-80"
             >
               {isSubmitting ? (
-                "Loading..."
+                <span className="text-2xl mt-4">Loading...</span>
               ) : (
                 <span className="text-2xl mt-4">Lấy mã xác nhận</span>
               )}
@@ -119,3 +119,4 @@ const CodeValidatorActiveAccount = () => {
 };
 
 export default CodeValidatorActiveAccount;
+

@@ -45,11 +45,11 @@ const Payment: React.FC = () => {
   const [addressOption, setAddresOption] = useState<any>();
   const [methodTransport, setMethodTransport] = useState<any>();
   const addressSelect =
-    addressOption?.city.name +
+    addressOption?.ward.name +
     " " +
     addressOption?.district.name +
     " " +
-    addressOption?.ward.name;
+    addressOption?.city.name;
   useEffect(() => {
     axios
       .get(
@@ -179,6 +179,7 @@ const Payment: React.FC = () => {
       localStorage.removeItem("cartItemsBuy");
       // localStorage.removeItem("cartItems");
       if (Number(data.paymentMethod) === 1) {
+        toast.success("Đặt hàng thành công.");
         navigate(path.home);
         return;
       }
@@ -196,7 +197,7 @@ const Payment: React.FC = () => {
         }
       }
     } finally {
-      setIsSubmitting(false);
+      setTimeout(() => setIsSubmitting(false), 3000);
     }
   });
 
@@ -303,7 +304,7 @@ const Payment: React.FC = () => {
                   <SelectCustom
                     className={"flex-1 text-black"}
                     id="methodTransport"
-                    placeholder="Vui lòng chọn"
+                    placeholder="Cách thức nhận hàng"
                     options={methodTransport}
                     register={register}
                     isBrand={true}
@@ -320,7 +321,7 @@ const Payment: React.FC = () => {
                   <SelectCustom
                     className={"flex-1 text-black"}
                     id="paymentMethod"
-                    placeholder="Vui lòng chọn"
+                    placeholder="Cách thức thanh toán"
                     options={[
                       { id: 1, name: "Thanh toán khi nhận hàng" },
                       { id: 2, name: "Thanh toán qua VNPay" },
@@ -396,7 +397,11 @@ const Payment: React.FC = () => {
               type="submit"
               className="h-20 my-8 bg-yellow-300 rounded-lg w-full text-black/50 text-2xl hover:bg-mainColor hover:text-white transition-all duration-500 font-bold"
             >
-              ĐẶT HÀNG
+              {isSubmitting ? (
+                <span className="text-2xl mt-4">Loading...</span>
+              ) : (
+                <span className="text-2xl mt-4">Đặt hàng</span>
+              )}
             </button>
             <small className="block text-center">
               Bạn có thể chọn hình thức thanh toán sau khi đặt hàng

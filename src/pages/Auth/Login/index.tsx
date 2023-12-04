@@ -41,17 +41,18 @@ const Login = () => {
       password: data.password,
     };
     try {
-      setIsSubmitting(true);
+      await setIsSubmitting(true);
       const res = await dispatch(login(body));
       unwrapResult(res);
       const d = res?.payload.data;
-      if (d?.code !== 200)
+      if (d?.code !== 200) {
         return toast.error("Số điện thoại hoặc mật khẩu sai");
-      toast.success("Đăng nhập thành công");
+      }
       await setAccessTokenToLS(d?.data.accessToken);
       await setRefreshTokenToLS(d?.data.token);
       await setIsAuthenticated(true);
       await navigate("/");
+      toast.success("Đăng nhập thành công");
       location.reload();
     } catch (error: any) {
       if (isAxiosUnprocessableEntityError<ErrorResponse<FormData>>(error)) {
@@ -76,7 +77,15 @@ const Login = () => {
         <title>Đăng nhập </title>
         <meta name="description" content="Trang đăng nhập" />
       </Helmet>
-      <div className="lg:col-span-2 lg:col-start-4  bg-mainColor/30 w-1/4 md:w-full justify-center m-10 rounded-2xl">
+      <div className="lg:col-span-2 lg:col-start-4  bg-mainColor/30 w-1/4 md:w-full justify-center m-10 rounded">
+        <div className=" ">
+          <Link
+            to={path.home}
+            className=" mt-2 rounded-[30px] p-4  text-xs  text-blue-400 hover:opacity-80"
+          >
+            <span className="text-2xl mt-4">Trang chủ</span>
+          </Link>
+        </div>
         <div className="flex items-center justify-center rounded-2xl mt-3">
           <img
             src={logo}
@@ -97,7 +106,7 @@ const Login = () => {
             name="phone"
             register={register}
             type="text"
-            className="mt-8"
+            className="mt-2"
             errorMessage={errors.phone?.message}
             placeholder="Số điện thoại"
           />
@@ -105,7 +114,7 @@ const Login = () => {
             name="password"
             register={register}
             type="password"
-            className="mt-2"
+            className=""
             classNameEye="absolute right-[5px] h-5 w-5 cursor-pointer top-[12px]"
             errorMessage={errors.password?.message}
             placeholder="Password"
@@ -115,10 +124,10 @@ const Login = () => {
             <Button
               // isNext
               type="submit"
-              className="flex w-full items-center justify-center mt-2 rounded-[30px] bg-mainColor py-3 px-2 text-sm uppercase text-white hover:opacity-80"
+              className="flex w-full items-center justify-center mt-2 rounded bg-mainColor py-3 px-2 text-sm uppercase text-white hover:opacity-80"
             >
               {isSubmitting ? (
-                "Loading..."
+                <span className="text-2xl mt-4">Loading...</span>
               ) : (
                 <span className="text-2xl mt-4">Đăng nhập</span>
               )}
@@ -129,11 +138,20 @@ const Login = () => {
               // isNext
               onClick={() => navigate(path.sendCode)}
               type="button"
-              className="flex w-full items-center justify-center mt-2 rounded-[30px] bg-mainColor py-3 px-2 text-sm uppercase text-white hover:opacity-80"
+              className="flex w-full items-center justify-center mt-2 rounded bg-yellow-500 py-3 px-2 text-sm uppercase text-white hover:opacity-80"
             >
               <span className="text-2xl mt-4">Quên mật khẩu</span>
             </Button>
+            <Button
+              // isNext
+              onClick={() => navigate(path.register)}
+              type="button"
+              className="flex w-full items-center justify-center mt-2 rounded bg-buyColor py-3 px-2 text-sm uppercase text-white hover:opacity-80"
+            >
+              <span className="text-2xl mt-4">Đăng ký</span>
+            </Button>
           </div>
+          <div className="mt-3 flex justify-center space-x-2 items-center "></div>
         </form>
       </div>
     </div>

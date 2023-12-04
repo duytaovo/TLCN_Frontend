@@ -102,7 +102,7 @@ const ActiveAccount = () => {
               className="flex w-full items-center justify-center mt-2 rounded-[30px] bg-mainColor py-3 px-2 text-sm uppercase text-white hover:opacity-80"
             >
               {isSubmitting ? (
-                "Loading..."
+                <span className="text-2xl mt-4">Loading...</span>
               ) : (
                 <span className="text-2xl mt-4">Kích hoạt tài khoản</span>
               )}
@@ -115,3 +115,4 @@ const ActiveAccount = () => {
 };
 
 export default ActiveAccount;
+

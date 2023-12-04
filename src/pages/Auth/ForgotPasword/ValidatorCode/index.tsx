@@ -1,5 +1,5 @@
 import { useContext, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useAppDispatch } from "src/hooks/useRedux";
 import { AppContext } from "src/contexts/app.context";
 import { useForm } from "react-hook-form";
@@ -43,10 +43,10 @@ const CodeValidator = () => {
       unwrapResult(res);
       const d = res?.payload.data;
       if (d?.code !== 200) return toast.error("Lỗi cấp lại mật khẩu");
-      toast.success(
-        "Thành công, vui lòng kiểm tra email và điền mã xác nhận !!!"
-      );
       navigate(path.forgotPassword);
+      toast.success(
+        "Thành công, vui lòng kiểm tra email và điền mã xác nhận !!!",
+      );
     } catch (error: any) {
       if (isAxiosUnprocessableEntityError<ErrorResponse<SchemaForGot>>(error)) {
         const formError = error.response?.data.data;
@@ -70,9 +70,21 @@ const CodeValidator = () => {
         <title>Quên mật khẩu </title>
         <meta name="description" content="Trang đăng nhập" />
       </Helmet>
-      <div className="lg:col-span-2 lg:col-start-4  bg-mainColor/30 w-1/4 md:w-full justify-center m-10 rounded-2xl">
+      <div className="lg:col-span-2 lg:col-start-4  bg-mainColor/30 w-1/4 md:w-full justify-center m-10 rounded">
+        <div className=" ">
+          <Link
+            to={path.home}
+            className=" mt-2 rounded-[30px] p-4 text-xs  text-blue-400 hover:opacity-80"
+          >
+            <span className="text-2xl mt-4">Trang chủ</span>
+          </Link>
+        </div>
         <div className="flex items-center justify-center rounded-2xl mt-3">
-          <img src={logo} alt="logo" className="w-30 h-20 md:hidden"></img>
+          <img
+            src={logo}
+            alt="logo"
+            className="w-52 h-32 rounded-md md:hidden"
+          ></img>
         </div>
         <form
           className="rounded p-10 md:p-2 shadow-sm"
@@ -105,7 +117,7 @@ const CodeValidator = () => {
           <div className="mt-3 flex justify-center space-x-2 items-center ">
             <Button
               type="submit"
-              className="flex w-full items-center justify-center mt-2 rounded-[30px] bg-mainColor py-3 px-2 text-sm uppercase text-white hover:opacity-80"
+              className="flex w-full items-center justify-center mt-2 rounded bg-mainColor py-3 px-2 text-sm uppercase text-white hover:opacity-80"
             >
               {isSubmitting ? (
                 "Loading..."
@@ -121,3 +133,4 @@ const CodeValidator = () => {
 };
 
 export default CodeValidator;
+

@@ -233,7 +233,7 @@ export default function Profile() {
                 register={register}
                 name="password"
                 type="text"
-                placeholder="Mật khẩu"
+                placeholder="*********"
                 errorMessage={errors.password?.message}
               />
             </div>
