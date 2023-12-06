@@ -36,11 +36,12 @@ export default function Profile() {
   // Tạo một mảng chứa các URL tạm thời cho ảnh
   const [addressOption, setAddresOption] = useState<any>();
   const addressSelect =
-    addressOption?.city.name +
-    " " +
+    addressOption?.ward.name +
+    ", " +
     addressOption?.district.name +
-    " " +
-    addressOption?.ward.name;
+    ", " +
+    addressOption?.city.name;
+
   for (const image of imageArray) {
     const imageUrl = URL.createObjectURL(image);
     imageUrls.push(imageUrl);
