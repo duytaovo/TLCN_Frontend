@@ -1,9 +1,16 @@
-import { useState } from "react";
-import { Link } from "react-router-dom";
-import { useAppSelector } from "src/hooks/useRedux";
+import { Link, useNavigate } from "react-router-dom";
+import { useAppDispatch, useAppSelector } from "src/hooks/useRedux";
 import OrderTable from "./OrderTable";
+import { handleFilterStore } from "src/store/product/smartPhoneSlice";
+import path from "src/constants/path";
 
 const EmptyOrder = () => {
+  const navigate = useNavigate();
+  const dispatch = useAppDispatch();
+  const onClick = () => {
+    dispatch(handleFilterStore([]));
+    navigate(path.home);
+  };
   return (
     <div className="flex flex-col items-center justify-center my-8">
       <img
@@ -12,7 +19,7 @@ const EmptyOrder = () => {
       ></img>
 
       <p>Bạn chưa có đơn hàng nào</p>
-      <Link className="text-blue-400" to="/">
+      <Link className="text-blue-400" to="/" onClick={onClick}>
         Về trang chủ
       </Link>
       <div>
@@ -28,3 +35,4 @@ const PurchaseHistory = () => {
   return <div>{check ? <EmptyOrder /> : <OrderTable />}</div>;
 };
 export default PurchaseHistory;
+

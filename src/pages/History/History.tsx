@@ -10,15 +10,24 @@ const History = () => {
   const [currentPage, setCurrentPage] = useState(0); // Trang hiện tại
   const pageSize = 10; // Số phần tử trên mỗi trang
   const { historyOrder } = useAppSelector((state) => state.historyOrders);
-
+  
   useEffect(() => {
-    dispatch(getHistoryOrders({ pageNumber: currentPage }));
+    const body = {
+      orderStatus: [],
+      buyDateFrom: null,
+      buyDateTo: null,
+      paymentStatus: [],
+    };
+    dispatch(
+      getHistoryOrders({
+        body: body,
+        params: { pageNumber: currentPage, pageSize: 10 },
+      }),
+    );
   }, [currentPage]);
-
   const handlePageChange = (page: number) => {
     setCurrentPage(page - 1);
   };
-
   return (
     <div>
       {" "}
@@ -39,3 +48,4 @@ const History = () => {
   );
 };
 export default History;
+

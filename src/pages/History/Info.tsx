@@ -4,8 +4,16 @@ import clsx from "clsx";
 import { Button } from "antd";
 import path from "src/constants/path";
 import { useNavigate } from "react-router-dom";
+import { useAppDispatch } from "src/hooks/useRedux";
+import { handleFilterStore } from "src/store/product/smartPhoneSlice";
 const Info = () => {
   const navigate = useNavigate();
+  const dispatch = useAppDispatch();
+  const onClick = () => {
+    console.log("object");
+    dispatch(handleFilterStore([]));
+    navigate(path.home);
+  };
 
   return (
     <div className="min-h-[100vh]">
@@ -23,7 +31,7 @@ const Info = () => {
             <p className="text-2xl font-medium ml-4">
               Danh sách đơn hàng đã mua
             </p>
-            <Button type="link" onClick={() => navigate(path.home)}>
+            <Button type="link" onClick={onClick}>
               Về trang chủ
             </Button>
           </div>
@@ -38,3 +46,4 @@ const Info = () => {
 };
 
 export default Info;
+
