@@ -26,6 +26,11 @@ export const getProductByProductSlug = createAsyncThunk(
   payloadCreator(cartService.getProductByProductSlug),
 );
 
+export const getProductsFilterAccess = createAsyncThunk(
+  "cartItems/getProductsFilterAccess",
+  payloadCreator(cartService.getProductsFilterAccess),
+);
+
 interface Cart {
   value: any[];
   valueBuy: any[];
@@ -163,6 +168,9 @@ export const cartItemsSlice = createSlice({
   },
   extraReducers: (builder) => {
     builder.addCase(getProductByProductSlug.fulfilled, (state, { payload }) => {
+      state.productBySlug = payload.data;
+    });
+    builder.addCase(getProductsFilterAccess.fulfilled, (state, { payload }) => {
       state.productBySlug = payload.data;
     });
   },

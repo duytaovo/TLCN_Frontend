@@ -5,28 +5,32 @@ import FilterPhuKien from "./FilterPhuKien";
 import QuickLinkPhuKien from "./QuickLinkPhuKien";
 import ListPhuKien from "./ListPhuKien";
 import { useAppDispatch, useAppSelector } from "src/hooks/useRedux";
-import { getSmartPhones } from "src/store/product/smartPhoneSlice";
 import { getBrand } from "src/store/brand/brandsSlice";
 import { getCharacteristic } from "src/store/characteristic/characteristicSlice";
 import { getFilter, getSort } from "src/store/product/filterSlice";
 import { useLocation, useParams } from "react-router-dom";
-import { getProductByProductSlug } from "src/store/shopping-cart/cartItemsSlide";
+import {
+  getProductByProductSlug,
+  getProductsFilterAccess,
+} from "src/store/shopping-cart/cartItemsSlide";
+import { handleFilterStore } from "src/store/product/smartPhoneSlice";
 
 const PhuKien = () => {
   const [choose, setChoose] = useState<any>();
   const location = useLocation();
-  const [chooseCharac, setChooseCharac] = useState<any>();
   const [chooseBox, setChooseBox] = useState<any>();
   const [isOpen, setisOpen] = useState<boolean>(false);
   const dispatch = useAppDispatch();
   const [currentPage, setCurrentPage] = useState(0); // Trang hiện tại
   const filter = useAppSelector((state) => state.smartphone.filter.data); // Lấy tất cả
-  const { sort } = useAppSelector<any>((state) => state.filter);
   const { brand } = useAppSelector<any>((state) => state.brand);
   const { characteristic } = useAppSelector<any>(
     (state) => state.characteristic,
   );
   const [dataFilterLocal, setDataFilterLocal] = useState<any>();
+  useEffect(() => {
+    dispatch(handleFilterStore([]));
+  }, []);
   // Hàm tách mảng
   useEffect(() => {
     const separateArrays = (data: any) => {
@@ -53,14 +57,9 @@ const PhuKien = () => {
   if (dataFilterLocal) {
     var {
       Hãng,
-      "Loại điện thoại": LoaiDienThoai,
       "Nhu cầu": NhuCau,
-      RAM,
-      ROM,
-      "Pin&Sạc": PinSạc,
       "Tính năng đặc biệt": TinhNangDacBiet,
       Giá: Gia,
-      "Màn hình": ManHinh,
     } = dataFilterLocal;
   }
 
@@ -139,9 +138,9 @@ const PhuKien = () => {
 
   useEffect(() => {
     const body = {
-      slug: "smartphone",
-      brandId: Hãng ? Hãng : null,
-      characteristicId: NhuCau ? NhuCau : null,
+      slug: location.pathname.substring(11),
+      brandId: Hãng ? Hãng : [],
+      characteristicId: NhuCau ? NhuCau : [],
       priceFrom: minMaxPrices?.minPrice
         ? minMaxPrices?.minPrice
         : minMaxPrices?.minPrice == 0
@@ -149,59 +148,35 @@ const PhuKien = () => {
         : null,
       priceTo: minMaxPrices?.maxPrice ? minMaxPrices?.maxPrice : null,
       specialFeatures: TinhNangDacBiet ? TinhNangDacBiet : [],
-      smartphoneType: LoaiDienThoai ? LoaiDienThoai : [],
-      ram: RAM ? RAM : [],
-      storageCapacity: ROM ? ROM : [],
-      charging: PinSạc ? PinSạc : [],
-      screen: ManHinh ? ManHinh : [],
+      name: null,
     };
-    dispatch(
-      getSmartPhones({
-        body: body,
-        params: { pageNumber: currentPage, pageSize: 10, sort: chooseBox },
-      }),
-    );
+    // dispatch(
+    //   getProductsFilterAccess({
+    //     body: body,
+    //     params: { pageNumber: currentPage, pageSize: 10, sort: chooseBox },
+    //   }),
+    // );
   }, [
-    currentPage,
     Hãng,
+    currentPage,
     NhuCau,
     minMaxPrices?.maxPrice,
     minMaxPrices?.minPrice,
     TinhNangDacBiet,
-    LoaiDienThoai,
-    RAM,
-    ROM,
-    PinSạc,
-    ManHinh,
+    chooseBox,
   ]);
 
   useEffect(() => {
-    const body = {
-      slug: "smartphone",
-      brandId: choose?.id ? [choose?.id] : null,
-      characteristicId: chooseCharac ? [chooseCharac] : null,
-    };
-    dispatch(
-      getSmartPhones({
-        body: body,
-        params: { pageNumber: currentPage, pageSize: 10 },
-      }),
-    );
-  }, [currentPage, choose, chooseCharac]);
-  useEffect(() => {
     dispatch(getSort(""));
-    dispatch(getFilter({ slug: "smartphone" }));
-    dispatch(
-      getBrand({ slug: location.pathname.substring(11) || "smartphone" }),
-    );
+    dispatch(getBrand({ slug: location.pathname.substring(11) }));
     dispatch(
       getCharacteristic({
-        categoryslug: location.pathname.substring(11) || "smartphone",
+        categoryslug: location.pathname.substring(11),
       }),
     );
     dispatch(
       getProductByProductSlug({
-        slug: location.pathname.substring(11) || "smartphone",
+        slug: location.pathname.substring(11),
       }),
     );
   }, [location.pathname]);
@@ -211,13 +186,6 @@ const PhuKien = () => {
   const handlePageChange = (page: number) => {
     setCurrentPage(page);
   };
-  const handleSetChoose = (choose: any) => {
-    setChoose(choose);
-  };
-
-  const handleSetChooseCharac = (choose: any) => {
-    setChooseCharac(choose);
-  };
 
   const handleSetChooseBox = (choose: any) => {
     setChooseBox(choose);
@@ -225,7 +193,7 @@ const PhuKien = () => {
   return (
     <div className="text-textWhiteMain">
       <Helmet>
-        <title>Trang phụ kiện </title>
+        <title>Trang phụ kiện</title>
         <meta name="description" content="Trang điện thoại" />
       </Helmet>
       <BigBannerPhuKien />
@@ -234,14 +202,7 @@ const PhuKien = () => {
         brand={brand}
         characteristic={characteristic}
       />
-      <QuickLinkPhuKien
-        handleSetChoose={handleSetChoose}
-        choose={choose}
-        handleSetChooseCharac={handleSetChooseCharac}
-        chooseCharac={chooseCharac}
-        brand={brand}
-        characteristic={characteristic}
-      />
+
       <ListPhuKien
         category={location.pathname.substring(11)}
         handleSetChooseBox={handleSetChooseBox}

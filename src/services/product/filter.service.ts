@@ -13,4 +13,8 @@ export const filterService = {
   getSeatch(params: string) {
     return httpNew.get<SuccessResponse<any[]>>(`/search`, { params });
   },
+  getFilterAccess(params: string) {
+    return httpNew.get<SuccessResponse<any[]>>(`/search/filter`, { params });
+  },
 };
+

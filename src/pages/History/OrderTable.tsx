@@ -5,14 +5,13 @@ import { Table } from "flowbite-react";
 import numberWithCommas from "src/utils/numberWithCommas";
 import { useAppDispatch, useAppSelector } from "src/hooks/useRedux";
 import { Button } from "antd";
-import path from "src/constants/path";
-import { useNavigate } from "react-router-dom";
 import dayjs, { Dayjs } from "dayjs";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import { getHistoryOrders } from "src/store/history/historyOrdersSlice";
 import Filter from "src/components/Filter/Filter";
+import { handleFilterStore } from "src/store/product/smartPhoneSlice";
 const data = [
   {
     id: 1,
@@ -91,7 +90,9 @@ const OrderTable = () => {
           };
     });
   };
-  console.log(filter);
+  useEffect(() => {
+    dispatch(handleFilterStore([]));
+  }, []);
   useEffect(() => {
     const separateArrays = (data: any) => {
       const result: any = {};

@@ -173,7 +173,7 @@ const Header = () => {
               />
             </div>
           </Link>
-          <FilterButton />
+          {/* <FilterButton /> */}
           {/* <SearchInput /> */}
 
           <PopoverSearch

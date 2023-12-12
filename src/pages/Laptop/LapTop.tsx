@@ -14,7 +14,6 @@ import { Helmet } from "react-helmet-async";
 import { useAppDispatch, useAppSelector } from "src/hooks/useRedux";
 import { useEffect, useState } from "react";
 import { getLaptop } from "src/store/product/laptopSlice ";
-import { Pagination } from "antd";
 
 const LapTop = () => {
   const dispatch = useAppDispatch();

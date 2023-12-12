@@ -4,7 +4,7 @@ import { payloadCreator } from "src/utils/utils";
 
 export const getAllProductByCategory = createAsyncThunk(
   "products/getAllProductByCategory",
-  payloadCreator(productService.getProductByCategory)
+  payloadCreator(productService.getProductByCategory),
 );
 
 // export const getLaptop = createAsyncThunk(
@@ -79,9 +79,7 @@ export const products = createSlice({
     getOneProduct: (state, action) => {
       state.oneProduct.data = action.payload;
     },
-    handleFilterStore: (state, action) => {
-      state.filter.data = action.payload;
-    },
+
     getLocationProduct: (state, action) => {
       state.location.data = action.payload;
     },
@@ -90,7 +88,7 @@ export const products = createSlice({
     },
     updateDiscussRating: (state, action) => {
       const rating: any = state.productDetail.data.rating.find(
-        (rating: any) => rating.id === action.payload.idRating
+        (rating: any) => rating.id === action.payload.idRating,
       );
       if (rating) {
         const res = rating.discuss.push(action.payload);
@@ -107,7 +105,6 @@ export const {
   updateDiscussRating,
   // getAllProducts,
   getOneProduct,
-  handleFilterStore,
   getLocationProduct,
   getProductDetail,
   updateAllProduct,
@@ -115,3 +112,4 @@ export const {
 
 const productsReducer = products.reducer;
 export default productsReducer;
+

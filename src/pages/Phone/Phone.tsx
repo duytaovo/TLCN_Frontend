@@ -5,7 +5,10 @@ import FilterPhone from "./FilterPhone";
 import QuickLinkPhone from "./QuickLinkPhone";
 import ListPhone from "./ListPhone";
 import { useAppDispatch, useAppSelector } from "src/hooks/useRedux";
-import { getSmartPhones } from "src/store/product/smartPhoneSlice";
+import {
+  getSmartPhones,
+  handleFilterStore,
+} from "src/store/product/smartPhoneSlice";
 import { getBrand } from "src/store/brand/brandsSlice";
 import { getCharacteristic } from "src/store/characteristic/characteristicSlice";
 import { getFilter, getSort } from "src/store/product/filterSlice";
@@ -24,6 +27,9 @@ const Phone = () => {
     (state) => state.characteristic,
   );
   const [dataFilterLocal, setDataFilterLocal] = useState<any>();
+  useEffect(() => {
+    dispatch(handleFilterStore([]));
+  }, []);
   // Hàm tách mảng
   useEffect(() => {
     const separateArrays = (data: any) => {
@@ -137,8 +143,8 @@ const Phone = () => {
   useEffect(() => {
     const body = {
       slug: "smartphone",
-      brandId: Hãng ? Hãng : null,
-      characteristicId: NhuCau ? NhuCau : null,
+      brandId: Hãng ? Hãng : [],
+      characteristicId: NhuCau ? NhuCau : [],
       priceFrom: minMaxPrices?.minPrice
         ? minMaxPrices?.minPrice
         : minMaxPrices?.minPrice == 0
@@ -151,6 +157,7 @@ const Phone = () => {
       storageCapacity: ROM ? ROM : [],
       charging: PinSạc ? PinSạc : [],
       screen: ManHinh ? ManHinh : [],
+      name: null,
     };
     dispatch(
       getSmartPhones({

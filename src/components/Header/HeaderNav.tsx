@@ -9,7 +9,6 @@ import {
   Smartwatch,
   Headphone,
   Laptop,
-  Watch,
   Tablet,
   Pc,
   Down,

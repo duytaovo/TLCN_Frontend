@@ -145,9 +145,6 @@ interface Props {
 }
 
 const FilterPhuKien = ({ handle, brand, characteristic }: Props) => {
-  const dispatch = useAppDispatch();
-  const { sort, filter } = useAppSelector<any>((state) => state.filter);
-
   interface DataPropsPhone {
     id: number;
     title: string;
@@ -170,41 +167,18 @@ const FilterPhuKien = ({ handle, brand, characteristic }: Props) => {
       title: "Giá",
       detail: filterData.price,
     },
-    {
-      id: 2,
-      title: "Loại điện thoại",
-      detail: ["Android", "IOS"],
-    },
+
     {
       id: 3,
       title: "Nhu cầu",
       detail: characteristic?.data,
     },
-    {
-      id: 4,
-      title: "RAM",
-      detail: filterData.ram,
-    },
-    {
-      id: 5,
-      title: "ROM",
-      detail: filterData.storageCapacity,
-    },
-    {
-      id: 6,
-      title: "Pin&Sạc",
-      detail: filterData.charging,
-    },
-    {
-      id: 7,
-      title: "Tính năng đặc biệt",
-      detail: filterData.special,
-    },
-    {
-      id: 8,
-      title: "Màn hình",
-      detail: filterData.screen,
-    },
+
+    // {
+    //   id: 7,
+    //   title: "Tính năng đặc biệt",
+    //   detail: filterData.special,
+    // },
   ];
 
   return (

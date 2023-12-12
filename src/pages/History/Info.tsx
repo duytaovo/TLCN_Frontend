@@ -10,7 +10,6 @@ const Info = () => {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
   const onClick = () => {
-    console.log("object");
     dispatch(handleFilterStore([]));
     navigate(path.home);
   };

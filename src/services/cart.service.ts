@@ -1,3 +1,4 @@
+import { SuccessResponse } from "src/types/utils.type";
 import { httpNew } from "src/utils/http";
 
 export const cartService = {
@@ -7,4 +8,8 @@ export const cartService = {
   getProductByProductSlug({ slug, params }: { slug: string; params: any }) {
     return httpNew.get(`/product/${slug}`, { params });
   },
+  getProductsFilterAccess({ body, params }: any) {
+    return httpNew.post(`/search/filter`, body, { params: params });
+  },
 };
+

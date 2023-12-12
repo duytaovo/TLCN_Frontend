@@ -8,12 +8,12 @@ import { payloadCreator } from "src/utils/utils";
 
 export const getSmartPhones = createAsyncThunk(
   "smartPhone/getSmartPhones",
-  payloadCreator(smartphoneService.getAllProducts)
+  payloadCreator(smartphoneService.getAllProducts),
 );
 
 export const getDetailPhone = createAsyncThunk(
   "smartPhone/getDetailPhone",
-  payloadCreator(smartphoneService.getProduct)
+  payloadCreator(smartphoneService.getProduct),
 );
 const data = {
   data: [],
@@ -115,3 +115,4 @@ const smartPhoneSlice = createSlice({
 export const { handleFilterStore } = smartPhoneSlice.actions;
 const smartPhoneReducer = smartPhoneSlice.reducer;
 export default smartPhoneReducer;
+

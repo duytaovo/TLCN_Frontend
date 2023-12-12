@@ -31,3 +31,4 @@ const AppleAccessory = () => {
   );
 };
 export default AppleAccessory;
+
