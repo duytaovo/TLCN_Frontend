@@ -21,11 +21,26 @@ import path from "src/constants/path";
 import { LocationForm } from "src/components/LocationForm";
 import axios from "axios";
 import config from "src/constants/configApi";
+import { Modal } from "antd";
 
 interface FormData {}
 
 const Payment: React.FC = () => {
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const showModal = () => {
+    setIsModalOpen(true);
+  };
+
+  const handleOk = () => {
+    setIsModalOpen(false);
+  };
+
+  const handleCancel = () => {
+    setIsModalOpen(false);
+  };
+
   const [idMethod, setIdMethod] = useState<number>(0);
   const [fee, setFee] = useState<number>(0);
 
@@ -150,7 +165,7 @@ const Payment: React.FC = () => {
   const onSubmit = handleSubmit(async (data) => {
     const deliveryPrice = fee;
     const discount = 0;
-
+    setIsModalOpen(true);
     const finalPrice = totalPurchasePrice + deliveryPrice - discount;
     const body = JSON.stringify({
       nameReceiver: data.nameReceiver,
@@ -171,6 +186,7 @@ const Payment: React.FC = () => {
       })),
     });
     try {
+      setIsModalOpen(true);
       setIsSubmitting(true);
       const res = await dispatch(buyPurchases(body));
       unwrapResult(res);
@@ -198,6 +214,7 @@ const Payment: React.FC = () => {
       }
     } finally {
       setTimeout(() => setIsSubmitting(false), 3000);
+      handleOk();
     }
   });
 
@@ -413,6 +430,14 @@ const Payment: React.FC = () => {
           docongnghe.com
         </small>
       </div>
+      <Modal
+        title="Thanh toán sản phẩm"
+        open={isModalOpen}
+        onOk={handleOk}
+        onCancel={handleCancel}
+      >
+        <p>Đang xử lý, vui lòng đợi...</p>
+      </Modal>
     </div>
   );
 };

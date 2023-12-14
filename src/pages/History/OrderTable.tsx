@@ -12,6 +12,8 @@ import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import { getHistoryOrders } from "src/store/history/historyOrdersSlice";
 import Filter from "src/components/Filter/Filter";
 import { handleFilterStore } from "src/store/product/smartPhoneSlice";
+import { DateRange } from "@mui/x-date-pickers-pro";
+import { DateRangePicker } from "@mui/x-date-pickers-pro/DateRangePicker";
 const data = [
   {
     id: 1,
@@ -73,9 +75,12 @@ const OrderTable = () => {
   const [dataFilterLocal, setDataFilterLocal] = useState<any>();
   const filter = useAppSelector((state) => state.smartphone.filter.data); // Lấy tất cả
 
-  const [value, setValue] = useState<Dayjs | null>(dayjs("2023-01-01"));
-  const [value2, setValue2] = useState<Dayjs | null>(dayjs());
-
+  // const [value, setValue] = useState<Dayjs | null>(dayjs("2023-01-01"));
+  // const [value2, setValue2] = useState<Dayjs | null>(dayjs());
+  const [value, setValue] = useState<DateRange<Dayjs>>([
+    dayjs("2023-01-01"),
+    dayjs(),
+  ]);
   const [orderDetail, setOrderDetail] = useState({ index: -1, id: null });
   const handleDetail = (index: number, order: any) => {
     setOrderDetail((current) => {
@@ -125,8 +130,8 @@ const OrderTable = () => {
   useEffect(() => {
     const body = {
       orderStatus: Trangthaidonhang ? Trangthaidonhang : [],
-      buyDateFrom: value?.format("YYYY-MM-DD") || null,
-      buyDateTo: value2?.format("YYYY-MM-DD") || null,
+      buyDateFrom: value[0]?.format("YYYY-MM-DD") || null,
+      buyDateTo: value[1]?.format("YYYY-MM-DD") || null,
       paymentStatus: Phuongthucthanhtoan ? Phuongthucthanhtoan : [],
     };
     dispatch(
@@ -135,7 +140,7 @@ const OrderTable = () => {
         params: { pageNumber: 0, pageSize: 10 },
       }),
     );
-  }, [value, Trangthaidonhang, Phuongthucthanhtoan]);
+  }, [value[0], value[1], Trangthaidonhang, Phuongthucthanhtoan]);
 
   const stringStatus = (text: string) => {
     switch (text) {
@@ -158,17 +163,10 @@ const OrderTable = () => {
       </div>
       <div className="space-x-5 ml-5">
         <LocalizationProvider dateAdapter={AdapterDayjs}>
-          <DatePicker
-            label="Chọn ngày mua bắt đầu"
+          <DateRangePicker
+            className="w-1/3"
             value={value}
             onChange={(newValue) => setValue(newValue)}
-          />
-        </LocalizationProvider>
-        <LocalizationProvider dateAdapter={AdapterDayjs}>
-          <DatePicker
-            label="Chọn ngày mua cuối cùng"
-            value={value2}
-            onChange={(newValue) => setValue2(newValue)}
           />
         </LocalizationProvider>
       </div>

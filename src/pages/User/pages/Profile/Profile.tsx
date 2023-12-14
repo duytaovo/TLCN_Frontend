@@ -275,7 +275,7 @@ export default function Profile() {
             className="flex h-12 w-12 items-center border-blue-500 border-solid  rounded-sm   text-center text-2xl text-black "
             type="submit"
           >
-            Lưu
+            {isSubmitting ? "Loading..." : "Lưu"}
           </Button>
           <div className="mt-2 flex flex-row justify-start flex-wrap sm:flex-row">
             <div className="truncate pt-3 capitalize sm:w-[20%] sm:text-right" />

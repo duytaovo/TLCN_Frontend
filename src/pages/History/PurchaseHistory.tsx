@@ -32,7 +32,8 @@ const EmptyOrder = () => {
 const PurchaseHistory = () => {
   const { historyOrder } = useAppSelector((state) => state.historyOrders);
   const check = historyOrder?.data?.data?.length === 0;
-  return <div>{check ? <EmptyOrder /> : <OrderTable />}</div>;
+  // return <div>{check ? <EmptyOrder /> : <OrderTable />}</div>;
+  return <div>{<OrderTable />}</div>;
 };
 export default PurchaseHistory;
 
