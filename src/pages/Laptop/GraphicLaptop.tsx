@@ -3,12 +3,48 @@ import "./laptop.scss";
 import ListProduct from "src/components/ListProduct/ListProduct";
 import NextArrow from "src/components/Slick/NextArrow";
 import PrevArrow from "src/components/Slick/PrevArrow";
-import { useAppSelector } from "src/hooks/useRedux";
 import ProductCard from "src/components/ProductCard";
 import Slider from "react-slick";
+import { useAppDispatch, useAppSelector } from "src/hooks/useRedux";
+import { useEffect, useState } from "react";
+import { getProductsFilterAccess } from "src/store/shopping-cart/cartItemsSlide";
 
 const GraphicLaptop = ({}) => {
   const { laptop } = useAppSelector((state) => state.laptop);
+
+  const dispatch = useAppDispatch();
+  const [data, setData] = useState({
+    code: 200,
+    message: "Requested completed!",
+    data: {
+      pageNumber: 0,
+      pageSize: 100,
+      totalPages: 0,
+      totalElements: 0,
+      data: [],
+    },
+  });
+  useEffect(() => {
+    const getData = async () => {
+      const body = {
+        slug: "laptop",
+        brandId: [],
+        characteristicId: [5],
+        priceFrom: null,
+        priceTo: null,
+        specialFeatures: [],
+        name: null,
+      };
+      const res = await dispatch(
+        getProductsFilterAccess({
+          body: body,
+          params: { pageSize: 50 },
+        }),
+      );
+      setData(res.payload.data);
+    };
+    getData();
+  }, []);
 
   return (
     <div id="dohoa" className="blocklist">
@@ -20,19 +56,32 @@ const GraphicLaptop = ({}) => {
           nextArrow={<NextArrow />}
           prevArrow={<PrevArrow />}
         >
-          {laptop &&
-            laptop?.data?.data?.map((product: any) => (
-              <div className="w-full" key={""}>
-                <div className="mx-4">
-                  <ProductCard
-                    docquyen
-                    key={product.id}
-                    category="smartphone"
-                    product={product}
-                  />
+          {data.data.data.length > 0
+            ? data?.data?.data?.map((product: any, index) => (
+                <div className="w-full" key={index}>
+                  <div className="mx-4">
+                    <ProductCard
+                      docquyen
+                      key={product.id}
+                      category="smartphone"
+                      product={product}
+                    />
+                  </div>
                 </div>
-              </div>
-            ))}
+              ))
+            : laptop &&
+              laptop?.data?.data?.map((product: any) => (
+                <div className="w-full" key={""}>
+                  <div className="mx-4">
+                    <ProductCard
+                      docquyen
+                      key={product.id}
+                      category="smartphone"
+                      product={product}
+                    />
+                  </div>
+                </div>
+              ))}
         </Slider>
       </div>
     </div>

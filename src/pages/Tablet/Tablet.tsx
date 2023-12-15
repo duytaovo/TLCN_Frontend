@@ -9,16 +9,19 @@ import BigBannerTablet from "./BigBannerTablet";
 import FilterTablet from "./FilterTablet";
 import QuickLinkTablet from "./QuickLinkTablet";
 import ListTablet from "./ListTablet";
+import {
+  getProductByProductSlug,
+  getProductsFilterAccess,
+} from "src/store/shopping-cart/cartItemsSlide";
+import { getTablets } from "src/store/product/tabletSlice";
 
 const Phone = () => {
   const [choose, setChoose] = useState<any>();
-  const [chooseCharac, setChooseCharac] = useState<any>();
   const [chooseBox, setChooseBox] = useState<any>();
   const [isOpen, setisOpen] = useState<boolean>(false);
   const dispatch = useAppDispatch();
   const [currentPage, setCurrentPage] = useState(0); // Trang hiện tại
-  const filter = useAppSelector((state) => state.tablet.filter.data); // Lấy tất cả
-  const { sort } = useAppSelector<any>((state) => state.filter);
+  const filter = useAppSelector((state) => state.smartphone.filter.data); // Lấy tất cả
   const { brand } = useAppSelector<any>((state) => state.brand);
   const { characteristic } = useAppSelector<any>(
     (state) => state.characteristic,
@@ -50,17 +53,11 @@ const Phone = () => {
   if (dataFilterLocal) {
     var {
       Hãng,
-      "Loại điện thoại": LoaiDienThoai,
       "Nhu cầu": NhuCau,
-      RAM,
-      ROM,
-      "Pin&Sạc": PinSạc,
       "Tính năng đặc biệt": TinhNangDacBiet,
       Giá: Gia,
-      "Màn hình": ManHinh,
     } = dataFilterLocal;
   }
-
   const getMinMaxPrices = () => {
     if (Gia === undefined || Gia.length === 0) {
       return null;
@@ -133,12 +130,11 @@ const Phone = () => {
   };
 
   const minMaxPrices = getMinMaxPrices();
-
   useEffect(() => {
     const body = {
-      slug: "smartphone",
-      brandId: Hãng ? Hãng : null,
-      characteristicId: NhuCau ? NhuCau : null,
+      slug: "tablet",
+      brandId: Hãng ? Hãng : [],
+      characteristicId: NhuCau ? NhuCau : [],
       priceFrom: minMaxPrices?.minPrice
         ? minMaxPrices?.minPrice
         : minMaxPrices?.minPrice == 0
@@ -146,63 +142,39 @@ const Phone = () => {
         : null,
       priceTo: minMaxPrices?.maxPrice ? minMaxPrices?.maxPrice : null,
       specialFeatures: TinhNangDacBiet ? TinhNangDacBiet : [],
-      smartphoneType: LoaiDienThoai ? LoaiDienThoai : [],
-      ram: RAM ? RAM : [],
-      storageCapacity: ROM ? ROM : [],
-      charging: PinSạc ? PinSạc : [],
-      screen: ManHinh ? ManHinh : [],
+      name: null,
     };
     dispatch(
-      getSmartPhones({
+      getProductsFilterAccess({
         body: body,
         params: { pageNumber: currentPage, pageSize: 10, sort: chooseBox },
       }),
     );
   }, [
-    currentPage,
     Hãng,
+    currentPage,
     NhuCau,
     minMaxPrices?.maxPrice,
     minMaxPrices?.minPrice,
     TinhNangDacBiet,
-    LoaiDienThoai,
-    RAM,
-    ROM,
-    PinSạc,
-    ManHinh,
+    chooseBox,
   ]);
 
   useEffect(() => {
-    const body = {
-      slug: "smartphone",
-      brandId: choose?.id ? [choose?.id] : null,
-      characteristicId: chooseCharac ? [chooseCharac] : null,
-    };
+    dispatch(getSort(""));
+    dispatch(getBrand({ slug: "tablet" }));
+    dispatch(getCharacteristic({ categorySlug: "tablet" }));
     dispatch(
-      getSmartPhones({
-        body: body,
-        params: { pageNumber: currentPage, pageSize: 10 },
+      getProductByProductSlug({
+        slug: "tablet",
       }),
     );
-  }, [currentPage, choose, chooseCharac]);
-  useEffect(() => {
-    dispatch(getSort(""));
-    dispatch(getFilter({ slug: "smartphone" }));
-    dispatch(getBrand({ slug: "smartphone" }));
-    dispatch(getCharacteristic({ categorySlug: "smartphone" }));
   }, []);
   const handle = (boolean: boolean) => {
     setisOpen(boolean);
   };
   const handlePageChange = (page: number) => {
     setCurrentPage(page);
-  };
-  const handleSetChoose = (choose: any) => {
-    setChoose(choose);
-  };
-
-  const handleSetChooseCharac = (choose: any) => {
-    setChooseCharac(choose);
   };
 
   const handleSetChooseBox = (choose: any) => {
@@ -211,20 +183,12 @@ const Phone = () => {
   return (
     <div className="text-textWhiteMain">
       <Helmet>
-        <title>Trang tablet</title>
-        <meta name="description" content="Trang điện thoại" />
+        <title>Trang Tablet</title>
+        <meta name="description" content="Trang Tablet" />
       </Helmet>
       <BigBannerTablet />
       <FilterTablet
         handle={handle}
-        brand={brand}
-        characteristic={characteristic}
-      />
-      <QuickLinkTablet
-        handleSetChoose={handleSetChoose}
-        choose={choose}
-        handleSetChooseCharac={handleSetChooseCharac}
-        chooseCharac={chooseCharac}
         brand={brand}
         characteristic={characteristic}
       />

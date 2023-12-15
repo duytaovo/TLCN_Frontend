@@ -1,6 +1,6 @@
 import styles from "./filteritemtotal.module.scss";
 import { useState, useRef, useEffect } from "react";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import ButtonFilterTotal from "src/components/Button/ButtonFilterTotal";
 import ButtonItem from "src/components/Button/ButtonItem";
 import path from "src/constants/path";
@@ -21,6 +21,8 @@ const FilterItemTotal = ({ data, handle, scroll }: Props) => {
   const button: any = useRef<HTMLDivElement>(null);
   const itemHiden: any = useRef<HTMLDivElement>(null);
   const before: any = useRef<HTMLDivElement>(null);
+  const location = useLocation();
+  const { productBySlug } = useAppSelector((state) => state.cartItems);
 
   let filter = useAppSelector((state) => state.smartphone.filter.data); // Lấy tất cả
   const { smartPhone } = useAppSelector<any>((state) => state.smartphone); // Lấy tất cả
@@ -188,14 +190,46 @@ const FilterItemTotal = ({ data, handle, scroll }: Props) => {
         </div>
 
         {/* Kết quả */}
-        <div className={styles.itemHiden} ref={itemHiden}>
-          <Link to={path.phone} className={styles.close} onClick={handleCancel}>
-            Bỏ chọn
-          </Link>
-          <div className={styles.open} onClick={handleFilterLocal}>
-            Xem {smartPhone.data.totalElements} kết quả
+        {location.pathname === "/smartphone" ? (
+          <div className={styles.itemHiden} ref={itemHiden}>
+            <Link
+              to={path.phone}
+              className={styles.close}
+              onClick={handleCancel}
+            >
+              Bỏ chọn
+            </Link>
+            <div className={styles.open} onClick={handleFilterLocal}>
+              Xem {smartPhone.data.totalElements} kết quả
+            </div>
           </div>
-        </div>
+        ) : location.pathname === "/tablet" ? (
+          <div className={styles.itemHiden} ref={itemHiden}>
+            <Link
+              to={path.tablet}
+              className={styles.close}
+              onClick={handleCancel}
+            >
+              Bỏ chọn
+            </Link>
+            <div className={styles.open} onClick={handleFilterLocal}>
+              Xem {productBySlug.data.totalElements} kết quả
+            </div>
+          </div>
+        ) : (
+          <div className={styles.itemHiden} ref={itemHiden}>
+            <Link
+              to={location.pathname.substring(11)}
+              className={styles.close}
+              onClick={handleCancel}
+            >
+              Bỏ chọn
+            </Link>
+            <div className={styles.open} onClick={handleFilterLocal}>
+              Xem {productBySlug.data.totalElements} kết quả
+            </div>
+          </div>
+        )}
       </div>
     </div>
   );

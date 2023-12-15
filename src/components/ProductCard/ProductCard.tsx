@@ -50,7 +50,7 @@ const ProductCard = ({ product, category, docquyen }: Props) => {
           <p className={"text-black font-bold text-2xl"}>
             {product.name.substring(11)}
           </p>
-          {category === "dienthoai" || category === "tablet" ? (
+          {category === "smartphone" || category === "tablet" ? (
             <div className={styles.cardCompare}>
               <p>
                 {/*props.parameter[0].SCREEN && <span>{props.parameter[0].SCREEN}</span>*/}

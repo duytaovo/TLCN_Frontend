@@ -68,6 +68,8 @@ const ListTablet = ({
   const { smartPhone, filter } = useAppSelector<any>(
     (state) => state.smartphone,
   );
+  const { productBySlug } = useAppSelector<any>((state) => state.cartItems);
+
   let dataAfter = smartPhone?.data;
   // if (filter?.data?.length !== 0) {
   //   dataAfter = handleData(smartPhone, filter?.data);
@@ -90,23 +92,23 @@ const ListTablet = ({
         choose={choose}
         checked={checked}
         setChecked={setChecked}
-        category="smartphone"
-        countProduct={smartPhone?.data.totalElements}
+        category="tablet"
+        countProduct={productBySlug?.data.totalElements}
       />
       <div className="phone__content">
         <div className="">
           {isOpen === false ? (
             <ListProduct
-              products={smartPhone?.data}
+              products={productBySlug?.data}
               isSlide={false}
-              category={"smartphone"}
+              category={"tablet"}
               handlePageChange={handlePageChange}
               currentPage={currentPage}
             />
           ) : (
             <ListProduct
               products={dataAfter}
-              category={"smartphone"}
+              category={"tablet"}
               isSlide={false}
               handlePageChange={handlePageChange}
               currentPage={currentPage}

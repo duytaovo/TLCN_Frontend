@@ -20,10 +20,9 @@ const LapTop = () => {
   const [currentPage, setCurrentPage] = useState(0); // Trang hiện tại
   const pageSize = 10; // Số phần tử trên mỗi trang
   const [choose, setChoose] = useState<string>("");
-  const { laptop } = useAppSelector((state) => state.laptop);
   useEffect(() => {
     dispatch(getLaptop({ pageNumber: currentPage }));
-  }, [currentPage, dispatch]);
+  }, []);
 
   const handleSetChoose = (text: string) => {
     setChoose(text);
@@ -39,7 +38,7 @@ const LapTop = () => {
       </Helmet>
       <BigBannerLapTop />
       <div className="mb-7">
-        <LapTopQuickLink choose={choose} handleSetChoose={handleSetChoose} />
+        {/* <LapTopQuickLink choose={choose} handleSetChoose={handleSetChoose} /> */}
       </div>
       <MenuTopLapTop />
       <LapTopDeal
@@ -53,7 +52,7 @@ const LapTop = () => {
       <ThinLaptop />
       <LuxuryLaptop />
       <Office />
-      <Trademark />
+      {/* <Trademark /> */}
       {/* <div className="mb-5">
         <Pagination
           current={currentPage + 1}

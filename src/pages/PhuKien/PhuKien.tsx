@@ -2,13 +2,12 @@ import BigBannerPhuKien from "./BigBannerPhuKien";
 import { useEffect, useState } from "react";
 import { Helmet } from "react-helmet-async";
 import FilterPhuKien from "./FilterPhuKien";
-import QuickLinkPhuKien from "./QuickLinkPhuKien";
 import ListPhuKien from "./ListPhuKien";
 import { useAppDispatch, useAppSelector } from "src/hooks/useRedux";
 import { getBrand } from "src/store/brand/brandsSlice";
 import { getCharacteristic } from "src/store/characteristic/characteristicSlice";
-import { getFilter, getSort } from "src/store/product/filterSlice";
-import { useLocation, useParams } from "react-router-dom";
+import { getSort } from "src/store/product/filterSlice";
+import { useLocation } from "react-router-dom";
 import {
   getProductByProductSlug,
   getProductsFilterAccess,
@@ -171,7 +170,7 @@ const PhuKien = () => {
     dispatch(getBrand({ slug: location.pathname.substring(11) }));
     dispatch(
       getCharacteristic({
-        categoryslug: location.pathname.substring(11),
+        categorySlug: location.pathname.substring(11),
       }),
     );
     dispatch(

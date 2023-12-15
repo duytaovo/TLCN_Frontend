@@ -5,7 +5,7 @@ import { useAppDispatch, useAppSelector } from "src/hooks/useRedux";
 import ButtonFilter from "src/components/Button/ButtonFilter";
 import ButtonItem from "src/components/Button/ButtonItem";
 import path from "src/constants/path";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { DataPropsPhone } from "src/pages/Phone/FilterPhone";
 import { handleFilterStore } from "src/store/product/smartPhoneSlice";
 
@@ -23,10 +23,11 @@ const FilterItem = ({ data, handle, scroll }: Props) => {
   const button: any = useRef<HTMLDivElement>(null);
   const itemHiden: any = useRef<HTMLDivElement>(null);
   const before: any = useRef<HTMLDivElement>(null);
-
+  const location = useLocation();
   //redux + logic
   const filter = useAppSelector((state) => state.smartphone.filter.data); // Lấy tất cả
   const { smartPhone } = useAppSelector<any>((state) => state.smartphone); // Lấy tất cả
+  const { productBySlug } = useAppSelector((state) => state.cartItems);
 
   const [arrayTemp, setArrayTemp] = useState([]); // Lấy giá trị trong một khung
   const dispatch = useAppDispatch();
@@ -243,15 +244,46 @@ const FilterItem = ({ data, handle, scroll }: Props) => {
           })}
         </div>
         {data.title == "Giá" ? <SliderPrice Apper={Apper} /> : ""}
-
-        <div className={styles.itemHiden} ref={itemHiden}>
-          <Link to={path.phone} className={styles.close} onClick={handleCancel}>
-            Bỏ chọn
-          </Link>
-          <div className={styles.open} onClick={handleFilter}>
-            Xem {smartPhone.data.totalElements} kết quả
+        {location.pathname === "/smartphone" ? (
+          <div className={styles.itemHiden} ref={itemHiden}>
+            <Link
+              to={path.phone}
+              className={styles.close}
+              onClick={handleCancel}
+            >
+              Bỏ chọn
+            </Link>
+            <div className={styles.open} onClick={handleFilter}>
+              Xem {smartPhone.data.totalElements} kết quả
+            </div>
           </div>
-        </div>
+        ) : location.pathname === "/tablet" ? (
+          <div className={styles.itemHiden} ref={itemHiden}>
+            <Link
+              to={path.tablet}
+              className={styles.close}
+              onClick={handleCancel}
+            >
+              Bỏ chọn
+            </Link>
+            <div className={styles.open} onClick={handleFilter}>
+              Xem {productBySlug.data.totalElements} kết quả
+            </div>
+          </div>
+        ) : (
+          <div className={styles.itemHiden} ref={itemHiden}>
+            <Link
+              to={location.pathname.substring(11)}
+              className={styles.close}
+              onClick={handleCancel}
+            >
+              Bỏ chọn
+            </Link>
+            <div className={styles.open} onClick={handleFilter}>
+              Xem {productBySlug.data.totalElements} kết quả
+            </div>
+          </div>
+        )}
       </div>
     </div>
   );

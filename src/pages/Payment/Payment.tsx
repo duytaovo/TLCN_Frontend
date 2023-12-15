@@ -435,6 +435,7 @@ const Payment: React.FC = () => {
         open={isModalOpen}
         onOk={handleOk}
         onCancel={handleCancel}
+        centered
       >
         <p>Đang xử lý, vui lòng đợi...</p>
       </Modal>

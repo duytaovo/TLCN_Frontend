@@ -173,8 +173,6 @@ const Header = () => {
               />
             </div>
           </Link>
-          {/* <FilterButton /> */}
-          {/* <SearchInput /> */}
 
           <PopoverSearch
             className="z-[10000]"
