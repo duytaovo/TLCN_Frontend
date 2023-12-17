@@ -37,7 +37,7 @@ const LapTopDeal = ({ handlePageChange, currentPage }: any) => {
       const res = await dispatch(
         getProductsFilterAccess({
           body: body,
-          params: { pageNumber: 0, pageSize: 50 },
+          // params: { pageNumber: 0, pageSize: 10 },
         }),
       );
       setData(res.payload.data);
@@ -58,32 +58,19 @@ const LapTopDeal = ({ handlePageChange, currentPage }: any) => {
           nextArrow={<NextArrow />}
           prevArrow={<PrevArrow />}
         >
-          {data.data.data.length > 0
-            ? data?.data?.data?.map((product: any, index) => (
-                <div className="w-full" key={index}>
-                  <div className="mx-4">
-                    <ProductCard
-                      docquyen
-                      key={product.id}
-                      category="smartphone"
-                      product={product}
-                    />
-                  </div>
+          {laptop &&
+            laptop?.data?.data?.map((product: any) => (
+              <div className="w-full" key={""}>
+                <div className="mx-4">
+                  <ProductCard
+                    docquyen
+                    key={product.id}
+                    category="laptop"
+                    product={product}
+                  />
                 </div>
-              ))
-            : laptop &&
-              laptop?.data?.data?.map((product: any) => (
-                <div className="w-full" key={""}>
-                  <div className="mx-4">
-                    <ProductCard
-                      docquyen
-                      key={product.id}
-                      category="smartphone"
-                      product={product}
-                    />
-                  </div>
-                </div>
-              ))}
+              </div>
+            ))}
         </Slider>
         {/* <ListProduct
           handlePageChange={handlePageChange}

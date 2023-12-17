@@ -76,14 +76,14 @@ const Search = () => {
         <div className="listcontent">
           {resultSearch?.length > 0 ? (
             <div className="">
-              <select
+              {/* <select
                 className="inline-block mb-4 text-black"
                 onChange={(e) => handleClickFillter(e)}
               >
                 {optionsFillter.map((item) => (
                   <option value={item.id}>{item.name} </option>
                 ))}
-              </select>
+              </select> */}
 
               <div className="mt-6 grid grid-cols-5 gap-7 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5">
                 {resultSearch?.map((product: any, index: number) => (

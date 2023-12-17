@@ -23,25 +23,6 @@ export default function CartNew() {
   const dispatch = useAppDispatch();
   const product_add: any = useAppSelector((state) => state.cartItems.value);
   const navigate = useNavigate();
-  // useEffect(() => {
-  //   async function fetchProductData() {
-  //     const productData: Array<{
-  //       product: SmartPhoneDetail;
-  //       quantity: number;
-  //     }> = [];
-
-  //     for (const item of product_add) {
-  //       const slug = item?.productInfo?.slug ? item.productInfo.slug : "";
-  //       const productInfo = await dispatch(
-  //         getProductByProductSlugId({ id: item.id, slug })
-  //       ).then(unwrapResult);
-  //       productData.push({ product: productInfo, quantity: item.quantity });
-  //     }
-
-  //     return productData;
-  //   }
-  //   fetchProductData();
-  // }, []);
 
   useEffect(() => {
     setPurchasesInCartData(product_add);
@@ -54,12 +35,12 @@ export default function CartNew() {
 
   const isAllChecked = useMemo(
     () => extendedPurchases.every((purchase) => purchase.checked),
-    [extendedPurchases]
+    [extendedPurchases],
   );
 
   const checkedPurchases = useMemo(
     () => extendedPurchases.filter((purchase) => purchase.checked),
-    [extendedPurchases]
+    [extendedPurchases],
   );
 
   const checkedPurchasesCount = checkedPurchases.length;
@@ -67,9 +48,12 @@ export default function CartNew() {
   const totalCheckedPurchasePrice = useMemo(
     () =>
       checkedPurchases.reduce((result, current) => {
-        return result + current.salePrice * current.quantity;
+        if (current?.salePrice > 0) {
+          return result + current.salePrice * current.quantity;
+        }
+        return result + current.price * current.quantity;
       }, 0),
-    [checkedPurchases]
+    [checkedPurchases],
   );
 
   const totalCheckedPurchaseSavingPrice = useMemo(
@@ -77,7 +61,7 @@ export default function CartNew() {
       checkedPurchases.reduce((result, current) => {
         return result + (current.price - current.salePrice) * current.quantity;
       }, 0),
-    [checkedPurchases]
+    [checkedPurchases],
   );
 
   useEffect(() => {
@@ -110,7 +94,7 @@ export default function CartNew() {
       setExtendedPurchases(
         produce((draft) => {
           draft[purchaseIndex].checked = event.target.checked;
-        })
+        }),
       );
     };
 
@@ -119,7 +103,7 @@ export default function CartNew() {
       prev.map((purchase) => ({
         ...purchase,
         checked: !isAllChecked,
-      }))
+      })),
     );
   };
 
@@ -127,21 +111,21 @@ export default function CartNew() {
     setExtendedPurchases(
       produce((draft) => {
         draft[purchaseIndex].quantity = value;
-      })
+      }),
     );
   };
 
   const handleQuantity = async (
     purchaseIndex: number,
     value: number,
-    enable: boolean
+    enable: boolean,
   ) => {
     if (enable) {
       const purchase = extendedPurchases[purchaseIndex];
       setExtendedPurchases(
         produce((draft) => {
           draft[purchaseIndex].disabled = true;
-        })
+        }),
       );
 
       dispatch(updateItem({ ...purchase, quantity: value }));
@@ -245,7 +229,7 @@ export default function CartNew() {
                                     {
                                       name: purchase.name,
                                       id: purchase.id.toString(),
-                                    }
+                                    },
                                   )}`}
                                 >
                                   <img
@@ -259,7 +243,7 @@ export default function CartNew() {
                                       {
                                         name: purchase.name,
                                         id: purchase.id.toString(),
-                                      }
+                                      },
                                     )}`}
                                     className="text-left line-clamp-2"
                                   >
@@ -277,9 +261,11 @@ export default function CartNew() {
                                 <span className="text-gray-300 line-through">
                                   ₫{formatCurrency(purchase.price)}
                                 </span>
-                                <span className="ml-3">
-                                  ₫{formatCurrency(purchase.salePrice)}
-                                </span>
+                                {purchase.salePrice > 0 && (
+                                  <span className="ml-3">
+                                    ₫{formatCurrency(purchase.salePrice)}
+                                  </span>
+                                )}
                               </div>
                             </div>
                             <div className="col-span-1">
@@ -291,7 +277,7 @@ export default function CartNew() {
                                   handleQuantity(
                                     index,
                                     value,
-                                    value <= purchase.quantityInDB
+                                    value <= purchase.quantityInDB,
                                   )
                                 }
                                 onDecrease={(value) =>
@@ -309,19 +295,28 @@ export default function CartNew() {
                                       value !==
                                         (purchasesInCartData as Purchase[])[
                                           index
-                                        ].quantityInDB
+                                        ].quantityInDB,
                                   )
                                 }
                                 disabled={purchase.disabled}
                               />
                             </div>
                             <div className="col-span-1">
-                              <span className="text-red-600">
-                                ₫
-                                {formatCurrency(
-                                  purchase.salePrice * purchase.quantity
-                                )}
-                              </span>
+                              {purchase.salePrice > 0 ? (
+                                <span className="text-red-600">
+                                  ₫
+                                  {formatCurrency(
+                                    purchase.salePrice * purchase.quantity,
+                                  )}
+                                </span>
+                              ) : (
+                                <span className="text-red-600">
+                                  ₫
+                                  {formatCurrency(
+                                    purchase.price * purchase.quantity,
+                                  )}
+                                </span>
+                              )}
                             </div>
                             <div className="col-span-1">
                               <button
@@ -414,3 +409,4 @@ export default function CartNew() {
     </div>
   );
 }
+

@@ -34,3 +34,4 @@ const Ticket = ({ show }: { show: boolean }) => {
 };
 
 export default Ticket;
+

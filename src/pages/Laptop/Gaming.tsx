@@ -36,7 +36,7 @@ const Gaming = ({ handlePageChange, currentPage }: any) => {
       const res = await dispatch(
         getProductsFilterAccess({
           body: body,
-          params: { pageSize: 50 },
+          // params: { pageSize: 50 },
         }),
       );
       setData(res.payload.data);
@@ -61,7 +61,7 @@ const Gaming = ({ handlePageChange, currentPage }: any) => {
                     <ProductCard
                       docquyen
                       key={product.id}
-                      category="smartphone"
+                      category="laptop"
                       product={product}
                     />
                   </div>
@@ -74,7 +74,7 @@ const Gaming = ({ handlePageChange, currentPage }: any) => {
                     <ProductCard
                       docquyen
                       key={product.id}
-                      category="smartphone"
+                      category="laptop"
                       product={product}
                     />
                   </div>

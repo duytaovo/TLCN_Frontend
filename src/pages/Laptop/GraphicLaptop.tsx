@@ -38,7 +38,7 @@ const GraphicLaptop = ({}) => {
       const res = await dispatch(
         getProductsFilterAccess({
           body: body,
-          params: { pageSize: 50 },
+          // params: { pageSize: 50 },
         }),
       );
       setData(res.payload.data);
@@ -63,7 +63,7 @@ const GraphicLaptop = ({}) => {
                     <ProductCard
                       docquyen
                       key={product.id}
-                      category="smartphone"
+                      category="laptop"
                       product={product}
                     />
                   </div>
@@ -76,7 +76,7 @@ const GraphicLaptop = ({}) => {
                     <ProductCard
                       docquyen
                       key={product.id}
-                      category="smartphone"
+                      category="laptop"
                       product={product}
                     />
                   </div>

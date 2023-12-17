@@ -160,6 +160,7 @@ export const routeAuth = [
     path: path.sendCode,
     Component: CodeValidator,
   },
+
   // {
   //   path: path.profile,
   //   Component: ProfileNew,
@@ -175,7 +176,6 @@ export const routeUser = [
     path: path.payment,
     Component: Payment,
   },
-
   {
     path: path.activeAccount,
     Component: ActiveAccount,

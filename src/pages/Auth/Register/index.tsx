@@ -1,17 +1,15 @@
 import React, { useContext, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useAppDispatch } from "src/hooks/useRedux";
-import { AppContext } from "src/contexts/app.context";
 import { useForm } from "react-hook-form";
 import { ErrorResponse } from "src/types/utils.type";
 import { toast } from "react-toastify";
 import Input from "src/components/Input";
-import { Schema, SchemaRegister, schema, schemaAddUser } from "src/utils/rules";
+import { SchemaRegister, schemaAddUser } from "src/utils/rules";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { unwrapResult } from "@reduxjs/toolkit";
 import { login, registerUser } from "src/store/user/userSlice";
 import { isAxiosUnprocessableEntityError } from "src/utils/utils";
-import { setAccessTokenToLS, setRefreshTokenToLS } from "src/utils/auth";
 import { Helmet } from "react-helmet-async";
 // import logo from "./logo-main.png";
 import logo from "src/assets/images/logotechstore.jpg";
@@ -19,12 +17,25 @@ import logo from "src/assets/images/logotechstore.jpg";
 import Button from "../Button";
 import SelectCustom from "src/components/Select";
 import path from "src/constants/path";
+import { LocationForm } from "src/components/LocationForm";
 
 const Login = () => {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
-  const { setIsAuthenticated } = useContext(AppContext);
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [addressOption, setAddresOption] = useState<any>();
+  const addressSelect =
+    addressOption?.ward.name +
+    " " +
+    addressOption?.district.name +
+    " " +
+    addressOption?.city.name;
+  const addressIdSelect =
+    addressOption?.ward.id +
+    "-" +
+    addressOption?.district.id +
+    "-" +
+    addressOption?.city.id;
   const {
     handleSubmit,
     formState: { errors },
@@ -41,7 +52,7 @@ const Login = () => {
       password: data.password,
       email: data.email,
       gender: Number(data.gender),
-      address: data.address,
+      address: data.address + ", " + addressSelect + " + " + addressIdSelect,
       imageUrl: "",
     };
     try {
@@ -80,7 +91,7 @@ const Login = () => {
         <title>Đăng ký </title>
         <meta name="description" content="Trang đăng nhập" />
       </Helmet>
-      <div className="lg:col-span-2 lg:col-start-4  bg-mainColor/30 w-1/4 md:w-full justify-center m-10 rounded">
+      <div className="lg:col-span-2 lg:col-start-4  bg-mainColor/30 w-1/3 md:w-full justify-center m-10 rounded">
         <div className=" ">
           <Link
             to={path.home}
@@ -142,17 +153,24 @@ const Login = () => {
             placeholder="Email"
             autoComplete="on"
           />
-          <Input
-            name="address"
-            register={register}
-            type="text"
-            className="mt-2"
-            classNameEye="absolute right-[5px] h-5 w-5 cursor-pointer top-[12px]"
-            errorMessage={errors.address?.message}
-            placeholder="Địa chỉ"
-            autoComplete="on"
-          />
+          <div className="text-black">
+            <Input
+              name="address"
+              register={register}
+              type="text"
+              className="mt-2"
+              classNameEye="absolute right-[5px] h-5 w-5 cursor-pointer top-[12px]"
+              errorMessage={errors.address?.message}
+              placeholder="Số nhà tên đường"
+              autoComplete="on"
+            />
 
+            <LocationForm
+              onChange={(e: any) => {
+                setAddresOption(e);
+              }}
+            />
+          </div>
           <SelectCustom
             className={" text-black"}
             id="gender"

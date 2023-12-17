@@ -81,28 +81,38 @@ const ProductCard = ({ product, category, docquyen }: Props) => {
           )}
           {/* <p>{props.gift}</p> */}
           <strong className={styles.price}>
-            <div className="mt-3  items-center">
-              <div className="max-w-[70%] truncate text-[#333333] flex items-center ">
-                <span className="text-[14px] leading-4  line-through">
-                  đ{formatCurrency(product?.lstProductTypeAndPrice[0]?.price)}
-                </span>
-                <div className="ml-4 rounded-sm  py-[2px] text-lg font-semibold uppercase text-black">
-                  {rateSale(
-                    product?.lstProductTypeAndPrice[0]?.salePrice,
-                    product?.lstProductTypeAndPrice[0]?.price,
-                  )}{" "}
-                  giảm
+            {product?.lstProductTypeAndPrice[0]?.salePrice > 0 ? (
+              <div className="mt-3  items-center">
+                <div className="max-w-[70%] truncate text-[#333333] flex items-center ">
+                  <span className="text-[14px] leading-4  line-through">
+                    đ{formatCurrency(product?.lstProductTypeAndPrice[0]?.price)}
+                  </span>
+                  <div className="ml-4 rounded-sm  py-[2px] text-lg font-semibold uppercase text-black">
+                    {rateSale(
+                      product?.lstProductTypeAndPrice[0]?.salePrice,
+                      product?.lstProductTypeAndPrice[0]?.price,
+                    )}{" "}
+                    giảm
+                  </div>
+                </div>
+                <div className=" truncate text-[#e83a45] font-bold">
+                  <span className="text-2xl">
+                    đ
+                    {formatCurrency(
+                      product?.lstProductTypeAndPrice[0]?.salePrice,
+                    )}
+                  </span>
                 </div>
               </div>
-              <div className=" truncate text-[#e83a45] font-bold">
-                <span className="text-2xl">
-                  đ
-                  {formatCurrency(
-                    product?.lstProductTypeAndPrice[0]?.salePrice,
-                  )}
-                </span>
+            ) : (
+              <div className="mt-3  items-center">
+                <div className="truncate text-[#e83a45] font-bold">
+                  <span className="text-2xl  ">
+                    đ{formatCurrency(product?.lstProductTypeAndPrice[0]?.price)}
+                  </span>
+                </div>
               </div>
-            </div>
+            )}
           </strong>
           {category === "laptop" && (
             <div className={styles.infoProduct}>

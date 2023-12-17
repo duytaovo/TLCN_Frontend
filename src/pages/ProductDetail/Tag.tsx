@@ -143,17 +143,26 @@ const Tag = ({ productData, onClick }: any) => {
 
   return (
     <div className="mb-4">
-      <div className="mt-8 flex items-center bg-gray-50 px-5 py-4">
-        <div className="text-gray-500 line-through">
-          ₫{formatCurrency(price)}
+      {salePrice > 0 ? (
+        <div className="mt-8 flex items-center bg-gray-50 px-5 py-4">
+          <div className="text-gray-500 line-through">
+            ₫{formatCurrency(price)}
+          </div>
+          <div className="ml-3 text-4xl font-medium text-mainColor">
+            ₫{formatCurrency(salePrice)}
+          </div>
+          <div className="ml-4 rounded-sm bg-orange-300 px-1 py-[2px] text-lg font-semibold uppercase text-black">
+            {rateSale(salePrice, price)} giảm
+          </div>
         </div>
-        <div className="ml-3 text-4xl font-medium text-mainColor">
-          ₫{formatCurrency(salePrice)}
+      ) : (
+        <div className="mt-8 flex items-center bg-gray-50 px-5 py-4">
+          <div className="ml-3 text-4xl font-medium text-mainColor">
+            ₫{formatCurrency(price)}
+          </div>
         </div>
-        <div className="ml-4 rounded-sm bg-orange-300 px-1 py-[2px] text-lg font-semibold uppercase text-black">
-          {rateSale(salePrice, price)} giảm
-        </div>
-      </div>
+      )}
+
       <div className="flex flex-wrap gap-4 mb-4">
         {[
           ...new Set(

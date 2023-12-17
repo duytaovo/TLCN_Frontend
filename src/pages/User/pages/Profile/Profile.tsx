@@ -2,10 +2,9 @@ import { useContext, useEffect, useMemo, useState } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "react-toastify";
 import Input from "src/components/Input";
-import InputFile from "src/components/InputFile";
 import { AppContext } from "src/contexts/app.context";
 import { ErrorResponse } from "src/types/utils.type";
-import { isAxiosUnprocessableEntityError } from "src/utils/utils";
+import { getAvatarUrl, isAxiosUnprocessableEntityError } from "src/utils/utils";
 import { useAppDispatch, useAppSelector } from "src/hooks/useRedux";
 import { unwrapResult } from "@reduxjs/toolkit";
 import { getUser, getUserById, updateProfile } from "src/store/user/userSlice";
@@ -17,6 +16,7 @@ import { setProfileToLS } from "src/utils/auth";
 import Button from "./Button";
 import { uploadManyImages } from "src/store/comment/commentsSlice";
 import { LocationForm } from "src/components/LocationForm";
+import InputFile from "./InputFile";
 
 interface FormData {
   gender: string | undefined;
@@ -30,22 +30,27 @@ interface FormData {
 
 export default function Profile() {
   const { setProfile } = useContext(AppContext);
-  const [file, setFile] = useState<File[]>();
-  const imageArray = file || []; // Mảng chứa các đối tượng ảnh (File hoặc Blob)
+  const [isSubmitting, setIsSubmitting] = useState(false);
   const [imageUrls, setImages] = useState<string[]>([]);
   // Tạo một mảng chứa các URL tạm thời cho ảnh
   const [addressOption, setAddresOption] = useState<any>();
   const addressSelect =
     addressOption?.ward.name +
-    ", " +
+    " " +
     addressOption?.district.name +
-    ", " +
+    " " +
     addressOption?.city.name;
+  const addressIdSelect =
+    addressOption?.ward.id +
+    "-" +
+    addressOption?.district.id +
+    "-" +
+    addressOption?.city.id;
+  const [file, setFile] = useState<File>();
 
-  for (const image of imageArray) {
-    const imageUrl = URL.createObjectURL(image);
-    imageUrls.push(imageUrl);
-  }
+  const previewImage = useMemo(() => {
+    return file ? URL.createObjectURL(file) : "";
+  }, [file]);
 
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
@@ -57,9 +62,12 @@ export default function Profile() {
     setError,
     watch,
   } = useForm<FormData>();
-
-  const { profile, userWithId } = useAppSelector((state) => state.user);
   const avatar = watch("imageUrl");
+
+  const [part1Address, setPart1Address] = useState<any>();
+  const [part2Address, setPart2Address] = useState<any>();
+  const [part3Address, setPart3Address] = useState<any>();
+  const { profile, userWithId } = useAppSelector((state) => state.user);
   const [_data, setData] = useState<any>();
 
   useEffect(() => {
@@ -71,43 +79,63 @@ export default function Profile() {
     };
     _getData();
   }, []);
+  useEffect(() => {
+    const inputString = userWithId.address;
 
+    // Phần 1: từ đầu đến trước dấu ,
+    const part1 = inputString?.split(",")[0]?.trim();
+    setPart1Address(part1);
+    // Phần 2: từ dấu , đến dấu +
+    const part2 = inputString
+      ?.split(",")
+      .slice(1)
+      .join(",")
+      .split("+")[0]
+      .trim();
+    setPart2Address(part2);
+
+    // Phần 3: phần còn lại, bỏ vào mảng có 3 phần tử mỗi phần tử đã được ngăn cách bởi dấu -
+    const remainingPart = inputString
+      ?.split("+")[1]
+      .split("-")
+      .map((item: string) => Number(item.trim()));
+    setPart3Address(remainingPart);
+  }, [userWithId]);
   useEffect(() => {
     setImages(userWithId.imageUrl);
 
     setValue("fullName", userWithId.fullName);
     setValue("phoneNumber", userWithId.phoneNumber);
-    setValue("address", userWithId.address);
+    setValue("address", part1Address);
     setValue("imageUrl", userWithId.imageUrl);
     setValue("email", userWithId.email);
-    setValue("gender", userWithId.gender?.toString());
-  }, [userWithId, setValue]);
+    setValue("gender", userWithId.gender);
+  }, [userWithId, setValue, part1Address]);
+
   const onSubmit = handleSubmit(async (data) => {
+    let images;
+    if (file) {
+      const form = new FormData();
+      form.append("files", file);
+      const res = await dispatch(uploadManyImages(form));
+      unwrapResult(res);
+      const d = res?.payload?.data?.data;
+      images = d[0].fileUrl;
+      setValue("imageUrl", d[0].fileUrl);
+    }
     const body = {
       fullName: data.fullName,
       phoneNumber: data.phoneNumber,
-      password: data.password,
+      password: data.password || "123456",
       email: data.email,
       gender: Number(data.gender),
-      address: data.address + " " + addressSelect,
-      imageUrl: data.imageUrl,
-      isEnable: true,
+      address: data.address + ", " + addressSelect + " + " + addressIdSelect,
+      imageUrl: images,
+      // isEnable: true,
     };
-    try {
-      let images = [];
+    setIsSubmitting(true);
 
-      if (file) {
-        const form = new FormData();
-        for (let i = 0; i < file.length; i++) {
-          form.append("files", file[i]);
-        }
-        const res = await dispatch(uploadManyImages(form));
-        unwrapResult(res);
-        const d = res?.payload?.data?.data;
-        for (let i = 0; i < d.length; i++) {
-          images.push(d[i]?.fileUrl);
-        }
-      }
+    try {
       const res = await dispatch(
         updateProfile({ id: userWithId.id, body }),
       ).then(unwrapResult);
@@ -128,13 +156,14 @@ export default function Profile() {
           });
         }
       }
+    } finally {
+      setIsSubmitting(false);
     }
   });
 
-  const handleChangeFile = (file?: File[]) => {
+  const handleChangeFile = (file?: File) => {
     setFile(file);
   };
-
   return (
     <div className="container rounded-sm bg-white px-2 pl-5 pb-10 shadow md:px-7 md:pb-20">
       <Helmet>
@@ -262,6 +291,7 @@ export default function Profile() {
           <SelectCustom
             className={"flex-1 text-black"}
             id="gender"
+            defaultValue={1}
             placeholder="Giới tính"
             options={[
               { id: 1, name: "Nam" },
@@ -275,7 +305,7 @@ export default function Profile() {
             className="flex h-12 w-12 items-center border-blue-500 border-solid  rounded-sm   text-center text-2xl text-black "
             type="submit"
           >
-            {isSubmitting ? "Loading..." : "Lưu"}
+            {/* {isSubmitting ? "Loading..." : "Lưu"} */}
           </Button>
           <div className="mt-2 flex flex-row justify-start flex-wrap sm:flex-row">
             <div className="truncate pt-3 capitalize sm:w-[20%] sm:text-right" />
@@ -285,22 +315,13 @@ export default function Profile() {
         <div className="flex justify-center md:w-72 md:border-l md:border-l-gray-200">
           <div className="flex flex-col items-center">
             <div className="my-5 h-24 w-24">
-              {imageUrls?.map((imageUrl, index) => {
-                return (
-                  <img
-                    key={index}
-                    src={imageUrl || avatar}
-                    className="h-full rounded-md w-full  object-cover"
-                    alt="avatar"
-                  />
-                );
-              })}
+              <img
+                src={previewImage || avatar}
+                alt=""
+                className="h-full w-full rounded-full object-cover"
+              />
             </div>
-            <InputFile
-              id="files"
-              label="Upload ảnh"
-              onChange={handleChangeFile}
-            />
+            <InputFile onChange={handleChangeFile} />
             <div className="mt-3 text-gray-400">
               <div>Dụng lượng file tối đa 1 MB</div>
               <div>Định dạng:.JPEG, .PNG</div>
@@ -308,6 +329,9 @@ export default function Profile() {
           </div>
         </div>
       </form>
+      <Button className="w-[100px] h-12 rounded bg-blue-200" onClick={onSubmit}>
+        {isSubmitting ? "Loading..." : "Lưu"}
+      </Button>
       <div className="sm:w-[80%] sm:pl-5">
         <Button
           style={{}}

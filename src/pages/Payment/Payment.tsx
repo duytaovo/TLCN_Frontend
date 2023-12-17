@@ -15,7 +15,6 @@ import {
 import SelectCustom from "src/components/Select";
 import { getUser, getUserById } from "src/store/user/userSlice";
 import { ChevronLeft } from "@mui/icons-material";
-import moment from "moment";
 import { buyPurchases } from "src/store/order/ordersSlice";
 import path from "src/constants/path";
 import { LocationForm } from "src/components/LocationForm";
@@ -59,12 +58,41 @@ const Payment: React.FC = () => {
   const { profile, userWithId } = useAppSelector((state) => state.user);
   const [addressOption, setAddresOption] = useState<any>();
   const [methodTransport, setMethodTransport] = useState<any>();
+  const [part1Address, setPart1Address] = useState<any>();
+  const [part2Address, setPart2Address] = useState<any>();
+  const [part3Address, setPart3Address] = useState<any>();
   const addressSelect =
     addressOption?.ward.name +
     " " +
     addressOption?.district.name +
     " " +
     addressOption?.city.name;
+  useEffect(() => {
+    const inputString = userWithId.address;
+
+    if (inputString) {
+      // Phần 1: từ đầu đến trước dấu ,
+      const part1 = inputString.split(",")[0]?.trim();
+      setPart1Address(part1);
+
+      // Phần 2: từ dấu , đến dấu +
+      const part2 = inputString
+        .split(",")
+        .slice(1)
+        .join(",")
+        .split("+")[0]
+        .trim();
+      setPart2Address(part2);
+
+      // Phần 3: phần còn lại, bỏ vào mảng có 3 phần tử mỗi phần tử đã được ngăn cách bởi dấu -
+      const remainingPart = inputString
+        .split("+")[1]
+        ?.split("-")
+        .map((item: string) => Number(item.trim()));
+      setPart3Address(remainingPart);
+    }
+  }, [userWithId]);
+
   useEffect(() => {
     axios
       .get(
@@ -103,7 +131,6 @@ const Payment: React.FC = () => {
         // always executed
       });
   }, [addressOption]);
-
   useEffect(() => {
     axios
       .get(
@@ -112,7 +139,7 @@ const Payment: React.FC = () => {
           params: {
             from_district_id: 1442,
             to_district_id: addressOption?.district.id,
-            service_id: idMethod,
+            service_id: methodTransport && methodTransport[0].id,
             insurance_value: "",
             coupon: "",
             to_ward_code: addressOption?.ward.id,
@@ -137,15 +164,15 @@ const Payment: React.FC = () => {
       .finally(function () {
         // always executed
       });
-  }, [idMethod, addressOption]);
+  }, [methodTransport, addressOption]);
 
   useEffect(() => {
-    setValue("addressReceiver", userWithId.address);
+    setValue("addressReceiver", part1Address);
     setValue("message", "");
     setValue("nameReceiver", userWithId.fullName);
     setValue("paymentMethod", "");
     setValue("phoneReceiver", userWithId.phoneNumber);
-  }, [userWithId]);
+  }, [userWithId, part1Address]);
 
   useEffect(() => {
     const _getData = async () => {
@@ -155,10 +182,14 @@ const Payment: React.FC = () => {
     };
     _getData();
   }, []);
+
   const totalPurchasePrice = useMemo(
     () =>
       valueBuy.reduce((result, current) => {
-        return result + current.salePrice * current.quantity;
+        if (current.salePrice > 0) {
+          return result + current.salePrice * current.quantity;
+        }
+        return result + current.price * current.quantity;
       }, 0),
     [valueBuy],
   );
@@ -290,11 +321,6 @@ const Payment: React.FC = () => {
           <div className="">
             <div className="">
               <div className="border border-gray-300 p-4 rounded-xl space-y-3">
-                <p>
-                  Nhập địa chỉ để biết thời gian nhận hàng và phí vận chuyển
-                  (nếu có)
-                </p>
-
                 <Input
                   placeholder="Số nhà, tên đường"
                   name="addressReceiver"
@@ -309,23 +335,16 @@ const Payment: React.FC = () => {
                     setAddresOption(e);
                   }}
                 />
-                <div>
-                  {/* <div className="flex justify-between mb-4">
-                    <span>
-                      Giao trước 20h hôm nay ({moment().format("DD/MM/YYYY")})
-                    </span>
-                  </div> */}
-                </div>
-                <h4>CHỌN CÁCH THỨC NHẬN HÀNG</h4>
                 <div className="mt-8">
                   <SelectCustom
+                    disabled
                     className={"flex-1 text-black"}
                     id="methodTransport"
-                    placeholder="Cách thức nhận hàng"
+                    placeholder="Giao hàng truyền thống"
                     options={methodTransport}
                     register={register}
-                    isBrand={true}
                     onChange={onChange}
+                    value={0}
                   >
                     {/* {errors.paymentMethod?.message} */}
                   </SelectCustom>

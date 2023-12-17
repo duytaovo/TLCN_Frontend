@@ -49,18 +49,9 @@ const LapTop = () => {
       <MacBook />
       <StudyLaptop />
       <GraphicLaptop />
-      <ThinLaptop />
-      <LuxuryLaptop />
+      {/* <ThinLaptop /> */}
+      {/* <LuxuryLaptop /> */}
       <Office />
-      {/* <Trademark /> */}
-      {/* <div className="mb-5">
-        <Pagination
-          current={currentPage + 1}
-          pageSize={pageSize}
-          total={laptop?.data?.totalElements}
-          onChange={handlePageChange}
-        />
-      </div> */}
     </div>
   );
 };

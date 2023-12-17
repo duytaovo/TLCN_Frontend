@@ -37,7 +37,7 @@ const MacBook = ({ handlePageChange, currentPage }: any) => {
       const res = await dispatch(
         getProductsFilterAccess({
           body: body,
-          params: { pageNumber: 0, pageSize: 50 },
+          // params: { pageNumber: 0, pageSize: 50 },
         }),
       );
       setData(res.payload.data);
@@ -61,7 +61,7 @@ const MacBook = ({ handlePageChange, currentPage }: any) => {
                     <ProductCard
                       docquyen
                       key={product.id}
-                      category="smartphone"
+                      category="laptop"
                       product={product}
                     />
                   </div>
@@ -74,7 +74,7 @@ const MacBook = ({ handlePageChange, currentPage }: any) => {
                     <ProductCard
                       docquyen
                       key={product.id}
-                      category="smartphone"
+                      category="laptop"
                       product={product}
                     />
                   </div>

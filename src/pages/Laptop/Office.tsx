@@ -36,7 +36,7 @@ const Office = ({ handlePageChange, currentPage }: any) => {
       const res = await dispatch(
         getProductsFilterAccess({
           body: body,
-          params: { pageSize: 50 },
+          // params: { pageSize: 50 },
         }),
       );
       setData(res.payload.data);

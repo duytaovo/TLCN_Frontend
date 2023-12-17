@@ -29,8 +29,6 @@ import RatingFeedback from "./Rating";
 import Tag from "./Tag";
 import Head from "./Head";
 import clsx from "clsx";
-import Policy from "./Policy";
-import DiscountBox from "./DiscountBox";
 import PayInfo from "./PayInfo";
 import { getDetailBrand } from "src/store/brand/brandsSlice";
 import BasicTabs from "./Tabs";
@@ -79,19 +77,19 @@ export default function SmartPhoneDetail() {
     useState<string[]>();
 
   const [price, setPrice] = useState(
-    productData?.productInfo?.lstProductTypeAndPrice[0].price
+    productData?.productInfo?.lstProductTypeAndPrice[0].price,
   );
   const [salePrice, setSalePrice] = useState(
-    productData?.productInfo?.lstProductTypeAndPrice[0].salePrice
+    productData?.productInfo?.lstProductTypeAndPrice[0].salePrice,
   );
   const currentImages = useMemo(
     () =>
       productData?.productInfo?.lstProductImageUrl
         ? productData?.productInfo?.lstProductImageUrl.slice(
-            ...currentIndexImages
+            ...currentIndexImages,
           )
         : [],
-    [productData, currentIndexImages]
+    [productData, currentIndexImages],
   );
   const [isModalOpen, setIsModalOpen] = useState(false);
 
@@ -133,7 +131,7 @@ export default function SmartPhoneDetail() {
   useEffect(() => {
     const getData = async () => {
       const res = await dispatch(
-        getProductByProductSlugId({ id: _id, slug: pathParts[1] })
+        getProductByProductSlugId({ id: _id, slug: pathParts[1] }),
       );
       unwrapResult(res);
       setProductData(res.payload.data.data);
@@ -148,7 +146,7 @@ export default function SmartPhoneDetail() {
           ...productDetailsWithoutInfo
         } = productData;
         const productDetailsArray: string[] = Object.keys(
-          productDetailsWithoutInfo
+          productDetailsWithoutInfo,
         );
         setProductDataPrivateArray(productDetailsArray);
         // await dispatch(getCommentByProductId(productInfo?.productId));
@@ -171,7 +169,7 @@ export default function SmartPhoneDetail() {
           ...productDetailsWithoutInfo
         } = productData;
         const productDetailsArray: string[] = Object.keys(
-          productDetailsWithoutInfo
+          productDetailsWithoutInfo,
         );
         setProductDataPrivateArray(productDetailsArray);
         await dispatch(getCommentByProductId(productInfo?.productId));
@@ -390,7 +388,7 @@ export default function SmartPhoneDetail() {
                 <div className="text-black">
                   <span>
                     {formatNumberToSocialStyle(
-                      Number(productData?.productInfo.totalReview)
+                      Number(productData?.productInfo.totalReview),
                     )}
                   </span>
                   <span className="ml-1 text-gray-500"> Đã xem</span>
@@ -500,7 +498,7 @@ export default function SmartPhoneDetail() {
                               className="flex justify-center flex-col"
                               dangerouslySetInnerHTML={{
                                 __html: DOMPurify.sanitize(
-                                  productData.productInfo.description
+                                  productData.productInfo.description,
                                 ),
                               }}
                             />
@@ -540,7 +538,7 @@ export default function SmartPhoneDetail() {
                                             </tr>
                                           );
                                         }
-                                      }
+                                      },
                                     )
                                   ) : (
                                     <tr></tr>
@@ -637,7 +635,7 @@ export default function SmartPhoneDetail() {
                               </tr>
                             );
                           }
-                        }
+                        },
                       )
                     ) : (
                       <tr></tr>
@@ -697,7 +695,7 @@ export default function SmartPhoneDetail() {
                       className="flex justify-center flex-col"
                       dangerouslySetInnerHTML={{
                         __html: DOMPurify.sanitize(
-                          productData.productInfo.description
+                          productData.productInfo.description,
                         ),
                       }}
                     />
@@ -732,7 +730,7 @@ export default function SmartPhoneDetail() {
                                     </tr>
                                   );
                                 }
-                              }
+                              },
                             )
                           ) : (
                             <tr></tr>
@@ -811,3 +809,4 @@ export default function SmartPhoneDetail() {
     </div>
   );
 }
+
