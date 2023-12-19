@@ -14,6 +14,8 @@ export interface Purchase {
   quantity: number;
   quantityInDB: number;
   salePrice: number;
+  mass: number;
+  dimension: string;
   slug: string;
   typeId: number;
 }
@@ -22,3 +24,4 @@ export interface ExtendedPurchase extends Purchase {
   disabled: boolean;
   checked: boolean;
 }
+

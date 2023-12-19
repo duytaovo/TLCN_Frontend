@@ -48,7 +48,7 @@ export default function CartNew() {
   const totalCheckedPurchasePrice = useMemo(
     () =>
       checkedPurchases.reduce((result, current) => {
-        if (current?.salePrice > 0) {
+        if (current?.salePrice > 0 && current?.price !== current?.salePrice) {
           return result + current.salePrice * current.quantity;
         }
         return result + current.price * current.quantity;
@@ -160,6 +160,8 @@ export default function CartNew() {
         quantity: purchase.quantity,
         price: purchase.price,
         salePrice: purchase.salePrice,
+        mass: purchase.mass,
+        dimension: purchase.dimension,
         typeId: purchase?.typeId,
         depotId: purchase.depotId,
         totalCheckedPurchasePrice: totalCheckedPurchasePrice,
@@ -261,11 +263,12 @@ export default function CartNew() {
                                 <span className="text-gray-300 line-through">
                                   ₫{formatCurrency(purchase.price)}
                                 </span>
-                                {purchase.salePrice > 0 && (
-                                  <span className="ml-3">
-                                    ₫{formatCurrency(purchase.salePrice)}
-                                  </span>
-                                )}
+                                {purchase.salePrice > 0 &&
+                                  purchase.salePrice !== purchase.price && (
+                                    <span className="ml-3">
+                                      ₫{formatCurrency(purchase.salePrice)}
+                                    </span>
+                                  )}
                               </div>
                             </div>
                             <div className="col-span-1">

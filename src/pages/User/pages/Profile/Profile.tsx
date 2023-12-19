@@ -4,7 +4,7 @@ import { toast } from "react-toastify";
 import Input from "src/components/Input";
 import { AppContext } from "src/contexts/app.context";
 import { ErrorResponse } from "src/types/utils.type";
-import { getAvatarUrl, isAxiosUnprocessableEntityError } from "src/utils/utils";
+import { isAxiosUnprocessableEntityError } from "src/utils/utils";
 import { useAppDispatch, useAppSelector } from "src/hooks/useRedux";
 import { unwrapResult } from "@reduxjs/toolkit";
 import { getUser, getUserById, updateProfile } from "src/store/user/userSlice";
@@ -199,7 +199,7 @@ export default function Profile() {
             ) : (
               <Button
                 style={{}}
-                className="cursor-pointer flex h-12   w-full items-center border-yellow-200 border-solid  rounded-sm   text-center text-2xl text-blue-500 "
+                className="cursor-pointer flex h-12 decoration-solid  underline hover:text-red-300 w-full items-center border-yellow-200 border-solid  rounded-sm   text-center text-2xl text-blue-500 "
                 type="reset"
                 onClick={() => navigate(path.sendCodeActive)}
               >
@@ -207,6 +207,14 @@ export default function Profile() {
               </Button>
             )}
           </div>
+          <Button
+            style={{}}
+            className="cursor-pointer flex h-12 decoration-solid underline hover:text-red-300   w-full items-center border-yellow-200 border-solid  rounded-sm   text-center text-2xl text-blue-500 "
+            type="reset"
+            onClick={() => navigate(path.changePassword)}
+          >
+            Đổi mật khẩu
+          </Button>
           <div className="mt-6 flex flex-col flex-wrap sm:flex-row">
             <div className="truncate pt-3 capitalize sm:w-[20%] sm:text-right">
               Email:
@@ -253,7 +261,7 @@ export default function Profile() {
               />
             </div>
           </div>
-          <div className="mt-2 flex flex-col flex-wrap sm:flex-row">
+          {/* <div className="mt-2 flex flex-col flex-wrap sm:flex-row">
             <div className="truncate pt-3 capitalize sm:w-[20%] sm:text-right">
               Mật khẩu
             </div>
@@ -267,7 +275,7 @@ export default function Profile() {
                 errorMessage={errors.password?.message}
               />
             </div>
-          </div>
+          </div> */}
           <div className="mt-2 flex flex-col flex-wrap sm:flex-row">
             <div className="truncate pt-3 capitalize sm:w-[20%] sm:text-right">
               Địa chỉ:
@@ -335,7 +343,7 @@ export default function Profile() {
       <div className="sm:w-[80%] sm:pl-5">
         <Button
           style={{}}
-          className="cursor-pointer flex h-12   w-full items-center border-yellow-200 border-solid  rounded-sm   text-center text-2xl text-blue-500 "
+          className="cursor-pointer flex h-12 decoration-solid underline hover:text-red-300   w-full items-center border-yellow-200 border-solid  rounded-sm   text-center text-2xl text-blue-500 "
           type="reset"
           onClick={() => navigate("/")}
         >

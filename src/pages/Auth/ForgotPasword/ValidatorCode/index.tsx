@@ -1,7 +1,6 @@
 import { useContext, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useAppDispatch } from "src/hooks/useRedux";
-import { AppContext } from "src/contexts/app.context";
 import { useForm } from "react-hook-form";
 import { ErrorResponse } from "src/types/utils.type";
 import { toast } from "react-toastify";
@@ -9,7 +8,7 @@ import Input from "src/components/Input";
 import { SchemaForGot, schemaForgot } from "src/utils/rules";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { unwrapResult } from "@reduxjs/toolkit";
-import { getCodeValidator, updatePassword } from "src/store/user/userSlice";
+import { getCodeValidator } from "src/store/user/userSlice";
 import { isAxiosUnprocessableEntityError } from "src/utils/utils";
 import { Helmet } from "react-helmet-async";
 // import logo from "./logo-main.png";
@@ -74,7 +73,7 @@ const CodeValidator = () => {
         <div className=" ">
           <Link
             to={path.home}
-            className=" mt-2 rounded-[30px] p-4 text-xs  text-blue-400 hover:opacity-80"
+            className=" mt-2 rounded-[30px] p-4 text-xs decoration-solid underline hover:text-red-300  text-blue-400 hover:opacity-80"
           >
             <span className="text-2xl mt-4">Trang chủ</span>
           </Link>
@@ -119,11 +118,7 @@ const CodeValidator = () => {
               type="submit"
               className="flex w-full items-center justify-center mt-2 rounded bg-mainColor py-3 px-2 text-sm uppercase text-white hover:opacity-80"
             >
-              {isSubmitting ? (
-                "Loading..."
-              ) : (
-                <span className="text-2xl mt-4">Lấy mã xác nhận</span>
-              )}
+              {isSubmitting ? "Loading..." : "Lấy mã xác nhận"}
             </Button>
           </div>
         </form>

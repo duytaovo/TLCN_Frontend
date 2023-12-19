@@ -6,9 +6,7 @@ import {
   rateSale,
 } from "src/utils/utils";
 import { ListSmartPhone } from "src/types/allProductsType.interface";
-import { Rate } from "antd";
 import styles from "./card.module.scss";
-import { clsx } from "clsx";
 import { useState } from "react";
 import { StarFill } from "react-bootstrap-icons";
 
@@ -81,7 +79,9 @@ const ProductCard = ({ product, category, docquyen }: Props) => {
           )}
           {/* <p>{props.gift}</p> */}
           <strong className={styles.price}>
-            {product?.lstProductTypeAndPrice[0]?.salePrice > 0 ? (
+            {product?.lstProductTypeAndPrice[0]?.salePrice > 0 &&
+            product?.lstProductTypeAndPrice[0]?.salePrice !==
+              product?.lstProductTypeAndPrice[0]?.price ? (
               <div className="mt-3  items-center">
                 <div className="max-w-[70%] truncate text-[#333333] flex items-center ">
                   <span className="text-[14px] leading-4  line-through">

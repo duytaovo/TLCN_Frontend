@@ -63,9 +63,9 @@ const Payment: React.FC = () => {
   const [part3Address, setPart3Address] = useState<any>();
   const addressSelect =
     addressOption?.ward.name +
-    " " +
+    ", " +
     addressOption?.district.name +
-    " " +
+    ", " +
     addressOption?.city.name;
   useEffect(() => {
     const inputString = userWithId.address;
@@ -131,6 +131,41 @@ const Payment: React.FC = () => {
         // always executed
       });
   }, [addressOption]);
+  const calculateTotalMassAndDimensions = () => {
+    let totalMass = 0;
+    let totalLength = 0;
+    let totalWidth = 0;
+    let totalHeight = 0;
+    let dimensionsArray: any = [];
+
+    valueBuy.forEach((product) => {
+      totalMass += product.mass || 0;
+
+      const dimensions = product?.dimension?.split(" - ");
+      dimensions?.forEach((dimension: any) => {
+        const parts = dimension
+          ?.split(" ")
+          .filter((part: any) => !isNaN(parseFloat(part)));
+        if (parts?.length === 1) {
+          dimensionsArray.push(parseFloat(parts[0]) || 0);
+        }
+      });
+      totalLength += parseInt(dimensionsArray[0]) * product?.quantity || 0;
+      totalWidth += parseInt(dimensionsArray[1]) * product?.quantity || 0;
+      totalHeight += parseInt(dimensionsArray[2]) * product?.quantity || 0;
+    });
+
+    return {
+      totalMass,
+      totalLength,
+      totalWidth,
+      totalHeight,
+    };
+  };
+
+  const { totalMass, totalLength, totalWidth, totalHeight } =
+    calculateTotalMassAndDimensions();
+
   useEffect(() => {
     axios
       .get(
@@ -143,10 +178,10 @@ const Payment: React.FC = () => {
             insurance_value: "",
             coupon: "",
             to_ward_code: addressOption?.ward.id,
-            weight: 1000,
-            length: 20,
-            width: 20,
-            height: 20,
+            weight: totalMass, // Use totalMass here
+            length: Math.round(totalLength / 10), // Use totalLength here
+            width: Math.round(totalWidth / 10), // Use totalWidth here
+            height: Math.round(totalHeight / 10), // Use totalHeight here
           },
           headers: {
             "Content-Type": "application/json",
@@ -201,7 +236,7 @@ const Payment: React.FC = () => {
     const body = JSON.stringify({
       nameReceiver: data.nameReceiver,
       phoneReceiver: data.phoneReceiver,
-      addressReceiver: data.addressReceiver + " " + addressSelect,
+      addressReceiver: data.addressReceiver + ", " + addressSelect,
       message: data.message,
       orderPrice: Number(totalPurchasePrice),
       deliveryPrice,

@@ -95,7 +95,7 @@ const Login = () => {
         <div className=" ">
           <Link
             to={path.home}
-            className=" mt-2 rounded-[30px] p-4 text-xs  text-blue-400 hover:opacity-80"
+            className=" mt-2 rounded-[30px] p-4 text-xs decoration-solid underline hover:text-red-300 text-blue-400 hover:opacity-80"
           >
             <span className="text-2xl mt-4">Trang chủ</span>
           </Link>

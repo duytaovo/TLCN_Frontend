@@ -3,6 +3,7 @@ import Search from "src/pages/Search";
 import path from "src/constants/path";
 import KhongTimThay from "src/pages/KhongTimThay/NotFound";
 import PhuKien from "src/pages/PhuKien";
+import ChangePassword from "src/pages/User/pages/ChangePassword/ChangePassword";
 
 const CodeValidator = lazy(
   () => import("src/pages/Auth/ForgotPasword/ValidatorCode"),
@@ -184,10 +185,10 @@ export const routeUser = [
     path: path.sendCodeActive,
     Component: CodeValidatorActiveAccount,
   },
-  // {
-  //   path: path.changePassword,
-  //   Component: ChangePassword,
-  // },
+  {
+    path: path.changePassword,
+    Component: ChangePassword,
+  },
 
   {
     path: path.historyPurchase,

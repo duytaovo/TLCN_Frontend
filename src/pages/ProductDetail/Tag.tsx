@@ -143,7 +143,7 @@ const Tag = ({ productData, onClick }: any) => {
 
   return (
     <div className="mb-4">
-      {salePrice > 0 ? (
+      {salePrice > 0 && salePrice !== price ? (
         <div className="mt-8 flex items-center bg-gray-50 px-5 py-4">
           <div className="text-gray-500 line-through">
             ₫{formatCurrency(price)}

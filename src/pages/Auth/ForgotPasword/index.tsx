@@ -1,7 +1,6 @@
 import { useContext, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useAppDispatch } from "src/hooks/useRedux";
-import { AppContext } from "src/contexts/app.context";
 import { useForm } from "react-hook-form";
 import { ErrorResponse } from "src/types/utils.type";
 import { toast } from "react-toastify";
@@ -126,11 +125,9 @@ const ForgotPassword = () => {
               type="submit"
               className="flex w-full items-center justify-center mt-2 rounded bg-mainColor py-3 px-2 text-sm uppercase text-white hover:opacity-80"
             >
-              {isSubmitting ? (
-                <span className="text-2xl mt-4">Loading...</span>
-              ) : (
-                <span className="text-2xl mt-4">Đổi mật khẩu</span>
-              )}
+              <span className="text-2xl mt-4">
+                {isSubmitting ? "Loading..." : "Đổi mật khẩu"}
+              </span>
             </Button>
           </div>
         </form>

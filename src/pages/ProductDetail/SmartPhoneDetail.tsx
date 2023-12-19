@@ -8,7 +8,6 @@ import {
   rateSale,
 } from "src/utils/utils";
 import styles from "./productdetail.module.scss";
-
 import ShoppingCartCheckoutIcon from "@mui/icons-material/ShoppingCartCheckout";
 import AddShoppingCartIcon from "@mui/icons-material/AddShoppingCart";
 import { useTranslation } from "react-i18next";
@@ -27,7 +26,6 @@ import path from "src/constants/path";
 import { getCommentByProductId } from "src/store/comment/commentsSlice";
 import RatingFeedback from "./Rating";
 import Tag from "./Tag";
-import Head from "./Head";
 import clsx from "clsx";
 import PayInfo from "./PayInfo";
 import { getDetailBrand } from "src/store/brand/brandsSlice";
@@ -197,30 +195,9 @@ export default function SmartPhoneDetail() {
     setActiveImage(img);
   };
 
-  const handleZoom = (event: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
-    const rect = event.currentTarget.getBoundingClientRect();
-    const image = imageRef.current as HTMLImageElement;
-    const { naturalHeight, naturalWidth } = image;
-
-    const offsetX = event.pageX - (rect.x + window.scrollX);
-    const offsetY = event.pageY - (rect.y + window.scrollY);
-
-    const top = offsetY * (1 - naturalHeight / rect.height);
-    const left = offsetX * (1 - naturalWidth / rect.width);
-    image.style.width = naturalWidth + "px";
-    image.style.height = naturalHeight + "px";
-    image.style.maxWidth = "unset";
-    image.style.top = top + "px";
-    image.style.left = left + "px";
-  };
-
-  const handleRemoveZoom = () => {
-    imageRef.current?.removeAttribute("style");
-  };
   const handleBuyCount = (value: number) => {
     setBuyCount(value);
   };
-
   const addToCart = async () => {
     const body = {
       id: productData.id,
@@ -228,6 +205,8 @@ export default function SmartPhoneDetail() {
       slug: productData.productInfo?.slug,
       quantity: buyCount,
       name: productData.productInfo?.name,
+      dimension: productData.productInfo?.dimension,
+      mass: productData.productInfo?.mass,
       price: price,
       salePrice: salePrice,
       typeId: productData?.productInfo?.lstProductTypeAndPrice[0].typeId,
@@ -251,6 +230,8 @@ export default function SmartPhoneDetail() {
       slug: productData.productInfo?.slug,
       quantity: buyCount,
       name: productData.productInfo?.name,
+      dimension: productData.productInfo?.dimension,
+      mass: productData.productInfo?.mass,
       price: price,
       salePrice: salePrice,
       typeId: productData?.productInfo?.lstProductTypeAndPrice[0].typeId,
@@ -298,7 +279,6 @@ export default function SmartPhoneDetail() {
               <div
                 className="relative w-full  overflow-hidden pt-[84%] shadow"
                 // onMouseMove={handleZoom}
-                onMouseLeave={handleRemoveZoom}
               >
                 <img
                   src={activeImage}

@@ -93,7 +93,7 @@ export const schemaAddUser = yup.object({
     .min(10, "Độ dài từ 10 chữ số")
     .matches(
       /(84|0[3|5|7|8|9])+([0-9]{8})\b/g,
-      "Số điện thoại không đúng định dạng"
+      "Số điện thoại không đúng định dạng",
     ),
   fullName: yup.string().required("Họ Tên là bắt buộc"),
   email: yup.string().required("Email là bắt buộc"),
@@ -110,7 +110,7 @@ export const schemaUpdateUser = yup.object({
     .min(10, "Độ dài từ 10 chữ số")
     .matches(
       /(84|0[3|5|7|8|9])+([0-9]{8})\b/g,
-      "Số điện thoại không đúng định dạng"
+      "Số điện thoại không đúng định dạng",
     ),
   fullName: yup.string(),
   email: yup.string(),
@@ -125,7 +125,7 @@ export const schemaForgot = yup.object({
     .min(10, "Độ dài từ 10 chữ số")
     .matches(
       /(84|0[3|5|7|8|9])+([0-9]{8})\b/g,
-      "Số điện thoại không đúng định dạng"
+      "Số điện thoại không đúng định dạng",
     ),
   newPassword: yup.string(),
   email: yup.string(),
@@ -153,8 +153,17 @@ export const schemaPayment = yup.object({
   deliveryPrice: yup.string(),
   discount: yup.string(),
 });
+
+export const passwordSchema = yup.object({
+  password: schema.fields["password"],
+  new_password: schema.fields["password"],
+  confirm_password: handleConfirmPasswordYup("new_password"),
+});
+
 export type UserSchema = yup.InferType<typeof schemaAddUser>;
+export type PasswordSchema = yup.InferType<typeof passwordSchema>;
 
 export type Schema = yup.InferType<typeof schema>;
 export type SchemaForGot = yup.InferType<typeof schemaForgot>;
 export type SchemaRegister = yup.InferType<typeof schemaAddUser>;
+
