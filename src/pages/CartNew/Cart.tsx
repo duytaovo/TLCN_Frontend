@@ -167,7 +167,7 @@ export default function CartNew() {
         totalCheckedPurchasePrice: totalCheckedPurchasePrice,
       }));
       dispatch(addItemBuy(body));
-      checkedPurchases.map((purchase) => dispatch(removeItem(purchase)));
+      // checkedPurchases.map((purchase) => dispatch(removeItem(purchase)));
       navigate(path.payment);
     } else {
       toast.error("Vui lòng chọn sản phẩm", {

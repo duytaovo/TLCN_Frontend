@@ -21,6 +21,7 @@ import { LocationForm } from "src/components/LocationForm";
 import axios from "axios";
 import config from "src/constants/configApi";
 import { Modal } from "antd";
+import { removeItem } from "src/store/shopping-cart/cartItemsSlide";
 
 interface FormData {}
 
@@ -55,6 +56,9 @@ const Payment: React.FC = () => {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
   const { valueBuy } = useAppSelector((state) => state.cartItems);
+  const product_add: any = useAppSelector((state) => state.cartItems.value);
+  console.log(valueBuy);
+  console.log(product_add);
   const { profile, userWithId } = useAppSelector((state) => state.user);
   const [addressOption, setAddresOption] = useState<any>();
   const [methodTransport, setMethodTransport] = useState<any>();
@@ -259,7 +263,8 @@ const Payment: React.FC = () => {
       const d = res?.payload?.data;
       if (d?.code !== 200) return toast.error(d?.message);
       localStorage.removeItem("cartItemsBuy");
-      // localStorage.removeItem("cartItems");
+      valueBuy.map((purchase) => dispatch(removeItem(purchase)));
+
       if (Number(data.paymentMethod) === 1) {
         toast.success("Đặt hàng thành công.");
         navigate(path.home);
