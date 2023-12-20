@@ -32,9 +32,10 @@ const path = {
   cartNew: "/user/cartNew",
   sendCodeActive: "/user/sendCodeActive",
   activeAccount: "/user/activeAccount",
-  payment: "/user/payment",
+  payment: "/payment",
   comment: "/user/comment",
   search: "/search",
 } as const;
 
 export default path;
+

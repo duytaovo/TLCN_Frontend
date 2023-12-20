@@ -111,7 +111,7 @@ const OrderDetail = ({ order, index, setOrderDetail }: Props) => {
 
   const onSubmit = handleSubmit(async (data) => {
     let images: any = [];
-
+    setIsSubmitting(true);
     if (file) {
       const form = new FormData();
       for (let i = 0; i < file.length; i++) {
@@ -132,7 +132,6 @@ const OrderDetail = ({ order, index, setOrderDetail }: Props) => {
     });
 
     try {
-      setIsSubmitting(true);
       const res = await dispatch(postComments(body));
       unwrapResult(res);
       const d = res?.payload?.data;
@@ -348,7 +347,7 @@ const OrderDetail = ({ order, index, setOrderDetail }: Props) => {
           <div className="flex justify-start">
             <Form.Item label="" className=" mb-2">
               <Button className="w-[100px]" onClick={onSubmit} type="dashed">
-                Đánh giá
+                {isSubmitting ? " Loading..." : "Đánh giá"}
               </Button>
             </Form.Item>
           </div>
@@ -379,3 +378,4 @@ const OrderDetail = ({ order, index, setOrderDetail }: Props) => {
 };
 
 export default OrderDetail;
+

@@ -6,6 +6,7 @@ import {
   productDetailRoutes,
   routeAuth,
   routeMain,
+  routePayment,
   routeUser,
 } from "./routes";
 import CommonLayout from "./layouts/CommonLayout";
@@ -25,6 +26,22 @@ export default function useRouteElements() {
           element={
             <Suspense>
               <Component name="" title="" slug={{ slug: "" }} />
+            </Suspense>
+          }
+        />
+      );
+    });
+  }, [path]);
+
+  const renderRouterPayment = useMemo(() => {
+    return routePayment.map(({ path, Component }, index) => {
+      return (
+        <Route
+          key={index}
+          path={path}
+          element={
+            <Suspense>
+              <Component />
             </Suspense>
           }
         />
@@ -98,6 +115,9 @@ export default function useRouteElements() {
     <Routes>
       <Route path="" element={<CommonLayout />}>
         {renderRouter}
+      </Route>
+      <Route path="" element={<UserLayout />}>
+        {renderRouterPayment}
       </Route>
       <Route path="/" element={<CommonLayout />}>
         {renderRouterDetail}

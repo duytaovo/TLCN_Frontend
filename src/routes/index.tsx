@@ -161,11 +161,6 @@ export const routeAuth = [
     path: path.sendCode,
     Component: CodeValidator,
   },
-
-  // {
-  //   path: path.profile,
-  //   Component: ProfileNew,
-  // },
 ];
 
 export const routeUser = [
@@ -173,10 +168,7 @@ export const routeUser = [
     path: path.profile,
     Component: Profile,
   },
-  {
-    path: path.payment,
-    Component: Payment,
-  },
+
   {
     path: path.activeAccount,
     Component: ActiveAccount,
@@ -193,6 +185,13 @@ export const routeUser = [
   {
     path: path.historyPurchase,
     Component: History,
+  },
+];
+
+export const routePayment = [
+  {
+    path: path.payment,
+    Component: Payment,
   },
 ];
 
