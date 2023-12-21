@@ -215,3 +215,4 @@ const FilterPhone = ({ handle, brand, characteristic }: Props) => {
 };
 
 export default FilterPhone;
+

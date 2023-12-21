@@ -73,9 +73,6 @@ const OrderTable = () => {
   const dispatch = useAppDispatch();
   const [dataFilterLocal, setDataFilterLocal] = useState<any>();
   const filter = useAppSelector((state) => state.smartphone.filter.data); // Lấy tất cả
-
-  // const [value, setValue] = useState<Dayjs | null>(dayjs("2023-01-01"));
-  // const [value2, setValue2] = useState<Dayjs | null>(dayjs());
   const [value, setValue] = useState<DateRange<Dayjs>>([
     dayjs("2023-01-01"),
     dayjs(),
@@ -125,13 +122,18 @@ const OrderTable = () => {
       "Phương thức thanh toán": Phuongthucthanhtoan,
     } = dataFilterLocal;
   }
-
+  const PhuongthucthanhtoanNumber: number[] = Phuongthucthanhtoan?.map(
+    (str: string) => parseInt(str, 10),
+  );
+  const TrangthaidonhangNumber: number[] = Trangthaidonhang?.map(
+    (str: string) => parseInt(str, 10),
+  );
   useEffect(() => {
     const body = {
-      orderStatus: Trangthaidonhang ? Trangthaidonhang : [],
+      orderStatus: TrangthaidonhangNumber ? TrangthaidonhangNumber : [],
       buyDateFrom: value[0]?.format("YYYY-MM-DD") || null,
       buyDateTo: value[1]?.format("YYYY-MM-DD") || null,
-      paymentStatus: Phuongthucthanhtoan ? Phuongthucthanhtoan : [],
+      paymentStatus: PhuongthucthanhtoanNumber ? PhuongthucthanhtoanNumber : [],
     };
     dispatch(
       getHistoryOrders({

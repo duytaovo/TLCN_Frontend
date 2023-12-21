@@ -57,8 +57,6 @@ const Payment: React.FC = () => {
   const navigate = useNavigate();
   const { valueBuy } = useAppSelector((state) => state.cartItems);
   const product_add: any = useAppSelector((state) => state.cartItems.value);
-  console.log(valueBuy);
-  console.log(product_add);
   const { profile, userWithId } = useAppSelector((state) => state.user);
   const [addressOption, setAddresOption] = useState<any>();
   const [methodTransport, setMethodTransport] = useState<any>();
