@@ -1,21 +1,25 @@
 import { yupResolver } from "@hookform/resolvers/yup";
 import { Button } from "@mui/material";
 import { unwrapResult } from "@reduxjs/toolkit";
+import { Modal } from "antd";
+import { useState } from "react";
 import { useForm } from "react-hook-form";
+import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import Input from "src/components/Input";
 import { useAppDispatch } from "src/hooks/useRedux";
-import { updateProfile } from "src/store/user/userSlice";
+import { updatePasswordUser } from "src/store/user/userSlice";
 import { ErrorResponse } from "src/types/utils.type";
 import { PasswordSchema, passwordSchema } from "src/utils/rules";
 import { isAxiosUnprocessableEntityError } from "src/utils/utils";
 
 type FormData = Pick<
   PasswordSchema,
-  "password" | "new_password" | "confirm_password"
+  "phoneNumber" | "oldPassword" | "new_password" | "confirm_password"
 >;
 
 export default function ChangePassword() {
+  const navigate = useNavigate();
   const {
     register,
     formState: { errors },
@@ -24,19 +28,38 @@ export default function ChangePassword() {
     reset,
   } = useForm({
     defaultValues: {
-      password: "",
+      oldPassword: "",
       confirm_password: "",
       new_password: "",
     },
     resolver: yupResolver(passwordSchema),
   });
+  const [isModalOpen, setIsModalOpen] = useState(false);
   const dispatch = useAppDispatch();
 
-  const onSubmit = handleSubmit(async (data) => {
-    const body = { password: data.password, new_password: data.new_password };
+  const showModal = () => {
+    setIsModalOpen(true);
+  };
 
+  const handleOk = () => {
+    setIsModalOpen(false);
+  };
+
+  const handleCancel = () => {
+    setIsModalOpen(false);
+  };
+
+  const onSubmit = handleSubmit(async (data) => {
+    showModal();
+    const body = {
+      phoneNumber: data.phoneNumber,
+      oldPassword: data.oldPassword,
+      newPassword: data.new_password,
+    };
+    console.log(body);
     try {
-      await dispatch(updateProfile(body)).then(unwrapResult);
+      const res = await dispatch(updatePasswordUser(body));
+      unwrapResult(res);
       reset();
       toast.success("Đổi mật khẩu thành công", {
         position: "top-center",
@@ -54,12 +77,24 @@ export default function ChangePassword() {
           });
         }
       }
+    } finally {
+      handleOk();
     }
   });
 
   return (
     <div className="rounded-sm bg-white px-2 pb-10 shadow md:px-7 md:pb-20 pl-5">
       <div className="border-b border-b-gray-200 py-6">
+        <div className="sm:w-[80%] sm:pl-5">
+          <Button
+            style={{}}
+            className="cursor-pointer flex h-12 decoration-solid underline hover:text-red-300   w-full items-center border-yellow-200 border-solid  rounded-sm   text-center text-2xl text-blue-500 "
+            type="reset"
+            onClick={() => navigate("/")}
+          >
+            Quay về trang chủ
+          </Button>
+        </div>
         <h1 className="text-2xl font-medium capitalize text-gray-900">
           Đổi mật khẩu
         </h1>
@@ -71,6 +106,22 @@ export default function ChangePassword() {
         <div className="mt-6 flex-grow md:mt-0 md:pr-12">
           <div className="mt-2 flex flex-col flex-wrap sm:flex-row">
             <div className="truncate pt-3 capitalize sm:w-[20%] sm:text-right">
+              Số điện thoại:
+            </div>
+            <div className="sm:w-[80%] sm:pl-5">
+              <Input
+                classNameInput="w-full rounded-sm border border-gray-300 px-3 py-2 outline-none focus:border-gray-500 focus:shadow-sm"
+                className="relative "
+                register={register}
+                name="phoneNumber"
+                type="text"
+                placeholder="0352811521"
+                errorMessage={errors.phoneNumber?.message}
+              />
+            </div>
+          </div>
+          <div className="mt-2 flex flex-col flex-wrap sm:flex-row">
+            <div className="truncate pt-3 capitalize sm:w-[20%] sm:text-right">
               Mật khẩu cũ:
             </div>
             <div className="sm:w-[80%] sm:pl-5">
@@ -78,10 +129,10 @@ export default function ChangePassword() {
                 classNameInput="w-full rounded-sm border border-gray-300 px-3 py-2 outline-none focus:border-gray-500 focus:shadow-sm"
                 className="relative "
                 register={register}
-                name="password"
+                name="oldPassword"
                 type="password"
                 placeholder="Mật khẩu cũ"
-                errorMessage={errors.password?.message}
+                errorMessage={errors.oldPassword?.message}
               />
             </div>
           </div>
@@ -133,6 +184,15 @@ export default function ChangePassword() {
           </div>
         </div>
       </form>
+      <Modal
+        title="Thay đổi mật khẩu"
+        open={isModalOpen}
+        onOk={handleOk}
+        onCancel={handleCancel}
+        centered
+      >
+        <p>Đang xử lý, vui lòng đợi...</p>
+      </Modal>
     </div>
   );
 }

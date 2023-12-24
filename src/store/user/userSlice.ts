@@ -37,6 +37,11 @@ export const updateProfile = createAsyncThunk(
   payloadCreator(userService.updateProfile),
 );
 
+export const updatePasswordUser = createAsyncThunk(
+  "auth/updatePasswordUser",
+  payloadCreator(userService.updatePasswordUser),
+);
+
 export const activeAccount = createAsyncThunk(
   "auth/activeAccount",
   payloadCreator(userService.activeAccount),

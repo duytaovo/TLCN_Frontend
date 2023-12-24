@@ -30,7 +30,10 @@ export const userService = {
       body,
     );
   },
-
+  updatePasswordUser(body: any) {
+    console.log(body);
+    return httpNew.put<SuccessResponse<User>>(`/user/change-password`, body);
+  },
   activeAccount(data: any) {
     return httpNew.put("/user/active-account", data);
   },

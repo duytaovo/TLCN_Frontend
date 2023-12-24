@@ -155,7 +155,8 @@ export const schemaPayment = yup.object({
 });
 
 export const passwordSchema = yup.object({
-  password: schema.fields["password"],
+  phoneNumber: yup.string().required("Trường này là bắt buộc"),
+  oldPassword: schema.fields["password"],
   new_password: schema.fields["password"],
   confirm_password: handleConfirmPasswordYup("new_password"),
 });

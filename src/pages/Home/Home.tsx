@@ -53,13 +53,14 @@ const Home = ({ title }: { title: string }) => {
         <ProductTrend />
         {/* <ProductSuggest /> */}
         <ProductCategory />
-        <DiscountOnline />
-        <CovenientService />
-        <ProductHistory styleTitle="uppercase text-textWhiteMain" />
-        <ProductBrand />
-        <ProductDeal />
+        {/* <DiscountOnline /> */}
+        {/* <CovenientService /> */}
+        {/* <ProductHistory styleTitle="uppercase text-textWhiteMain" /> */}
+        {/* <ProductBrand /> */}
+        {/* <ProductDeal /> */}
       </main>
     </div>
   );
 };
 export default Home;
+
