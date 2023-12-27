@@ -12,6 +12,7 @@ import {
 import { getBrand } from "src/store/brand/brandsSlice";
 import { getCharacteristic } from "src/store/characteristic/characteristicSlice";
 import { getFilter, getSort } from "src/store/product/filterSlice";
+import { changePercentLoading } from "src/app.slice";
 
 const Phone = () => {
   const [choose, setChoose] = useState<any>();
@@ -181,24 +182,32 @@ const Phone = () => {
   ]);
 
   useEffect(() => {
+    dispatch(changePercentLoading(30));
     const body = {
       slug: "smartphone",
       brandId: choose?.id ? [choose?.id] : null,
       characteristicId: chooseCharac ? [chooseCharac] : null,
     };
+    dispatch(changePercentLoading(70));
     dispatch(
       getSmartPhones({
         body: body,
         params: { pageNumber: currentPage, pageSize: 10 },
       }),
     );
-  }, [currentPage, choose, chooseCharac]);
+    setTimeout(() => dispatch(changePercentLoading(100)), 500);
+  }, [currentPage, choose, chooseCharac, dispatch]);
+
   useEffect(() => {
+    // dispatch(changePercentLoading(30));
     dispatch(getSort(""));
     dispatch(getFilter({ slug: "smartphone" }));
     dispatch(getBrand({ slug: "smartphone" }));
     dispatch(getCharacteristic({ categorySlug: "smartphone" }));
+    // dispatch(changePercentLoading(70));
+    // setTimeout(() => dispatch(changePercentLoading(100)), 1500);
   }, []);
+
   const handle = (boolean: boolean) => {
     setisOpen(boolean);
   };

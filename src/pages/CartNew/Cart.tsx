@@ -32,6 +32,9 @@ export default function CartNew() {
   const choosenPurchaseIdFromLocation = (
     location.state as { purchaseId: string } | null
   )?.purchaseId;
+  const choosenPurchaseTypeIdromLocation = (
+    location.state as { typeId: string } | null
+  )?.typeId;
 
   const isAllChecked = useMemo(
     () => extendedPurchases.every((purchase) => purchase.checked),
@@ -67,21 +70,28 @@ export default function CartNew() {
   useEffect(() => {
     setExtendedPurchases((prev) => {
       const extendedPurchasesObject = keyBy(prev, "id");
+
       return (
         purchasesInCartData?.map((purchase: any) => {
           const isChoosenPurchaseFromLocation =
-            choosenPurchaseIdFromLocation === purchase.id;
+            choosenPurchaseIdFromLocation === purchase.id &&
+            choosenPurchaseTypeIdromLocation === purchase.typeId;
           return {
             ...purchase,
             disabled: false,
             checked:
               isChoosenPurchaseFromLocation ||
-              Boolean(extendedPurchasesObject[purchase.id]?.checked),
+              (Boolean(extendedPurchasesObject[purchase.id]?.checked) &&
+                Boolean(extendedPurchasesObject[purchase.typeId]?.checked)),
           };
         }) || []
       );
     });
-  }, [purchasesInCartData, choosenPurchaseIdFromLocation]);
+  }, [
+    purchasesInCartData,
+    choosenPurchaseIdFromLocation,
+    choosenPurchaseTypeIdromLocation,
+  ]);
 
   useEffect(() => {
     return () => {
@@ -155,25 +165,20 @@ export default function CartNew() {
 
   const handleBuyPurchases = async () => {
     if (checkedPurchases.length > 0) {
-      const body = checkedPurchases.map(
-        (purchase) => (
-          console.log(purchase.typeId),
-          {
-            product_id: purchase.product_id,
-            quantity: purchase.quantity,
-            price: purchase.price,
-            salePrice: purchase.salePrice,
-            selectedRom: purchase.selectedRom,
-            selectedColor: purchase.selectedColor,
-            selectedRam: purchase.selectedRam,
-            mass: purchase.mass,
-            dimension: purchase.dimension,
-            typeId: purchase?.typeId,
-            depotId: purchase.depotId,
-            totalCheckedPurchasePrice: totalCheckedPurchasePrice,
-          }
-        ),
-      );
+      const body = checkedPurchases.map((purchase) => ({
+        product_id: purchase.product_id,
+        quantity: purchase.quantity,
+        price: purchase.price,
+        salePrice: purchase.salePrice,
+        selectedRom: purchase.selectedRom,
+        selectedColor: purchase.selectedColor,
+        selectedRam: purchase.selectedRam,
+        mass: purchase.mass,
+        dimension: purchase.dimension,
+        typeId: purchase?.typeId,
+        depotId: purchase.depotId,
+        totalCheckedPurchasePrice: totalCheckedPurchasePrice,
+      }));
       dispatch(addItemBuy(body));
       // checkedPurchases.map((purchase) => dispatch(removeItem(purchase)));
       navigate(path.payment);
@@ -265,7 +270,9 @@ export default function CartNew() {
                                       </span>
                                       <span>{purchase.selectedRom}</span>
                                     </div>
-                                    <span>{purchase.selectedColor}</span>
+                                    <span className="text-blue-500">
+                                      {purchase.selectedColor}
+                                    </span>
                                   </Link>
                                 </div>
                               </div>

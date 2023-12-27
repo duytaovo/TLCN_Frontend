@@ -257,6 +257,7 @@ export default function SmartPhoneDetail() {
     navigate(path.cartNew, {
       state: {
         purchaseId: purchase.id,
+        typeId: purchase.typeId,
       },
     });
   };

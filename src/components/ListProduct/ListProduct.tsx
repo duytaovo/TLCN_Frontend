@@ -33,6 +33,8 @@ const ListProduct = ({
   const handlePageChangeLocal = (page: number) => {
     handlePageChange && handlePageChange(page - 1);
   };
+  const { value } = useAppSelector((state) => state.loading);
+
   return (
     <>
       {isSlide ? (
@@ -65,3 +67,4 @@ const ListProduct = ({
   );
 };
 export default ListProduct;
+

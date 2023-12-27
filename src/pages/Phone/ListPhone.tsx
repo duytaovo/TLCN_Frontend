@@ -66,7 +66,7 @@ const ListPhone = ({
   const [chooseBoxSort, setChooseBoxSort] = useState<number>(0);
   const [checked, setChecked] = useState<any[]>([]);
   const { smartPhone, filter } = useAppSelector<any>(
-    (state) => state.smartphone
+    (state) => state.smartphone,
   );
   let dataAfter = smartPhone?.data;
   // if (filter?.data?.length !== 0) {
@@ -110,7 +110,7 @@ const ListPhone = ({
               isSlide={false}
               handlePageChange={handlePageChange}
               currentPage={currentPage}
-            ></ListProduct>
+            />
           )}
         </div>
       </div>
@@ -118,3 +118,4 @@ const ListPhone = ({
   );
 };
 export default ListPhone;
+

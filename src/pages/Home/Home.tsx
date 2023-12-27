@@ -16,6 +16,8 @@ import ProductHistory from "src/components/ProductHistory";
 import { Helmet } from "react-helmet-async";
 import { useAppDispatch } from "src/hooks/useRedux";
 import { getPromo } from "src/store/banner/bannerSlice";
+import { changePercentLoading } from "src/app.slice";
+import { unwrapResult } from "@reduxjs/toolkit";
 
 const Home = ({ title }: { title: string }) => {
   const [displayTicket, setDisplayTicket] = useState<boolean>(false);
@@ -33,10 +35,17 @@ const Home = ({ title }: { title: string }) => {
   useEffect(() => {
     document.title = title;
   }, []);
-
   useEffect(() => {
-    dispatch(getPromo(""));
-  }, []);
+    const getData = async () => {
+      dispatch(changePercentLoading(30));
+      dispatch(changePercentLoading(70));
+      const res = await dispatch(getPromo(""));
+      unwrapResult(res);
+
+      setTimeout(() => dispatch(changePercentLoading(100)), 500);
+    };
+    getData();
+  }, [dispatch]);
 
   return (
     <div>

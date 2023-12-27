@@ -28,28 +28,35 @@
 // export default appReducer;
 
 import { createSlice } from "@reduxjs/toolkit";
+import { RootState } from "./store/store";
 
 interface Status {
-  status: number;
+  status: number | "idle" | "loading" | "failed";
   loading: number;
+  value: number;
 }
 
 const initialState: Status = {
   status: 200,
   loading: 0,
+  value: 0,
 };
 
 const app = createSlice({
   name: "app",
   initialState,
-  reducers: {},
+  reducers: {
+    changePercentLoading: (state, actions: { payload: number }) => {
+      state.value = actions.payload;
+    },
+  },
   extraReducers: (builder) => {
     builder
       .addMatcher(
         (action) => action.type.endsWith("/pending"),
         (state) => {
           state.loading = state.loading + 1;
-        }
+        },
       )
       .addMatcher(
         (action) =>
@@ -58,10 +65,14 @@ const app = createSlice({
         (state, action) => {
           state.status = action.payload.status;
           state.loading = state.loading - 1;
-        }
+        },
       );
   },
 });
 
+export const selectValue = (state: RootState) => state.loading.value;
+
+export const { changePercentLoading } = app.actions;
 const appReducer = app.reducer;
 export default appReducer;
+
