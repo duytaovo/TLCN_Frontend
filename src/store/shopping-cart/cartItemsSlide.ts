@@ -49,11 +49,20 @@ export const cartItemsSlice = createSlice({
     addItem: (state, action) => {
       const newItem = action.payload;
       const duplicate = state.value.filter(
-        (e: any) => e.product_id === newItem.product_id,
+        (e: any) =>
+          e.product_id === newItem.product_id &&
+          e.selectedColor === newItem.selectedColor &&
+          e.selectedRom === newItem.selectedRom &&
+          e.selectedRam === newItem.selectedRam,
       );
+      console.log("duplicate", duplicate);
       if (duplicate.length > 0) {
         state.value = state.value.filter(
-          (e: any) => e.product_id !== newItem.product_id,
+          (e: any) =>
+            e.product_id !== newItem.product_id ||
+            e.selectedColor !== newItem.selectedColor ||
+            e.selectedRom !== newItem.selectedRom ||
+            e.selectedRam !== newItem.selectedRam,
         );
 
         state.value = [
@@ -65,6 +74,9 @@ export const cartItemsSlice = createSlice({
             color: newItem.color,
             price: newItem.price,
             salePrice: newItem.salePrice,
+            selectedRom: newItem.selectedRom,
+            selectedRam: newItem.selectedRam,
+            selectedColor: newItem.selectedColor,
             name: newItem.name,
             typeId: newItem.typeId,
             depotId: newItem.depotId,
@@ -108,46 +120,35 @@ export const cartItemsSlice = createSlice({
     },
     updateItem: (state, action) => {
       const newItem = action.payload;
-      const item = state.value.filter(
-        (e: any) => e.product_id === newItem.product_id,
+      const itemIndex = state.value.findIndex(
+        (e: any) =>
+          e.product_id === newItem.product_id &&
+          e.selectedColor === newItem.selectedColor &&
+          e.selectedRom === newItem.selectedRom &&
+          e.selectedRam === newItem.selectedRam,
       );
 
-      if (item.length > 0) {
-        state.value = state.value.filter(
-          (e: any) => e.product_id !== newItem.product_id,
-        );
+      if (itemIndex !== -1) {
+        // Update the quantity of the existing item
+        state.value[itemIndex].quantity = newItem.quantity;
 
-        state.value = [
-          ...state.value,
-          {
-            id: item[0].id,
-            product_id: item[0].product_id,
-            slug: newItem.slug,
-            color: newItem.color,
-            price: newItem.price,
-            salePrice: newItem.salePrice,
-            name: newItem.name,
-            typeId: newItem.typeId,
-            depotId: newItem.depotId,
-            quantityInDB: newItem.quantityInDB,
-            image: newItem.image,
-            quantity: newItem.quantity,
-          },
-        ];
-      }
-      localStorage.setItem(
-        "cartItems",
-        JSON.stringify(
-          state.value.sort((a: any, b: any) =>
-            a.id > b.id ? 1 : a.id < b.id ? -1 : 0,
+        localStorage.setItem(
+          "cartItems",
+          JSON.stringify(
+            state.value.sort((a: any, b: any) =>
+              a.id > b.id ? 1 : a.id < b.id ? -1 : 0,
+            ),
           ),
-        ),
-      );
+        );
+      }
     },
     removeItem: (state, action) => {
-      const item = action.payload;
+      const itemToRemove = action.payload;
       state.value = state.value.filter(
-        (e: any) => e.product_id !== item.product_id,
+        (e: any) =>
+          e.product_id !== itemToRemove.product_id ||
+          e.selectedColor !== itemToRemove.selectedColor ||
+          e.selectedRom !== itemToRemove.selectedRom,
       );
 
       localStorage.setItem(
@@ -158,8 +159,6 @@ export const cartItemsSlice = createSlice({
           ),
         ),
       );
-
-      JSON.parse(localStorage.getItem("cartItems") || "");
     },
     clearCart: (state, action) => {
       state.value = [];

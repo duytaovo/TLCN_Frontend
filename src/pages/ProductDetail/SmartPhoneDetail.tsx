@@ -80,6 +80,11 @@ export default function SmartPhoneDetail() {
   const [salePrice, setSalePrice] = useState(
     productData?.productInfo?.lstProductTypeAndPrice[0].salePrice,
   );
+  const [selectedRom, setSelectedRom] = useState<string | null>(null);
+  const [selectedColor, setSelectedColor] = useState<string | null>(null);
+  const [selectedRam, setSelectedRam] = useState<string | null>(null);
+  const [selectedTypeId, setSelectedTypeId] = useState<number | null>(null);
+
   const currentImages = useMemo(
     () =>
       productData?.productInfo?.lstProductImageUrl
@@ -207,9 +212,12 @@ export default function SmartPhoneDetail() {
       name: productData.productInfo?.name,
       dimension: productData.productInfo?.dimension,
       mass: productData.productInfo?.mass,
-      price: price,
-      salePrice: salePrice,
-      typeId: productData?.productInfo?.lstProductTypeAndPrice[0].typeId,
+      price,
+      salePrice,
+      selectedRom,
+      selectedColor,
+      selectedRam,
+      typeId: selectedTypeId,
       depotId: productData.productInfo?.lstProductTypeAndPrice[0].depotId,
       quantityInDB:
         productData?.productInfo?.lstProductTypeAndPrice[0]?.quantity,
@@ -232,9 +240,12 @@ export default function SmartPhoneDetail() {
       name: productData.productInfo?.name,
       dimension: productData.productInfo?.dimension,
       mass: productData.productInfo?.mass,
-      price: price,
-      salePrice: salePrice,
-      typeId: productData?.productInfo?.lstProductTypeAndPrice[0].typeId,
+      price,
+      salePrice,
+      selectedRom,
+      selectedRam,
+      selectedColor,
+      typeId: selectedTypeId,
       depotId: productData.productInfo?.lstProductTypeAndPrice[0].depotId,
       quantityInDB:
         productData?.productInfo?.lstProductTypeAndPrice[0]?.quantity,
@@ -242,6 +253,7 @@ export default function SmartPhoneDetail() {
     };
     const res = await dispatch(addItem(body));
     const purchase = res.payload;
+    console.log(purchase);
     navigate(path.cartNew, {
       state: {
         purchaseId: purchase.id,
@@ -254,9 +266,20 @@ export default function SmartPhoneDetail() {
     ? productData?.productInfo?.description
     : productData?.productInfo?.description.slice(0, shortDescriptionLength);
 
-  const getData = ({ price, salePrice }: any) => {
+  const getData = ({
+    price,
+    salePrice,
+    selectedRom,
+    selectedColor,
+    selectedRam,
+    typeId,
+  }: any) => {
     setPrice(price);
     setSalePrice(salePrice);
+    setSelectedRom(selectedRom);
+    setSelectedColor(selectedColor);
+    setSelectedRam(selectedRam);
+    setSelectedTypeId(typeId);
   };
   if (!productData) return null;
   return (

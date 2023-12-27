@@ -155,17 +155,25 @@ export default function CartNew() {
 
   const handleBuyPurchases = async () => {
     if (checkedPurchases.length > 0) {
-      const body = checkedPurchases.map((purchase) => ({
-        product_id: purchase.product_id,
-        quantity: purchase.quantity,
-        price: purchase.price,
-        salePrice: purchase.salePrice,
-        mass: purchase.mass,
-        dimension: purchase.dimension,
-        typeId: purchase?.typeId,
-        depotId: purchase.depotId,
-        totalCheckedPurchasePrice: totalCheckedPurchasePrice,
-      }));
+      const body = checkedPurchases.map(
+        (purchase) => (
+          console.log(purchase.typeId),
+          {
+            product_id: purchase.product_id,
+            quantity: purchase.quantity,
+            price: purchase.price,
+            salePrice: purchase.salePrice,
+            selectedRom: purchase.selectedRom,
+            selectedColor: purchase.selectedColor,
+            selectedRam: purchase.selectedRam,
+            mass: purchase.mass,
+            dimension: purchase.dimension,
+            typeId: purchase?.typeId,
+            depotId: purchase.depotId,
+            totalCheckedPurchasePrice: totalCheckedPurchasePrice,
+          }
+        ),
+      );
       dispatch(addItemBuy(body));
       // checkedPurchases.map((purchase) => dispatch(removeItem(purchase)));
       navigate(path.payment);
@@ -201,6 +209,8 @@ export default function CartNew() {
                     <div className="grid grid-cols-7 text-center">
                       <div className="col-span-3">Đơn giá</div>
                       <div className="col-span-2">Số lượng</div>
+                      {/* <div className="col-span-2">Màu</div>
+                      <div className="col-span-2">Bộ nhớ trong</div> */}
                       <div className="col-span-1">Số tiền</div>
                       <div className="col-span-1">Thao tác</div>
                     </div>
@@ -239,7 +249,7 @@ export default function CartNew() {
                                     src={purchase.image}
                                   />
                                 </Link>
-                                <div className="flex-grow px-2 pt-1 pb-2">
+                                <div className="flex-grow px-2  ">
                                   <Link
                                     to={`${`/${purchase.slug}/detail`}/${generateNameId(
                                       {
@@ -247,9 +257,15 @@ export default function CartNew() {
                                         id: purchase.id.toString(),
                                       },
                                     )}`}
-                                    className="text-left line-clamp-2"
+                                    className="text-left line-clamp-2 "
                                   >
-                                    {purchase.name}
+                                    <div className="">
+                                      <span className="mr-2">
+                                        {purchase.name}
+                                      </span>
+                                      <span>{purchase.selectedRom}</span>
+                                    </div>
+                                    <span>{purchase.selectedColor}</span>
                                   </Link>
                                 </div>
                               </div>

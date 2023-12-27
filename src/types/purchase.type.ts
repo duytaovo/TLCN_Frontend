@@ -14,6 +14,9 @@ export interface Purchase {
   quantity: number;
   quantityInDB: number;
   salePrice: number;
+  selectedRom: string;
+  selectedRam: string;
+  selectedColor: string;
   mass: number;
   dimension: string;
   slug: string;

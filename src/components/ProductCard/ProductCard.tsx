@@ -17,6 +17,7 @@ interface Props {
 }
 
 const ProductCard = ({ product, category, docquyen }: Props) => {
+  console.log(product);
   const handleClickDisable = (e: any) => {
     e.stopPropagation();
     e.nativeEvent.stopImmediatePropagation();
@@ -48,11 +49,9 @@ const ProductCard = ({ product, category, docquyen }: Props) => {
           <p className={"text-black font-bold text-2xl"}>
             {product.name.substring(11)}
           </p>
-          {category === "smartphone" || category === "tablet" ? (
+          {/* {category === "smartphone" || category === "tablet" ? (
             <div className={styles.cardCompare}>
-              <p>
-                {/*props.parameter[0].SCREEN && <span>{props.parameter[0].SCREEN}</span>*/}
-              </p>
+              <p></p>
               {product?.lstProductTypeAndPrice.map((item, index) => (
                 <span
                   key={index}
@@ -72,11 +71,8 @@ const ProductCard = ({ product, category, docquyen }: Props) => {
               <span>
                 {"SSD " + product?.lstProductTypeAndPrice[0]?.storageCapacity}
               </span>
-              {/* <span>
-                {"SSD " + product?.lstProductTypeAndPrice[1]?.storageCapacity}
-              </span> */}
             </div>
-          )}
+          )} */}
           {/* <p>{props.gift}</p> */}
           <strong className={styles.price}>
             {product?.lstProductTypeAndPrice[0]?.salePrice > 0 &&
