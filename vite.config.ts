@@ -17,6 +17,6 @@ export default defineConfig({
     },
   },
   publicDir: "public",
-  base: "/public_html/build/",
+  base: "./",
 });
 

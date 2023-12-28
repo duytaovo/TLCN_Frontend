@@ -42,15 +42,23 @@ const data = [
   },
   {
     id: 2,
-    title: "Phương thức thanh toán",
+    title: "Trạng thái thanh toán",
     detail: [
       {
+        id: 0,
+        name: "Chưa thanh toán",
+      },
+      {
         id: 1,
-        name: "Thanh toán trực tiếp",
+        name: "Đang chờ thanh toán",
       },
       {
         id: 2,
-        name: "Thanh toán qua VNPay",
+        name: "Thanh toán thành công",
+      },
+      {
+        id: 3,
+        name: "Thanh toán thất bại",
       },
     ],
   },
@@ -59,15 +67,16 @@ const OrderTable = () => {
   const { historyOrder } = useAppSelector((state) => state.historyOrders);
   const style = (text: string) => {
     switch (text) {
-      case "Đã đặt hàng":
-      case "Đặt hàng":
-        return "text-green-400";
-      case "Đang giao hàng":
+      case "Ordered":
+        return "text-blue-400 uppercase text-xl font-bold";
+      case "Delivering":
         return "text-blue-400";
-      case "Đã hủy":
-        return "text-red-400";
-      case "Đã nhận":
-        return "text-gray-400";
+      case "Cancelled":
+        return "text-red-400 uppercase text-xl font-bold";
+      case "Confirmed":
+        return "text-green-400 font-bold uppercase text-xl";
+      case "Delivered":
+        return "text-yellow-400 font-bold uppercase text-xl";
     }
   };
   const dispatch = useAppDispatch();
@@ -119,7 +128,7 @@ const OrderTable = () => {
   if (dataFilterLocal) {
     var {
       "Trạng thái đơn hàng": Trangthaidonhang,
-      "Phương thức thanh toán": Phuongthucthanhtoan,
+      "Trạng thái thanh toán": Phuongthucthanhtoan,
     } = dataFilterLocal;
   }
   const PhuongthucthanhtoanNumber: number[] = Phuongthucthanhtoan?.map(
