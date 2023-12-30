@@ -4,26 +4,26 @@ import { payloadCreator } from "src/utils/utils";
 
 export const getCommentByProductId = createAsyncThunk(
   "comments/getCommentByProductId",
-  payloadCreator(commentService.getCommentByProductId)
+  payloadCreator(commentService.getCommentByProductId),
 );
 
 export const getCommentById = createAsyncThunk(
   "comments/getCommentById",
-  payloadCreator(commentService.getCommentById)
+  payloadCreator(commentService.getCommentById),
 );
 
 export const postComments = createAsyncThunk(
   "comments/postComments",
-  payloadCreator(commentService.postComment)
+  payloadCreator(commentService.postComment),
 );
 
 export const putComments = createAsyncThunk(
   "comments/putComments",
-  payloadCreator(commentService.putComment)
+  payloadCreator(commentService.putComment),
 );
 export const uploadManyImages = createAsyncThunk(
   "comments/uploadManyImages",
-  payloadCreator(commentService.uploadManyImages)
+  payloadCreator(commentService.uploadManyImages),
 );
 
 const CommentDetail = {
@@ -47,10 +47,10 @@ const initialState = {
       {
         id: 12,
         userId: 2,
-        username: "ADMIN",
-        userAvatar: "test",
+        username: "",
+        userAvatar: "",
         star: 3,
-        comment: "abc",
+        comment: "",
         feedbackFilesUrl: [],
       },
     ],
@@ -76,3 +76,4 @@ export const comments = createSlice({
 });
 const commentsReducer = comments.reducer;
 export default commentsReducer;
+

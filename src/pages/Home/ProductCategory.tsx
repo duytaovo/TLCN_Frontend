@@ -23,7 +23,7 @@ const ProductCategory = () => {
     <Section title="DANH MỤC NỔI BẬT" styles="bg-white">
       <div className="flex ">
         {categories.map((item: any) => (
-          <Link to={item.href} key={item.title}>
+          <Link to={"/"} key={item.title}>
             <div className={styles.cateIcon}>
               <img src={item.img} alt="" className={styles.image} />
               <p className={styles.title}>{item.title}</p>
@@ -36,3 +36,4 @@ const ProductCategory = () => {
 };
 
 export default ProductCategory;
+

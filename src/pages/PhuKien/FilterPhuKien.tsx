@@ -39,11 +39,11 @@ const FilterPhuKien = ({ handle, brand, characteristic }: Props) => {
       detail: filterData.price,
     },
 
-    {
-      id: 3,
-      title: "Nhu cầu",
-      detail: characteristic?.data,
-    },
+    // {
+    //   id: 3,
+    //   title: "Nhu cầu",
+    //   detail: characteristic?.data,
+    // },
 
     // {
     //   id: 7,

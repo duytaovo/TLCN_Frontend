@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useAppDispatch } from "src/hooks/useRedux";
 import { useForm } from "react-hook-form";
@@ -124,6 +124,7 @@ const Login = () => {
             errorMessage={errors.fullName?.message}
             placeholder="Họ và tên"
             autoComplete="on"
+            required
           />
           <Input
             name="phoneNumber"

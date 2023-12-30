@@ -17,7 +17,6 @@ interface Props {
 }
 
 const ProductCard = ({ product, category, docquyen }: Props) => {
-  console.log(product.id);
   const handleClickDisable = (e: any) => {
     e.stopPropagation();
     e.nativeEvent.stopImmediatePropagation();

@@ -38,8 +38,11 @@ interface FormData {
 }
 const OrderDetail = ({ order, index, setOrderDetail }: Props) => {
   const navigate = useNavigate();
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [idProduct, setIdProduct] = useState<string>();
   const [valueStar, setValueStart] = useState(3);
   const { commentById } = useAppSelector((state) => state.comments);
+  console.log(commentById);
   const style = (text: string) => {
     switch (text) {
       case "Đã đặt hàng":
@@ -53,33 +56,7 @@ const OrderDetail = ({ order, index, setOrderDetail }: Props) => {
         return "text-gray-400";
     }
   };
-  const handlePayment = () => {
-    navigate(path.payment);
-  };
-  const [isModalOpen, setIsModalOpen] = useState(false);
-  const [idProduct, setIdProduct] = useState<string>();
 
-  const showModal = (id: string) => {
-    setIdProduct(id);
-    setIsModalOpen(true);
-  };
-
-  const showModalRated = async (id: string) => {
-    await dispatch(getCommentById(id));
-    setIsModalOpen(true);
-  };
-
-  const handleOk = () => {
-    setValue("comment", "");
-    setValue("feedbackFilesUrl", []);
-    setIsModalOpen(false);
-  };
-
-  const handleCancel = () => {
-    setValue("comment", "");
-    setValue("feedbackFilesUrl", []);
-    setIsModalOpen(false);
-  };
   const [isSubmitting, setIsSubmitting] = useState(false);
   const {
     handleSubmit,
@@ -102,13 +79,16 @@ const OrderDetail = ({ order, index, setOrderDetail }: Props) => {
     const imageUrl = URL.createObjectURL(image);
     imageUrls.push(imageUrl);
   }
+  // useEffect(() => {
+  //   dispatch(getCommentById(id));
+  // }, [id]);
   useEffect(() => {
     setValue("comment", commentById?.data?.comment);
     setValue("feedbackFilesUrl", []);
     setValue("star", commentById?.data?.star);
     setValueStart(commentById?.data?.star);
   }, [commentById]);
-
+  console.log(idProduct);
   const onSubmit = handleSubmit(async (data) => {
     let images: any = [];
     setIsSubmitting(true);
@@ -125,7 +105,7 @@ const OrderDetail = ({ order, index, setOrderDetail }: Props) => {
       }
     }
     const body = JSON.stringify({
-      orderProductId: order.id,
+      orderProductId: idProduct,
       comment: data.comment,
       star: Number(valueStar),
       feedbackFilesUrl: images || [],
@@ -160,6 +140,21 @@ const OrderDetail = ({ order, index, setOrderDetail }: Props) => {
   const handleChangeFile = (file?: File[]) => {
     setFile(file);
   };
+  const handlePayment = () => {
+    navigate(path.payment);
+  };
+
+  const handleOk = () => {
+    setValue("comment", "");
+    setValue("feedbackFilesUrl", []);
+    setIsModalOpen(false);
+  };
+
+  const handleCancel = () => {
+    setValue("comment", "");
+    setValue("feedbackFilesUrl", []);
+    setIsModalOpen(false);
+  };
   const desc = ["Rất tệ", "Tệ", "Bình thường", "Tốt", "Rất tốt"];
   const checkPayment = order?.paymentStatusString === "Unpaid" ? false : true;
   return (
@@ -172,11 +167,11 @@ const OrderDetail = ({ order, index, setOrderDetail }: Props) => {
             <span className={style(order.orderStatusString)}>
               {"Đã đặt hàng"}
             </span>
-            {checkPayment === false && (
+            {/* {checkPayment === false && (
               <Button type="link" onClick={handlePayment}>
                 Tiến hành thanh toán
               </Button>
-            )}
+            )} */}
           </p>
         </div>
         <p className="text-2xl">Mua tại docongnghe.com</p>
@@ -204,7 +199,10 @@ const OrderDetail = ({ order, index, setOrderDetail }: Props) => {
                   <div className="">
                     <Button
                       className="ml-0 p-0"
-                      onClick={() => showModal(item.productId)}
+                      onClick={() => {
+                        setIdProduct(item.orderProductId);
+                        setIsModalOpen(true);
+                      }}
                       type="link"
                     >
                       Đánh giá sản phẩm
@@ -213,7 +211,10 @@ const OrderDetail = ({ order, index, setOrderDetail }: Props) => {
                 ) : (
                   <Button
                     className="ml-0 p-0"
-                    onClick={() => showModalRated(item.feedbackId)}
+                    onClick={() => {
+                      dispatch(getCommentById(item.feedbackId));
+                      setIsModalOpen(true);
+                    }}
                     type="link"
                   >
                     Xem đánh giá

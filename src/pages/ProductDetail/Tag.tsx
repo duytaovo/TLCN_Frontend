@@ -11,7 +11,7 @@ const Tag = ({ productData, onClick }: any) => {
   const [salePrice, setSalePrice] = useState(
     productData?.productInfo?.lstProductTypeAndPrice[0].salePrice,
   );
-
+  console.log(productData);
   const [selectedRam, setSelectedRam] = useState<string | null>(null);
   const [selectedRom, setSelectedRom] = useState<string | null>(null);
   const [selectedColor, setSelectedColor] = useState<string | null>(null);
@@ -140,7 +140,7 @@ const Tag = ({ productData, onClick }: any) => {
             item.storageCapacity === selectedRom &&
             item.color === selectedColor,
         );
-
+      console.log(selectedProduct);
       if (selectedProduct) {
         setPrice(selectedProduct.price);
         setSalePrice(selectedProduct.salePrice);
@@ -154,9 +154,18 @@ const Tag = ({ productData, onClick }: any) => {
             typeId,
           });
       }
+    } else {
+      onClick &&
+        onClick({
+          price,
+          salePrice,
+          selectedRom,
+          selectedColor,
+          selectedRam,
+          typeId,
+        });
     }
   }, [selectedRom, selectedColor, productData, onClick, selectedRam]);
-
   return (
     <div className="mb-4">
       {salePrice > 0 && salePrice !== price ? (
@@ -179,64 +188,68 @@ const Tag = ({ productData, onClick }: any) => {
         </div>
       )}
 
-      <div className="flex flex-wrap gap-4 mb-4">
-        {[
-          ...new Set(
-            productData?.productInfo?.lstProductTypeAndPrice
-              .filter((item: any) => item.ram === selectedRam)
-              .map((item: any) => item.ram),
-          ),
-        ].map((ram: any, index) => {
-          const active = ram === selectedRam;
-          const className = clsx(
-            "border  px-10 py-4 text-xl rounded",
-            active && "text-blue-400 border-blue-400 ",
-          );
-
-          return (
-            <Button
-              className={className}
-              key={index}
-              onClick={() => {
-                setSelectedRam(ram);
-                setSelectedColor(null); // Đặt màu sắc về null khi chọn loại RAM mới
-              }}
-            >
-              {ram}
-            </Button>
-          );
-        })}
-      </div>
-
-      <div className="flex flex-wrap gap-4 mb-4">
-        {[
-          ...new Set(
-            productData?.productInfo?.lstProductTypeAndPrice.map(
-              (item: any) => item.storageCapacity,
+      {productData?.productInfo?.lstProductTypeAndPrice[0].ram != null && (
+        <div className="flex flex-wrap gap-4 mb-4">
+          {[
+            ...new Set(
+              productData?.productInfo?.lstProductTypeAndPrice
+                .filter((item: any) => item.ram === selectedRam)
+                .map((item: any) => item.ram),
             ),
-          ),
-        ].map((rom: any, index) => {
-          const active = rom === selectedRom;
-          const className = clsx(
-            "border  px-10 py-4 text-xl rounded",
-            active && "text-blue-400 border-blue-400 ",
-          );
+          ].map((ram: any, index) => {
+            const active = ram === selectedRam;
+            const className = clsx(
+              "border  px-10 py-4 text-xl rounded",
+              active && "text-blue-400 border-blue-400 ",
+            );
 
-          return (
-            <Button
-              className={className}
-              // type={active ? "primary" : "default"}
-              key={index}
-              onClick={() => {
-                setSelectedRom(rom);
-                setSelectedColor(null); // Đặt màu sắc về null khi chọn loại RoM mới
-              }}
-            >
-              {rom}
-            </Button>
-          );
-        })}
-      </div>
+            return (
+              <Button
+                className={className}
+                key={index}
+                onClick={() => {
+                  setSelectedRam(ram);
+                  setSelectedColor(null); // Đặt màu sắc về null khi chọn loại RAM mới
+                }}
+              >
+                {ram}
+              </Button>
+            );
+          })}
+        </div>
+      )}
+      {productData?.productInfo?.lstProductTypeAndPrice[0].storageCapacity !=
+        null && (
+        <div className="flex flex-wrap gap-4 mb-4">
+          {[
+            ...new Set(
+              productData?.productInfo?.lstProductTypeAndPrice.map(
+                (item: any) => item.storageCapacity,
+              ),
+            ),
+          ].map((rom: any, index) => {
+            const active = rom === selectedRom;
+            const className = clsx(
+              "border  px-10 py-4 text-xl rounded",
+              active && "text-blue-400 border-blue-400 ",
+            );
+
+            return (
+              <Button
+                className={className}
+                // type={active ? "primary" : "default"}
+                key={index}
+                onClick={() => {
+                  setSelectedRom(rom);
+                  setSelectedColor(null); // Đặt màu sắc về null khi chọn loại RoM mới
+                }}
+              >
+                {rom}
+              </Button>
+            );
+          })}
+        </div>
+      )}
 
       {/* <div className="flex flex-wrap gap-4 ">
         {productData?.productInfo?.lstProductTypeAndPrice
@@ -263,31 +276,33 @@ const Tag = ({ productData, onClick }: any) => {
             );
           })}
       </div> */}
-      <div className="flex flex-wrap gap-4 ">
-        {productData?.productInfo?.lstProductTypeAndPrice
-          .filter((item: any) => item.storageCapacity === selectedRom)
-          .map((product: any, index: number) => {
-            const active = product.color === selectedColor;
-            const className = clsx(
-              "border  px-10 py-4 text-xl rounded",
-              active && "text-blue-400 border-blue-400 ",
-            );
+      {productData?.productInfo?.lstProductTypeAndPrice[0].color != null && (
+        <div className="flex flex-wrap gap-4 ">
+          {productData?.productInfo?.lstProductTypeAndPrice
+            .filter((item: any) => item.storageCapacity === selectedRom)
+            .map((product: any, index: number) => {
+              const active = product.color === selectedColor;
+              const className = clsx(
+                "border  px-10 py-4 text-xl rounded",
+                active && "text-blue-400 border-blue-400 ",
+              );
 
-            return (
-              <Button
-                className={className}
-                // type={active ? "primary" : "default"}
-                key={index}
-                onClick={() => {
-                  setSelectedColor(product.color);
-                }}
-                disabled={product.quantity === 0} // Ví dụ: Disable nút nếu hết hàng
-              >
-                {product.color}
-              </Button>
-            );
-          })}
-      </div>
+              return (
+                <Button
+                  className={className}
+                  // type={active ? "primary" : "default"}
+                  key={index}
+                  onClick={() => {
+                    setSelectedColor(product.color);
+                  }}
+                  disabled={product.quantity === 0} // Ví dụ: Disable nút nếu hết hàng
+                >
+                  {product.color}
+                </Button>
+              );
+            })}
+        </div>
+      )}
     </div>
   );
 };

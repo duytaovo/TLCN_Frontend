@@ -70,7 +70,7 @@ const OrderTable = () => {
       case "Ordered":
         return "text-blue-400 uppercase text-xl font-bold";
       case "Delivering":
-        return "text-blue-400";
+        return "text-blue-400 uppercase text-xl font-bold";
       case "Cancelled":
         return "text-red-400 uppercase text-xl font-bold";
       case "Confirmed":
@@ -221,11 +221,11 @@ const OrderTable = () => {
                       {stringStatus(order.orderStatusString)}
                       {order.paymentStatusString === "Payment success" ? (
                         <span className="text-white text-xl bg-green-500 p-2 rounded-lg">
-                          Đã thanh toán
+                          ĐÃ THANH TOÁN
                         </span>
                       ) : (
                         <span className="text-white text-xl bg-gray-500 p-2 rounded-lg">
-                          Chưa thanh toán
+                          CHƯA THANH TOÁN
                         </span>
                       )}
                     </div>

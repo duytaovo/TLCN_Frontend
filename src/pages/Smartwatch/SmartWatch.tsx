@@ -31,7 +31,7 @@ const SmartWatch = () => {
   return (
     <>
       <Banner />
-      <QuickLinkSmartWatch handleSetChoose={handleSetChoose} />
+      {/* <QuickLinkSmartWatch handleSetChoose={handleSetChoose} /> */}
       <MenuTopSmartWatch />
       <SmartWatchHotDeal />
       <SmartWatchFashion />
@@ -43,3 +43,4 @@ const SmartWatch = () => {
   );
 };
 export default SmartWatch;
+
